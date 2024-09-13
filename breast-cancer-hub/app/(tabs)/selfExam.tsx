@@ -11,7 +11,7 @@ export default function HomeScreen() {
         <ThemedText type="title">A Commission for BreastCancerHub</ThemedText>
       </ThemedView>
       <ThemedView style={styles.popText}>
-        <ThemedText type="default">Blurb about the company</ThemedText>
+        <ThemedText type="default">Tab for the self-examination screen</ThemedText>
       </ThemedView>
     </ThemedView>
   );
