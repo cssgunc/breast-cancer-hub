@@ -1,7 +1,8 @@
 import * as SecureStore from 'expo-secure-store';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
-type SettingsMap = {
+
+export type SettingsMap = {
   "email": string,
   "token": string,
 
@@ -18,7 +19,7 @@ type SettingsMap = {
 
 }
 
-type SettingKeys = keyof SettingsMap;
+export type SettingKeys = keyof SettingsMap;
 
 export async function getSetting<T extends SettingKeys>(key: T): Promise<SettingsMap[T] | null>{
   let res
