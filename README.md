@@ -25,7 +25,7 @@ All commands must be run inside your project terminal. For all your tasks, you w
 #### Creating New Branch
 
 **Option 1: Creating a branch on GitHub**
-1. Click the branch button on the github page of our repo. It should be right underneath the repo name and say "master"
+1. Click the branch button on the github page of our repo. It should be right underneath the repo name and say "stage"
 2. Type in the name of the branch you want to create.
 3. Click **Create Branch: [branch name]**
 4. Open up your project
@@ -41,7 +41,7 @@ All commands must be run inside your project terminal. For all your tasks, you w
 
 #### Submit a Pull Request
 1. Navigate to the [repository page](https://github.com/cssgunc/catch).
-2. Click the **master** branch button and navigate to the branch you worked on.
+2. Click the **stage** branch button and navigate to the branch you worked on.
 3. Click the **Contribute** button
 4. Click **Open Pull Request**
 5. Click write a description of your changes
