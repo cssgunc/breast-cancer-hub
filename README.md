@@ -10,5 +10,4 @@ High-level tasks
   3. Self Examination
   4. Scheduling
   5. Home/Onboarding
-- Frontend:
   - 
