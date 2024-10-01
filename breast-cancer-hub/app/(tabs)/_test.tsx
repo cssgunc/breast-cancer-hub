@@ -5,7 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 
 import { useState } from 'react';
 
-import { saveSetting, getSetting, SettingsMap, SettingKeys } from '../../hooks/useSettings';
+import { saveSetting, getSetting, SettqingsMap, SettingKeys } from '../../hooks/useSettings';
 
 import DropDownPicker from 'react-native-dropdown-picker';
 
