@@ -49,11 +49,11 @@ All commands must be run inside your project terminal. For all your tasks, you w
 
 #### Utility Functions
 In "useSettings.ts," you will find these functions:
-1. getSetting
+1. **getSetting**:
     This function's argument is a string key from "SettingsMap", because of the function's generics TS and any TS powered extensions should infer the returning setting value type, use this function any time you want to request a user setting value.
-2. saveSetting
+2. **saveSetting**:
     This function's arguments is are a string key from "SettingsMap" and its corresponding value, because of the function's generics TS and any TS powered extensions should infer the setting value type, use this function any time you want to set a user setting value.
-3. backupSettings
+3. **backupSettings**:
     This function is meant to backup the user settings to a database, since this leads to a direct database call it should be called as few times as possible. Its intended use-case is to be called after a batch of saveSetting calls are made (such as  when a user exits a setting menu).
-4. loadBackupSettings
+4. **loadBackupSettings**:
     This function is meant to load user settings from a database, this should only be called when a user logs in
