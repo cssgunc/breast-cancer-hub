@@ -1,13 +1,16 @@
-import { Text, View, StyleSheet, TextInput, Button, SafeAreaView } from 'react-native';
+import { Text, View, StyleSheet, TextInput, Button, SafeAreaView, Pressable } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 
 import { useState } from 'react';
 
-import { saveSetting, getSetting, SettqingsMap, SettingKeys } from '../../hooks/useSettings';
+import { saveSetting, getSetting, SettingsMap, SettingKeys } from '../../hooks/useSettings';
 
 import DropDownPicker from 'react-native-dropdown-picker';
+import { Link } from 'expo-router';
+
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TestScreen() {
   let settings_key : SettingKeys = "email";
@@ -71,6 +74,15 @@ export default function TestScreen() {
         <ThemedText>
           { setting_value }
         </ThemedText>
+        <ThemedView>
+          
+          <Link href="/" asChild>
+            <Pressable style={styles.button}>
+              <Text>home</Text>
+              <MaterialIcons name="home" size={24} color="black" />
+            </Pressable>
+          </Link>
+        </ThemedView>
       </ThemedView>
 
     </ThemedView>
@@ -91,5 +103,15 @@ const styles = StyleSheet.create({
   },
   popText: {
     margin: 'auto'
+  },
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    borderColor: 'black',
+    borderWidth: 2
   }
 });
