@@ -1,9 +1,9 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
-
+import { Link, Tabs } from 'expo-router';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Pressable, StyleSheet } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -12,7 +12,14 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
+        headerRight: () =>
+          (<Link href="/settings" asChild>
+            <Pressable style={styles.button}>
+              <MaterialIcons name="settings" size={24} color="black" />
+            </Pressable>
+          </Link>)
+        ,
+        headerTitle: ""
       }}>
       <Tabs.Screen
         name="index"
@@ -26,3 +33,14 @@ export default function TabLayout() {
     </Tabs>
   );
 }
+
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    elevation: 3,
+  }
+});
