@@ -56,8 +56,7 @@ export default function TestScreen() {
             }
             );
           }
-          }>
-        </Button>
+          }/>
         <Button
           title='Get'
           onPress={() => {
@@ -69,8 +68,7 @@ export default function TestScreen() {
               }
             })
           }}
-          >
-        </Button>
+          />
         <ThemedText>
           { setting_value }
         </ThemedText>
