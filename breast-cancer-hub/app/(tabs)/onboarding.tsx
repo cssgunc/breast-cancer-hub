@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { TextInput } from 'react-native';
 import { getBackgroundColorAsync } from 'expo-system-ui';
 import { Link } from 'expo-router';
+import AntDesign from '@expo/vector-icons/build/AntDesign';
 
 
 export default function HomeScreen() {
@@ -57,9 +58,21 @@ export default function HomeScreen() {
         <ThemedText type="title">A Commission for BreastCancerHub</ThemedText>
       </ThemedView>
       <ThemedView style={styles.popText}>
+        <ThemedText style={styles.topText}>
+          <ThemedText style={styles.welcome}>
+            WELCOME
+          </ThemedText>
+          <ThemedText>
+            Log in to The Breast Cancer Hub self-exam App!
+          </ThemedText>
+        </ThemedText>
         <ThemedView style={styles.inputsContainer}>
-          <TextInput style={styles.input} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}></TextInput>
-          <TextInput style={styles.input} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}></TextInput>
+          <TextInput style={styles.input} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}>
+            <AntDesign name="mail" size={24} color="black" />
+          </TextInput>
+          <TextInput style={styles.input} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
+            <AntDesign name="lock" size={24} color="black" />
+          </TextInput>
           <ThemedView style={styles.forgotPassword}>
             <Link href="" style={styles.link}>Forgot your password?</Link>
           </ThemedView>
@@ -123,6 +136,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     fontSize: 15,
     marginBottom: 15,
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
   },    
   button: {
     backgroundColor: '#e93c92',
@@ -138,5 +153,22 @@ const styles = StyleSheet.create({
   },
   link: {
     color: '#68C4FF',
+  },
+  topText: {
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+    height: 200
+  },
+  welcome: {
+    color: '#e93c92',
+  },
+  logInToThe: {
+
+  },
+  bchText: {
+
+  },
+  selfExamApp: {
+    
   }
 });
