@@ -1,40 +1,40 @@
 import { Text, View, StyleSheet, TextInput, Button, SafeAreaView, Pressable } from 'react-native';
-
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-
 import { useState } from 'react';
-
-import { saveSetting, getSetting, SettingsMap, SettingKeys } from '../../hooks/useSettings';
-
+import { saveSetting, getSetting, SettingKeys } from '../../hooks/useSettings';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { Link } from 'expo-router';
-
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { SelectLanguage } from '@/components/SelectLanguage'; // Import the SelectLanguage component
 
 export default function TestScreen() {
-  let settings_key : SettingKeys = "email";
+  let settings_key: SettingKeys = "email";
   const [key, onChangeKey] = useState(settings_key);
   const [value, onChangeValue] = useState('Your value here');
   const [setting_value, onChangeSettingValue] = useState('email address');
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const [dropdownValue, setDropdownValue] = useState(null);
   const [dropdownItems, setDropdownItems] = useState([
-    {label: 'email', value: 'email'},
-    {label: 'token', value: 'token'}
+    { label: 'email', value: 'email' },
+    { label: 'token', value: 'token' }
   ]);
 
   return (
-
     <ThemedView style={styles.bodyContainer}>
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">A Commission for BreastCancerHub</ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.popText}>
         <ThemedText type="default">Blurb about the company</ThemedText>
       </ThemedView>
+
       <ThemedView style={styles.popText}>
+        {/* Select Language Component */}
+        <SelectLanguage />
+
+        {/* DropdownPicker */}
         <DropDownPicker
           open={dropdownOpen}
           value={key}
@@ -43,39 +43,42 @@ export default function TestScreen() {
           setValue={onChangeKey}
           setItems={setDropdownItems}
         />
+
+        {/* Text Input */}
         <TextInput
           style={styles.popText}
           onChangeText={onChangeValue}
           value={value}
-        ></TextInput>
+        />
+
+        {/* Save Button */}
         <Button
-          title='Save'
+          title="Save"
           onPress={() => {
-            saveSetting(key, value).then( () => {
+            saveSetting(key, value).then(() => {
               onChangeValue(value);
-            }
-            );
-          }
-          }>
-        </Button>
+            });
+          }}
+        />
+
+        {/* Get Button */}
         <Button
-          title='Get'
+          title="Get"
           onPress={() => {
-            getSetting(key).then( (response) => {
+            getSetting(key).then((response) => {
               if (response) {
                 onChangeSettingValue(response);
               } else {
                 onChangeSettingValue('');
               }
-            })
+            });
           }}
-          >
-        </Button>
-        <ThemedText>
-          { setting_value }
-        </ThemedText>
+        />
+
+        {/* Display Setting Value */}
+        <ThemedText>{setting_value}</ThemedText>
+
         <ThemedView>
-          
           <Link href="/" asChild>
             <Pressable style={styles.button}>
               <Text>home</Text>
@@ -84,7 +87,6 @@ export default function TestScreen() {
           </Link>
         </ThemedView>
       </ThemedView>
-
     </ThemedView>
   );
 }
