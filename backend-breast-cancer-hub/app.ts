@@ -25,7 +25,7 @@ app.get('/', async (req: Request, res: Response) => {
 })
 
 
-app.post('/register', async (req: Request, res: Response) => {
+app.post('/auth', async (req: Request, res: Response) => {
   const { password, first_name, last_name, email } = req.body
 
   if (!password || !first_name || !last_name || !email) {
@@ -62,7 +62,7 @@ app.post('/register', async (req: Request, res: Response) => {
   }
 })
 
-app.put('/login', async (req: Request, res: Response) => {
+app.put('/auth', async (req: Request, res: Response) => {
   const { email, password } = req.body
 
   if (!email || !password) {
@@ -96,6 +96,33 @@ app.put('/login', async (req: Request, res: Response) => {
   }
   catch (err) {
     return res.status(500).json({ error: 'Server error' })
+  }
+})
+
+app.get('/auth', async (req: Request, res: Response) => {
+  const sessionToken = req.body.sessionToken
+
+  if (!sessionToken) {
+    return res.status(400).json({ error: 'No session token provided' })
+  }
+
+  try{
+    const hashedToken = crypto.createHash('sha256').update(sessionToken).digest('hex');
+    const result = await pool.query(
+      'SELECT * FROM SESSIONS WHERE session_token = $1 AND created_at > NOW() - INTERVAL \'1 day\'',
+      [hashedToken]
+    )
+
+    if (result.rows.length == 0) {
+      return res.status(401).json({ error: 'Invalid session' })
+    }
+
+    return res.status(200).json({ message: 'Valid Session' })
+
+
+  }
+  catch(err){
+    return res.status(500).json({ error: 'Server Error'})
   }
 })
 
