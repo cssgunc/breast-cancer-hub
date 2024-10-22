@@ -58,6 +58,7 @@ app.post('/auth', async (req: Request, res: Response) => {
 
 
   } catch (err) {
+    console.log(err)
     return res.status(500).json({ error: 'Server error' })
   }
 })
@@ -95,39 +96,39 @@ app.put('/auth', async (req: Request, res: Response) => {
     }
   }
   catch (err) {
+    console.log(err)
     return res.status(500).json({ error: 'Server error' })
   }
 })
 
-app.get('/auth', async (req: Request, res: Response) => {
-  const sessionToken = req.body.sessionToken
-
-  if (!sessionToken) {
-    return res.status(400).json({ error: 'No session token provided' })
+async function checkToken(sessionToken: string, email: string){
+  if (sessionToken == null) {
+    return false
   }
 
   try{
     const hashedToken = crypto.createHash('sha256').update(sessionToken).digest('hex');
     const result = await pool.query(
-      'SELECT * FROM SESSIONS WHERE session_token = $1 AND created_at > NOW() - INTERVAL \'1 day\'',
-      [hashedToken]
+      'SELECT * FROM SESSIONS, USER WHERE USER.id = SESSIONS.id AND USERS.email = $1 AND SESSIONS.session_token = $2 AND SESSIONS.created_at > NOW() - INTERVAL \'1 year\'',
+      [email, hashedToken]
     )
 
     if (result.rows.length == 0) {
-      return res.status(401).json({ error: 'Invalid session' })
+      return false
     }
 
-    return res.status(200).json({ message: 'Valid Session' })
+    return true
 
 
   }
   catch(err){
-    return res.status(500).json({ error: 'Server Error'})
+    console.log(err)
+    return false
   }
-})
+}
 
-const PORT = process.env.DATABASE_PORT || 3000;
+const PORT = process.env.DATABASE_PORT || 3000
 
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}/`);
-});
+  console.log(`Server is running on http://localhost:${PORT}/`)
+})
