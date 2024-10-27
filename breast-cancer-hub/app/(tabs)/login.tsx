@@ -7,6 +7,7 @@ import { TextInput } from 'react-native';
 import { getBackgroundColorAsync } from 'expo-system-ui';
 import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/build/AntDesign';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 
 export default function HomeScreen() {
@@ -46,26 +47,34 @@ export default function HomeScreen() {
   return (
 
     <ThemedView style={styles.bodyContainer}>
-      <ThemedView style={styles.topText}>
-          <ThemedText style={styles.welcome}>WELCOME</ThemedText>
-          <ThemedText style={styles.register}>Register in to The</ThemedText>
-          <ThemedText style={styles.bchText}>Breast Cancer Hub</ThemedText>
-          <ThemedText style={styles.selfExam}>self-exam App!</ThemedText>
-        </ThemedView>
-        <ThemedView style={styles.inputsContainer}>
-          <TextInput style={styles.input} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}>
-          </TextInput>
-          <TextInput style={styles.passwordInput} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
-          </TextInput>
-          <ThemedView style={styles.forgotPassword}>
-            <Link href="/" style={styles.link}>Forgot your password?</Link>
+      <ThemedView style={styles.popText}>
+        <ThemedView style={styles.topText}>
+            <ThemedText style={styles.welcome}>WELCOME</ThemedText>
+            <ThemedText style={styles.register}>Log in to The</ThemedText>
+            <ThemedText style={styles.bchText}>Breast Cancer Hub</ThemedText>
+            <ThemedText style={styles.selfExam}>self-exam App!</ThemedText>
           </ThemedView>
-          <Pressable style={styles.button}>
-            <Button title="Log In" color='white' onPress={handleSubmit} />
-          </Pressable>
-          <ThemedView style={styles.noAccount}>
-            <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
-            <Link href="/singup" style={styles.link}>Create one here</Link>
+          <ThemedView style={styles.inputsContainer}>
+            <ThemedView style={styles.inputContainer}>
+              <TextInput style={styles.emailInput} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}>
+              </TextInput>
+              <MaterialIcons style={styles.iconPositionsEmail} name="mail" size={24} color='#e93c92' />
+            </ThemedView>
+            <ThemedView style={styles.inputContainer}>
+              <TextInput style={styles.passwordInput} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
+              </TextInput>
+              <MaterialIcons style={styles.iconPositionsPassword} name="lock" size={24} color="gray"/>
+            </ThemedView>
+            <ThemedView style={styles.forgotPassword}>
+              <Link href="/" style={styles.link}>Forgot your password?</Link>
+            </ThemedView>
+            <Pressable style={styles.button}>
+              <Button title="Log In" color='white' onPress={handleSubmit} />
+            </Pressable>
+            <ThemedView style={styles.noAccount}>
+              <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
+              <Link href="/singup" style={styles.link}>Create one here</Link>
+            </ThemedView>
           </ThemedView>
         </ThemedView>
       </ThemedView>
@@ -83,6 +92,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
     margin: 10,
+    marginBottom: 200,
+    paddingBottom: 155
   },
   inputsContainer: {
     justifyContent: 'center',
@@ -108,7 +119,7 @@ const styles = StyleSheet.create({
   popText: {
     margin: 'auto'
   },
-  input: {
+  emailInput: {
     height: 60,
     width: 344,
     borderColor: '#e93c92',
@@ -118,8 +129,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     fontSize: 15,
     marginBottom: 15,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
   },    
   passwordInput: {
     height: 60,
@@ -131,7 +142,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     justifyContent: "flex-end",
     alignItems: "flex-end",
-    backgroundColor: '#ECECEC'
+    backgroundColor: '#ECECEC',
   },
   button: {
     backgroundColor: '#e93c92',
@@ -152,7 +163,7 @@ const styles = StyleSheet.create({
     padding: 20,
     alignItems: 'flex-start', 
     justifyContent: 'center',
-    width: 370
+    width: 370,
   },
   welcome: {
     color: '#e93c92', 
@@ -184,6 +195,29 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 3,
     lineHeight: 40, 
+  },
+  iconPositionsEmail: {
+    position: 'absolute',
+    pointerEvents: 'none',
+    right: 12,
+    left: 10,
+    top: 30,
+    marginLeft: 290,
+    marginBottom: 10,
+    backgroundColor: 'white'
+  },
+  iconPositionsPassword: {
+    position: 'absolute',
+    pointerEvents: 'none',
+    right: 12,
+    left: 10,
+    top: 30,
+    marginLeft: 290,
+    marginBottom: 15,
+    backgroundColor: '#ECECEC',
+  },
+  inputContainer: {
+    position: 'relative',
   },
 });
 

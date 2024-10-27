@@ -7,6 +7,8 @@ import { TextInput } from 'react-native';
 import { getBackgroundColorAsync } from 'expo-system-ui';
 import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/build/AntDesign';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+
 
 
 export default function signup() {
@@ -68,12 +70,21 @@ export default function signup() {
           <ThemedText style={styles.selfExam}>self-exam App!</ThemedText>
         </ThemedView>
         <ThemedView style={styles.inputsContainer}>
-          <TextInput style={styles.input} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}>
-          </TextInput>
-          <TextInput style={styles.passwordInput} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
-          </TextInput>
-          <TextInput style={styles.passwordInput} placeholder='Confirm password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
-          </TextInput>
+          <ThemedView style={styles.inputContainer}>
+            <TextInput style={styles.input} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}>
+            </TextInput>
+            <MaterialIcons style={styles.iconPositionsEmail} name="mail" size={24} color='#e93c92' />
+          </ThemedView>
+          <ThemedView style={styles.inputContainer}>
+            <TextInput style={styles.passwordInput} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
+            </TextInput>
+            <MaterialIcons style={styles.iconPositionsPassword} name="lock" size={24} color="gray"/>
+          </ThemedView>
+          <ThemedView style={styles.inputContainer}>
+            <TextInput style={styles.passwordInput} placeholder='Confirm password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
+            </TextInput>
+            <MaterialIcons style={styles.iconPositionsPassword} name="lock" size={24} color="gray"/>
+          </ThemedView>
           <Pressable style={styles.button}>
             <Button title="Sign Up" color='white' onPress={handleSubmit} />
           </Pressable>
@@ -210,7 +221,30 @@ const styles = StyleSheet.create({
   info: {
     fontStyle: "italic",
     fontSize: 12,
-  }
+  },
+  iconPositionsEmail: {
+    position: 'absolute',
+    pointerEvents: 'none',
+    right: 12,
+    left: 10,
+    top: 30,
+    marginLeft: 290,
+    marginBottom: 10,
+    backgroundColor: 'white'
+  },
+  iconPositionsPassword: {
+    position: 'absolute',
+    pointerEvents: 'none',
+    right: 12,
+    left: 10,
+    top: 30,
+    marginLeft: 290,
+    marginBottom: 15,
+    backgroundColor: '#ECECEC',
+  },
+  inputContainer: {
+    position: 'relative',
+  },
 });
 
 
