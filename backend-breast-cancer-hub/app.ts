@@ -101,6 +101,100 @@ app.put('/auth', async (req: Request, res: Response) => {
   }
 })
 
+app.post('/settings', async (req: Request, res: Response) => {
+  const sessionToken = req.headers['x-session-token'] as string;
+  const email = req.headers['x-user-email'] as string;
+  
+  if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification } = req.body;
+
+  if (!user_id || !scheduling_type || !notification_times || !locale || (scheduling_type !== 'period' && !/^\d+$/.test(scheduling_type))) {
+    return res.status(400).json({ error: 'Invalid input' });
+  }
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO settings (user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification) 
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+      [user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification]
+    );
+
+    res.status(201).json({ message: 'Settings created successfully', settings: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+})
+
+app.get('/settings', async (req: Request, res: Response) => {
+  const sessionToken = req.headers['x-session-token'] as string;
+  const email = req.headers['x-user-email'] as string;
+  const userId = req.query.user_id as string;
+
+  if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  if (!userId) {
+    return res.status(400).json({ error: 'user_id is required' });
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM settings WHERE user_id = $1', [userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'No settings found for this user' });
+    }
+
+    res.status(200).json({ settings: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.put('/settings', async (req: Request, res: Response) => {
+  const sessionToken = req.headers['x-session-token'] as string;
+  const email = req.headers['x-user-email'] as string;
+  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification } = req.body;
+
+  if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  if (!user_id || !scheduling_type || !notification_times || !locale) {
+    return res.status(400).json({ error: 'user_id, scheduling_type, notification_times, and locale are required' });
+  }
+
+  try {
+    const result = await pool.query(
+      `UPDATE settings 
+       SET scheduling_type = $1, 
+           notification_times = $2, 
+           locale = $3, 
+           use_backup_data = $4, 
+           use_telemetry = $5, 
+           use_push_notification = $6, 
+           use_in_app_notification = $7 
+       WHERE user_id = $8 
+       RETURNING *`,
+      [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification, user_id]
+    );
+
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'No settings found for this user' });
+    }
+
+    res.status(200).json({ message: 'Settings updated successfully', settings: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 async function checkToken(sessionToken: string, email: string){
   if (sessionToken == null) {
     return false
