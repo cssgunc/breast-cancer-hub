@@ -109,17 +109,17 @@ app.post('/settings', async (req: Request, res: Response) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification } = req.body;
+  const { user_id} = req.body;
 
-  if (!user_id || !scheduling_type || !notification_times || !locale || (scheduling_type !== 'period' && !/^\d+$/.test(scheduling_type))) {
+  if (!user_id ) {
     return res.status(400).json({ error: 'Invalid input' });
   }
 
   try {
     const result = await pool.query(
-      `INSERT INTO settings (user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification) 
-      VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
-      [user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification]
+      `INSERT INTO settings (user_id) 
+      VALUES ($1) RETURNING *`,
+      [user_id]
     );
 
     res.status(201).json({ message: 'Settings created successfully', settings: result.rows[0] });
