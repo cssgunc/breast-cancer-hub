@@ -1,4 +1,4 @@
-import { Button, Pressable, StyleSheet } from 'react-native';
+import { Animated, Button, Pressable, StyleSheet } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useState } from 'react';
@@ -73,7 +73,7 @@ export default function HomeScreen() {
             </Pressable>
             <ThemedView style={styles.noAccount}>
               <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
-              <Link href="/singup" style={styles.link}>Create one here</Link>
+              <Link href="/signup" style={styles.link}>Create one here</Link>
             </ThemedView>
           </ThemedView>
         </ThemedView>
@@ -92,8 +92,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
     margin: 10,
-    marginBottom: 200,
-    paddingBottom: 155
+    marginBottom: 100,
+    paddingBottom:0
   },
   inputsContainer: {
     justifyContent: 'center',
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     flexDirection: 'row',
     alignSelf: 'flex-end',
-    paddingRight: 5,
+    paddingRight: 20,
     marginTop: 5,
   },
   noAccount: {
