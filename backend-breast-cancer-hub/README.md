@@ -1,6 +1,5 @@
-# Auth API Documentation
-
-This API provides two main authentication endpoints: registration and login.
+# API Documentation
+This API Has two main resources: auth and settings
 
 ## Endpoints
 
