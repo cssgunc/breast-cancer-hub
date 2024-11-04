@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, useColorScheme, View } from 'react-native
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Colors } from '@/constants/Colors';
+import { BorderlessButton } from 'react-native-gesture-handler';
 
 const languages = ['EN', 'SP', 'FR', 'RU', 'ZH'];
 
@@ -56,32 +57,34 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 12,
+    borderRadius: 25,
     width: 217,
     height: 48,
-    backgroundColor: '#f0f0f0', // Light grey background
-    paddingHorizontal: 12, // Padding for button content
-    borderWidth: 1,
-    borderColor: '#cccccc', // Border color for button
+    backgroundColor: '#FFFFFF', // White background
+    paddingHorizontal: 18, // Padding for button content
+    borderWidth: 2,
+    borderColor: '#aaaaaa', // Border color for button
   },
   selectLanguageText: {
-    color: '#808080', // Grey color for 'Select Language'
-    fontSize: 16,
+    color: '#666666', // Grey color for 'Select Language'
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   separator: {
     color: '#cccccc', // Light grey color for separator '|'
-    marginHorizontal: 8,
+    marginHorizontal: 0,
   },
   language: {
-    color: '#000000', // Black color for the selected language (can change based on theme)
+    color: '#666666', // Black color for the selected language (can change based on theme)
     fontSize: 16,
+    fontWeight: 'bold',
   },
   dropdown: {
-    marginTop: 6,
-    borderWidth: 1,
+    marginTop: 0,
+    borderWidth: 2,
     borderColor: '#cccccc',
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9', // Background for dropdown
+    borderRadius: 25,
+    backgroundColor: '#ffffff', // Background for dropdown
   },
   languageOption: {
     padding: 12,
