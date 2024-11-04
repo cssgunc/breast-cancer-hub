@@ -203,7 +203,15 @@ async function checkToken(sessionToken: string, email: string){
   try{
     const hashedToken = crypto.createHash('sha256').update(sessionToken).digest('hex');
     const result = await pool.query(
-      'SELECT * FROM SESSIONS, USER WHERE USER.id = SESSIONS.id AND USERS.email = $1 AND SESSIONS.session_token = $2 AND SESSIONS.created_at > NOW() - INTERVAL \'1 year\'',
+      `
+      SELECT * 
+        FROM SESSIONS 
+        JOIN USERS ON USERS.id = SESSIONS.user_id 
+        WHERE
+          USERS.email = $1 
+          AND SESSIONS.session_token = $2 
+          AND SESSIONS.created_at > NOW() - INTERVAL \'1 year\'
+      `,
       [email, hashedToken]
     )
 
