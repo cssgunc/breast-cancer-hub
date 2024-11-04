@@ -7,6 +7,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { Link } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { SelectLanguage } from '@/components/SelectLanguage'; // Import the SelectLanguage component
+import { CalendarComponent } from '@/components/Calendar'; // Import the Calendar component
 
 export default function TestScreen() {
   let settings_key: SettingKeys = "email";
@@ -33,6 +34,9 @@ export default function TestScreen() {
       <ThemedView style={styles.popText}>
         {/* Select Language Component */}
         <SelectLanguage />
+
+        {/* Select Language Component */}
+        <CalendarComponent />
 
         {/* DropdownPicker */}
         <DropDownPicker
