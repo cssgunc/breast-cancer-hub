@@ -123,7 +123,6 @@ Creates new settings for the specified user, requiring authorization headers.
 {
   "user_id": "string"
 }
-
 ```
 ### ***Process***
 1. Verifies the session token and email.
