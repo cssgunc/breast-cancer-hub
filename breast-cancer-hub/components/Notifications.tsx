@@ -26,7 +26,7 @@ export function NotificationComponent() {
       <ThemedView style={[styles.container, isExpanded && { opacity: 0.5 }]}>
         {/* Left Circle with Date */}
         <View style={styles.dateCircle}>
-          <ThemedText style={styles.monthText}>Oct</ThemedText>
+          <ThemedText style={styles.monthText}>Oct.</ThemedText>
           <ThemedText style={styles.dayText}>19</ThemedText>
         </View>
         {/* Right Side with Header and Body */}
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   dayText: {
-    fontSize: 24,
+    fontSize: 20,
     color: 'white',
   },
   textContainer: {
