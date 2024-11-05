@@ -2,6 +2,8 @@ import { StyleSheet } from 'react-native';
 
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
+import { NotificationComponent } from '@/components/Notifications';
+
 
 export default function HomeScreen() {
   return (
@@ -13,6 +15,7 @@ export default function HomeScreen() {
       <ThemedView style={styles.popText}>
         <ThemedText type="default">Blurb about the company</ThemedText>
       </ThemedView>
+      <NotificationComponent />
     </ThemedView>
   );
 }
@@ -30,6 +33,6 @@ const styles = StyleSheet.create({
     margin: 10
   },
   popText: {
-    margin: 'auto'
+    margin: 0
   }
 });
