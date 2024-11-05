@@ -9,7 +9,6 @@ import { Link } from 'expo-router';
 import AntDesign from '@expo/vector-icons/build/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-
 export default function HomeScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,183 +42,139 @@ export default function HomeScreen() {
       });
   };
 
-
   return (
-
     <ThemedView style={styles.bodyContainer}>
       <ThemedView style={styles.popText}>
         <ThemedView style={styles.topText}>
-            <ThemedText style={styles.welcome}>WELCOME</ThemedText>
-            <ThemedText style={styles.register}>Log in to The</ThemedText>
-            <ThemedText style={styles.bchText}>Breast Cancer Hub</ThemedText>
-            <ThemedText style={styles.selfExam}>self-exam App!</ThemedText>
+          <ThemedText style={styles.welcome}>WELCOME</ThemedText>
+          <ThemedText style={styles.register}>Log in to The</ThemedText>
+          <ThemedText style={styles.bchText}>Breast Cancer Hub</ThemedText>
+          <ThemedText style={styles.selfExam}>self-exam App!</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.inputsContainer}>
+          <ThemedView style={styles.inputContainer}>
+            <TextInput
+              style={styles.emailInput}
+              placeholder="Email"
+              placeholderTextColor="gray"
+              value={email}
+              onChangeText={setEmail}
+            />
+            <MaterialIcons style={styles.iconPositions} name="mail" size={24} color="#e93c92" />
           </ThemedView>
-          <ThemedView style={styles.inputsContainer}>
-            <ThemedView style={styles.inputContainer}>
-              <TextInput style={styles.emailInput} placeholder='Email' placeholderTextColor='gray' value={email} onChangeText={setEmail}>
-              </TextInput>
-              <MaterialIcons style={styles.iconPositionsEmail} name="mail" size={24} color='#e93c92' />
-            </ThemedView>
-            <ThemedView style={styles.inputContainer}>
-              <TextInput style={styles.passwordInput} placeholder='Password' placeholderTextColor='gray' value={password}onChangeText={setPassword}>
-              </TextInput>
-              <MaterialIcons style={styles.iconPositionsPassword} name="lock" size={24} color="gray"/>
-            </ThemedView>
-            <ThemedView style={styles.forgotPassword}>
-              <Link href="/" style={styles.link}>Forgot your password?</Link>
-            </ThemedView>
-            <Pressable style={styles.button}>
-              <Button title="Log In" color='white' onPress={handleSubmit} />
-            </Pressable>
-            <ThemedView style={styles.noAccount}>
-              <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
-              <Link href="/signup" style={styles.link}>Create one here</Link>
-            </ThemedView>
+          <ThemedView style={styles.inputContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Password"
+              placeholderTextColor="gray"
+              value={password}
+              onChangeText={setPassword}
+            />
+            <MaterialIcons style={styles.iconPositions} name="lock" size={24} color="gray" />
+          </ThemedView>
+          <ThemedView style={styles.forgotPassword}>
+            <Link href="/" style={styles.link}>Forgot your password?</Link>
+          </ThemedView>
+          <Pressable style={styles.button}>
+            <Button title="Log In" color="white" onPress={handleSubmit} />
+          </Pressable>
+          <ThemedView style={styles.noAccount}>
+            <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
+            <Link href="/signup" style={styles.link}>Create one here</Link>
           </ThemedView>
         </ThemedView>
       </ThemedView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 10,
-    gap: 8,
-  },
   bodyContainer: {
-    flexDirection: 'column',
-    height: '100%',
-    margin: 10,
-    marginBottom: 100,
-    paddingBottom:0
-  },
-  inputsContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  forgotPassword: {
-    justifyContent: 'flex-end',
-    flexDirection: 'row',
-    alignSelf: 'flex-end',
-    paddingRight: 20,
-    marginTop: 5,
-  },
-  noAccount: {
-    flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: 'space-between',
-    alignSelf: 'center',
-    padding: 20,
-  },
-  noAccountText: {
-    fontSize: 14,
+    flex: 1,
+    padding: 10,
   },
   popText: {
-    margin: 'auto'
-  },
-  emailInput: {
-    height: 60,
-    width: 344,
-    borderColor: '#e93c92',
-    borderWidth: 2,
-    marginVertical: 10,
-    padding: 10,
-    borderRadius: 40,
-    fontSize: 15,
-    marginBottom: 15,
-    justifyContent: "flex-start",
-    alignItems: "flex-start",
-  },    
-  passwordInput: {
-    height: 60,
-    width: 344,
-    marginVertical: 10,
-    padding: 10,
-    borderRadius: 40,
-    fontSize: 15,
-    marginBottom: 15,
-    justifyContent: "flex-end",
-    alignItems: "flex-end",
-    backgroundColor: '#ECECEC',
-  },
-  button: {
-    backgroundColor: '#e93c92',
-    height: 60,
-    width: 250,
-    borderColor: '#e93c92',
-    borderWidth: 2,
-    marginVertical: 10,
-    padding: 9,
-    borderRadius: 40,
-    fontSize: 20,
-    marginTop: 35,
-  },
-  link: {
-    color: '#68C4FF',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   topText: {
-    padding: 20,
-    alignItems: 'flex-start', 
-    justifyContent: 'center',
-    width: 370,
+    alignItems: 'center',
+    marginBottom: 20,
   },
   welcome: {
-    color: '#e93c92', 
+    color: '#e93c92',
     fontSize: 20,
     fontWeight: 'bold',
-    textTransform: 'uppercase',  
-    marginBottom: 3, 
-    marginTop: 52
+    textTransform: 'uppercase',
   },
   register: {
     color: '#333',
     fontSize: 35,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 3,
-    lineHeight: 40,   
   },
   bchText: {
-    color: '#e93c92', 
-    fontWeight: 'bold',
+    color: '#e93c92',
     fontSize: 35,
-    marginTop: 3,    
-    lineHeight: 40, 
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   selfExam: {
     color: '#333',
     fontSize: 35,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginTop: 3,
-    lineHeight: 40, 
   },
-  iconPositionsEmail: {
-    position: 'absolute',
-    pointerEvents: 'none',
-    right: 12,
-    left: 10,
-    top: 30,
-    marginLeft: 290,
-    marginBottom: 10,
-    backgroundColor: 'white'
-  },
-  iconPositionsPassword: {
-    position: 'absolute',
-    pointerEvents: 'none',
-    right: 12,
-    left: 10,
-    top: 30,
-    marginLeft: 290,
-    marginBottom: 15,
-    backgroundColor: '#ECECEC',
+  inputsContainer: {
+    width: '100%',
+    alignItems: 'center',
   },
   inputContainer: {
-    position: 'relative',
+    width: '90%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ECECEC',
+    borderRadius: 40,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+  },
+  emailInput: {
+    flex: 1,
+    height: 50,
+    fontSize: 15,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 50,
+    fontSize: 15,
+  },
+  iconPositions: {
+    marginHorizontal: 10,
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    paddingRight: 20,
+    marginTop: 5,
+  },
+  button: {
+    backgroundColor: '#e93c92',
+    width: '80%',
+    borderRadius: 40,
+    marginVertical: 10,
+    paddingVertical: 10,
+    alignItems: 'center',
+  },
+  noAccount: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 20,
+  },
+  noAccountText: {
+    fontSize: 14,
+  },
+  link: {
+    color: '#68C4FF',
   },
 });
-
-//lock: <AntDesign name="lock" size={24} color="black" />
-//email: <AntDesign name="mail" size={24} color="black" />
