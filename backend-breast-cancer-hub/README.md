@@ -1,5 +1,5 @@
 # API Documentation
-This API Has two main resources: auth and settings
+This API Has three resources: auth, settings, and user
 
 ## Endpoints
 
@@ -9,14 +9,13 @@ This API Has two main resources: auth and settings
 
 ### ***Description***
 
-Registers a new user with the provided information. If the email already exists in the database, it returns an error.
+Registers a new user with the provided information. If the email already exists in the database, it returns an error. Creates and returns the accounts session token if successful.
 
 ### ***Request Body***
 ```json
   {
     "password": "string",
-    "first_name": "string",
-    "last_name": "string",
+    "name": "string",
     "email": "string"
   }
 ``` 
@@ -63,7 +62,7 @@ Registers a new user with the provided information. If the email already exists 
 
 ### ***Description***
 
-Logs in a user by validating the provided email and password. Updates the session token if successful.
+Logs in a user by validating the provided email and password. Updates and returns the session token if successful.
 
 ### ***Request Body***
 
@@ -208,4 +207,35 @@ Retrieves the settings for the specified user, requiring authorization headers.
   - Example: `{ "error": "Unauthorized" }`
 - **404** Not Found: No settings found.
   - Example: `{ "error": "No settings found for this user" }`
+- **500** Internal Server Error: Server error occurred.
+
+----------
+
+## 4. `GET /user`
+
+### ***Description***
+
+Retrieves the name for the specified user, requiring authorization headers.
+
+### ***Headers***
+- x-session-token: The session token for authorization.
+- x-user-email: The email of the user for authorization.
+
+### ***Query Parameters***
+- user_id: The ID of the user whose settings are to be retrieved.
+
+### ***Process***
+1. Verifies the session token and email.
+2. Checks if user_id is provided.
+3. Queries the user table for the name of the specified user.
+
+### ***Response***
+- **200** OK: Settings retrieved successfully.
+  - Example: `{ "name": "Example Name" }`
+- **400** Bad Request: Missing required fields.
+  - Example: `{ "error": "user_id is required" }`
+- **403** Forbidden: Unauthorized request.
+  - Example: `{ "error": "Unauthorized" }`
+- **404** Not Found: No settings found.
+  - Example: `{ "error": "No name found for this user" }`
 - **500** Internal Server Error: Server error occurred.

@@ -26,9 +26,9 @@ app.get('/', async (req: Request, res: Response) => {
 
 
 app.post('/auth', async (req: Request, res: Response) => {
-  const { password, first_name, last_name, email } = req.body
+  const { password, name, email } = req.body
 
-  if (!password || !first_name || !last_name || !email) {
+  if (!password || !name || !email) {
     return res.status(400).json({ error: 'All fields are required' })
   }
 
@@ -42,8 +42,8 @@ app.post('/auth', async (req: Request, res: Response) => {
     const hash = await bcrypt.hash(password, salt)
 
     const result = await pool.query(
-      'INSERT INTO USERS(email, password_hash, created_at, updated_at, first_name, last_name) VALUES($1, $2, NOW(), NOW(), $3, $4) RETURNING *',
-      [email, hash, first_name, last_name]
+      'INSERT INTO USERS(email, password_hash, created_at, updated_at, user_name) VALUES($1, $2, NOW(), NOW(), $3) RETURNING *',
+      [email, hash, name]
     )
 
     const sessionToken = crypto.randomBytes(32).toString('hex')
@@ -54,7 +54,7 @@ app.post('/auth', async (req: Request, res: Response) => {
       [result.rows[0].id, hashedToken]
     )
 
-    return res.status(201).json({ message: 'User registered successfully', sessionToken })
+    return res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken })
 
 
   } catch (err) {
@@ -89,7 +89,7 @@ app.put('/auth', async (req: Request, res: Response) => {
         [hashedToken, userId]
       )
 
-      return res.status(200).json({ message: 'User logged in successfully', sessionToken })
+      return res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken })
     }
     else {
       return res.status(401).json({ error: 'Incorrect password' })
@@ -189,6 +189,33 @@ app.put('/settings', async (req: Request, res: Response) => {
     }
 
     res.status(200).json({ message: 'Settings updated successfully', settings: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get('/user', async (req: Request, res: Response) => {
+  const sessionToken = req.headers['x-session-token'] as string;
+  const email = req.headers['x-user-email'] as string;
+  const userId = req.query.user_id as string;
+
+  if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
+    return res.status(403).json({ error: 'Unauthorized' });
+  }
+
+  if (!userId) {
+    return res.status(400).json({ error: 'user_id is required' });
+  }
+
+  try {
+    const result = await pool.query('SELECT user_name FROM users WHERE user_id = $1', [userId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'No name found for this user' });
+    }
+
+    res.status(200).json({ name: result.rows[0] });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });
