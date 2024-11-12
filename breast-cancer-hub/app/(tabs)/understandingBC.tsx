@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View, Text, Pressable } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { Link } from 'expo-router'; // Adjust import based on your navigation library
+import { useRouter } from 'expo-router';
 
 export default function UnderstandingBC() {
+  const router = useRouter();
+
   const [progress, setProgress] = useState(0.15);
 
   const handleBack = () => {
-    setProgress(Math.max(progress - 0.1, 0));
+    setProgress(Math.max(progress - 0.2, 0));
   };
 
   const handleNext = () => {
-    setProgress(Math.min(progress + 0.1, 1));
+    setProgress(Math.min(progress + 0.2, 1));
   };
 
   return (
@@ -39,11 +42,13 @@ export default function UnderstandingBC() {
             </View>
             <ThemedView style={styles.learnMoreTextContainer}>
               <Text style={styles.infoSourceText}>Information is sourced from Breast Cancer Hub</Text>
-              <Link href="/" asChild>
-                <Pressable>
-                  <Text style={styles.learnMoreText}>Learn more here</Text>
-                </Pressable>
-              </Link>            
+
+              <TouchableOpacity 
+                //onPress={() => router.push('learnMoreHere')}
+              >
+                <ThemedText style={styles.learnMoreText}>Learn more here</ThemedText>
+              </TouchableOpacity>
+           
             </ThemedView>
 
             {/* Progress Bar */}
