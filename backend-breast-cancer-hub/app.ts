@@ -209,7 +209,7 @@ app.get('/user', async (req: Request, res: Response) => {
   }
 
   try {
-    const result = await pool.query('SELECT user_name FROM users WHERE user_id = $1', [userId]);
+    const result = await pool.query('SELECT user_name FROM users WHERE id = $1', [userId]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'No name found for this user' });
