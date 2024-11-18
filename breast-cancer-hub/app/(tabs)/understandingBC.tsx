@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View, Text, Pressable, TouchableOpacity } from 'react-native';
+import { ScrollView, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
-import { Link } from 'expo-router'; // Adjust import based on your navigation library
 import { useRouter } from 'expo-router';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function UnderstandingBC() {
   const router = useRouter();
@@ -20,6 +20,18 @@ export default function UnderstandingBC() {
 
   return (
     <View style={styles.container}>
+      {/* Header Container */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.iconWrapper}
+        // onPress={() => router.push('/account')}
+        >
+          <MaterialIcons name="person" size={28} color="#E93C92"/>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.iconWrapper} onPress={() => router.push('/settings')} >
+          <MaterialIcons name="settings" size={28} color="#E93C92" />
+        </TouchableOpacity>
+      </View>
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.whiteOverlay}>
           <ThemedView style={styles.background}>
@@ -42,30 +54,19 @@ export default function UnderstandingBC() {
             </View>
             <ThemedView style={styles.learnMoreTextContainer}>
               <Text style={styles.infoSourceText}>Information is sourced from Breast Cancer Hub</Text>
-
-              <TouchableOpacity 
-                //onPress={() => router.push('learnMoreHere')}
-              >
+              <TouchableOpacity>
                 <ThemedText style={styles.learnMoreText}>Learn more here</ThemedText>
               </TouchableOpacity>
-           
-            </ThemedView>
-
-            {/* Progress Bar */}
-            <ThemedView style={styles.progressBarOuterContainer}>
-              <View style={styles.progressBarContainer}>
-                <View style={[styles.progressBar, { width: `${progress * 100}%` }]} />
-              </View>
             </ThemedView>
 
             {/* Buttons */}
             <View style={styles.buttonContainer}>
-              <Pressable style={styles.buttonBack} onPress={handleBack}>
-                <Text style={styles.buttonTextBack}>Back</Text>
-              </Pressable>
-              <Pressable style={styles.buttonNext} onPress={handleNext}>
-                <Text style={styles.buttonTextNext}>Next</Text>
-              </Pressable>
+              <TouchableOpacity style={styles.buttonBack}>
+                <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonNext}>
+                <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
+              </TouchableOpacity>
             </View>
           </ThemedView>
         </View>
@@ -77,11 +78,25 @@ export default function UnderstandingBC() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#E93C92', // Pink background
+    backgroundColor: '#E93C92', 
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: '#E93C92', 
+  },
+  iconWrapper: {
+    backgroundColor: '#EFCEE6', // Light pink background
+    borderRadius: 30, // Circular background
+    padding: 8, // Add padding around the icon
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   scrollContent: {
     flexGrow: 1,
-    paddingTop: 60,
+    paddingTop: 10, 
   },
   whiteOverlay: {
     backgroundColor: '#FFFFFF',
@@ -139,13 +154,13 @@ const styles = StyleSheet.create({
   statText: {
     fontSize: 16,
     color: '#000000',
-    marginBottom: 10
+    marginBottom: 10,
   },
   infoSourceText: {
     fontSize: 12,
     color: '#999999',
     marginTop: 20,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   learnMoreText: {
     fontSize: 12,
@@ -153,50 +168,35 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   learnMoreTextContainer: {
-    alignItems: 'center'
-  },
-  progressBarOuterContainer: {
-    alignItems: 'center'
-  },
-  progressBarContainer: {
-    height: 20,
-    width: '80%',
-    backgroundColor: '#F5C4DC',
-    borderRadius: 10,
-    overflow: 'hidden',
-    marginTop: 20,
-    marginBottom: 20,
-  },
-  progressBar: {
-    height: 20,
-    backgroundColor: '#E93C92',
-    borderRadius: 10
+    alignItems: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginTop: 20,
   },
   buttonBack: {
     backgroundColor: '#FFFFFF',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 30,
     borderWidth: 2,
     borderColor: '#ACACAC',
   },
   buttonNext: {
     backgroundColor: '#E93C92',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 20,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: '#E93C92',
   },
   buttonTextBack: {
     color: '#E93C92',
-    fontSize: 16,
-    backgroundColor: 'FFFFFF',
+    fontSize: 20,
   },
   buttonTextNext: {
     color: '#FFFFFF',
-    fontSize: 16,
+    fontSize: 20,
   },
 });
