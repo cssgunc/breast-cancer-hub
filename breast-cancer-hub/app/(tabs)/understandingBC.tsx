@@ -8,20 +8,10 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 export default function UnderstandingBC() {
   const router = useRouter();
 
-  const [progress, setProgress] = useState(0.15);
-
-  const handleBack = () => {
-    setProgress(Math.max(progress - 0.2, 0));
-  };
-
-  const handleNext = () => {
-    setProgress(Math.min(progress + 0.2, 1));
-  };
-
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       {/* Header Container */}
-      <View style={styles.header}>
+      <ThemedView style={styles.header}>
         <TouchableOpacity style={styles.iconWrapper}
         // onPress={() => router.push('/account')}
         >
@@ -30,48 +20,48 @@ export default function UnderstandingBC() {
         <TouchableOpacity style={styles.iconWrapper} onPress={() => router.push('/settings')} >
           <MaterialIcons name="settings" size={28} color="#E93C92" />
         </TouchableOpacity>
-      </View>
+      </ThemedView>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.whiteOverlay}>
+        <ThemedView style={styles.whiteOverlay}>
           <ThemedView style={styles.background}>
             <ThemedView style={styles.titleContainer}>
               <ThemedText style={styles.understandingText}>Understanding</ThemedText>
               <ThemedText style={styles.bcText}>Breast Cancer</ThemedText>
             </ThemedView>
-            <View style={styles.grayLine} />
+            <ThemedView style={styles.grayLine} />
             <ThemedText style={styles.paragraphTextTitle}>What is Breast Cancer?</ThemedText>
-            <Text style={styles.paragraphText}>
+            <ThemedText style={styles.paragraphText}>
               Cancer: the development of abnormal cells that divide uncontrollably and possess the ability to infiltrate and demolish normal body tissue.
               {"\n\n"}In the body, there are trillions of cells that grow and divide to help the body function properly. Cells die when they become old or damaged, and new cells replace them.
               {"\n\n"}Breast Cancer is when cancer forms in the breast. This disease can occur in both women and men, but is far more prevalent in women.
-            </Text>
-            <View style={styles.statContainer}>
-              <Text style={styles.statTextBold}>2nd</Text>
-              <Text style={styles.statText}>most common cancer in women</Text>
-              <Text style={styles.statTextBold}>1 out of 8</Text>
-              <Text style={styles.statText}>women will develop invasive breast cancer over the course of her lifetime</Text>
-            </View>
+            </ThemedText>
+            <ThemedView style={styles.statContainer}>
+              <ThemedText style={styles.statTextBold}>2nd</ThemedText>
+              <ThemedText style={styles.statText}>most common cancer in women</ThemedText>
+              <ThemedText style={styles.statTextBold}>1 out of 8</ThemedText>
+              <ThemedText style={styles.statText}>women will develop invasive breast cancer over the course of her lifetime</ThemedText>
+            </ThemedView>
             <ThemedView style={styles.learnMoreTextContainer}>
-              <Text style={styles.infoSourceText}>Information is sourced from Breast Cancer Hub</Text>
+              <ThemedText style={styles.infoSourceText}>Information is sourced from Breast Cancer Hub</ThemedText>
               <TouchableOpacity>
                 <ThemedText style={styles.learnMoreText}>Learn more here</ThemedText>
               </TouchableOpacity>
             </ThemedView>
 
             {/* Buttons */}
-            <View style={styles.buttonContainer}>
+            <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity style={styles.buttonBack}>
                 <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonNext}>
                 <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
               </TouchableOpacity>
-            </View>
+            </ThemedView>
           </ThemedView>
-        </View>
+        </ThemedView>
       </ScrollView>
-    </View>
+    </ThemedView>
   );
 }
 
