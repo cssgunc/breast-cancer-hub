@@ -1,16 +1,14 @@
-import { Animated, Button, Pressable, StyleSheet, ScrollView } from 'react-native';
+import { Animated, StyleSheet, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { useState } from 'react';
-import { TextInput } from 'react-native';
-import { getBackgroundColorAsync } from 'expo-system-ui';
-import { Link } from 'expo-router';
-import AntDesign from '@expo/vector-icons/build/AntDesign';
+import { useRouter } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function HomeScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
   const handleSubmit = () => {
     if (!email.includes('@') || email.length === 0) {
@@ -20,27 +18,24 @@ export default function HomeScreen() {
 
     const data = { email, password };
 
-    fetch('https://your-backend-endpoint.com/api/auth', {  // Using /auth for login
-      method: 'PUT',  // PUT for logging in, per the API documentation
+    fetch('https://your-backend-endpoint.com/api/auth', {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     })
-      .then(response => response.json())  // Parse JSON response
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         if (data.message) {
-          // Login was successful, handle successful login (store session token, etc.)
-          console.log('Login successful');
           alert('Login successful');
           setEmail('');
           setPassword('');
         } else if (data.error) {
-          // Error in login
           alert(`Error: ${data.error}`);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         console.error('Error:', error);
         alert('An error occurred. Please try again later.');
       });
@@ -81,15 +76,20 @@ export default function HomeScreen() {
               />
               <MaterialIcons style={styles.iconPositions} name="lock" size={24} color="gray" />
             </ThemedView>
-            <ThemedView style={styles.forgotPassword}>
-              <Link href="/" style={styles.link}>Forgot your password?</Link>
-            </ThemedView>
-            <Pressable style={styles.button}>
-              <Button title="Log In" color="white" onPress={handleSubmit} />
-            </Pressable>
+            <TouchableOpacity
+              style={styles.forgotPassword}
+              onPress={() => router.push('/')}
+            >
+              <ThemedText style={styles.link}>Forgot your password?</ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+              <ThemedText style={{ color: 'white', fontSize: 18, fontWeight: "bold"}}>Log In</ThemedText>
+            </TouchableOpacity>
             <ThemedView style={styles.noAccount}>
               <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
-              <Link href="/signup" style={styles.link}>Create one here</Link>
+              <TouchableOpacity onPress={() => router.push('/signup')}>
+                <ThemedText style={styles.link}>Create one here</ThemedText>
+              </TouchableOpacity>
             </ThemedView>
           </ThemedView>
         </ThemedView>
@@ -100,7 +100,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: 'white', // Ensures the ScrollView has a white background
+    backgroundColor: 'white',
   },
   scrollViewContainer: {
     flexGrow: 1,
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'white', // Ensure parent container has a white background
+    backgroundColor: 'white',
   },
   popText: {
     flex: 1,
@@ -117,15 +117,15 @@ const styles = StyleSheet.create({
   },
   topText: {
     marginBottom: 20,
-    alignItems: 'flex-start', 
+    alignItems: 'flex-start',
     justifyContent: 'center',
   },
   welcome: {
-    color: '#e93c92', 
+    color: '#e93c92',
     fontSize: 20,
     fontWeight: 'bold',
-    textTransform: 'uppercase',  
-    marginBottom: 3, 
+    textTransform: 'uppercase',
+    marginBottom: 3,
   },
   register: {
     color: '#333',
@@ -133,14 +133,14 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 3,
-    lineHeight: 40,   
+    lineHeight: 40,
   },
   bchText: {
-    color: '#e93c92', 
+    color: '#e93c92',
     fontWeight: 'bold',
     fontSize: 35,
-    marginTop: 3,    
-    lineHeight: 40, 
+    marginTop: 3,
+    lineHeight: 40,
   },
   selfExam: {
     color: '#333',
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginTop: 3,
-    lineHeight: 40, 
+    lineHeight: 40,
   },
   inputsContainer: {
     width: '100%',
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     paddingHorizontal: 15,
     marginVertical: 10,
-    height: 60
+    height: 60,
   },
   emailInputContainer: {
     width: '90%',
@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     marginVertical: 10,
     borderColor: '#e93c92',
-    borderWidth: 2,      
-    height: 60
+    borderWidth: 2,
+    height: 60,
   },
   emailInput: {
     flex: 1,
@@ -201,17 +201,22 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     paddingVertical: 10,
     alignItems: 'center',
+    height: 60,
+    justifyContent: 'center'
   },
   noAccount: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 10,
+    color: '#666666'
   },
   noAccountText: {
     fontSize: 14,
+    fontWeight: 'bold'
   },
   link: {
     color: '#68C4FF',
+    fontSize: 15
   },
 });

@@ -1,15 +1,15 @@
-import { Button, Pressable, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { TouchableOpacity, StyleSheet, Text, View, ScrollView, TextInput } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { useState } from 'react';
-import { TextInput } from 'react-native';
 import { Link } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useRouter } from 'expo-router';
 
 export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [name, setName] = useState(''); // New state for name input
+    const router = useRouter();
 
     const handleSubmit = () => {
         if (!email.includes('@') || email.length === 0) {
@@ -36,10 +36,10 @@ export default function Signup() {
             email,
             password,
             first_name,
-            last_name
+            last_name,
         };
 
-        fetch('https://your-backend-endpoint.com/auth', { // Updated endpoint based on documentation
+        fetch('https://your-backend-endpoint.com/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -119,16 +119,20 @@ export default function Signup() {
                         />
                         <MaterialIcons name="person" size={24} color="gray" style={styles.icon} />
                     </View>
-                    <Pressable style={styles.button}>
-                        <Button title="Sign Up" color="white" onPress={handleSubmit} />
-                    </Pressable>
+                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                        <Text style={styles.buttonText}>Sign Up</Text>
+                    </TouchableOpacity>
                     <View style={styles.noAccount}>
                         <Text style={styles.noAccountText}>Already have an account? </Text>
-                        <Link href="/login" style={styles.link}>Log in here</Link>
+                        <TouchableOpacity onPress={() => router.push('/login')}>
+                            <Text style={styles.link}>Log in here</Text>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.infoContainer}>
                         <Text style={styles.info}>Information is collected for Dr. Lopa's team</Text>
-                        <Link href="/" style={styles.link}>Learn more here</Link>
+                        <TouchableOpacity onPress={() => router.push('/')}>
+                            <Text style={styles.link}>Learn more here</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
@@ -233,7 +237,7 @@ const styles = StyleSheet.create({
     button: {
         backgroundColor: '#e93c92',
         height: 60,
-        width: '100%',
+        width: '80%',
         borderRadius: 40,
         justifyContent: 'center',
         marginTop: 20,
@@ -244,10 +248,12 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     noAccountText: {
-        fontSize: 14,
+        fontSize: 15,
+        color: '#666666'
     },
     link: {
         color: '#68C4FF',
+        fontSize: 15
     },
     infoContainer: {
         alignItems: 'center',
@@ -255,6 +261,13 @@ const styles = StyleSheet.create({
     },
     info: {
         fontStyle: 'italic',
-        fontSize: 12,
+        fontSize: 15,
+        color: '#666666'
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        fontSize: 18
     },
 });
