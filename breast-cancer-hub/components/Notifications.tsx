@@ -38,14 +38,12 @@ export function NotificationComponent() {
 
       {isExpanded && (
         <View style={styles.dismissOverlay}>
-          <TouchableWithoutFeedback onPress={() => {}}>
+          <TouchableOpacity onPress={() => setIsVisible(false)}>
             <View style={styles.dismissBox}>
               <ThemedText style={styles.dismissText}>Dismiss</ThemedText>
-              <TouchableOpacity onPress={() => setIsVisible(false)}>
-                <Ionicons name="close" size={24} color="black" />
-              </TouchableOpacity>
+              <Ionicons name="close" size={24} color="black" />
             </View>
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
       )}
     </TouchableOpacity>
