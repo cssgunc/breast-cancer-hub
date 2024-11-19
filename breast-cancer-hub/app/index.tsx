@@ -34,9 +34,6 @@ export default function HomeScreen() {
           <Ionicons name="notifications" size={20} color="#E93C92" style={styles.icon} />
           <ThemedText style={styles.introText}>Today</ThemedText>
           <View style={{ flex: 1 }} />
-          <TouchableOpacity>
-            <ThemedText style={styles.viewAllText}>View all</ThemedText>
-          </TouchableOpacity>
         </View>
 
         <View style={{ height: 20 }} /> {/* Spacing */}
