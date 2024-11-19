@@ -165,7 +165,7 @@ app.put('/settings', async (req: Request, res: Response) => {
     return res.status(403).json({ error: 'Unauthorized' });
   }
 
-  if (!user_id || !scheduling_type || !notification_times || !locale) {
+  if (!user_id || !scheduling_type || !notification_times) {
     return res.status(400).json({ error: 'user_id, scheduling_type, notification_times, and locale are required' });
   }
 
@@ -177,8 +177,8 @@ app.put('/settings', async (req: Request, res: Response) => {
            locale = $3, 
            use_backup_data = $4, 
            use_telemetry = $5, 
-           use_push_notification = $6, 
-           use_in_app_notification = $7 
+           use_push_notifications = $6, 
+           use_in_app_notifications = $7 
        WHERE user_id = $8 
        RETURNING *`,
       [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification, user_id]
@@ -209,7 +209,7 @@ app.get('/user', async (req: Request, res: Response) => {
   }
 
   try {
-    const result = await pool.query('SELECT user_name FROM users WHERE user_id = $1', [userId]);
+    const result = await pool.query('SELECT user_name FROM users WHERE id = $1', [userId]);
 
     if (result.rows.length === 0) {
       return res.status(404).json({ error: 'No name found for this user' });
