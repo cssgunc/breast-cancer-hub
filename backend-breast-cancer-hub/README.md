@@ -1,6 +1,18 @@
 # API Documentation
 This API Has three resources: auth, settings, and user
 
+[1. POST /auth](#1-post-auth)
+
+[2. PUT /auth](#2-put-auth)
+
+[3. POST /settings](#3-post-settings)
+
+[4. GET /settings](#4-get-settings)
+
+[4. GET /user](#4-get-user)
+
+[5. PUT /settings](#5-put-settings)
+
 ## Endpoints
 
 ----------
