@@ -77,11 +77,10 @@ export default function TestScreen() {
               }
             });
           }}
-        />
-
-        {/* Display Setting Value */}
-        <ThemedText>{setting_value}</ThemedText>
-
+          />
+        <ThemedText>
+          { setting_value }
+        </ThemedText>
         <ThemedView>
           <Link href="/" asChild>
             <Pressable style={styles.button}>
