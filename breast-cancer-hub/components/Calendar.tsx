@@ -4,10 +4,10 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { addPeriod, getPeriods, OrderedMonthNames, OrderedWeekdayNames, PeriodTimestamp, removePeriod, savePeriods } from '@/hooks/usePeriodData';
-import { getSetting } from '@/hooks/useSettings';
+import { getSetting, saveSetting } from '@/hooks/useSettings';
 
 
-const generateCalendar = (currentDate: {month: number, year: number}, periodDays: PeriodTimestamp[]) => {
+const generateCalendar = (currentDate: {month: number, year: number}, periodInput: PeriodTimestamp[] | undefined | number) => {
   const calendarDays = [];
 
   const firstDayOfMonth = new Date(currentDate.year, currentDate.month, 1);
@@ -22,12 +22,20 @@ const generateCalendar = (currentDate: {month: number, year: number}, periodDays
   nextMonth.setMonth(nextMonth.getMonth()+1)
 
 
-  const lastPeriod: PeriodTimestamp | undefined = periodDays[periodDays.length - 1]
 
   let specialDay = undefined
-  if (lastPeriod != undefined) {
-    specialDay = new Date(lastPeriod.year, lastPeriod.month, lastPeriod.date + 4)
+  let recurringDay : undefined | number = undefined
+  let periodDays : PeriodTimestamp[]  | undefined = undefined
+  if(typeof periodInput == "number"){
+    recurringDay = periodInput
+  }else if(periodInput!=undefined){
+    periodDays = periodInput
+    const lastPeriod: PeriodTimestamp | undefined = periodDays[periodDays.length - 1]
+    if (lastPeriod != undefined) {
+      specialDay = new Date(lastPeriod.year, lastPeriod.month, lastPeriod.date + 4)
+    }
   }
+
 
 
   // Days from previous month
@@ -40,8 +48,8 @@ const generateCalendar = (currentDate: {month: number, year: number}, periodDays
       },
       date: daysInPrevMonth - i,
       inCurrentMonth: false,
-      isPeriodDay: periodDays.some(d => d.date == daysInPrevMonth - i && d.month == prevMonth.getUTCMonth() && prevMonth.getUTCFullYear() == d.year),
-      isSpecialDay: specialDay && specialDay.getDate() === daysInPrevMonth- i && specialDay.getUTCMonth() === prevMonth.getUTCMonth() && prevMonth.getUTCFullYear() === specialDay.getUTCFullYear()
+      isPeriodDay: periodDays && periodDays.some(d => d.date == daysInPrevMonth - i && d.month == prevMonth.getUTCMonth() && prevMonth.getUTCFullYear() == d.year),
+      isSpecialDay: daysInPrevMonth - i == recurringDay || specialDay && specialDay.getDate() === daysInPrevMonth- i && specialDay.getUTCMonth() === prevMonth.getUTCMonth() && prevMonth.getUTCFullYear() === specialDay.getUTCFullYear()
     });
   }
 
@@ -55,8 +63,8 @@ const generateCalendar = (currentDate: {month: number, year: number}, periodDays
       },
       date: i,
       inCurrentMonth: true,
-      isPeriodDay: periodDays.some(d => d.date == i && d.month == currentDate.month && currentDate.year == d.year),
-      isSpecialDay: specialDay && specialDay.getDate() === i && specialDay.getUTCMonth() === currentDate.month && currentDate.year === specialDay.getUTCFullYear(),
+      isPeriodDay: periodDays && periodDays.some(d => d.date == i && d.month == currentDate.month && currentDate.year == d.year),
+      isSpecialDay:  i == recurringDay || specialDay && specialDay.getDate() === i && specialDay.getUTCMonth() === currentDate.month && currentDate.year === specialDay.getUTCFullYear(),
     });
   }
 
@@ -73,8 +81,8 @@ const generateCalendar = (currentDate: {month: number, year: number}, periodDays
       },
       date: i,
       inCurrentMonth: false,
-      isPeriodDay: periodDays.some(d => d.date == i && d.month == nextMonth.getUTCMonth() && nextMonth.getUTCFullYear() == d.year), //probably shouldnt be pressed, but there could be weird local time hijinks 
-      isSpecialDay: specialDay && specialDay.getDate() === i && specialDay.getUTCMonth() === nextMonth.getUTCMonth() && nextMonth.getUTCFullYear() === specialDay.getUTCFullYear(),
+      isPeriodDay: periodDays && periodDays.some(d => d.date == i && d.month == nextMonth.getUTCMonth() && nextMonth.getUTCFullYear() == d.year), //probably shouldnt be pressed, but there could be weird local time hijinks 
+      isSpecialDay:  i == recurringDay || specialDay && specialDay.getDate() === i && specialDay.getUTCMonth() === nextMonth.getUTCMonth() && nextMonth.getUTCFullYear() === specialDay.getUTCFullYear(),
     });
   }
   return calendarDays
@@ -83,7 +91,7 @@ const generateCalendar = (currentDate: {month: number, year: number}, periodDays
 
 const currentDate = new Date();
 const og_date = {month: currentDate.getMonth(), year: currentDate.getFullYear()}
-let cached_periods : PeriodTimestamp[] = []
+let cached_periods : PeriodTimestamp[] | undefined | number = undefined
 let cal_fetched = false
 
 export function CalendarComponent() {
@@ -115,15 +123,16 @@ export function CalendarComponent() {
 
   useEffect(() => { //basically a primitive onmounted
     getSetting('schedulingType').then(schedulingType => {
-      if ((schedulingType == "period" || true) && !cal_fetched) {
-
-        getPeriods().then(periods => {
-          cal_fetched = true
-          cached_periods = periods
-          setSeed(Math.random())
-          //setCalendarDays(generateCalendar(currentDay, periods))
-          
-        })
+      if ((schedulingType == "period")) {
+        if(!cal_fetched){
+          getPeriods().then(periods => {
+            cal_fetched = true
+            cached_periods = periods
+            setSeed(Math.random())
+          })
+        }
+      }else{
+        cached_periods = schedulingType.day
       }
     })
   }, [])
@@ -167,18 +176,24 @@ export function CalendarComponent() {
                     aria-checked={day.isPeriodDay}
                     style={[styles.checkboxBase, day.isPeriodDay && styles.checkboxChecked, day.isSpecialDay && styles.specialCheckboxChecked, day.isSpecialDay && styles.specialCheckboxBase]}
                     onPress={() => {
-                      if(day.isPeriodDay){
-                        const newPeriods = removePeriod(cached_periods, day.ts)
-                        savePeriods(newPeriods)
-                        cached_periods = newPeriods
+                      if(typeof cached_periods === "number"){
+                        cached_periods = day.ts.date
+                        saveSetting('schedulingType', {day: day.ts.date})
                         setSeed(Math.random())
-                        //setCalendarDays(newCal)
-                      }else{
-                        const newPeriods = addPeriod(cached_periods, day.ts)
-                        savePeriods(newPeriods)
-                        cached_periods = newPeriods
-                        setSeed(Math.random())
-                        //setCalendarDays(newCal)
+                      }else if(cached_periods!=undefined){
+                        if(day.isPeriodDay){
+                          const newPeriods = removePeriod(cached_periods, day.ts)
+                          savePeriods(newPeriods)
+                          cached_periods = newPeriods
+                          setSeed(Math.random())
+                          //setCalendarDays(newCal)
+                        }else{
+                          const newPeriods = addPeriod(cached_periods, day.ts)
+                          savePeriods(newPeriods)
+                          cached_periods = newPeriods
+                          setSeed(Math.random())
+                          //setCalendarDays(newCal)
+                        }
                       }
                     }}>
                     {(day.isPeriodDay || day.isSpecialDay) && <Ionicons name="checkmark" size={24} color="white" />}
