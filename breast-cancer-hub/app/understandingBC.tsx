@@ -5,6 +5,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { useRouter } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { AccountSettingsHeaderComponent } from '@/components/AccountSettingsHeader';
+import { LearnMoreTextContainer } from '@/components/LearnMoreText';
 
 export default function UnderstandingBC() {
   const router = useRouter();
@@ -34,12 +35,8 @@ export default function UnderstandingBC() {
               <ThemedText style={styles.statTextBold}>1 out of 8</ThemedText>
               <ThemedText style={styles.statText}>women will develop invasive breast cancer over the course of her lifetime</ThemedText>
             </ThemedView>
-            <ThemedView style={styles.learnMoreTextContainer}>
-              <ThemedText style={styles.infoSourceText}>Information is sourced from Breast Cancer Hub</ThemedText>
-              <TouchableOpacity>
-                <ThemedText style={styles.learnMoreText} onPress={() => Linking.openURL('https://www.breastcancerhub.org/about-breast-cancer')}>Learn more here</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
+            
+            <LearnMoreTextContainer />
 
             {/* Buttons */}
             <ThemedView style={styles.buttonContainer}>

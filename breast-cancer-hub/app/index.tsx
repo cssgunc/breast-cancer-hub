@@ -57,7 +57,7 @@ export default function HomeScreen() {
         <CalendarComponent />
 
         {/* Customization Rectangle */}
-        <TouchableOpacity style={styles.customizeContainer}>
+        <TouchableOpacity style={styles.customizeContainer} onPress={() => router.push('./selfExamIntro')}>
           <ThemedText style={styles.customizeText}>
             Customize and manage breast{'\n'}examination schedule here
           </ThemedText>
