@@ -8,24 +8,34 @@ import { useRouter } from 'expo-router';
 export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     const [name, setName] = useState(''); // New state for name input
+    const [errorMessage, setErrorMessage] = useState<undefined | string>()
     const router = useRouter();
 
     const handleSubmit = () => {
+
         if (!email.includes('@') || email.length === 0) {
-            alert('Please enter a valid email address.');
+            setErrorMessage('Please enter a valid email address.');
             return;
         }
 
         if (password.length === 0) {
-            alert('Please enter a password.');
+            setErrorMessage('Please enter a password.');
             return;
         }
 
         if (name.length === 0) {
-            alert('Please enter your name.');
+            setErrorMessage('Please enter your name.');
             return;
         }
+
+        if(confirmPassword != password){
+            setErrorMessage('Passwords do not match.');
+            return
+        }
+
 
         submitToBackend();
     };
@@ -57,14 +67,14 @@ export default function Signup() {
             })
             .then(responseData => {
                 console.log(responseData.message);
-                alert(responseData.message);
+                setErrorMessage(responseData.message);
                 setEmail('');
                 setPassword('');
                 setName('');
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert(error.message);
+                setErrorMessage(error.message);
             });
     };
 
@@ -104,10 +114,12 @@ export default function Signup() {
                             style={styles.passwordInput}
                             placeholder="Confirm password"
                             placeholderTextColor="gray"
+                            onChangeText={setConfirmPassword}
                             secureTextEntry
                         />
                         <MaterialIcons name="lock" size={24} color="gray" style={styles.icon} />
                     </View>
+                    <Text style={errorMessage ? styles.errorLabel : styles.hidden}> {"Error: " + errorMessage} </Text>
                     <Text style={styles.userInfoLabel}>User Information</Text>
                     <View style={styles.inputContainer}>
                         <TextInput
@@ -233,6 +245,15 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         alignSelf: 'center',
         paddingLeft: 15,
+    },
+    errorLabel: {
+        marginVertical: 10,
+        alignSelf: 'center',
+        paddingLeft: 15,
+        color: "#e93c92"
+    },
+    hidden: {
+        display: "none"
     },
     button: {
         backgroundColor: '#e93c92',
