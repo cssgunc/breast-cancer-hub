@@ -1,31 +1,41 @@
 import React, { useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 
-export function CalendarComponent() {
+interface CalendarComponentProps {
+  isMenstruating: boolean;
+}
+
+export function CalendarComponent({ isMenstruating }: CalendarComponentProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [isEditing, setIsEditing] = useState(false);
+  const [periodDaysByMonth, setPeriodDaysByMonth] = useState<{ [key: string]: number[] }>({});
 
   const goToPreviousMonth = () => {
-    setCurrentDate(prevDate => {
+    setCurrentDate((prevDate) => {
       const prevMonthDate = new Date(prevDate.getFullYear(), prevDate.getMonth() - 1, 1);
       return prevMonthDate;
     });
   };
 
   const goToNextMonth = () => {
-    setCurrentDate(prevDate => {
+    setCurrentDate((prevDate) => {
       const nextMonthDate = new Date(prevDate.getFullYear(), prevDate.getMonth() + 1, 1);
       return nextMonthDate;
     });
   };
 
   const getMonthName = (monthIndex: number) => {
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June',
-                        'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthNames = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December',
+    ];
     return monthNames[monthIndex];
   };
+
+  const monthKey = `${currentDate.getFullYear()}-${currentDate.getMonth()}`;
 
   // Generate calendar days
   const generateCalendar = () => {
@@ -47,11 +57,11 @@ export function CalendarComponent() {
       });
     }
 
-    // Period days (second week)
-    const periodDays = [];
-    for (let i = 8; i <= 14; i++) {
-      periodDays.push(i);
-    }
+    // Get period days for the current month
+    const periodDays = periodDaysByMonth[monthKey] || [];
+
+    // Assume the special day (self-examination day) is on the 30th
+    const specialDay = 30;
 
     // Days in current month
     for (let i = 1; i <= daysInMonth; i++) {
@@ -59,7 +69,7 @@ export function CalendarComponent() {
         date: i,
         inCurrentMonth: true,
         isPeriodDay: periodDays.includes(i),
-        isSpecialDay: i === 30,
+        isSpecialDay: i === specialDay,
       });
     }
 
@@ -82,6 +92,32 @@ export function CalendarComponent() {
   const calendarDays = generateCalendar();
 
   const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+  const handleDayPress = (day: any) => {
+    if (!isEditing || !day.inCurrentMonth) return;
+
+    setPeriodDaysByMonth((prev) => {
+      const updatedPeriodDays = prev[monthKey] ? [...prev[monthKey]] : [];
+
+      if (updatedPeriodDays.includes(day.date)) {
+        // Remove the day
+        const index = updatedPeriodDays.indexOf(day.date);
+        updatedPeriodDays.splice(index, 1);
+      } else {
+        // Add the day
+        updatedPeriodDays.push(day.date);
+      }
+
+      return {
+        ...prev,
+        [monthKey]: updatedPeriodDays,
+      };
+    });
+  };
+
+  const toggleEditing = () => {
+    setIsEditing((prev) => !prev);
+  };
 
   return (
     <ThemedView style={styles.container}>
@@ -113,7 +149,12 @@ export function CalendarComponent() {
         {/* Calendar Days */}
         <View style={styles.daysContainer}>
           {calendarDays.map((day, index) => (
-            <View key={index} style={styles.dayContainer}>
+            <TouchableOpacity
+              key={index}
+              style={styles.dayContainer}
+              onPress={() => handleDayPress(day)}
+              activeOpacity={isEditing ? 0.5 : 1}
+            >
               {day.isPeriodDay ? (
                 <View style={styles.periodDayCircle}>
                   <ThemedText style={styles.periodDayText}>{day.date}</ThemedText>
@@ -123,11 +164,41 @@ export function CalendarComponent() {
                   <ThemedText style={styles.specialDayText}>{day.date}</ThemedText>
                 </View>
               ) : (
-                <ThemedText style={[styles.dayText, !day.inCurrentMonth && styles.greyDayText]}>{day.date}</ThemedText>
+                <View
+                  style={[
+                    styles.dayWrapper,
+                    isEditing && day.inCurrentMonth && styles.editModeDayWrapper,
+                  ]}
+                >
+                  <ThemedText
+                    style={[
+                      styles.dayText,
+                      !day.inCurrentMonth && styles.greyDayText,
+                    ]}
+                  >
+                    {day.date}
+                  </ThemedText>
+                </View>
               )}
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
+
+        {/* Log Period Button or Message */}
+        {isMenstruating ? (
+          <TouchableOpacity
+            style={styles.logPeriodButton}
+            onPress={toggleEditing}
+          >
+            <ThemedText style={styles.logPeriodButtonText}>
+              {isEditing ? 'Save Changes' : 'Log Period'}
+            </ThemedText>
+          </TouchableOpacity>
+        ) : (
+          <ThemedText style={styles.cannotLogPeriodText}>
+            Cannot Log Period. To switch to the menstruating display go to settings.
+          </ThemedText>
+        )}
       </View>
     </ThemedView>
   );
@@ -183,7 +254,7 @@ const styles = StyleSheet.create({
   daysContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingBottom: 40,
+    paddingBottom: 20,
   },
   dayContainer: {
     width: '14.28%',
@@ -191,6 +262,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 30,
+  },
+  dayWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  editModeDayWrapper: {
+    borderWidth: 2,
+    borderColor: 'black',
+    borderStyle: 'dotted',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
   },
   dayText: {
     color: 'black',
@@ -224,5 +307,26 @@ const styles = StyleSheet.create({
   specialDayText: {
     fontWeight: 'bold',
     color: 'black',
+  },
+  logPeriodButton: {
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderColor: '#E93C92',
+    borderWidth: 2,
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    width: '50%',
+  },
+  logPeriodButtonText: {
+    textAlign: 'center',
+    color: '#E93C92',
+    fontWeight: 'bold',
+  },
+  cannotLogPeriodText: {
+    marginTop: 10,
+    fontSize: 12,
+    color: 'grey',
+    textAlign: 'center',
   },
 });
