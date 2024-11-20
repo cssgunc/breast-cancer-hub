@@ -218,6 +218,13 @@ export function CalendarComponent() {
         </View>
 
         <View style={styles.footer}>
+        {
+            editMode ? (
+              <ThemedText>Confirm Changes</ThemedText>
+            ) : (
+              <ThemedText>Edit Periods</ThemedText>
+            )
+          }
           {
             editMode ? (
               <TouchableOpacity onPress={()=>setEditMode(false)}>
@@ -262,6 +269,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingTop: 10,
     paddingBottom: 10,
+    gap: 10,
   },
   header: {
     flexDirection: 'row',
