@@ -11,6 +11,9 @@ export type MonthName = 'January' | 'February' | 'March' | 'April' | 'May' | 'Ju
 
 export const OrderedWeekdayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
+export const OrderedShortenedMonthNames = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'June',
+  'July', 'Aug.', 'Sep.', 'Oct.', 'Nov.', 'Dec.'];
+
 export type PeriodTimestamp = {
   date: number;
   month: number,

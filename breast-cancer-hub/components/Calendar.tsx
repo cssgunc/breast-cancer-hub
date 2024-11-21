@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
-import { addPeriod, getPeriods, OrderedMonthNames, OrderedWeekdayNames, PeriodTimestamp, removePeriod, savePeriods } from '@/hooks/usePeriodData';
+import { addPeriod, getPeriods, OrderedMonthNames, OrderedShortenedMonthNames, OrderedWeekdayNames, PeriodTimestamp, removePeriod, savePeriods } from '@/hooks/usePeriodData';
 import { getSetting, saveSetting } from '@/hooks/useSettings';
 
 
@@ -28,11 +28,13 @@ const generateCalendar = (currentDate: {month: number, year: number}, periodInpu
   let periodDays : PeriodTimestamp[]  | undefined = undefined
   if(typeof periodInput == "number"){
     recurringDay = periodInput
+    //checkupChangedListener(OrderedShortenedMonthNames[currentDate.month], recurringDay)
   }else if(periodInput!=undefined){
     periodDays = periodInput
     const lastPeriod: PeriodTimestamp | undefined = periodDays[periodDays.length - 1]
     if (lastPeriod != undefined) {
       specialDay = new Date(lastPeriod.year, lastPeriod.month, lastPeriod.date + 4)
+      //checkupChangedListener(OrderedShortenedMonthNames[specialDay.getMonth()], specialDay.getDate())
     }
   }
 
@@ -94,7 +96,7 @@ const og_date = {month: currentDate.getMonth(), year: currentDate.getFullYear()}
 let cached_periods : PeriodTimestamp[] | undefined | number = undefined
 let cal_fetched = false
 
-export function CalendarComponent() {
+export function CalendarComponent(props: {checkupListener: (month: string, date: number)=>void}) {
   const [currentDay, setCurrentDay] = useState(og_date)
   //const [calendarDays, setCalendarDays] = useState(generateCalendar(currentDay, cached_periods))
   const [editMode, setEditMode] = useState(false)
@@ -134,6 +136,17 @@ export function CalendarComponent() {
       }else{
         cached_periods = schedulingType.day
       }
+
+      if(typeof cached_periods == "number"){
+        props.checkupListener(OrderedShortenedMonthNames[currentDate.getMonth()], cached_periods)
+      }else if(cached_periods!=undefined){
+        const lastPeriod: PeriodTimestamp | undefined = cached_periods[cached_periods.length - 1]
+        if (lastPeriod != undefined) {
+          const specialDay = new Date(lastPeriod.year, lastPeriod.month, lastPeriod.date + 4)
+          props.checkupListener(OrderedShortenedMonthNames[specialDay.getMonth()], specialDay.getDate())
+        }
+      }
+    
     })
   }, [])
 
@@ -193,6 +206,15 @@ export function CalendarComponent() {
                           cached_periods = newPeriods
                           setSeed(Math.random())
                           //setCalendarDays(newCal)
+                        }
+                      }
+                      if(typeof cached_periods == "number"){
+                        props.checkupListener(OrderedShortenedMonthNames[currentDate.getMonth()], cached_periods)
+                      }else if(cached_periods!=undefined){
+                        const lastPeriod: PeriodTimestamp | undefined = cached_periods[cached_periods.length - 1]
+                        if (lastPeriod != undefined) {
+                          const specialDay = new Date(lastPeriod.year, lastPeriod.month, lastPeriod.date + 4)
+                          props.checkupListener(OrderedShortenedMonthNames[specialDay.getMonth()], specialDay.getDate())
                         }
                       }
                     }}>

@@ -14,6 +14,10 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const [name, setName] = useState<string | undefined>(undefined)
+  const [checkup, setCheckup] = useState<{month: string, date: string}| undefined>(undefined)
+  const checkupCallback = (month : string, date: number)=>{
+    setCheckup({month: month, date: String(date)})
+  }
 
   useEffect(()=>{
     getSetting('name').then(name=>{
@@ -48,7 +52,7 @@ export default function HomeScreen() {
         <View style={{ height: 20 }} /> {/* Spacing */}
         {/* Notifications */}
         <View style={{ height: 15 }} /> {/* Spacing between notifications */}
-        <NotificationComponent />
+        <NotificationComponent month={checkup?.month ?? ""} date={checkup?.date ?? ""}/>
         <View style={{ height: 40 }} /> {/* Spacing between sections */}
 
         {/* Spacer */}
@@ -63,7 +67,8 @@ export default function HomeScreen() {
         <View style={{ height: 10 }} /> {/* Spacing */}
 
         {/* Calendar Component */}
-        <CalendarComponent />
+        <CalendarComponent checkupListener={checkupCallback}
+        />
 
         {/* View Past Examinations */}
         <TouchableOpacity>
@@ -217,4 +222,7 @@ const styles = StyleSheet.create({
     color: '#E93C92', // Text in #E93C92
     fontWeight: 'bold',
   },
+  hidden: {
+    display: "none"
+  }
 });

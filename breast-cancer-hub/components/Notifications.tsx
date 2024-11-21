@@ -4,7 +4,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 
-export function NotificationComponent() {
+export function NotificationComponent(props: {month: string, date: string}) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -26,8 +26,8 @@ export function NotificationComponent() {
       <ThemedView style={[styles.container, isExpanded && { opacity: 0.5 }]}>
         {/* Left Circle with Date */}
         <View style={styles.dateCircle}>
-          <ThemedText style={styles.monthText}>Oct.</ThemedText>
-          <ThemedText style={styles.dayText}>19</ThemedText>
+          <ThemedText style={styles.monthText}>{props.month}</ThemedText>
+          <ThemedText style={styles.dayText}>{props.date}</ThemedText>
         </View>
         {/* Right Side with Header and Body */}
         <View style={styles.textContainer}>
