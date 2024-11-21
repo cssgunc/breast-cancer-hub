@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { getSetting } from '@/hooks/useSettings';
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
+
+  const [person, setPerson] = useState({name: "", email: ""})
+
+
+  useEffect(()=>{
+    getSetting("name").then(name=>getSetting("email").then(email=>{
+      setPerson({name, email})
+    }))
+  }, [])
 
   return (
     <ThemedView style={styles.container}>
@@ -34,7 +44,7 @@ export default function ProfileSettingsScreen() {
 
           {/* User Info */}
           <View style={styles.userInfoContainer}>
-            <ThemedText style={styles.userName}>Jane Doe</ThemedText>
+            <ThemedText style={styles.userName}>{person.name}</ThemedText>
           </View>
 
           {/* Divider */}
@@ -43,7 +53,7 @@ export default function ProfileSettingsScreen() {
           {/* Username Section */}
           <View style={styles.infoRow}>
             <ThemedText style={styles.infoLabel}>Username</ThemedText>
-            <ThemedText style={styles.infoValue}>JaneDoe43</ThemedText>
+            <ThemedText style={styles.infoValue}>{person.name}</ThemedText>
           </View>
           <View style={styles.divider} />
 
@@ -57,7 +67,7 @@ export default function ProfileSettingsScreen() {
           {/* Email Section */}
           <View style={styles.infoRow}>
             <ThemedText style={styles.infoLabel}>Email</ThemedText>
-            <ThemedText style={styles.infoValue}>janedoe43@gmail.com</ThemedText>
+            <ThemedText style={styles.infoValue}>{person.email}</ThemedText>
           </View>
         </ScrollView>
 
