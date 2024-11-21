@@ -87,3 +87,6 @@ export function generateDefaultSettings(){
   }
   return def
 }
+
+
+export const BACKEND_URL = "https://long-doors-wink.loca.lt"

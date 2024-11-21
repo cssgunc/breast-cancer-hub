@@ -4,17 +4,21 @@ import { useState } from 'react';
 import { Link } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
+import { BACKEND_URL } from '@/hooks/useSettings';
 
 export default function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [pending, setPending] = useState(false);
 
     const [name, setName] = useState(''); // New state for name input
     const [errorMessage, setErrorMessage] = useState<undefined | string>()
     const router = useRouter();
 
     const handleSubmit = () => {
+
+        if(pending)return
 
         if (!email.includes('@') || email.length === 0) {
             setErrorMessage('Please enter a valid email address.');
@@ -36,46 +40,44 @@ export default function Signup() {
             return
         }
 
-
         submitToBackend();
     };
 
     const submitToBackend = () => {
-        const [first_name, last_name = ''] = name.split(' '); // Split name into first and last names
+        setPending(true)
+        setErrorMessage(undefined)
         const data = {
             email,
             password,
-            first_name,
-            last_name,
+            name
         };
+        const body = JSON.stringify(data)
 
-        fetch('https://your-backend-endpoint.com/auth', {
+        fetch(BACKEND_URL + '/auth', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body,
         })
             .then(response => {
                 if (response.ok) {
                     return response.json();
-                } else if (response.status === 400) {
-                    throw new Error('All fields are required or email already exists');
-                } else {
-                    throw new Error('Server error occurred');
+                } else{
+                    console.log("wahh")
+                    return response.json().then(t=>{throw new Error(t.error);})
                 }
             })
             .then(responseData => {
                 console.log(responseData.message);
-                setErrorMessage(responseData.message);
-                setEmail('');
-                setPassword('');
-                setName('');
+                router.push("/")
+                //setErrorMessage(responseData.message);
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.log(error.message)
                 setErrorMessage(error.message);
-            });
+                setPending(false)
+            })
     };
 
     return (
@@ -131,7 +133,7 @@ export default function Signup() {
                         />
                         <MaterialIcons name="person" size={24} color="gray" style={styles.icon} />
                     </View>
-                    <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                    <TouchableOpacity style={styles.button} onPress={handleSubmit} disabled={pending}>
                         <Text style={styles.buttonText}>Sign Up</Text>
                     </TouchableOpacity>
                     <View style={styles.noAccount}>

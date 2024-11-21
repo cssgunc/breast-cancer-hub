@@ -1,6 +1,7 @@
-const express = require('express')
-const { Pool } = require('pg')
-const dotenv = require('dotenv')
+import express from 'express'
+import { Pool } from 'pg'
+import dotenv from 'dotenv'
+import cors from 'cors'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
 import { Request, Response } from 'express'
@@ -8,7 +9,9 @@ import { Request, Response } from 'express'
 dotenv.config()
 
 const app = express()
+app.use(cors())
 app.use(express.json())
+
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
@@ -16,6 +19,7 @@ const pool = new Pool({
 
 //Test route that accesses sample table
 app.get('/', async (req: Request, res: Response) => {
+  console.log("req made")
   try {
     const result = await pool.query('SELECT * FROM PLAYING_WITH_NEON');
     res.status(200).json(result.rows)
@@ -26,16 +30,21 @@ app.get('/', async (req: Request, res: Response) => {
 
 
 app.post('/auth', async (req: Request, res: Response) => {
+  console.log(req.body)
   const { password, name, email } = req.body
 
   if (!password || !name || !email) {
-    return res.status(400).json({ error: 'All fields are required' })
+    res.status(400).json({ error: 'All fields are required' })
+    console.log("field error")
+    return
   }
 
   try {
     const check = await pool.query('SELECT * FROM USERS WHERE USERS.email = $1', [email])
     if (check.rows.length > 0) {
-      return res.status(400).json({ error: 'Account already exists with this email' })
+      res.status(400).json({ error: 'Account already exists with this email' })
+      console.log("dupe error")
+      return
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -54,26 +63,33 @@ app.post('/auth', async (req: Request, res: Response) => {
       [result.rows[0].id, hashedToken]
     )
 
-    return res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken })
+    res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken })
+    console.log("succ")
+    return
 
 
   } catch (err) {
     console.log(err)
-    return res.status(500).json({ error: 'Server error' })
+    res.status(500).json({ error: 'Server error' })
+    return
   }
 })
 
 app.put('/auth', async (req: Request, res: Response) => {
+  console.log(req.body)
+
   const { email, password } = req.body
 
   if (!email || !password) {
-    return res.status(400).json({ error: 'All fields are required' })
+    res.status(400).json({ error: 'All fields are required' })
+    return
   }
 
   try {
     const check = await pool.query('SELECT id, password_hash FROM USERS WHERE USERS.email = $1', [email])
     if (check.rows.length == 0) {
-      return res.status(404).json({ error: 'Account not found' })
+      res.status(404).json({ error: 'Account not found' })
+      return
     }
     const hashedPassword = check.rows[0].password_hash
     const userId = check.rows[0].id
@@ -89,15 +105,18 @@ app.put('/auth', async (req: Request, res: Response) => {
         [hashedToken, userId]
       )
 
-      return res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken })
+      res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken })
+      return
     }
     else {
-      return res.status(401).json({ error: 'Incorrect password' })
+      res.status(401).json({ error: 'Incorrect password' })
+      return
     }
   }
   catch (err) {
     console.log(err)
-    return res.status(500).json({ error: 'Server error' })
+    res.status(500).json({ error: 'Server error' })
+    return
   }
 })
 
@@ -106,13 +125,15 @@ app.post('/settings', async (req: Request, res: Response) => {
   const email = req.headers['x-user-email'] as string;
   
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
-    return res.status(403).json({ error: 'Unauthorized' });
+    res.status(403).json({ error: 'Unauthorized' });
+    return
   }
 
   const { user_id} = req.body;
 
   if (!user_id ) {
-    return res.status(400).json({ error: 'Invalid input' });
+    res.status(400).json({ error: 'Invalid input' });
+    return
   }
 
   try {
@@ -135,18 +156,21 @@ app.get('/settings', async (req: Request, res: Response) => {
   const userId = req.query.user_id as string;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
-    return res.status(403).json({ error: 'Unauthorized' });
+    res.status(403).json({ error: 'Unauthorized' });
+    return
   }
 
   if (!userId) {
-    return res.status(400).json({ error: 'user_id is required' });
+    res.status(400).json({ error: 'user_id is required' });
+    return
   }
 
   try {
     const result = await pool.query('SELECT * FROM settings WHERE user_id = $1', [userId]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'No settings found for this user' });
+      res.status(404).json({ error: 'No settings found for this user' });
+      return
     }
 
     res.status(200).json({ settings: result.rows[0] });
@@ -162,11 +186,13 @@ app.put('/settings', async (req: Request, res: Response) => {
   const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification } = req.body;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
-    return res.status(403).json({ error: 'Unauthorized' });
+    res.status(403).json({ error: 'Unauthorized' });
+    return
   }
 
   if (!user_id || !scheduling_type || !notification_times || !locale) {
-    return res.status(400).json({ error: 'user_id, scheduling_type, notification_times, and locale are required' });
+    res.status(400).json({ error: 'user_id, scheduling_type, notification_times, and locale are required' });
+    return
   }
 
   try {
@@ -185,7 +211,8 @@ app.put('/settings', async (req: Request, res: Response) => {
     );
 
     if (result.rowCount === 0) {
-      return res.status(404).json({ error: 'No settings found for this user' });
+      res.status(404).json({ error: 'No settings found for this user' });
+      return
     }
 
     res.status(200).json({ message: 'Settings updated successfully', settings: result.rows[0] });
@@ -201,18 +228,21 @@ app.get('/user', async (req: Request, res: Response) => {
   const userId = req.query.user_id as string;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
-    return res.status(403).json({ error: 'Unauthorized' });
+    res.status(403).json({ error: 'Unauthorized' });
+    return
   }
 
   if (!userId) {
-    return res.status(400).json({ error: 'user_id is required' });
+    res.status(400).json({ error: 'user_id is required' });
+    return
   }
 
   try {
     const result = await pool.query('SELECT user_name FROM users WHERE user_id = $1', [userId]);
 
     if (result.rows.length === 0) {
-      return res.status(404).json({ error: 'No name found for this user' });
+      res.status(404).json({ error: 'No name found for this user' });
+      return
     }
 
     res.status(200).json({ name: result.rows[0] });
