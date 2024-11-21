@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Switch, ScrollView } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 
 import { useRouter } from 'expo-router';
+import { getSetting } from '@/hooks/useSettings';
 
 export default function SettingsScreen() {
   const router = useRouter();
 
+
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [isDarkModeEnabled, setIsDarkModeEnabled] = React.useState(false);
+
+  const [person, setPerson] = useState({name: "", email: ""})
+
+
+  useEffect(()=>{
+    getSetting("name").then(name=>getSetting("email").then(email=>{
+      setPerson({name, email})
+    }))
+  }, [])
 
   return (
     <ThemedView style={styles.container}>
@@ -35,8 +46,8 @@ export default function SettingsScreen() {
           {/* User Info */}
           <View style={styles.userInfoContainer}>
             <View style={styles.userTextContainer}>
-              <ThemedText style={styles.userNameText}>Jane Doe</ThemedText>
-              <ThemedText style={styles.userEmailText}>janedoe43@gmail.com</ThemedText>
+              <ThemedText style={styles.userNameText}>{person.name}</ThemedText>
+              <ThemedText style={styles.userEmailText}>{person.email}</ThemedText>
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   StyleSheet,
@@ -16,6 +16,7 @@ import { CalendarComponent } from '@/components/Calendar'; // Ensure this path i
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { getCheckupDay } from '@/hooks/usePeriodData';
+import { getSetting } from '@/hooks/useSettings';
 
 type Noti = {
   id: number,
@@ -34,6 +35,14 @@ export default function HomeScreen() {
   // State for notifications
   const [notifications, setNotifications] = useState<Noti[]>([
   ]);
+
+  const [name, setName] = useState("")
+
+  useEffect(()=>{
+    getSetting("name").then(name=>{
+      setName(name)
+    })
+  })
 
   // Function to open links
   const openLink = (url: string) => {
@@ -70,7 +79,7 @@ export default function HomeScreen() {
         {/* Greeting */}
         <View style={styles.greetingContainer}>
           <ThemedText style={styles.greetingText}>Good Morning, </ThemedText>
-          <ThemedText style={styles.nameText}>Jane!</ThemedText>
+          <ThemedText style={styles.nameText}>{name}!</ThemedText>
         </View>
       </View>
 
