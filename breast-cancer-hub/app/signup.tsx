@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Link } from 'expo-router';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useRouter } from 'expo-router';
-import { BACKEND_URL } from '@/hooks/useSettings';
+import { BACKEND_URL, saveSetting } from '@/hooks/useSettings';
 
 export default function Signup() {
     const [email, setEmail] = useState('');
@@ -71,6 +71,9 @@ export default function Signup() {
             .then(responseData => {
                 console.log(responseData.message);
                 router.push("/")
+                saveSetting("email", email)
+                saveSetting("token", responseData.sessionToken)
+
                 //setErrorMessage(responseData.message);
             })
             .catch(error => {
