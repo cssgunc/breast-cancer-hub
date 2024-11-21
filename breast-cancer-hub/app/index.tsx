@@ -1,4 +1,3 @@
-import React from 'react';
 import { StyleSheet, View, TouchableOpacity } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
@@ -8,9 +7,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
 import { router, useRouter } from 'expo-router';
 import { AccountSettingsHeaderComponent } from '@/components/AccountSettingsHeader';
+import { useEffect, useState } from 'react';
+import { getSetting } from '@/hooks/useSettings';
 
 export default function HomeScreen() {
   const router = useRouter();
+
+  const [name, setName] = useState<string | undefined>(undefined)
+
+  useEffect(()=>{
+    getSetting('name').then(name=>{
+      setName(name)
+    })
+  },[])
   
   return (
     <ThemedView style={styles.bodyContainer}>
@@ -22,7 +31,7 @@ export default function HomeScreen() {
           <ThemedText style={styles.homeText}>Home</ThemedText>
           <View style={styles.greetingContainer}>
             <ThemedText style={styles.greetingText}>Good Morning, </ThemedText>
-            <ThemedText style={styles.nameText}>Jane!</ThemedText>
+            <ThemedText style={styles.nameText}>{name ? `${name}!` : ''}</ThemedText>
           </View>
         </View>
       </View>

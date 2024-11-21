@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
 export type SettingsMap = {
+  "name": string,
   "email": string,
   "token": string,
 
@@ -20,7 +21,7 @@ export type SettingsMap = {
 
 export type SettingKeys = keyof SettingsMap;
 
-const OrderedSettingsKeys : SettingKeys[] = ["email", "token", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications"]
+const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications"]
 
 export async function getSetting<T extends SettingKeys>(key: T): Promise<SettingsMap[T]>{
   let res
@@ -73,6 +74,7 @@ export async function generateSettingsJson(){
 
 export function generateDefaultSettings(){
   const def: SettingsMap = {
+    name: '',
     email: '',
     token: '',
     schedulingType: {
@@ -89,4 +91,4 @@ export function generateDefaultSettings(){
 }
 
 
-export const BACKEND_URL = "https://long-doors-wink.loca.lt"
+export const BACKEND_URL = "https://three-clubs-sin.loca.lt"
