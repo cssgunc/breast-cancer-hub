@@ -207,15 +207,18 @@ export function CalendarComponent({ isMenstruating }: CalendarComponentProps) {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    // Removed backgroundColor to make it transparent
+    // backgroundColor: 'transparent',
   },
   calendarContainer: {
-    backgroundColor: 'white',
     borderRadius: 15,
     padding: 10,
+    // Removed backgroundColor to eliminate white background
+    // backgroundColor: 'white',
     // iOS shadow properties
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
+    shadowOpacity: 0.3,
     shadowRadius: 5,
     // Android elevation
     elevation: 5,
