@@ -6,7 +6,7 @@ const SplashScreen = () => {
 return (
 <View style={styles.container}>
 
-<Image source={require('../../assets/images/BCH App Image 4.png')} style={styles.logo} />
+<Image source={require('../../assets/images/BCH Ribbon 1 (1).png')} style={styles.logo} />
 
 <Text style={styles.title}>BREAST CANCER HUB</Text>
 
@@ -14,7 +14,7 @@ return (
 <Text style={styles.subtitle}>AWARENESS • EDUCATION • RESEARCH</Text>
 
 
-<ActivityIndicator size="large" color="white" style={styles.spinner} />
+<ActivityIndicator size="large" color="#720472" style={styles.spinner} />
 </View>
 );
 };
@@ -23,7 +23,7 @@ return (
 const styles = StyleSheet.create({
 container: {
    flex: 1,
-   backgroundColor: "#e93c92",
+   backgroundColor: "#ffffff",
    justifyContent: "center",
    alignItems: "center",
 },
@@ -35,14 +35,14 @@ logo: {
 title: {
   fontFamily: "SpaceMono-Regular",
    fontSize: 27,
-   color: "white",
+   color: "#720472",
    fontWeight: "bold",
    marginBottom: 10,
 },
 subtitle: {
   fontFamily: "SpaceMono-Regular",
    fontSize: 14,
-   color: "white",
+   color: "#720472",
    marginBottom: 50,
 },
 spinner: {
