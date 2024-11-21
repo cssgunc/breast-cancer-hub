@@ -8,7 +8,7 @@ import { AccountSettingsHeaderComponent } from '@/components/AccountSettingsHead
 import { getSetting } from '../hooks/useSettings';
 import { LearnMoreTextContainer } from '../components/LearnMoreText';
 
-export default async function SelfExamInfo() {
+export default function SelfExamInfo() {
   const router = useRouter();
 
   const info_f = [
@@ -41,17 +41,19 @@ export default async function SelfExamInfo() {
   
   }, []);
   
-  if (isLoading) {
+  if (isLoading == true) {
     return (
       <ThemedView style={styles.container}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
-      <ThemedText style={styles.highlightedTitleText}>Before You Begin</ThemedText>
-      <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
+      <ThemedView style={styles.whiteOverlay}>
+        <ThemedText style={styles.highlightedTitleText}>Before You Begin</ThemedText>
+        <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
 
-      <ThemedView style={styles.grayLine} />
+        <ThemedView style={styles.grayLine} />
+      </ThemedView>
 
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <ThemedView style={styles.whiteOverlay}>
@@ -82,10 +84,12 @@ export default async function SelfExamInfo() {
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-        <ThemedText style={styles.highlightedTitleText}>Before You Begin</ThemedText>
-        <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
+        <ThemedView style={styles.whiteOverlay}>
+          <ThemedText style={styles.highlightedTitleText}>Before You Begin</ThemedText>
+          <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
 
-        <ThemedView style={styles.grayLine} />
+          <ThemedView style={styles.grayLine} />
+        </ThemedView>
 
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <ThemedView style={styles.whiteOverlay}>
@@ -93,7 +97,7 @@ export default async function SelfExamInfo() {
             {/* Info Section */}
             <ThemedText style={styles.subtitleText}>Signs and Symptoms</ThemedText>
             {examTypeF ? (
-              <ThemedView style={styles.listItemContainer}>
+              <ThemedView style={styles.listContainer}>
                 {info_f.map((item: { id: number; text: string}) => (
                   <ThemedView key={item.id} style={styles.listItemContainer}>
                     <ThemedText style={styles.instructionTextBold}>{item.id + "."}</ThemedText>
@@ -128,7 +132,7 @@ export default async function SelfExamInfo() {
               //   </ThemedView>
               // </ThemedView>
             ) : (
-              <ThemedView style={styles.listItemContainer}>
+              <ThemedView style={styles.listContainer}>
                 {info_m.map((item: { id: number; text: string}) => (
                   <ThemedView key={item.id} style={styles.listItemContainer}>
                     <ThemedText style={styles.instructionTextBold}>{item.id + "."}</ThemedText>
@@ -213,7 +217,8 @@ const styles = StyleSheet.create({
   },
   listItemContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    columnGap: 20,
+    textAlign: 'left',
     paddingHorizontal: 20,
     paddingVertical: 10,
   },
