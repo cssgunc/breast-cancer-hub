@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
 
 
-const SplashScreen = () => {
+const LoadingScreen = () => {
 return (
 <View style={styles.container}>
 
@@ -19,7 +19,7 @@ return (
 );
 };
 
-// Styles for the SplashScreen
+// Styles for the LoadingScreen
 const styles = StyleSheet.create({
 container: {
    flex: 1,
@@ -52,4 +52,4 @@ spinner: {
 });
 
 
-export default SplashScreen;
+export default LoadingScreen;
