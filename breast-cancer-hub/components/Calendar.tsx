@@ -22,7 +22,16 @@ interface CalendarComponentProps {
 export function CalendarComponent({ isMenstruating, updateCheckupDay }: CalendarComponentProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
+  const [periodDay, setPeriodDay] = useState<number>(28)
   const [_seed, setSeed] = useState(0);
+
+  useEffect(()=>{
+    getSetting("schedulingType").then(type=>{
+      if(type!="period"){
+        setPeriodDay(type.day)
+      }
+    })
+  }, [])
 
   useEffect(()=>{
     initPeriods().then(original=>{
@@ -76,7 +85,7 @@ export function CalendarComponent({ isMenstruating, updateCheckupDay }: Calendar
         date: daysInPrevMonth - i,
         inCurrentMonth: false,
         isPeriodDay: isPeriodDay(p),
-        isSpecialDay: isCheckupDay(p),
+        isSpecialDay: isMenstruating ? isCheckupDay(p) : startingDay - 1 === periodDay,
       });
     }
 
@@ -91,7 +100,7 @@ export function CalendarComponent({ isMenstruating, updateCheckupDay }: Calendar
         date: i,
         inCurrentMonth: true,
         isPeriodDay: isPeriodDay(p),
-        isSpecialDay: isCheckupDay(p),
+        isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }
 
@@ -107,7 +116,7 @@ export function CalendarComponent({ isMenstruating, updateCheckupDay }: Calendar
         date: i,
         inCurrentMonth: false,
         isPeriodDay: isPeriodDay(p),
-        isSpecialDay: isCheckupDay(p),
+        isSpecialDay: isMenstruating ? isCheckupDay(p) : i===periodDay,
       });
     }
 
@@ -194,7 +203,7 @@ export function CalendarComponent({ isMenstruating, updateCheckupDay }: Calendar
         </View>
 
         {/* Log Period Button or Message */}
-        <View style={styles.footer}>
+        {isMenstruating ? (<View style={styles.footer}>
           {
             isEditing ? (
               <TouchableOpacity onPress={()=>setIsEditing(false)} style={{display:"flex", flexDirection: "row", gap: 10}}>
@@ -208,7 +217,10 @@ export function CalendarComponent({ isMenstruating, updateCheckupDay }: Calendar
             </TouchableOpacity>
             )
           }
-        </View>
+        </View>) : (<View style={styles.footer}></View>)
+        }
+        
+        
       </View>
     </ThemedView>
   );

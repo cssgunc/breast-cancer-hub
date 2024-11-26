@@ -11,15 +11,17 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { saveSetting } from '@/hooks/useSettings';
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
 
   const handleSaveChanges = () => {
+    saveSetting("schedulingType", {day: examDay}).then(()=>router.push("/"))
     // TODO: Save the examDay to your data store or state management
     // Navigate back to the previous page
-    router.back();
+    
   };
 
   const incrementDay = () => {

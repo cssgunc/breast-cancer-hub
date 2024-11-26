@@ -27,7 +27,7 @@ type Noti = {
 export default function HomeScreen() {
   const router = useRouter();
 
-  const isMenstruating = true;
+  const [isMenstruating, setIsMenstruating] = useState(true);
 
   // State for modal visibility
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,7 +42,13 @@ export default function HomeScreen() {
     getSetting("name").then(name=>{
       setName(name)
     })
-  })
+  }, [])
+
+  useEffect(()=>{
+    getSetting("schedulingType").then(s=>{
+      setIsMenstruating(s=="period")
+    })
+  }, [])
 
   // Function to open links
   const openLink = (url: string) => {
@@ -148,16 +154,6 @@ export default function HomeScreen() {
             }
           }}
         />
-
-        {/* Customization Rectangle */}
-        <TouchableOpacity 
-          style={styles.customizeContainer}
-          onPress={() => router.push('/CustomizeExamDateScreen')}
-        >
-          <ThemedText style={styles.customizeText}>
-            Change breast{'\n'}examination date 
-          </ThemedText>
-        </TouchableOpacity>
 
         {/* View Past Examinations */}
         <TouchableOpacity>
