@@ -24,6 +24,8 @@ All commands must be run inside your project terminal. For all your tasks, you w
 
 #### Creating New Branch
 
+Branches should be attached to an issue on GitHub; if an issue does not exist then create it detailing the changes to be made. For example, if you intend to create a branch for a page or component, name the branch after the issue (e.g. `10-settings-page`, `11-notification-component`).
+
 **Option 1: Creating a branch on GitHub**
 1. Click the branch button on the github page of our repo. It should be right underneath the repo name and say "stage"
 2. Type in the name of the branch you want to create.
@@ -46,10 +48,6 @@ All commands must be run inside your project terminal. For all your tasks, you w
 4. Click **Open Pull Request**
 5. Click write a description of your changes
 6. Click **Create pull request**
-
-TODO: Add conventions for:
-- Routing
-- Standardized components (what to use as text boxes - themedview? themedtext?, buttons, etc.)
 
 ## Contributing
 
