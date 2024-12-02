@@ -6,7 +6,7 @@ const LoadingScreen = () => {
 return (
 <View style={styles.container}>
 
-<Image source={require('../../assets/images/BCH Ribbon 1 (1).png')} style={styles.logo} />
+<Image source={require('../assets/images/BCH ribbon.png')} style={styles.logo} />
 
 <Text style={styles.title}>BREAST CANCER HUB</Text>
 

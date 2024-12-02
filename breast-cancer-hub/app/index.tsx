@@ -17,6 +17,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { getCheckupDay } from '@/hooks/usePeriodData';
 import { getSetting } from '@/hooks/useSettings';
+import LoadingScreen from '@/components/Loading';
 
 type Noti = {
   id: number,
@@ -24,10 +25,15 @@ type Noti = {
   date: Date
 }
 
-export default function HomeScreen() {
+export type HomeScreenProps = Partial<{
+  name: string,
+  isMenstruating: boolean
+}>
+
+export default function HomeScreen(props: HomeScreenProps) {
   const router = useRouter();
 
-  const [isMenstruating, setIsMenstruating] = useState(true);
+  const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(undefined);
 
   // State for modal visibility
   const [modalVisible, setModalVisible] = useState(false);
@@ -36,19 +42,26 @@ export default function HomeScreen() {
   const [notifications, setNotifications] = useState<Noti[]>([
   ]);
 
-  const [name, setName] = useState("")
+  const [name, setName] = useState<string | undefined>("")
+
 
   useEffect(()=>{
-    getSetting("name").then(name=>{
-      setName(name)
-    })
+    if(props.isMenstruating === undefined){
+      getSetting("schedulingType").then(s=>{
+        setIsMenstruating(s=="period")
+      })
+    }
+    if(props.name === undefined){
+      getSetting("name").then(value=>{
+        setName(value)
+      })
+    }
   }, [])
 
-  useEffect(()=>{
-    getSetting("schedulingType").then(s=>{
-      setIsMenstruating(s=="period")
-    })
-  }, [])
+
+  if(name === undefined || isMenstruating === undefined){
+    return LoadingScreen()
+  }
 
   // Function to open links
   const openLink = (url: string) => {
