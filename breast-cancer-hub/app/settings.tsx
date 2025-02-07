@@ -1,28 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Switch, ScrollView } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  Switch,
+  ScrollView,
+} from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Ionicons } from "@expo/vector-icons";
 
-import { useRouter } from 'expo-router';
-import { getSetting } from '@/hooks/useSettings';
+import { useRouter } from "expo-router";
+import { getSetting } from "@/hooks/useSettings";
 
 export default function SettingsScreen() {
   const router = useRouter();
-
 
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [isDarkModeEnabled, setIsDarkModeEnabled] = React.useState(false);
 
-  const [person, setPerson] = useState({name: "", email: ""})
+  const [person, setPerson] = useState({ name: "", email: "" });
 
-
-  useEffect(()=>{
-    getSetting("name").then(name=>getSetting("email").then(email=>{
-      setPerson({name, email})
-    }))
-  }, [])
+  useEffect(() => {
+    getSetting("name").then((name) =>
+      getSetting("email").then((email) => {
+        setPerson({ name, email });
+      })
+    );
+  }, []);
 
   return (
     <ThemedView style={styles.container}>
@@ -47,7 +53,9 @@ export default function SettingsScreen() {
           <View style={styles.userInfoContainer}>
             <View style={styles.userTextContainer}>
               <ThemedText style={styles.userNameText}>{person.name}</ThemedText>
-              <ThemedText style={styles.userEmailText}>{person.email}</ThemedText>
+              <ThemedText style={styles.userEmailText}>
+                {person.email}
+              </ThemedText>
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
@@ -63,17 +71,21 @@ export default function SettingsScreen() {
             <ThemedText style={styles.sectionHeaderText}>General</ThemedText>
 
             {/* Notification Preferences */}
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.optionContainer}
-              onPress={() => router.push('./settingsNotifications')}
+              onPress={() => router.push("./settingsNotifications")}
             >
-              <ThemedText style={styles.optionText}>Notification Preferences</ThemedText>
+              <ThemedText style={styles.optionText}>
+                Notification Preferences
+              </ThemedText>
               <Ionicons name="chevron-forward" size={20} color="black" />
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
             <TouchableOpacity style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>Change Self Examination Language</ThemedText>
+              <ThemedText style={styles.optionText}>
+                Change Self Examination Language
+              </ThemedText>
               <Ionicons name="chevron-forward" size={20} color="black" />
             </TouchableOpacity>
 
@@ -81,8 +93,8 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
-                trackColor={{ false: '#767577', true: '#EFCEE6' }}
-                thumbColor={isTelemetryEnabled ? '#ffffff' : '#f4f3f4'}
+                trackColor={{ false: "#767577", true: "#EFCEE6" }}
+                thumbColor={isTelemetryEnabled ? "#ffffff" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={() => setIsTelemetryEnabled(!isTelemetryEnabled)}
                 value={isTelemetryEnabled}
@@ -93,8 +105,8 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
-                trackColor={{ false: '#767577', true: '#EFCEE6' }}
-                thumbColor={isBackupEnabled ? '#ffffff' : '#f4f3f4'}
+                trackColor={{ false: "#767577", true: "#EFCEE6" }}
+                thumbColor={isBackupEnabled ? "#ffffff" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={() => setIsBackupEnabled(!isBackupEnabled)}
                 value={isBackupEnabled}
@@ -107,12 +119,14 @@ export default function SettingsScreen() {
 
           {/* Account Settings Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText style={styles.sectionHeaderText}>Account Settings</ThemedText>
+            <ThemedText style={styles.sectionHeaderText}>
+              Account Settings
+            </ThemedText>
 
             {/* Edit Profile */}
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.optionContainer}
-              onPress={() => router.push('./settingsProfile')}
+              onPress={() => router.push("./settingsProfile")}
             >
               <ThemedText style={styles.optionText}>Edit Profile</ThemedText>
               <Ionicons name="chevron-forward" size={20} color="black" />
@@ -122,8 +136,8 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Dark Mode</ThemedText>
               <Switch
-                trackColor={{ false: '#767577', true: '#EFCEE6' }}
-                thumbColor={isDarkModeEnabled ? '#ffffff' : '#f4f3f4'}
+                trackColor={{ false: "#767577", true: "#EFCEE6" }}
+                thumbColor={isDarkModeEnabled ? "#ffffff" : "#f4f3f4"}
                 ios_backgroundColor="#3e3e3e"
                 onValueChange={() => setIsDarkModeEnabled(!isDarkModeEnabled)}
                 value={isDarkModeEnabled}
@@ -132,7 +146,14 @@ export default function SettingsScreen() {
 
             {/* Change Date or Scheduling Type */}
             <TouchableOpacity style={styles.optionContainer}>
-              <ThemedText style={styles.optionText} onPress={()=>{router.push('/askMenstruate')}}>Change Date or Scheduling Type</ThemedText>
+              <ThemedText
+                style={styles.optionText}
+                onPress={() => {
+                  router.push("/askMenstruate");
+                }}
+              >
+                Change Date or Scheduling Type
+              </ThemedText>
               <Ionicons name="chevron-forward" size={20} color="black" />
             </TouchableOpacity>
           </View>
@@ -150,48 +171,48 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF7FD', // Background color of the page
+    backgroundColor: "#FFF7FD", // Background color of the page
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingTop: 50,
     paddingHorizontal: 20,
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: 10,
   },
   settingsText: {
     fontSize: 36,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   contentContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingBottom: 50,
   },
   mainContainer: {
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 40,
     // Shadow
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
     elevation: 5,
   },
   userInfoContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginTop: 30,
   },
   userTextContainer: {
@@ -199,26 +220,26 @@ const styles = StyleSheet.create({
   },
   userNameText: {
     fontSize: 36,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   userEmailText: {
     fontSize: 15,
-    color: 'black',
+    color: "black",
   },
   profileIconContainer: {
-    backgroundColor: '#F5C4DC',
+    backgroundColor: "#F5C4DC",
     width: 60,
     height: 60,
     borderRadius: 30, // Circular
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   divider: {
     height: 4,
-    backgroundColor: '#EFCEE6',
-    width: '100%',
-    alignSelf: 'center',
+    backgroundColor: "#EFCEE6",
+    width: "100%",
+    alignSelf: "center",
     marginVertical: 30,
   },
   sectionContainer: {
@@ -226,33 +247,32 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     fontSize: 20,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
     marginBottom: 10,
   },
   optionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingVertical: 10,
   },
   optionText: {
     fontSize: 15,
-    color: 'black',
+    color: "black",
     flex: 1,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
   },
   saveButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     borderRadius: 30,
     paddingVertical: 15,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 50,
   },
   saveButtonText: {
     fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
-

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -8,59 +8,58 @@ import {
   Modal,
   TouchableWithoutFeedback,
   Image,
-} from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { NotificationComponent } from '@/components/Notifications'; // Ensure this path is correct
-import { CalendarComponent } from '@/components/Calendar'; // Ensure this path is correct
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { getCheckupDay } from '@/hooks/usePeriodData';
-import { getSetting } from '@/hooks/useSettings';
-import LoadingScreen from '@/components/Loading';
+} from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { NotificationComponent } from "@/components/Notifications"; // Ensure this path is correct
+import { CalendarComponent } from "@/components/Calendar"; // Ensure this path is correct
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { getCheckupDay } from "@/hooks/usePeriodData";
+import { getSetting } from "@/hooks/useSettings";
+import LoadingScreen from "@/components/Loading";
 
 type Noti = {
-  id: number,
-  variant: "default" | "overdue" | undefined
-  date: Date
-}
+  id: number;
+  variant: "default" | "overdue" | undefined;
+  date: Date;
+};
 
 export type HomeScreenProps = Partial<{
-  name: string,
-  isMenstruating: boolean
-}>
+  name: string;
+  isMenstruating: boolean;
+}>;
 
 export default function HomeScreen(props: HomeScreenProps) {
   const router = useRouter();
 
-  const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(undefined);
+  const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
+    undefined
+  );
 
   // State for modal visibility
   const [modalVisible, setModalVisible] = useState(false);
 
   // State for notifications
-  const [notifications, setNotifications] = useState<Noti[]>([
-  ]);
+  const [notifications, setNotifications] = useState<Noti[]>([]);
 
-  const [name, setName] = useState<string | undefined>("")
+  const [name, setName] = useState<string | undefined>("");
 
-
-  useEffect(()=>{
-    if(props.isMenstruating === undefined){
-      getSetting("schedulingType").then(s=>{
-        setIsMenstruating(s=="period")
-      })
+  useEffect(() => {
+    if (props.isMenstruating === undefined) {
+      getSetting("schedulingType").then((s) => {
+        setIsMenstruating(s == "period");
+      });
     }
-    if(props.name === undefined){
-      getSetting("name").then(value=>{
-        setName(value)
-      })
+    if (props.name === undefined) {
+      getSetting("name").then((value) => {
+        setName(value);
+      });
     }
-  }, [])
+  }, []);
 
-
-  if(name === undefined || isMenstruating === undefined){
-    return LoadingScreen()
+  if (name === undefined || isMenstruating === undefined) {
+    return LoadingScreen();
   }
 
   // Function to open links
@@ -70,7 +69,9 @@ export default function HomeScreen(props: HomeScreenProps) {
 
   // Function to remove a notification by id
   const removeNotification = (id: number) => {
-    setNotifications(notifications.filter((notification) => notification.id !== id));
+    setNotifications(
+      notifications.filter((notification) => notification.id !== id)
+    );
   };
 
   return (
@@ -82,7 +83,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Logo and Home */}
           <View style={styles.logoHomeContainer}>
             <Image
-              source={require('../assets/images/logo.jpg')}
+              source={require("../assets/images/logo.jpg")}
               style={styles.logo}
             />
             <ThemedText style={styles.homeText}>Home</ThemedText>
@@ -90,7 +91,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Profile Icon */}
           <TouchableOpacity
             style={styles.profileIconContainer}
-            onPress={() => router.push('/settings')}
+            onPress={() => router.push("/settings")}
           >
             <Ionicons name="person" size={24} color="white" />
           </TouchableOpacity>
@@ -118,7 +119,9 @@ export default function HomeScreen(props: HomeScreenProps) {
           <ThemedText style={styles.introText}>Alerts</ThemedText>
         </View>
 
-        <View style={{ height: 20 }} /> {/* Spacing */}
+        {/* Spacing */}
+        <View style={{ height: 40 }} />
+
         {/* Notifications or No Alerts Message */}
         {notifications.length === 0 ? (
           <ThemedText style={styles.noAlertsText}>
@@ -137,7 +140,8 @@ export default function HomeScreen(props: HomeScreenProps) {
           ))
         )}
 
-        <View style={{ height: 40 }} /> {/* Spacing between sections */}
+        {/* Spacing between sections */}
+        <View style={{ height: 40 }} />
 
         {/* Calendar Introduction Line */}
         <View style={styles.introLine}>
@@ -147,23 +151,32 @@ export default function HomeScreen(props: HomeScreenProps) {
             color="#E93C92"
             style={styles.icon}
           />
-          <ThemedText style={styles.calendarIntroText}>View your calendar</ThemedText>
+          <ThemedText style={styles.calendarIntroText}>
+            View your calendar
+          </ThemedText>
         </View>
 
-        <View style={{ height: 10 }} /> {/* Spacing */}
+        {/* Spacing */}
+        <View style={{ height: 10 }} />
 
         {/* Calendar Component */}
-        <CalendarComponent 
-          isMenstruating={isMenstruating} updateCheckupDay={()=>{
+        <CalendarComponent
+          isMenstruating={isMenstruating}
+          updateCheckupDay={() => {
             const ts = getCheckupDay();
-            if(ts){
-              const date = new Date(ts.year, ts.month, ts.date + 10)
+            if (ts) {
+              const date = new Date(ts.year, ts.month, ts.date + 10);
 
-              setNotifications([{
-                id: 1,
-                variant: (new Date).getTime() < date.getTime() ? "default" : "overdue",
-                date
-              }])
+              setNotifications([
+                {
+                  id: 1,
+                  variant:
+                    new Date().getTime() < date.getTime()
+                      ? "default"
+                      : "overdue",
+                  date,
+                },
+              ]);
             }
           }}
         />
@@ -181,11 +194,11 @@ export default function HomeScreen(props: HomeScreenProps) {
         {/* Contact Buttons */}
         <TouchableOpacity
           style={styles.contactButton}
-          onPress={() =>
-            openLink('https://www.breastcancerhub.org/new-page-3')
-          }
+          onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
         >
-          <ThemedText style={styles.contactButtonText}>Contact Dr. Lopez</ThemedText>
+          <ThemedText style={styles.contactButtonText}>
+            Contact Dr. Lopez
+          </ThemedText>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -222,7 +235,11 @@ export default function HomeScreen(props: HomeScreenProps) {
                 {/* Buttons */}
                 <TouchableOpacity
                   style={styles.modalButton}
-                  onPress={() => openLink('https://www.breastcancerhub.org/about-breast-cancer')}
+                  onPress={() =>
+                    openLink(
+                      "https://www.breastcancerhub.org/about-breast-cancer"
+                    )
+                  }
                 >
                   <ThemedText style={styles.modalButtonText}>
                     Learn More about Breast Cancer
@@ -231,7 +248,7 @@ export default function HomeScreen(props: HomeScreenProps) {
 
                 <TouchableOpacity
                   style={styles.modalButton}
-                  onPress={() => openLink('https://www.breastcancerhub.org/')}
+                  onPress={() => openLink("https://www.breastcancerhub.org/")}
                 >
                   <ThemedText style={styles.modalButtonText}>
                     Learn More About Breast Cancer Hub
@@ -240,7 +257,11 @@ export default function HomeScreen(props: HomeScreenProps) {
 
                 <TouchableOpacity
                   style={styles.modalButton}
-                  onPress={() => openLink('https://www.breastcancerhub.org/bchwing-childhood-cancer-hub')}
+                  onPress={() =>
+                    openLink(
+                      "https://www.breastcancerhub.org/bchwing-childhood-cancer-hub"
+                    )
+                  }
                 >
                   <ThemedText style={styles.modalButtonText}>
                     Learn More About Other Cancers and its Symptoms
@@ -258,33 +279,33 @@ export default function HomeScreen(props: HomeScreenProps) {
 const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   headerContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     paddingTop: 40,
     paddingBottom: 20,
-    flexDirection: 'column',
-    alignItems: 'flex-start',
+    flexDirection: "column",
+    alignItems: "flex-start",
     zIndex: 1, // Ensure header stays above other content
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 5,
   },
   headerTopRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%',
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   logoHomeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   logo: {
     width: 40,
@@ -296,151 +317,151 @@ const styles = StyleSheet.create({
   },
   homeText: {
     fontSize: 24,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   greetingContainer: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
+    flexDirection: "row",
+    alignItems: "baseline",
     paddingTop: 10,
     paddingBottom: 10,
     paddingHorizontal: 20,
   },
   greetingText: {
     fontSize: 29,
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: "bold",
+    color: "black",
   },
   nameText: {
     fontSize: 29,
-    fontWeight: 'bold',
-    color: '#E93C92',
+    fontWeight: "bold",
+    color: "#E93C92",
   },
   profileIconContainer: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     width: 40,
     height: 40,
     borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   contentContainer: {
     paddingHorizontal: 20,
     paddingTop: 20,
   },
   introLine: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10 + 20, // to replace Spacing
   },
   icon: {
     marginRight: 10,
   },
   introText: {
     fontSize: 20,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   noAlertsText: {
     fontSize: 14,
-    color: 'grey',
-    textAlign: 'center',
+    color: "grey",
+    textAlign: "center",
   },
   calendarIntroText: {
     fontSize: 20,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   customizeContainer: {
     marginTop: 20,
     marginHorizontal: 50,
-    backgroundColor: 'white',
-    borderColor: '#E93C92',
+    backgroundColor: "white",
+    borderColor: "#E93C92",
     borderWidth: 2,
     borderRadius: 50,
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
   customizeText: {
-    textAlign: 'center',
-    color: '#E93C92',
-    fontWeight: 'bold',
+    textAlign: "center",
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   pastExamsText: {
     marginTop: 20,
     marginBottom: 40,
     fontSize: 16,
-    color: '#68C4FF',
-    textAlign: 'center',
-    fontWeight: 'bold',
+    color: "#68C4FF",
+    textAlign: "center",
+    fontWeight: "bold",
   },
   contactButton: {
     marginTop: 20,
     marginHorizontal: 100,
-    backgroundColor: '#E93C92',
-    borderColor: '#E93C92',
+    backgroundColor: "#E93C92",
+    borderColor: "#E93C92",
     borderWidth: 1,
     borderRadius: 50,
     paddingVertical: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   contactButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
   learnMoreButton: {
     marginTop: 10,
     marginBottom: 30,
     marginHorizontal: 20,
-    backgroundColor: 'white',
-    borderColor: '#D5D5D5',
+    backgroundColor: "white",
+    borderColor: "#D5D5D5",
     borderWidth: 2,
     borderRadius: 50,
     paddingVertical: 15,
-    alignItems: 'center',
+    alignItems: "center",
   },
   learnMoreButtonText: {
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   // Modal styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Dimmed background
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
+    justifyContent: "center",
+    alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: 'white',
-    width: '80%',
+    backgroundColor: "white",
+    width: "80%",
     borderRadius: 20,
     padding: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   closeButton: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
   },
   modalTitle: {
     fontSize: 20,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: 'white',
-    borderColor: '#D5D5D5',
+    backgroundColor: "white",
+    borderColor: "#D5D5D5",
     borderWidth: 1,
     borderRadius: 50,
     paddingVertical: 15,
     paddingHorizontal: 20,
     marginBottom: 10,
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   modalButtonText: {
-    color: '#68C4FF',
+    color: "#68C4FF",
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

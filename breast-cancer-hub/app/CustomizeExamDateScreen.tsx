@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
@@ -6,22 +6,23 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
-} from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { saveSetting } from '@/hooks/useSettings';
+} from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { saveSetting } from "@/hooks/useSettings";
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
 
   const handleSaveChanges = () => {
-    saveSetting("schedulingType", {day: examDay}).then(()=>router.push("/"))
+    saveSetting("schedulingType", { day: examDay }).then(() =>
+      router.push("/")
+    );
     // TODO: Save the examDay to your data store or state management
     // Navigate back to the previous page
-    
   };
 
   const incrementDay = () => {
@@ -43,7 +44,10 @@ export default function CustomizeExamDateScreen() {
         {/* Header Content */}
         <View style={styles.headerContent}>
           {/* Back Button */}
-          <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => router.back()}
+          >
             <Ionicons name="chevron-back" size={24} color="white" />
           </TouchableOpacity>
           {/* Title */}
@@ -62,7 +66,8 @@ export default function CustomizeExamDateScreen() {
           {/* White Rectangle */}
           <View style={styles.whiteBox}>
             <ThemedText style={styles.instructionText}>
-              Choose the day that you would like to perform a monthly self examination
+              Choose the day that you would like to perform a monthly self
+              examination
             </ThemedText>
 
             <View style={{ height: 20 }} />
@@ -80,12 +85,18 @@ export default function CustomizeExamDateScreen() {
 
               {/* Up and Down Buttons */}
               <View style={styles.chevronContainer}>
-                <TouchableOpacity onPress={incrementDay} style={styles.chevronButton}>
+                <TouchableOpacity
+                  onPress={incrementDay}
+                  style={styles.chevronButton}
+                >
                   <View style={styles.chevronCircle}>
                     <Ionicons name="chevron-up" size={20} color="white" />
                   </View>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={decrementDay} style={styles.chevronButton}>
+                <TouchableOpacity
+                  onPress={decrementDay}
+                  style={styles.chevronButton}
+                >
                   <View style={styles.chevronCircle}>
                     <Ionicons name="chevron-down" size={20} color="white" />
                   </View>
@@ -101,7 +112,10 @@ export default function CustomizeExamDateScreen() {
           </View>
 
           {/* Save Changes Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
+          <TouchableOpacity
+            style={styles.saveButton}
+            onPress={handleSaveChanges}
+          >
             <ThemedText style={styles.saveButtonText}>Save Changes</ThemedText>
           </TouchableOpacity>
         </View>
@@ -113,70 +127,70 @@ export default function CustomizeExamDateScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF7FD', // Main body background color
+    backgroundColor: "#FFF7FD", // Main body background color
   },
   headerContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    paddingTop: Platform.OS === 'ios' ? 60 : 40,
+    paddingTop: Platform.OS === "ios" ? 60 : 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
     // Shadow
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
     elevation: 5,
   },
   headerContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   backButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     width: 40,
     height: 40,
     borderRadius: 20, // Circular button
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: 10,
   },
   titleContainer: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   customizeYourText: {
     paddingTop: 20,
     fontSize: 29,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
     paddingBottom: 10,
   },
   yourText: {
     fontSize: 29,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   examinationText: {
     fontSize: 29,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
     paddingBottom: 20,
   },
   bodyContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingTop: 30,
   },
   whiteBox: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 20,
-    width: '90%',
-    alignItems: 'center',
+    width: "90%",
+    alignItems: "center",
     // Shadow
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
@@ -185,67 +199,67 @@ const styles = StyleSheet.create({
   instructionText: {
     paddingVertical: 25,
     fontSize: 20,
-    color: '#4B4B4B',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "#4B4B4B",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   chooseDayText: {
     fontSize: 15,
-    color: 'black',
-    textAlign: 'center',
+    color: "black",
+    textAlign: "center",
   },
   pinkRectangle: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E93C92',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#E93C92",
     borderRadius: 20,
     paddingHorizontal: 10,
     marginBottom: 40,
-    width: '60%',
+    width: "60%",
   },
   dayDisplay: {
     flex: 1,
     fontSize: 40,
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   chevronContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
+    flexDirection: "column",
+    justifyContent: "center",
     marginLeft: 10,
   },
   chevronButton: {
     marginVertical: 5,
   },
   chevronCircle: {
-    backgroundColor: '#F5C4DC',
+    backgroundColor: "#F5C4DC",
     width: 30,
     height: 30,
     borderRadius: 15, // Circular
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   changeAnytimeText: {
     fontSize: 15,
-    color: '#E93C92',
-    fontStyle: 'italic',
+    color: "#E93C92",
+    fontStyle: "italic",
     marginTop: 10,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: "center",
   },
   saveButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     borderRadius: 30,
     paddingVertical: 15,
     paddingHorizontal: 30,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 70,
-    width: '50%',
+    width: "50%",
   },
   saveButtonText: {
     fontSize: 16,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });

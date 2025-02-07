@@ -1,49 +1,56 @@
-import { Animated, StyleSheet, ScrollView, TextInput, Alert, TouchableOpacity } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { useState } from 'react';
-import { useRouter } from 'expo-router';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import {
+  Animated,
+  StyleSheet,
+  ScrollView,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { useState } from "react";
+import { useRouter } from "expo-router";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 export default function HomeScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const router = useRouter();
 
   const handleSubmit = () => {
-    if (!email.includes('@') || email.length === 0) {
-      alert('Please enter a valid email address.');
+    if (!email.includes("@") || email.length === 0) {
+      alert("Please enter a valid email address.");
       return;
     }
 
     const data = { email, password };
 
-    fetch('https://your-backend-endpoint.com/api/auth', {
-      method: 'PUT',
+    fetch("https://your-backend-endpoint.com/api/auth", {
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.message) {
-          alert('Login successful');
-          setEmail('');
-          setPassword('');
+          alert("Login successful");
+          setEmail("");
+          setPassword("");
         } else if (data.error) {
           alert(`Error: ${data.error}`);
         }
       })
       .catch((error) => {
-        console.error('Error:', error);
-        alert('An error occurred. Please try again later.');
+        console.error("Error:", error);
+        alert("An error occurred. Please try again later.");
       });
   };
 
   return (
-    <ScrollView 
-      contentContainerStyle={styles.scrollViewContainer} 
+    <ScrollView
+      contentContainerStyle={styles.scrollViewContainer}
       style={styles.scrollView}
     >
       <ThemedView style={styles.bodyContainer}>
@@ -63,7 +70,12 @@ export default function HomeScreen() {
                 value={email}
                 onChangeText={setEmail}
               />
-              <MaterialIcons style={styles.iconPositions} name="mail" size={24} color="#e93c92" />
+              <MaterialIcons
+                style={styles.iconPositions}
+                name="mail"
+                size={24}
+                color="#e93c92"
+              />
             </ThemedView>
             <ThemedView style={styles.inputContainer}>
               <TextInput
@@ -74,20 +86,31 @@ export default function HomeScreen() {
                 onChangeText={setPassword}
                 secureTextEntry
               />
-              <MaterialIcons style={styles.iconPositions} name="lock" size={24} color="gray" />
+              <MaterialIcons
+                style={styles.iconPositions}
+                name="lock"
+                size={24}
+                color="gray"
+              />
             </ThemedView>
             <TouchableOpacity
               style={styles.forgotPassword}
-              onPress={() => router.push('/')}
+              onPress={() => router.push("/")}
             >
               <ThemedText style={styles.link}>Forgot your password?</ThemedText>
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <ThemedText style={{ color: 'white', fontSize: 18, fontWeight: "bold"}}>Log In</ThemedText>
+              <ThemedText
+                style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
+              >
+                Log In
+              </ThemedText>
             </TouchableOpacity>
             <ThemedView style={styles.noAccount}>
-              <ThemedText style={styles.noAccountText}>Don't have an account? </ThemedText>
-              <TouchableOpacity onPress={() => router.push('/signup')}>
+              <ThemedText style={styles.noAccountText}>
+                Don't have an account?{" "}
+              </ThemedText>
+              <TouchableOpacity onPress={() => router.push("/signup")}>
                 <ThemedText style={styles.link}>Create one here</ThemedText>
               </TouchableOpacity>
             </ThemedView>
@@ -100,7 +123,7 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   scrollViewContainer: {
     flexGrow: 1,
@@ -108,71 +131,71 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flex: 1,
     padding: 10,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   popText: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   topText: {
     marginBottom: 20,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   welcome: {
-    color: '#e93c92',
+    color: "#e93c92",
     fontSize: 20,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
+    fontWeight: "bold",
+    textTransform: "uppercase",
     marginBottom: 3,
   },
   register: {
-    color: '#333',
+    color: "#333",
     fontSize: 35,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginTop: 3,
     lineHeight: 40,
   },
   bchText: {
-    color: '#e93c92',
-    fontWeight: 'bold',
+    color: "#e93c92",
+    fontWeight: "bold",
     fontSize: 35,
     marginTop: 3,
     lineHeight: 40,
   },
   selfExam: {
-    color: '#333',
+    color: "#333",
     fontSize: 35,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginTop: 3,
     lineHeight: 40,
   },
   inputsContainer: {
-    width: '100%',
-    alignItems: 'center',
+    width: "100%",
+    alignItems: "center",
   },
   inputContainer: {
-    width: '90%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ECECEC',
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#ECECEC",
     borderRadius: 40,
     paddingHorizontal: 15,
     marginVertical: 10,
     height: 60,
   },
   emailInputContainer: {
-    width: '90%',
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "white",
     borderRadius: 40,
     paddingHorizontal: 15,
     marginVertical: 10,
-    borderColor: '#e93c92',
+    borderColor: "#e93c92",
     borderWidth: 2,
     height: 60,
   },
@@ -190,33 +213,33 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   forgotPassword: {
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     paddingRight: 20,
     marginTop: 5,
   },
   button: {
-    backgroundColor: '#e93c92',
-    width: '80%',
+    backgroundColor: "#e93c92",
+    width: "80%",
     borderRadius: 40,
     marginVertical: 30,
     paddingVertical: 10,
-    alignItems: 'center',
+    alignItems: "center",
     height: 60,
-    justifyContent: 'center'
+    justifyContent: "center",
   },
   noAccount: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
     paddingVertical: 10,
-    color: '#666666'
+    color: "#666666",
   },
   noAccountText: {
     fontSize: 14,
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   link: {
-    color: '#68C4FF',
-    fontSize: 15
+    color: "#68C4FF",
+    fontSize: 15,
   },
 });

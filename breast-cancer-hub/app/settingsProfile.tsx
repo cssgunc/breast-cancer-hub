@@ -1,22 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import { getSetting } from '@/hooks/useSettings';
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { getSetting } from "@/hooks/useSettings";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
 
-  const [person, setPerson] = useState({name: "", email: ""})
+  const [person, setPerson] = useState({ name: "", email: "" });
 
-
-  useEffect(()=>{
-    getSetting("name").then(name=>getSetting("email").then(email=>{
-      setPerson({name, email})
-    }))
-  }, [])
+  useEffect(() => {
+    getSetting("name").then((name) =>
+      getSetting("email").then((email) => {
+        setPerson({ name, email });
+      })
+    );
+  }, []);
 
   return (
     <ThemedView style={styles.container}>
@@ -83,41 +84,41 @@ export default function ProfileSettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF7FD', // Background color of the page
+    backgroundColor: "#FFF7FD", // Background color of the page
     paddingBottom: 20,
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingTop: 50,
     paddingHorizontal: 20,
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     width: 40,
     height: 40,
     borderRadius: 20, // Circular
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: 10,
   },
   headerTitle: {
     fontSize: 36,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   mainContainer: {
     flex: 1, // Extend to the bottom
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 20,
     paddingHorizontal: 40,
     paddingTop: 40,
     paddingBottom: 20, // Add padding at the bottom
-    alignSelf: 'center',
+    alignSelf: "center",
     // Shadow
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -127,50 +128,50 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   profileIconContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   userInfoContainer: {
-    alignItems: 'flex-start',
-    width: '100%',
+    alignItems: "flex-start",
+    width: "100%",
   },
   userName: {
     fontSize: 24,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
   },
   divider: {
     height: 4,
-    backgroundColor: '#EFCEE6',
-    width: '100%',
+    backgroundColor: "#EFCEE6",
+    width: "100%",
     marginVertical: 20,
   },
   infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
     marginBottom: 10,
   },
   infoLabel: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#E93C92',
+    fontWeight: "bold",
+    color: "#E93C92",
   },
   infoValue: {
     fontSize: 16,
-    color: 'black',
+    color: "black",
   },
   signOutButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     borderRadius: 30,
     paddingVertical: 15,
-    alignItems: 'center',
-    marginTop: 'auto', // Push the button to the bottom
-    width: '100%',
+    alignItems: "center",
+    marginTop: "auto", // Push the button to the bottom
+    width: "100%",
   },
   signOutButtonText: {
     fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });

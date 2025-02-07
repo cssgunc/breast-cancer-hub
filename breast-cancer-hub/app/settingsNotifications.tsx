@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   View,
   StyleSheet,
   TouchableOpacity,
   ScrollView,
   Switch,
-} from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+} from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -27,8 +27,8 @@ export default function NotificationsScreen() {
   const addTimeEntry = () => {
     const newEntry = {
       id: Date.now(),
-      time: '8:00',
-      period: 'PM' as "AM" | "PM",
+      time: "8:00",
+      period: "PM" as "AM" | "PM",
       enabled: true,
     };
     setTimeEntries([newEntry, ...timeEntries]);
@@ -53,7 +53,10 @@ export default function NotificationsScreen() {
       {/* Header */}
       <View style={styles.headerContainer}>
         {/* Back Button */}
-        <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.back()}
+        >
           <Ionicons name="chevron-back" size={24} color="white" />
         </TouchableOpacity>
         {/* Notifications Text */}
@@ -83,10 +86,13 @@ export default function NotificationsScreen() {
                   <Ionicons name="square-outline" size={24} color="#E93C92" />
                 )}
               </TouchableOpacity>
-              <ThemedText style={styles.optionTitle}>Push Notifications</ThemedText>
+              <ThemedText style={styles.optionTitle}>
+                Push Notifications
+              </ThemedText>
             </View>
             <ThemedText style={styles.optionDescription}>
-              This device will receive notifications that will be from any screen.{'\n'}
+              This device will receive notifications that will be from any
+              screen.{"\n"}
               It will be visible to anyone.
             </ThemedText>
           </View>
@@ -129,7 +135,9 @@ export default function NotificationsScreen() {
               <View style={styles.timeEntryLeft}>
                 <View style={styles.timeRow}>
                   <ThemedText style={styles.timeText}>{entry.time}</ThemedText>
-                  <ThemedText style={styles.periodText}>{entry.period}</ThemedText>
+                  <ThemedText style={styles.periodText}>
+                    {entry.period}
+                  </ThemedText>
                 </View>
                 <ThemedText style={styles.alarmText}>Alarm</ThemedText>
               </View>
@@ -137,8 +145,8 @@ export default function NotificationsScreen() {
                 <Switch
                   value={entry.enabled}
                   onValueChange={() => toggleTimeEntry(entry.id)}
-                  trackColor={{ false: '#767577', true: '#EFCEE6' }}
-                  thumbColor={entry.enabled ? '#ffffff' : '#f4f3f4'}
+                  trackColor={{ false: "#767577", true: "#EFCEE6" }}
+                  thumbColor={entry.enabled ? "#ffffff" : "#f4f3f4"}
                 />
                 <TouchableOpacity onPress={() => removeTimeEntry(entry.id)}>
                   <MaterialIcons name="delete" size={24} color="black" />
@@ -166,40 +174,40 @@ export default function NotificationsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFF7FD', // Background color of the page
+    backgroundColor: "#FFF7FD", // Background color of the page
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingTop: 50,
     paddingHorizontal: 20,
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginRight: 10,
   },
   headerTitle: {
     fontSize: 36,
-    color: '#E93C92',
-    fontWeight: 'bold',
+    color: "#E93C92",
+    fontWeight: "bold",
   },
   contentContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     paddingBottom: 50,
   },
   mainContainer: {
-    width: '90%',
-    backgroundColor: 'white',
+    width: "90%",
+    backgroundColor: "white",
     borderRadius: 20,
     padding: 40,
     // Shadow
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -207,63 +215,63 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     fontSize: 20,
-    color: 'black',
-    fontWeight: 'bold',
+    color: "black",
+    fontWeight: "bold",
     marginBottom: 10,
   },
   sectionSubText1: {
     fontSize: 16,
-    fontWeight: '500',
-    color: 'black',
+    fontWeight: "500",
+    color: "black",
     marginBottom: 15,
   },
   sectionSubText2: {
     fontSize: 16,
-    fontWeight: '500',
-    color: 'black',
+    fontWeight: "500",
+    color: "black",
   },
   optionBox: {
-    backgroundColor: '#FFF7FD',
+    backgroundColor: "#FFF7FD",
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
   },
   optionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   checkboxContainer: {
     marginRight: 10,
   },
   optionTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#E93C92',
+    fontWeight: "bold",
+    color: "#E93C92",
   },
   optionDescription: {
     fontSize: 15,
-    color: '#757575',
+    color: "#757575",
     marginTop: 10,
     lineHeight: 20,
   },
   divider: {
     height: 4,
-    backgroundColor: '#EFCEE6',
-    width: '100%',
-    alignSelf: 'center',
+    backgroundColor: "#EFCEE6",
+    width: "100%",
+    alignSelf: "center",
     marginVertical: 30,
   },
   selectTimesText: {
-    color: '#000000',
+    color: "#000000",
     fontSize: 16,
-    fontStyle: 'italic',
-    fontWeight: '200',
+    fontStyle: "italic",
+    fontWeight: "200",
     marginBottom: 20,
   },
   timeEntryBox: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFF7FD',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF7FD",
     borderRadius: 10,
     padding: 15,
     marginBottom: 10,
@@ -272,54 +280,54 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   timeRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
+    flexDirection: "row",
+    alignItems: "baseline",
   },
   timeText: {
     fontSize: 15,
-    color: 'black',
+    color: "black",
     marginRight: 5,
   },
   periodText: {
     fontSize: 15,
-    color: 'black',
+    color: "black",
   },
   alarmText: {
     fontSize: 12,
-    color: '#757575',
+    color: "#757575",
     marginTop: 5,
   },
   timeEntryRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   addTimeButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: '#FFF7FD',
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "#FFF7FD",
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: '#E93C92',
+    borderColor: "#E93C92",
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 10,
   },
   addTimeText: {
     fontSize: 16,
-    color: '#E93C92',
+    color: "#E93C92",
     marginLeft: 10,
   },
   saveButton: {
-    backgroundColor: '#E93C92',
+    backgroundColor: "#E93C92",
     borderRadius: 30,
     paddingVertical: 15,
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 50,
   },
   saveButtonText: {
     fontSize: 20,
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
