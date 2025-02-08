@@ -1,4 +1,6 @@
-# Welcome to your Expo app 👋
+# Welcome to your Expo app 👋 (READ THE DISCLAIMER)
+
+> PM DISCLAIMER: This is the premade tutorial for Expo - do not run any of the commands here willy nilly as we have already helped you set up your app. Only use this for looking up documentation.
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
