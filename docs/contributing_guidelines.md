@@ -28,7 +28,7 @@ Branches should be attached to an issue on GitHub; if an issue does not exist th
 2. `git checkout [name]` to switch to branch [name].
 3. When you've finished making your changes locally, run `git push -u origin [name]` to create the remote branch and push to there.
 
-#### Submit a Pull Request
+#### How to Submit a Pull Request
 
 1. Navigate to the [repository page](https://github.com/cssgunc/catch).
 2. Click the **stage** branch button and navigate to the branch you worked on.

@@ -15,9 +15,61 @@ If you wanted to navigate between pages, what would you do (expo router) - expla
 
 Examples:
 
-### Standard components
+## Standard components
 
-#### Icons
+### AccountSettingsHeaderComponent
+This is the pink/purple section that is seen above most pages which includes:
+1. A person icon (for the account page)
+2. A settings icon (for the settings page)
+
+Use it only on pages that the figma indicates.
+
+### Collapsible
+Displays a section with a title that can be expanded or collapsed to show or hide its content.
+- Initially, only the title and right arrow (> icon) appear.
+- When clicked, it expands to show the content with a downward arrow (v icon).
+- Clicking again collapses it.
+
+### ExternalLink
+Can be used throughout the app for external links without extra setup.\
+Example Usage:\
+```
+<ExternalLink href="https://example.com">
+    Click me to open an external website
+</ExternalLink>
+```
+On web: Opens https://example.com in a new tab.\
+On mobile: Opens https://example.com inside an in-app browser instead of the system browser.
+
+### LoadingScreen
+This is used as a loading screen while the app is preparing data or resources. 
+
+### NotificationComponent
+Displays a message with a date and an option to dismiss the notification.\
+It has two types of notifications: a general reminder and an overdue notification.
+
+### ParallaxScrollView
+When used, the content beneath it moves dynamically with the scrolling of the page. 
+
+### ThemedText
+Simplifies handling different text styles and colors. It ensures that your text components are consistent with the app’s color scheme.\
+Example Usage:\
+```
+<ThemedText style={styles.highlightedTitleText}>
+  Based On Your Symptoms
+</ThemedText>
+```
+Use this component instead of the React Native `<Text>` tag.
+
+### ThemedView
+Applies dynamic theming for background colors based on the current light or dark mode theme. Acts as a container, similar to a `<div>`.
+```
+<ThemedView lightColor="#FFFFFF" darkColor="#333333" style={{ padding: 20 }}>
+  <Text>Hello, World!</Text>
+</ThemedView>
+```
+Use this component instead of the React Native `<View>` tag.
+## Icons
 
 Icons are bundled with Expo. Use [this page](https://icons.expo.fyi/Index) and apply the filter _MaterialIcons_ to find icons.
 
@@ -29,7 +81,7 @@ and render them within a view or button:
 
 `<MaterialIcons name="home" size={24} color="black" />`
 
-#### Links
+## Links
 
 [Official Expo Documentation here](https://docs.expo.dev/router/navigating-pages)
 
