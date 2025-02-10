@@ -12,8 +12,8 @@ The app uses React Native (Expo) with Express.js middleware and a Neon (Postgre-
 
 ## Getting Started With Development
 
-Visit [Getting Started](docs\getting_started.md) to get acquainted with all the design resources and understand the scope and intent of the project.\
-Afterwards, complete the [Environment Setup](docs\environment_setup.md)\
-Once you are ready to start making changes, read the [Contributing Guidelines](docs\contributing_guidelines.md) for our conventions on branching and pull requests.\
-As you work, refer to our documentation on [Using Components](docs\using_components.md) to see what premade components are in use for our app.\
-If you need to work with the backend, read the [Backend README](backend-breast-cancer-hub\README.md) for details.
+Visit [Getting Started](docs/getting_started.md) to get acquainted with all the design resources and understand the scope and intent of the project.\
+Afterwards, complete the [Environment Setup](docs/environment_setup.md)\
+Once you are ready to start making changes, read the [Contributing Guidelines](docs/contributing_guidelines.md) for our conventions on branching and pull requests.\
+As you work, refer to our documentation on [Using Components](docs/using_components.md) to see what premade components are in use for our app.\
+If you need to work with the backend, read the [Backend README](backend-breast-cancer-hub/README.md) for details.
