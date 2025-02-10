@@ -19,4 +19,4 @@ SQL: [Introduction to SQL](https://www.w3schools.com/sql/sql_intro.asp)\
 RestAPI: [Getting started with RestAPI](https://www.restapitutorial.com/)
 
 Save these links in your browser.\
-Next: [Set Up Your Environment](docs\environment_setup.md)
+Next: [Set Up Your Environment](docs/environment_setup.md)
