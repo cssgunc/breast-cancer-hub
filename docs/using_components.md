@@ -1,20 +1,3 @@
-We already have a few components made for various parts of the app.
-
-High level description stuff of where to find files when you need to work on them
-
-Where to find screens:
-steps
-
-When to use ThemedView
-
-Where to find styles for buttons
-
-How to get API responses
-
-If you wanted to navigate between pages, what would you do (expo router) - explain the routes we have
-
-Examples:
-
 ## Standard components
 
 ### AccountSettingsHeaderComponent
@@ -24,6 +7,9 @@ This is the pink/purple section that is seen above most pages which includes:
 
 Use it only on pages that the figma indicates.
 
+### CalendarComponent
+Displays an interactive calendar for tracking menstrual cycles. It allows users to navigate between months, view period and special days, and toggle an editing mode to log or remove period days, updating the checkup day accordingly.
+
 ### Collapsible
 Displays a section with a title that can be expanded or collapsed to show or hide its content.
 - Initially, only the title and right arrow (> icon) appear.
@@ -31,7 +17,7 @@ Displays a section with a title that can be expanded or collapsed to show or hid
 - Clicking again collapses it.
 
 ### ExternalLink
-Can be used throughout the app for external links without extra setup.\
+Can be used throughout the app for *external links* without extra setup.\
 Example Usage:\
 ```
 <ExternalLink href="https://example.com">
@@ -40,6 +26,14 @@ Example Usage:\
 ```
 On web: Opens https://example.com in a new tab.\
 On mobile: Opens https://example.com inside an in-app browser instead of the system browser.
+
+More info on ExternalLink is provided belo in the Links section.
+
+### HelloWave
+An animated component that makes a waving hand emoji (👋) oscillate back and forth.
+
+### LearnMoreTextContainer
+Displays a source attribution message and a "Learn more" link that directs users to an external website about breast cancer when tapped.
 
 ### LoadingScreen
 This is used as a loading screen while the app is preparing data or resources. 
@@ -50,6 +44,9 @@ It has two types of notifications: a general reminder and an overdue notificatio
 
 ### ParallaxScrollView
 When used, the content beneath it moves dynamically with the scrolling of the page. 
+
+### SelectLanguage
+Allows users to choose a language from a dropdown menu. It features a toggle button that expands a list of language options, updating the selected language when a user makes a choice. 
 
 ### ThemedText
 Simplifies handling different text styles and colors. It ensures that your text components are consistent with the app’s color scheme.\
@@ -68,7 +65,8 @@ Applies dynamic theming for background colors based on the current light or dark
   <Text>Hello, World!</Text>
 </ThemedView>
 ```
-Use this component instead of the React Native `<View>` tag.
+Use this component instead of the React Native `<View>` tag. 
+
 ## Icons
 
 Icons are bundled with Expo. Use [this page](https://icons.expo.fyi/Index) and apply the filter _MaterialIcons_ to find icons.
@@ -83,19 +81,21 @@ and render them within a view or button:
 
 ## Links
 
+### External Linking
+
 [Official Expo Documentation here](https://docs.expo.dev/router/navigating-pages)
 
-Links are `<Link>` elements with the `href` attribute set to the destination route. All links in the app should be buttons with an icon, text, or both to indicate the destination.
+For external links we are using the `<ExternalLink>` component with the `href` attribute set to the destination route. All links in the app should be buttons with an icon, text, or both to indicate the destination.
 
-This is the template that should be used everywhere a link is required, with text, an icon, or both as required:
+Example:
 
 ```
-<Link href="/" asChild>
+<ExternalLink href="/" asChild>
   <Pressable style={styles.button}>
     <Text>home</Text>
     <MaterialIcons name="home" size={24} color="black" />
   </Pressable>
-</Link>
+</ExternalLink>
 ```
 
 with customizable style in the stylesheet in each page:
@@ -113,7 +113,28 @@ with customizable style in the stylesheet in each page:
   }
 ```
 
-### Utility Functions
+**Only use this setup when linking to an external site.**
+
+### Internal Linking
+
+[Official Expo Documentation here](https://docs.expo.dev/versions/latest/sdk/router/#userouter)
+
+For internal linking use the expo router.
+
+Example:
+
+```
+import { useRouter } from "expo-router"; 
+
+{/* Navigate to Home Page */}
+<TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
+  <Text style={styles.buttonText}>Go to Home</Text>
+</TouchableOpacity>
+```
+
+**Only use this setup when linking to an internal page within our project.**
+
+## Utility Functions
 
 In "useSettings.ts," you will find these functions:
 

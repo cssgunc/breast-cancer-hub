@@ -30,9 +30,11 @@ Branches should be attached to an issue on GitHub; if an issue does not exist th
 
 #### How to Submit a Pull Request
 
-1. Navigate to the [repository page](https://github.com/cssgunc/catch).
+1. Navigate to the [repository page](https://github.com/cssgunc/breast-cancer-hub).
 2. Click the **stage** branch button and navigate to the branch you worked on.
 3. Click the **Contribute** button
 4. Click **Open Pull Request**
 5. Click write a description of your changes
 6. Click **Create pull request**
+
+Next: Read about the preexisitng components, functions and other things we have already implemented [here](using_components.md).

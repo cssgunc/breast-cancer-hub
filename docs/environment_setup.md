@@ -60,5 +60,6 @@ Update dependencies after pulling from the remote repository by running `npm ins
 ## Conclusion
 
 By the end of this, you should have an interactive app running on both browser and mobile, and the backend server should be giving you responses to your routes.\
-You are ready to start contributing.\
-Read the [Contributing Guidelines](contributing_guidelines.md) before you begin!
+You are ready to start contributing.
+
+Next: Read the [Contributing Guidelines](contributing_guidelines.md) before you begin!
