@@ -165,7 +165,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           updateCheckupDay={() => {
             const ts = getCheckupDay();
             if (ts) {
-              const date = new Date(ts.year, ts.month, ts.date + 10);
+              const date = new Date(ts.year, ts.month, ts.date + 7);
 
               setNotifications([
                 {
@@ -197,7 +197,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
         >
           <ThemedText style={styles.contactButtonText}>
-            Contact Dr. Lopez
+            Contact Dr. Lopa
           </ThemedText>
         </TouchableOpacity>
 
