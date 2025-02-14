@@ -2,11 +2,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedView } from "./ThemedView";
-import { globalStyles } from "./StyleSheet";
 
 export function AccountSettingsHeaderComponent() {
   return (
-    <ThemedView style={globalStyles.header}>
+    <ThemedView style={styles.header}>
       <TouchableOpacity
         style={styles.iconWrapper}
         // onPress={() => router.push('/account')}
@@ -24,6 +23,13 @@ export function AccountSettingsHeaderComponent() {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#E93C92",
+  },
   iconWrapper: {
     backgroundColor: "#EFCEE6",
     borderRadius: 30,

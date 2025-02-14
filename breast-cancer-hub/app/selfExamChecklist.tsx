@@ -15,7 +15,6 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -82,18 +81,18 @@ export default function HomeScreen() {
 
   if (isLoading == true) {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={styles.container}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+        <ThemedView style={styles.whiteOverlay}>
+          <ThemedText style={styles.highlightedTitleText}>
             Log Your Symptoms
           </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
+          <ThemedText style={styles.titleText}>Check All That Apply</ThemedText>
 
-          <ThemedView style={globalStyles.grayLine} />
+          <ThemedView style={styles.grayLine} />
 
           {/* Debug button */}
           {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
@@ -101,25 +100,25 @@ export default function HomeScreen() {
         </TouchableOpacity> */}
         </ThemedView>
 
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <ThemedView style={styles.whiteOverlay}>
             {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
+            <ThemedText style={styles.subtitleText}>
               What did you notice?
             </ThemedText>
 
             <LearnMoreTextContainer />
 
             {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
+            <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity
-                style={globalStyles.buttonBack}
+                style={styles.buttonBack}
                 onPress={() => router.push("/selfExam")}
               >
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+                <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.buttonNext}
+                style={styles.buttonNext}
                 onPress={() =>
                   router.push({
                     pathname: "/selfExamNextSteps",
@@ -129,7 +128,7 @@ export default function HomeScreen() {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>
@@ -138,18 +137,18 @@ export default function HomeScreen() {
     );
   } else {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={styles.container}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+        <ThemedView style={styles.whiteOverlay}>
+          <ThemedText style={styles.highlightedTitleText}>
             Log Your Symptoms
           </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
+          <ThemedText style={styles.titleText}>Check All That Apply</ThemedText>
 
-          <ThemedView style={globalStyles.grayLine} />
+          <ThemedView style={styles.grayLine} />
 
           {/* Debug button */}
           {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
@@ -157,18 +156,18 @@ export default function HomeScreen() {
           </TouchableOpacity> */}
         </ThemedView>
 
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <ThemedView style={styles.whiteOverlay}>
             {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
+            <ThemedText style={styles.subtitleText}>
               What did you notice?
             </ThemedText>
 
             <ThemedView style={styles.elevatedBox}>
               {examTypeF ? (
-                <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                <ThemedView style={styles.listContainer}>
                   {info_f.map((item) => (
-                    <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                    <ThemedView key={item.id} style={styles.listItemContainer}>
                       <ThemedText style={styles.instructionText}>
                         {item.text}
                       </ThemedText>
@@ -184,9 +183,9 @@ export default function HomeScreen() {
                   ))}
                 </ThemedView>
               ) : (
-                <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                <ThemedView style={styles.listContainer}>
                   {info_m.map((item: { id: number; text: string }) => (
-                    <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                    <ThemedView key={item.id} style={styles.listItemContainer}>
                       <ThemedText style={styles.instructionText}>
                         {item.text}
                       </ThemedText>
@@ -208,17 +207,17 @@ export default function HomeScreen() {
             <LearnMoreTextContainer />
 
             {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
+            <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity
-                style={globalStyles.buttonBack}
+                style={styles.buttonBack}
                 onPress={() => router.push("./selfExam")}
               >
-                <ThemedText style={globalStyles.buttonTextBack}>
+                <ThemedText style={styles.buttonTextBack}>
                   Back to Exam
                 </ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.buttonNext}
+                style={styles.buttonNext}
                 onPress={() =>
                   router.push({
                     pathname: "/selfExamNextSteps",
@@ -230,7 +229,7 @@ export default function HomeScreen() {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>
@@ -241,9 +240,52 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  titleTextDarkPink: {
+  container: {
+    flex: 1,
+    backgroundColor: "#E93C92",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#E93C92",
+  },
+  iconWrapper: {
+    backgroundColor: "#EFCEE6",
+    borderRadius: 30,
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingTop: 10,
+  },
+  whiteOverlay: {
+    backgroundColor: "#FFFFFF",
+    borderTopLeftRadius: 17,
+    borderTopRightRadius: 17,
+    padding: 20,
+  },
+  titleText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000000",
+  },
+  highlightedTitleText: {
+    fontSize: 32,
+    fontWeight: "bold",
+    color: "#E93C92",
     marginBottom: 15,
     paddingTop: 10,
+  },
+  subtitleText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000000",
+    marginTop: 20,
+    marginBottom: 10,
   },
   elevatedBox: {
     backgroundColor: "#FFF7FD",
@@ -262,17 +304,77 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   listContainer: {
+    flexDirection: "column",
+    paddingVertical: 20,
+    justifyContent: "flex-start",
+    alignContent: "flex-start",
     backgroundColor: "transparent",
   },
   listItemContainer: {
+    flexDirection: "row",
+    columnGap: 20,
+    textAlign: "left",
     justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     backgroundColor: "transparent",
   },
-  
+  instructionTextBold: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#E93C92",
+  },
   instructionText: {
     fontSize: 16,
     fontWeight: "bold",
     color: "#000",
   },
-  
+  infoSourceText: {
+    fontSize: 12,
+    color: "#999999",
+    marginTop: 20,
+    fontStyle: "italic",
+  },
+  learnMoreText: {
+    fontSize: 12,
+    color: "#68C4FF",
+    fontWeight: "bold",
+  },
+  learnMoreTextContainer: {
+    alignItems: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 20,
+  },
+  buttonBack: {
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#ACACAC",
+  },
+  buttonNext: {
+    backgroundColor: "#E93C92",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 30,
+    borderWidth: 2,
+    borderColor: "#E93C92",
+  },
+  buttonTextBack: {
+    color: "#E93C92",
+    fontSize: 18,
+  },
+  buttonTextNext: {
+    color: "#FFFFFF",
+    fontSize: 18,
+  },
+  grayLine: {
+    height: 2,
+    backgroundColor: "#D3D3D3",
+    marginVertical: 10,
+  },
 });
