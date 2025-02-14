@@ -13,24 +13,25 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
+import { globalStyles } from "@/components/StyleSheet";
 
 export default function SelfExamInfo() {
   const router = useRouter();
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <ThemedView style={styles.whiteOverlay}>
+      <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+        <ThemedView style={globalStyles.whiteOverlay}>
           {/* Page Title */}
-          <ThemedText style={styles.titleText}>The Purpose of</ThemedText>
-          <ThemedText style={styles.highlightedTitleText}>
+          <ThemedText style={[globalStyles.titleText, styles.titleText]}>The Purpose of</ThemedText>
+          <ThemedText style={[globalStyles.titleTextDarkPink, styles.highlightedTitleText]}>
             A Self-Exam
           </ThemedText>
 
-          <ThemedView style={styles.grayLine} />
+          <ThemedView style={globalStyles.grayLine} />
 
           {/* Notice Section */}
           <ThemedText style={styles.noticeTitle}>Notice:</ThemedText>
@@ -64,7 +65,7 @@ export default function SelfExamInfo() {
             concern and respond to them.
           </ThemedText>
 
-          <ThemedView style={styles.grayLine} />
+          <ThemedView style={globalStyles.grayLine} />
 
           {/* Quotes Section */}
           <ThemedView style={styles.quotesContainer}>
@@ -83,18 +84,18 @@ export default function SelfExamInfo() {
           <LearnMoreTextContainer />
 
           {/* Navigation Buttons */}
-          <ThemedView style={styles.buttonContainer}>
+          <ThemedView style={globalStyles.buttonBackNextContainer}>
             <TouchableOpacity
-              style={styles.buttonBack}
+              style={globalStyles.buttonBack}
               onPress={() => router.back()}
             >
-              <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
+              <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
             </TouchableOpacity>
             <TouchableOpacity
-              style={styles.buttonNext}
+              style={globalStyles.buttonNext}
               onPress={() => router.push("/")}
             >
-              <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
+              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
             </TouchableOpacity>
           </ThemedView>
         </ThemedView>
@@ -104,44 +105,10 @@ export default function SelfExamInfo() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E93C92",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: "#E93C92",
-  },
-  iconWrapper: {
-    backgroundColor: "#EFCEE6",
-    borderRadius: 30,
-    padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
-  },
-  whiteOverlay: {
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    padding: 20,
-  },
   titleText: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#000000",
     paddingTop: 25,
   },
   highlightedTitleText: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#E93C92",
     marginBottom: 15,
     paddingTop: 10,
   },
@@ -195,53 +162,5 @@ const styles = StyleSheet.create({
     color: "#E93C92",
     textAlign: "center",
     marginBottom: 10,
-  },
-  infoSourceText: {
-    fontSize: 12,
-    color: "#999999",
-    marginTop: 20,
-    fontStyle: "italic",
-  },
-  learnMoreText: {
-    fontSize: 12,
-    color: "#68C4FF",
-    fontWeight: "bold",
-  },
-  learnMoreTextContainer: {
-    alignItems: "center",
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  buttonBack: {
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#ACACAC",
-  },
-  buttonNext: {
-    backgroundColor: "#E93C92",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#E93C92",
-  },
-  buttonTextBack: {
-    color: "#E93C92",
-    fontSize: 18,
-  },
-  buttonTextNext: {
-    color: "#FFFFFF",
-    fontSize: 18,
-  },
-  grayLine: {
-    height: 2,
-    backgroundColor: "#D3D3D3",
-    marginVertical: 10,
   },
 });
