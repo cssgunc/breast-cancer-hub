@@ -15,6 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -46,7 +47,7 @@ export default function HomeScreen() {
         </ThemedText>
         <ThemedText style={styles.titleText}>Recommended actions</ThemedText>
 
-        <ThemedView style={styles.grayLine} />
+        <ThemedView style={globalStyles.grayLine} />
 
         {/* Debug button */}
         {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
@@ -81,14 +82,14 @@ export default function HomeScreen() {
               <ThemedView style={styles.singleButtonContainer}>
                 {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
                 <TouchableOpacity
-                  style={styles.buttonNext}
+                  style={globalStyles.buttonNext}
                   onPress={() =>
                     Linking.openURL(
                       "https://www.breastcancerhub.org/new-page-3"
                     )
                   }
                 >
-                  <ThemedText style={styles.buttonTextNext}>
+                  <ThemedText style={globalStyles.buttonTextNext}>
                     Schedule an appointment
                   </ThemedText>
                 </TouchableOpacity>
@@ -115,10 +116,10 @@ export default function HomeScreen() {
               <ThemedView style={styles.singleButtonContainer}>
                 {/* TODO: Make this clear the route history */}
                 <TouchableOpacity
-                  style={styles.buttonNext}
+                  style={globalStyles.buttonNext}
                   onPress={() => router.push("/")}
                 >
-                  <ThemedText style={styles.buttonTextNext}>
+                  <ThemedText style={globalStyles.buttonTextNext}>
                     Return home
                   </ThemedText>
                 </TouchableOpacity>
@@ -134,13 +135,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E93C92",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
     backgroundColor: "#E93C92",
   },
   topButtons: {
@@ -183,13 +177,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingTop: 10,
   },
-  subtitleText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#000000",
-    marginTop: 20,
-    marginBottom: 10,
-  },
   elevatedBox: {
     backgroundColor: "#FFF7FD",
     borderRadius: 10,
@@ -205,20 +192,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignContent: "center",
     marginTop: 5,
-  },
-  listContainer: {
-    flexDirection: "column",
-    paddingVertical: 20,
-    justifyContent: "flex-start",
-    alignContent: "flex-start",
-  },
-  listItemContainer: {
-    flexDirection: "row",
-    columnGap: 20,
-    textAlign: "left",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
   },
   instructionTextBold: {
     fontSize: 20,
@@ -237,44 +210,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#000",
   },
-  infoSourceText: {
-    fontSize: 12,
-    color: "#999999",
-    marginTop: 20,
-    fontStyle: "italic",
-  },
-  learnMoreText: {
-    fontSize: 12,
-    color: "#68C4FF",
-    fontWeight: "bold",
-  },
-  learnMoreTextContainer: {
-    alignItems: "center",
-  },
   singleButtonContainer: {
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 20,
-  },
-  buttonNext: {
-    backgroundColor: "#E93C92",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#E93C92",
-  },
-  buttonTextBack: {
-    color: "#E93C92",
-    fontSize: 18,
-  },
-  buttonTextNext: {
-    color: "#FFFFFF",
-    fontSize: 18,
-  },
-  grayLine: {
-    height: 2,
-    backgroundColor: "#D3D3D3",
-    marginVertical: 10,
   },
 });
