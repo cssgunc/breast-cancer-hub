@@ -87,6 +87,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#E93C92",
   },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "#E93C92",
+  },
   iconWrapper: {
     backgroundColor: "#EFCEE6", // Light pink background
     borderRadius: 30, // Circular background
@@ -155,6 +162,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#000000",
     marginBottom: 10,
+  },
+  infoSourceText: {
+    fontSize: 12,
+    color: "#999999",
+    marginTop: 20,
+    fontStyle: "italic",
+  },
+  learnMoreText: {
+    fontSize: 12,
+    color: "#68C4FF",
+    fontWeight: "bold",
+  },
+  learnMoreTextContainer: {
+    alignItems: "center",
   },
   buttonContainer: {
     flexDirection: "row",
