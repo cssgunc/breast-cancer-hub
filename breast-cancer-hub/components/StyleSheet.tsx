@@ -86,19 +86,15 @@ export const globalStyles = StyleSheet.create({
 
   // Text
 
-  //purposeOfExam
   titleText: {
     fontSize: 32,
     fontWeight: "bold",
     color: colors.black,
-    // paddingTop: 25,
   },
   titleTextDarkPink: {
     fontSize: 32,
     fontWeight: "bold",
     color: colors.darkPink,
-    // marginBottom: 15,
-    // paddingTop: 10,
   },
 
   listTitleTextExam: {
@@ -113,6 +109,7 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.black,
   },
+  // Font size 16 is common for body text, but most pages have many variations on margins, styles, color, etc.
   // Similar to text used in the Learn More container.
   smallItalicText: {
     fontSize: 12,
@@ -154,57 +151,4 @@ export const globalStyles = StyleSheet.create({
     textAlign: "center",
   },
   
-  loginTopText: {
-    marginBottom: 20,
-    marginTop: 100,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-  loginTitleWelcomeText: {
-    color: colors.darkPink,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    fontSize: 20,
-    marginBottom: 3,
-  },
-  loginTitleText: {
-    color: colors.darkGray,
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 35,
-    marginTop: 3,
-    lineHeight: 40,
-  },
-  loginTitleGrayText: {
-    color: colors.darkGray,
-  },
-  loginTitlePinkText: {
-    color: colors.darkPink,
-  },
-  loginInputsContainer: {
-    width: "100%",
-    alignItems: "center",
-  },
-  loginInputContainer: {
-    width: "90%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.backgroundGray,
-    borderRadius: 40,
-    paddingHorizontal: 15,
-    marginVertical: 10,
-    height: 60,
-  },
-  loginEmailInputContainer: {
-    width: "90%",
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.white,
-    borderRadius: 40,
-    paddingHorizontal: 15,
-    marginVertical: 10,
-    borderColor: colors.darkPink,
-    borderWidth: 2,
-    height: 60,
-  },
 })
