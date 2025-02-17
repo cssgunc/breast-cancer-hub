@@ -1,14 +1,29 @@
 import { StyleSheet } from "react-native";
 
-export const white = "#FFFFFF"
-export const black = "#000000"
-export const darkPink = "#E93C92"
-export const lightPink = "#EFCEE6"
-export const darkGray = "#3E3E3E"
-export const lightGray = "#999999"
-export const lighterGray = "#ACACAC"
-export const lightestGray = "#D3D3D3"
-export const blue = "#68C4FF"
+export const colors = {
+  white: "#FFFFFF",
+  black: "#000000",
+
+  darkestPink: "#A1145B",
+  darkPink: "#E93C92",
+  mediumPink: "#F5C4DC", // Used only in some circular icons in settings and CustomizeExamDateScreen
+  lightPink: "#EFCEE6",
+
+  darkGray: "#3E3E3E",
+  mediumGray: "#666666",
+  lightGray: "#999999",
+  lighterGray: "#ACACAC",
+  lightestGray: "#D3D3D3",
+
+  backgroundGray: "#ECECEC",
+  backgroundLightGray: "#FFF7FD",
+
+  grayHomePageLearnMoreButton: "#D5D5D5",
+
+  blue: "#68C4FF", // Used for links
+
+  green: "#339F00", // Used for green check mark after self exam
+}
 
 export const globalStyles = StyleSheet.create({
 
@@ -19,17 +34,18 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
   },
 
   bodyContainerWhite: {
     flex: 1,
-    backgroundColor: white,
+    backgroundColor: colors.white,
   },
   bodyContainerDarkPink: {
     flex: 1,
-    backgroundColor: darkPink,
+    backgroundColor: colors.darkPink,
   },
+
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -42,23 +58,15 @@ export const globalStyles = StyleSheet.create({
     paddingTop: 10,
   },
   whiteOverlay: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
     padding: 20,
   },
 
-  iconWrapper: {
-    backgroundColor: "#EFCEE6",
-    borderRadius: 30,
-    padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
   grayLine: {
     height: 2,
-    backgroundColor: "#D3D3D3",
+    backgroundColor: colors.lightestGray,
     marginVertical: 10,
   },
 
@@ -82,13 +90,13 @@ export const globalStyles = StyleSheet.create({
   titleText: {
     fontSize: 32,
     fontWeight: "bold",
-    color: black,
+    color: colors.black,
     // paddingTop: 25,
   },
   titleTextDarkPink: {
     fontSize: 32,
     fontWeight: "bold",
-    color: darkPink,
+    color: colors.darkPink,
     // marginBottom: 15,
     // paddingTop: 10,
   },
@@ -96,20 +104,20 @@ export const globalStyles = StyleSheet.create({
   listTitleTextExam: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#000000",
+    color: colors.black,
     marginTop: 20,
     marginBottom: 10,
   },
   mediumBoldText: {
     fontSize: 20,
     fontWeight: "bold",
-    color: black,
+    color: colors.black,
   },
   // Similar to text used in the Learn More container.
   smallItalicText: {
     fontSize: 12,
     fontStyle: "italic",
-    color: lightGray
+    color: colors.lightGray
   },
 
 
@@ -120,31 +128,83 @@ export const globalStyles = StyleSheet.create({
     marginTop: 20,
   },
   buttonBack: {
-    backgroundColor: white,
+    backgroundColor: colors.white,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: lighterGray,
+    borderColor: colors.lighterGray,
   },
   buttonNext: {
-    backgroundColor: darkPink,
+    backgroundColor: colors.darkPink,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: darkPink,
+    borderColor: colors.darkPink,
   },
   buttonTextBack: {
-    color: darkPink,
+    color: colors.darkPink,
     fontSize: 18,
     textAlign: "center",
   },
   buttonTextNext: {
-    color: white,
+    color: colors.white,
     fontSize: 18,
     textAlign: "center",
   },
   
-
+  loginTopText: {
+    marginBottom: 20,
+    marginTop: 100,
+    alignItems: "flex-start",
+    justifyContent: "center",
+  },
+  loginTitleWelcomeText: {
+    color: colors.darkPink,
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    fontSize: 20,
+    marginBottom: 3,
+  },
+  loginTitleText: {
+    color: colors.darkGray,
+    fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 35,
+    marginTop: 3,
+    lineHeight: 40,
+  },
+  loginTitleGrayText: {
+    color: colors.darkGray,
+  },
+  loginTitlePinkText: {
+    color: colors.darkPink,
+  },
+  loginInputsContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  loginInputContainer: {
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.backgroundGray,
+    borderRadius: 40,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+    height: 60,
+  },
+  loginEmailInputContainer: {
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: colors.white,
+    borderRadius: 40,
+    paddingHorizontal: 15,
+    marginVertical: 10,
+    borderColor: colors.darkPink,
+    borderWidth: 2,
+    height: 60,
+  },
 })

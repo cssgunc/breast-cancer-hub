@@ -13,7 +13,7 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { globalStyles } from "@/components/StyleSheet";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function SelfExamInfo() {
   const router = useRouter();
@@ -115,24 +115,24 @@ const styles = StyleSheet.create({
   noticeTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
     marginTop: 20,
     marginBottom: 10,
   },
   noticeText: {
     fontSize: 16,
-    color: "#000000",
+    color: colors.black,
     lineHeight: 24,
   },
   noticeText2: {
     fontSize: 15,
-    color: "#3E3E3E",
+    color: colors.darkGray,
     lineHeight: 24,
     fontStyle: "italic",
     marginTop: 20,
   },
   highlightText: {
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   boldText: {
@@ -141,14 +141,14 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 16,
-    color: "#000000",
+    color: colors.black,
     marginVertical: 10,
     lineHeight: 24,
   },
   infoBoldText: {
     fontWeight: "bold",
     fontSize: 16,
-    color: "#000000",
+    color: colors.black,
     marginVertical: 15,
     lineHeight: 24,
     marginTop: 20,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   quoteText: {
     fontSize: 16,
     fontStyle: "italic",
-    color: "#E93C92",
+    color: colors.darkPink,
     textAlign: "center",
     marginBottom: 10,
   },

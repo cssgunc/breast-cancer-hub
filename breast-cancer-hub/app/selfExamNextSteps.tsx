@@ -15,7 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { globalStyles } from "@/components/StyleSheet";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -34,18 +34,17 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
       <ThemedView style={styles.whiteOverlay}>
-        <ThemedView style={styles.topButtons}></ThemedView>
 
-        <ThemedText style={styles.highlightedTitleText}>
+        <ThemedText style={styles.titleText}>
           Based On Your Symptoms
         </ThemedText>
-        <ThemedText style={styles.titleText}>Recommended actions</ThemedText>
+        <ThemedText style={styles.subtitleText}>Recommended actions</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
 
@@ -55,13 +54,13 @@ export default function HomeScreen() {
         </TouchableOpacity> */}
       </ThemedView>
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView contentContainerStyle={globalStyles.scrollContent}>
         <ThemedView style={styles.whiteOverlay}>
           {/* Info Section */}
           {getHasSymptoms(symptoms as string) ? (
             <ThemedView style={styles.whiteOverlay}>
               <ThemedView style={styles.noticeContainer}>
-                <MaterialIcons name="error" size={28} color="#E93C92" />
+                <MaterialIcons name="error" size={28} color={colors.darkPink} />
                 <ThemedText style={styles.instructionTextBoldBlack}>
                   Notice!
                 </ThemedText>
@@ -98,7 +97,7 @@ export default function HomeScreen() {
           ) : (
             <ThemedView style={styles.whiteOverlay}>
               <ThemedView style={styles.noticeContainer}>
-                <MaterialIcons name="check-circle" size={28} color="#339F00" />
+                <MaterialIcons name="check-circle" size={28} color={colors.green} />
                 <ThemedText style={styles.instructionTextBoldBlack}>
                   You're all good!
                 </ThemedText>
@@ -133,55 +132,36 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E93C92",
-  },
-  topButtons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginBottom: 20,
-  },
-  iconWrapper: {
-    backgroundColor: "#EFCEE6",
-    borderRadius: 30,
-    padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
   noticeContainer: {
     paddingVertical: 30,
     flexDirection: "row",
     justifyContent: "flex-start",
     columnGap: 10,
   },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
-  },
   whiteOverlay: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
     padding: 20,
   },
-  titleText: {
+  // Here, the main title is highlighted pink, while the subtitle is black.
+  subtitleText: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#000000",
+    color: colors.black,
   },
-  highlightedTitleText: {
+  titleText: {
     fontSize: 32,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
     marginBottom: 15,
     paddingTop: 10,
   },
   elevatedBox: {
-    backgroundColor: "#FFF7FD",
+    backgroundColor: colors.backgroundLightGray,
     borderRadius: 10,
     padding: 20,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -196,19 +176,19 @@ const styles = StyleSheet.create({
   instructionTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
     textAlign: "center",
   },
   instructionTextBoldBlack: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#000",
+    color: colors.black,
     textAlign: "center",
   },
   instructionText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#000",
+    color: colors.black,
   },
   singleButtonContainer: {
     flexDirection: "row",

@@ -14,7 +14,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { globalStyles } from "@/components/StyleSheet";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function SelfExamInfo() {
   const router = useRouter();
@@ -179,10 +179,10 @@ const styles = StyleSheet.create({
   instructionTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   instructionText: {
     fontSize: 16,
-    color: "#666666",
+    color: colors.mediumGray,
   },
 });

@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
+import { colors } from "@/components/StyleSheet";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
@@ -40,7 +41,7 @@ export default function ProfileSettingsScreen() {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           {/* Profile Icon */}
           <View style={styles.profileIconContainer}>
-            <Ionicons name="person" size={96} color="#E93C92" />
+            <Ionicons name="person" size={96} color={colors.darkPink} />
           </View>
 
           {/* User Info */}
@@ -84,7 +85,7 @@ export default function ProfileSettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF7FD", // Background color of the page
+    backgroundColor: colors.backgroundLightGray, // Background color of the page
     paddingBottom: 20,
   },
   headerContainer: {
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     width: 40,
     height: 40,
     borderRadius: 20, // Circular
@@ -105,13 +106,13 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 36,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   mainContainer: {
     flex: 1, // Extend to the bottom
     width: "90%",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 20,
     paddingHorizontal: 40,
     paddingTop: 40,
@@ -137,12 +138,12 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 24,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
   },
   divider: {
     height: 4,
-    backgroundColor: "#EFCEE6",
+    backgroundColor: colors.lightPink,
     width: "100%",
     marginVertical: 20,
   },
@@ -155,14 +156,14 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   infoValue: {
     fontSize: 16,
-    color: "black",
+    color: colors.black,
   },
   signOutButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
   },
   signOutButtonText: {
     fontSize: 20,
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
 });

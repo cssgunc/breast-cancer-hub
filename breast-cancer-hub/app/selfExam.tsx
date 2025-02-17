@@ -13,7 +13,7 @@ import { router, useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
-import { globalStyles } from "@/components/StyleSheet";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   instructionText: {
-    color: "#000000",
+    color: colors.black,
     fontSize: 16,
     fontWeight: "bold",
     paddingTop: 10,
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 10,
     borderWidth: 3,
-    borderColor: "#000000",
+    borderColor: colors.black,
     width: "20%",
     paddingHorizontal: "5%",
     paddingVertical: "2%",

@@ -15,7 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { globalStyles } from "@/components/StyleSheet";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -246,10 +246,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   elevatedBox: {
-    backgroundColor: "#FFF7FD",
+    backgroundColor: colors.backgroundLightGray,
     borderRadius: 10,
     padding: 20,
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   instructionText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#000",
+    color: colors.black,
   },
   
 });

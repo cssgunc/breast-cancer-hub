@@ -15,7 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { globalStyles } from "@/components/StyleSheet";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -55,7 +55,7 @@ export default function HomeScreen() {
               minWidth: "200px",
               minHeight: "200px",
               borderRadius: "50%",
-              backgroundColor: "#E93C92",
+              backgroundColor: colors.darkPink,
               alignContent: "center",
               alignItems: "center",
             }}
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
   },
   whiteOverlay: {
     flexDirection: "column",

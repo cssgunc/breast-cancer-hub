@@ -18,6 +18,7 @@ import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 type Noti = {
   id: number;
@@ -75,7 +76,7 @@ export default function HomeScreen(props: HomeScreenProps) {
   };
 
   return (
-    <ThemedView style={styles.bodyContainer}>
+    <ThemedView style={globalStyles.bodyContainerWhite}>
       {/* Header */}
       <View style={styles.headerContainer}>
         {/* Top Row: Logo and Profile Icon */}
@@ -93,7 +94,7 @@ export default function HomeScreen(props: HomeScreenProps) {
             style={styles.profileIconContainer}
             onPress={() => router.push("/settings")}
           >
-            <Ionicons name="person" size={24} color="white" />
+            <Ionicons name="person" size={24} color={colors.white} />
           </TouchableOpacity>
         </View>
         {/* Greeting */}
@@ -113,7 +114,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <Ionicons
             name="notifications-outline"
             size={20}
-            color="#E93C92"
+            color={colors.darkPink}
             style={styles.icon}
           />
           <ThemedText style={styles.introText}>Alerts</ThemedText>
@@ -148,7 +149,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <Ionicons
             name="calendar-outline"
             size={20}
-            color="#E93C92"
+            color={colors.darkPink}
             style={styles.icon}
           />
           <ThemedText style={styles.calendarIntroText}>
@@ -227,7 +228,7 @@ export default function HomeScreen(props: HomeScreenProps) {
                   style={styles.closeButton}
                   onPress={() => setModalVisible(false)}
                 >
-                  <Ionicons name="close" size={24} color="#E93C92" />
+                  <Ionicons name="close" size={24} color={colors.darkPink} />
                 </TouchableOpacity>
                 {/* Modal Title */}
                 <ThemedText style={styles.modalTitle}>Learn More</ThemedText>
@@ -277,10 +278,6 @@ export default function HomeScreen(props: HomeScreenProps) {
 }
 
 const styles = StyleSheet.create({
-  bodyContainer: {
-    flex: 1,
-    backgroundColor: "white",
-  },
   headerContainer: {
     backgroundColor: "white",
     borderBottomLeftRadius: 20,
@@ -312,12 +309,9 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 10,
   },
-  headerContent: {
-    flex: 1,
-  },
   homeText: {
     fontSize: 24,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   greetingContainer: {
@@ -330,15 +324,15 @@ const styles = StyleSheet.create({
   greetingText: {
     fontSize: 29,
     fontWeight: "bold",
-    color: "black",
+    color: colors.black,
   },
   nameText: {
     fontSize: 29,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   profileIconContainer: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     width: 40,
     height: 40,
     borderRadius: 20,
@@ -359,7 +353,7 @@ const styles = StyleSheet.create({
   },
   introText: {
     fontSize: 20,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
   },
   noAlertsText: {
@@ -369,59 +363,49 @@ const styles = StyleSheet.create({
   },
   calendarIntroText: {
     fontSize: 20,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
-  },
-  customizeContainer: {
-    marginTop: 20,
-    marginHorizontal: 50,
-    backgroundColor: "white",
-    borderColor: "#E93C92",
-    borderWidth: 2,
-    borderRadius: 50,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
   },
   customizeText: {
     textAlign: "center",
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   pastExamsText: {
     marginTop: 20,
     marginBottom: 40,
     fontSize: 16,
-    color: "#68C4FF",
+    color: colors.blue,
     textAlign: "center",
     fontWeight: "bold",
   },
   contactButton: {
     marginTop: 20,
     marginHorizontal: 100,
-    backgroundColor: "#E93C92",
-    borderColor: "#E93C92",
+    backgroundColor: colors.darkPink,
+    borderColor: colors.darkPink,
     borderWidth: 1,
     borderRadius: 50,
     paddingVertical: 15,
     alignItems: "center",
   },
   contactButtonText: {
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
   learnMoreButton: {
     marginTop: 10,
     marginBottom: 30,
     marginHorizontal: 20,
-    backgroundColor: "white",
-    borderColor: "#D5D5D5",
+    backgroundColor: colors.white,
+    borderColor: colors.grayHomePageLearnMoreButton,
     borderWidth: 2,
     borderRadius: 50,
     paddingVertical: 15,
     alignItems: "center",
   },
   learnMoreButtonText: {
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   // Modal styles
@@ -432,7 +416,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     width: "80%",
     borderRadius: 20,
     padding: 20,
@@ -443,13 +427,13 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: "white",
-    borderColor: "#D5D5D5",
+    backgroundColor: colors.white,
+    borderColor: colors.grayHomePageLearnMoreButton,
     borderWidth: 1,
     borderRadius: 50,
     paddingVertical: 15,
@@ -459,7 +443,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalButtonText: {
-    color: "#68C4FF",
+    color: colors.blue,
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",

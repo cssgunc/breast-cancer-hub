@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
+import { colors } from "@/components/StyleSheet";
 
 export default function UnderstandingBC() {
   const router = useRouter();
@@ -85,21 +86,14 @@ export default function UnderstandingBC() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#E93C92",
-  },
-  iconWrapper: {
-    backgroundColor: "#EFCEE6", // Light pink background
-    borderRadius: 30, // Circular background
-    padding: 8, // Add padding around the icon
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: colors.darkPink,
   },
   scrollContent: {
     flexGrow: 1,
     paddingTop: 10,
   },
   whiteOverlay: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
     padding: 20,
@@ -112,20 +106,20 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   understandingText: {
-    color: "#000000",
+    color: colors.black,
     fontSize: 32,
     fontWeight: "bold",
     paddingTop: 10,
   },
   bcText: {
-    color: "#E93C92",
+    color: colors.darkPink,
     fontSize: 32,
     fontWeight: "bold",
     paddingTop: 10,
   },
   grayLine: {
     height: 2,
-    backgroundColor: "#D3D3D3",
+    backgroundColor: colors.lightestGray,
     marginVertical: 10,
   },
   paragraphTextTitle: {
@@ -135,7 +129,7 @@ const styles = StyleSheet.create({
   },
   paragraphText: {
     fontSize: 16,
-    color: "#000000",
+    color: colors.black,
     marginVertical: 10,
     lineHeight: 24,
   },
@@ -143,17 +137,17 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
     padding: 10,
     borderLeftWidth: 4,
-    borderColor: "#E93C92",
+    borderColor: colors.darkPink,
     marginVertical: 15,
   },
   statTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   statText: {
     fontSize: 16,
-    color: "#000000",
+    color: colors.black,
     marginBottom: 10,
   },
   buttonContainer: {
@@ -162,27 +156,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   buttonBack: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "#ACACAC",
+    borderColor: colors.lighterGray,
   },
   buttonNext: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: "#E93C92",
+    borderColor: colors.darkPink,
   },
   buttonTextBack: {
-    color: "#E93C92",
+    color: colors.darkPink,
     fontSize: 20,
   },
   buttonTextNext: {
-    color: "#FFFFFF",
+    color: colors.white,
     fontSize: 20,
   },
 });
