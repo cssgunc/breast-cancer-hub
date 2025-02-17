@@ -392,7 +392,7 @@ const styles = StyleSheet.create({
   specialDayCircle: {
     backgroundColor: colors.blue,
     borderWidth: 2,
-    borderColor: "#1A74AD",
+    borderColor: "#1A74AD", //dark blue?
     borderRadius: 25,
     width: 50,
     height: 50,

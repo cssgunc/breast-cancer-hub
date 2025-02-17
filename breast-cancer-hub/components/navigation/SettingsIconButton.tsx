@@ -3,6 +3,7 @@ import { StyleSheet, Pressable } from "react-native";
 import { Link } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../StyleSheet";
+import {styles} from "./AccountIconButton";
 
 export default function IconButton() {
   return (
@@ -14,18 +15,4 @@ export default function IconButton() {
   );
 }
 
-const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: colors.lightPink,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-});
+// This button's "styles" is the same as the AccountIconButton.

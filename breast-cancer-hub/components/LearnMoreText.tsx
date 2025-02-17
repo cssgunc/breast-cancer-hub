@@ -1,7 +1,7 @@
 import { TouchableOpacity, Linking, StyleSheet } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
-import { globalStyles, lightGray, blue } from "./StyleSheet";
+import { globalStyles, colors } from "./StyleSheet";
 
 export function LearnMoreTextContainer() {
   return (
@@ -27,12 +27,12 @@ export function LearnMoreTextContainer() {
 
 const styles = StyleSheet.create({
   infoSourceText: {
-    color: lightGray,
+    color: colors.lightGray,
     marginTop: 20,
   },
   learnMoreText: {
     fontSize: 12,
-    color: blue,
+    color: colors.blue,
     fontWeight: "bold",
   },
   learnMoreTextContainer: {

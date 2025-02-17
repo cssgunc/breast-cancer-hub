@@ -14,7 +14,7 @@ export default function IconButton() {
   );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   button: {
     width: 50,
     height: 50,
