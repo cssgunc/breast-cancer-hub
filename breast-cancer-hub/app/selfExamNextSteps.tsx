@@ -23,8 +23,8 @@ export default function HomeScreen() {
   const { symptoms } = useLocalSearchParams();
 
   const getHasSymptoms = (s: string) => {
-    //return symptoms.some((value) => value);
-    return (s as string).includes("1");
+    const symptomsArray = s.split(","); // Convert comma-separated string to array
+    return symptomsArray[0] === "1"; // Check if the first symptom is "1"
   };
 
   useEffect(() => {
