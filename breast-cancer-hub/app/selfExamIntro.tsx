@@ -93,7 +93,7 @@ export default function SelfExamInfo() {
             <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.buttonBack}
-                onPress={() => router.back()}
+                onPress={() => router.push("/")}
               >
                 <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
@@ -149,7 +149,7 @@ export default function SelfExamInfo() {
             <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.buttonBack}
-                onPress={() => router.back()}
+                onPress={() => router.push("/")}
               >
                 <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
