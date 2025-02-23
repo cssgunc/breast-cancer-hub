@@ -83,7 +83,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Logo and Home */}
           <View style={styles.logoHomeContainer}>
             <Image
-              source={require("../assets/images/logo.jpg")}
+              source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
               style={styles.logo}
             />
             <ThemedText style={styles.homeText}>Home</ThemedText>
@@ -308,8 +308,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 120,
+    height: 45,
     marginRight: 10,
   },
   headerContent: {
