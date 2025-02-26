@@ -10,6 +10,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { BorderlessButton } from "react-native-gesture-handler";
+import { colors } from "./StyleSheet";
 
 const languages = ["EN", "SP", "FR", "RU", "ZH"];
 
@@ -61,6 +62,7 @@ export function SelectLanguage() {
   );
 }
 
+// TODO: Make these colors match the Figma/style sheet
 const styles = StyleSheet.create({
   button: {
     flexDirection: "row",
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: 217,
     height: 48,
-    backgroundColor: "#FFFFFF", // White background
+    backgroundColor: colors.white, // White background
     paddingHorizontal: 18, // Padding for button content
     borderWidth: 2,
     borderColor: "#aaaaaa", // Border color for button
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#cccccc",
     borderRadius: 25,
-    backgroundColor: "#ffffff", // Background for dropdown
+    backgroundColor: colors.white, // Background for dropdown
   },
   languageOption: {
     padding: 12,

@@ -12,6 +12,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
+import { colors } from "@/components/StyleSheet";
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
@@ -48,7 +49,7 @@ export default function CustomizeExamDateScreen() {
             style={styles.backButton}
             onPress={() => router.back()}
           >
-            <Ionicons name="chevron-back" size={24} color="white" />
+              <Ionicons name="chevron-back" size={24} color={colors.white} />
           </TouchableOpacity>
           {/* Title */}
           <View style={styles.titleContainer}>
@@ -90,7 +91,7 @@ export default function CustomizeExamDateScreen() {
                   style={styles.chevronButton}
                 >
                   <View style={styles.chevronCircle}>
-                    <Ionicons name="chevron-up" size={20} color="white" />
+                    <Ionicons name="chevron-up" size={20} color={colors.white} />
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -98,7 +99,7 @@ export default function CustomizeExamDateScreen() {
                   style={styles.chevronButton}
                 >
                   <View style={styles.chevronCircle}>
-                    <Ionicons name="chevron-down" size={20} color="white" />
+                    <Ionicons name="chevron-down" size={20} color={colors.white} />
                   </View>
                 </TouchableOpacity>
               </View>
@@ -127,17 +128,17 @@ export default function CustomizeExamDateScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF7FD", // Main body background color
+    backgroundColor: colors.backgroundLightGray, // Main body background color
   },
   headerContainer: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     paddingTop: Platform.OS === "ios" ? 60 : 40,
     paddingBottom: 20,
     paddingHorizontal: 20,
     // Shadow
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
@@ -148,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   backButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     width: 40,
     height: 40,
     borderRadius: 20, // Circular button
@@ -162,18 +163,18 @@ const styles = StyleSheet.create({
   customizeYourText: {
     paddingTop: 20,
     fontSize: 29,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
     paddingBottom: 10,
   },
   yourText: {
     fontSize: 29,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
   },
   examinationText: {
     fontSize: 29,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
     paddingBottom: 20,
   },
@@ -184,13 +185,13 @@ const styles = StyleSheet.create({
     paddingTop: 30,
   },
   whiteBox: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 20,
     padding: 20,
     width: "90%",
     alignItems: "center",
     // Shadow
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
@@ -199,7 +200,7 @@ const styles = StyleSheet.create({
   instructionText: {
     paddingVertical: 25,
     fontSize: 20,
-    color: "#4B4B4B",
+    color: colors.darkGray, //used to be #4B4B4B, unique color - only slightly off from darkGray
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -211,7 +212,7 @@ const styles = StyleSheet.create({
   pinkRectangle: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderRadius: 20,
     paddingHorizontal: 10,
     marginBottom: 40,
@@ -220,7 +221,7 @@ const styles = StyleSheet.create({
   dayDisplay: {
     flex: 1,
     fontSize: 40,
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
     textAlign: "center",
   },
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   chevronCircle: {
-    backgroundColor: "#F5C4DC",
+    backgroundColor: colors.mediumPink,
     width: 30,
     height: 30,
     borderRadius: 15, // Circular
@@ -242,14 +243,14 @@ const styles = StyleSheet.create({
   },
   changeAnytimeText: {
     fontSize: 15,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontStyle: "italic",
     marginTop: 10,
     marginBottom: 20,
     textAlign: "center",
   },
   saveButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderRadius: 30,
     paddingVertical: 15,
     paddingHorizontal: 30,
@@ -259,7 +260,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     fontSize: 16,
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
 });

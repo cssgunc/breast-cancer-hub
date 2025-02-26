@@ -1,11 +1,12 @@
 import { TouchableOpacity, Linking, StyleSheet } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
+import { globalStyles, colors } from "./StyleSheet";
 
 export function LearnMoreTextContainer() {
   return (
     <ThemedView style={styles.learnMoreTextContainer}>
-      <ThemedText style={styles.infoSourceText}>
+      <ThemedText style={[globalStyles.smallItalicText, styles.infoSourceText]}>
         Information is sourced from Breast Cancer Hub
       </ThemedText>
       <TouchableOpacity>
@@ -26,14 +27,12 @@ export function LearnMoreTextContainer() {
 
 const styles = StyleSheet.create({
   infoSourceText: {
-    fontSize: 12,
-    color: "#999999",
+    color: colors.lightGray,
     marginTop: 20,
-    fontStyle: "italic",
   },
   learnMoreText: {
     fontSize: 12,
-    color: "#68C4FF",
+    color: colors.blue,
     fontWeight: "bold",
   },
   learnMoreTextContainer: {

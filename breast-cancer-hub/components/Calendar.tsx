@@ -15,6 +15,7 @@ import {
   removePeriod,
 } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
+import { colors } from "./StyleSheet";
 
 type CalendarItem = {
   p: Date;
@@ -189,7 +190,7 @@ export function CalendarComponent({
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={goToPreviousMonth}>
-            <Ionicons name="chevron-back-outline" size={24} color="#000000" />
+            <Ionicons name="chevron-back-outline" size={24} color={colors.black} />
           </TouchableOpacity>
           <View style={styles.headerTitle}>
             <ThemedText style={styles.monthText}>
@@ -204,7 +205,7 @@ export function CalendarComponent({
             <Ionicons
               name="chevron-forward-outline"
               size={24}
-              color="#000000"
+              color={colors.black}
             />
           </TouchableOpacity>
         </View>
@@ -271,7 +272,7 @@ export function CalendarComponent({
                 style={{ display: "flex", flexDirection: "row", gap: 10 }}
               >
                 <ThemedText>Confirm Changes</ThemedText>
-                <Ionicons name="checkmark" size={24} color="#000000" />
+                <Ionicons name="checkmark" size={24} color={colors.black} />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
@@ -279,7 +280,7 @@ export function CalendarComponent({
                 style={{ display: "flex", flexDirection: "row", gap: 10 }}
               >
                 <ThemedText>Edit Periods</ThemedText>
-                <Ionicons name="create-outline" size={24} color="#000000" />
+                <Ionicons name="create-outline" size={24} color={colors.black} />
               </TouchableOpacity>
             )}
           </View>
@@ -303,11 +304,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   calendarContainer: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 15,
     padding: 10,
     // iOS shadow properties
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
     shadowRadius: 5,
@@ -327,12 +328,12 @@ const styles = StyleSheet.create({
   },
   monthText: {
     fontSize: 18,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
   },
   yearText: {
     fontSize: 18,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   weekDaysContainer: {
@@ -343,7 +344,7 @@ const styles = StyleSheet.create({
   weekDayText: {
     width: "14.28%",
     textAlign: "center",
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   daysContainer: {
     flexDirection: "row",
@@ -363,22 +364,22 @@ const styles = StyleSheet.create({
   },
   editModeDayWrapper: {
     borderWidth: 2,
-    borderColor: "black",
+    borderColor: colors.black,
     borderStyle: "dotted",
     borderRadius: 25,
     width: 50,
     height: 50,
   },
   dayText: {
-    color: "black",
+    color: colors.black,
   },
   greyDayText: {
     color: "grey",
   },
   periodDayCircle: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderWidth: 2,
-    borderColor: "#A1145B",
+    borderColor: colors.darkestPink,
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -386,12 +387,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   periodDayText: {
-    color: "white",
+    color: colors.white,
   },
   specialDayCircle: {
-    backgroundColor: "#68C4FF",
+    backgroundColor: colors.blue,
     borderWidth: 2,
-    borderColor: "#1A74AD",
+    borderColor: "#1A74AD", //dark blue?
     borderRadius: 25,
     width: 50,
     height: 50,
@@ -400,12 +401,12 @@ const styles = StyleSheet.create({
   },
   specialDayText: {
     fontWeight: "bold",
-    color: "black",
+    color: colors.black,
   },
   logPeriodButton: {
     alignSelf: "center",
-    backgroundColor: "white",
-    borderColor: "#E93C92",
+    backgroundColor: colors.white,
+    borderColor: colors.darkPink,
     borderWidth: 2,
     borderRadius: 25,
     paddingVertical: 10,
@@ -414,7 +415,7 @@ const styles = StyleSheet.create({
   },
   logPeriodButtonText: {
     textAlign: "center",
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   cannotLogPeriodText: {

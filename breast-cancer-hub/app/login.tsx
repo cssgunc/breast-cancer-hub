@@ -11,6 +11,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { colors } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const [email, setEmail] = useState("");
@@ -53,33 +54,33 @@ export default function HomeScreen() {
       contentContainerStyle={styles.scrollViewContainer}
       style={styles.scrollView}
     >
-      <ThemedView style={styles.bodyContainer}>
-        <ThemedView style={styles.popText}>
-          <ThemedView style={styles.topText}>
-            <ThemedText style={styles.welcome}>WELCOME</ThemedText>
-            <ThemedText style={styles.register}>Log in to The</ThemedText>
-            <ThemedText style={styles.bchText}>Breast Cancer Hub</ThemedText>
-            <ThemedText style={styles.selfExam}>self-exam App!</ThemedText>
+      <ThemedView style={commonLoginSignupStyles.bodyContainer}>
+        <ThemedView style={commonLoginSignupStyles.popText}>
+          <ThemedView style={commonLoginSignupStyles.topText}>
+            <ThemedText style={commonLoginSignupStyles.titleWelcomeText}>WELCOME</ThemedText>
+            <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>Log in to The</ThemedText>
+            <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titlePinkText]}>Breast Cancer Hub</ThemedText>
+            <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>self-exam App!</ThemedText>
           </ThemedView>
-          <ThemedView style={styles.inputsContainer}>
-            <ThemedView style={styles.emailInputContainer}>
+          <ThemedView style={commonLoginSignupStyles.inputsContainer}>
+            <ThemedView style={commonLoginSignupStyles.emailInputContainer}>
               <TextInput
-                style={styles.emailInput}
+                style={commonLoginSignupStyles.input}
                 placeholder="Email"
                 placeholderTextColor="gray"
                 value={email}
                 onChangeText={setEmail}
               />
               <MaterialIcons
-                style={styles.iconPositions}
+                style={commonLoginSignupStyles.icon}
                 name="mail"
                 size={24}
-                color="#e93c92"
+                color={colors.darkPink}
               />
             </ThemedView>
-            <ThemedView style={styles.inputContainer}>
+            <ThemedView style={commonLoginSignupStyles.inputContainer}>
               <TextInput
-                style={styles.passwordInput}
+                style={commonLoginSignupStyles.passwordInput}
                 placeholder="Password"
                 placeholderTextColor="gray"
                 value={password}
@@ -87,7 +88,7 @@ export default function HomeScreen() {
                 secureTextEntry
               />
               <MaterialIcons
-                style={styles.iconPositions}
+                style={commonLoginSignupStyles.icon}
                 name="lock"
                 size={24}
                 color="gray"
@@ -97,11 +98,11 @@ export default function HomeScreen() {
               style={styles.forgotPassword}
               onPress={() => router.push("/")}
             >
-              <ThemedText style={styles.link}>Forgot your password?</ThemedText>
+              <ThemedText style={commonLoginSignupStyles.link}>Forgot your password?</ThemedText>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+            <TouchableOpacity style={commonLoginSignupStyles.button} onPress={handleSubmit}>
               <ThemedText
-                style={{ color: "white", fontSize: 18, fontWeight: "bold" }}
+                style={commonLoginSignupStyles.buttonText}
               >
                 Log In
               </ThemedText>
@@ -111,7 +112,7 @@ export default function HomeScreen() {
                 Don't have an account?{" "}
               </ThemedText>
               <TouchableOpacity onPress={() => router.push("/signup")}>
-                <ThemedText style={styles.link}>Create one here</ThemedText>
+                <ThemedText style={commonLoginSignupStyles.link}>Create one here</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>
@@ -123,123 +124,126 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: "white",
+    backgroundColor: colors.white,
   },
   scrollViewContainer: {
     flexGrow: 1,
   },
-  bodyContainer: {
+
+  forgotPassword: {
+    alignSelf: "flex-end",
+    paddingRight: 20,
+    marginTop: 5,
+  },
+
+  noAccount: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    color: colors.mediumGray,
+  },
+  noAccountText: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+});
+
+export const commonLoginSignupStyles = StyleSheet.create({
+  bodyContainer: {//COMMON
     flex: 1,
     padding: 10,
-    backgroundColor: "white",
+  },
+  topText: {//COMMON
+    marginBottom: 20,
+    marginTop: 100,
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   popText: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  topText: {
-    marginBottom: 20,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-  welcome: {
-    color: "#e93c92",
-    fontSize: 20,
+  titleWelcomeText: {//COMMON
+    color: colors.darkPink,
     fontWeight: "bold",
     textTransform: "uppercase",
+    fontSize: 20,
     marginBottom: 3,
   },
-  register: {
-    color: "#333",
-    fontSize: 35,
+  titleText: {//COMMON
+    color: colors.darkGray,
     fontWeight: "bold",
     textAlign: "center",
-    marginTop: 3,
-    lineHeight: 40,
-  },
-  bchText: {
-    color: "#e93c92",
-    fontWeight: "bold",
     fontSize: 35,
     marginTop: 3,
     lineHeight: 40,
   },
-  selfExam: {
-    color: "#333",
-    fontSize: 35,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 3,
-    lineHeight: 40,
+  titleGrayText: {//COMMON
+    color: colors.darkGray,
   },
-  inputsContainer: {
+  titlePinkText: {//COMMON
+    color: colors.darkPink,
+  },
+
+  inputsContainer: {//COMMON
     width: "100%",
     alignItems: "center",
   },
-  inputContainer: {
+  inputContainer: {//COMMON
     width: "90%",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ECECEC",
+    backgroundColor: colors.backgroundGray,
     borderRadius: 40,
     paddingHorizontal: 15,
     marginVertical: 10,
     height: 60,
   },
-  emailInputContainer: {
+  emailInputContainer: {//COMMON
     width: "90%",
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 40,
     paddingHorizontal: 15,
     marginVertical: 10,
-    borderColor: "#e93c92",
+    borderColor: colors.darkPink,
     borderWidth: 2,
     height: 60,
   },
-  emailInput: {
+  input: {//COMMON with emailInput
     flex: 1,
-    height: 50,
     fontSize: 15,
+    height: 60,
+    //borderColor: colors.darkPink,
   },
-  passwordInput: {
+  passwordInput: {//COMMON
     flex: 1,
-    height: 50,
     fontSize: 15,
+    height: 60,
   },
-  iconPositions: {
+  icon: {//COMMON
     marginHorizontal: 10,
   },
-  forgotPassword: {
-    alignSelf: "flex-end",
-    paddingRight: 20,
-    marginTop: 5,
-  },
-  button: {
-    backgroundColor: "#e93c92",
+  button: {//COMMON
+    backgroundColor: colors.darkPink,
+    height: 60,
     width: "80%",
     borderRadius: 40,
-    marginVertical: 30,
-    paddingVertical: 10,
-    alignItems: "center",
-    height: 60,
     justifyContent: "center",
+    marginTop: 20,
+    
   },
-  noAccount: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-    color: "#666666",
-  },
-  noAccountText: {
-    fontSize: 14,
+  buttonText: {//COMMON
+    color: "white",
     fontWeight: "bold",
+    textAlign: "center",
+    fontSize: 18,
   },
-  link: {
-    color: "#68C4FF",
+  link: {//COMMON
+    color: colors.blue,
     fontSize: 15,
   },
-});
+})

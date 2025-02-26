@@ -15,6 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -37,14 +38,14 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
       <AccountSettingsHeaderComponent />
 
-      <ThemedView style={styles.whiteOverlay}>
-        <ThemedText style={styles.highlightedTitleText}>
+      <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
+        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
           You're All Set!
         </ThemedText>
-        <ThemedView style={styles.grayLine} />
+        <ThemedView style={globalStyles.grayLine} />
 
         <View>
           <div
@@ -54,7 +55,7 @@ export default function HomeScreen() {
               minWidth: "200px",
               minHeight: "200px",
               borderRadius: "50%",
-              backgroundColor: "#E93C92",
+              backgroundColor: colors.darkPink,
               alignContent: "center",
               alignItems: "center",
             }}
@@ -81,31 +82,31 @@ export default function HomeScreen() {
         </View>
 
         <ThemedView style={styles.headerWhite}>
-          <ThemedText style={styles.instructionTextBold}>
+          <ThemedText style={globalStyles.mediumBoldText}>
             Navigate to your calendar now.
           </ThemedText>
         </ThemedView>
 
         <ThemedView>
-          <ThemedText style={styles.infoSourceText}>{checkText}</ThemedText>
+          <ThemedText style={globalStyles.smallItalicText}>{checkText}</ThemedText>
         </ThemedView>
 
-        <ThemedView style={styles.buttonContainer}>
+        <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonBackNextContainer]}>
           <TouchableOpacity
-            style={styles.buttonNext}
+            style={[globalStyles.buttonNext, styles.buttonNext]}
             onPress={() => router.push("/")}
           >
-            <ThemedText style={styles.buttonTextNext}>Let's Go!</ThemedText>
+            <ThemedText style={[globalStyles.buttonTextNext]}>Let's Go!</ThemedText>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.buttonBack}
+            style={[globalStyles.buttonBack, styles.buttonBack]}
             onPress={() =>
               Linking.openURL(
                 "https://www.breastcancerhub.org/about-breast-cancer"
               )
             }
           >
-            <ThemedText style={styles.buttonTextBack}>
+            <ThemedText style={[globalStyles.buttonTextBack, styles.buttonTextBack]}>
               Explore Early Detection for Other Cancers
             </ThemedText>
           </TouchableOpacity>
@@ -116,114 +117,39 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E93C92",
-  },
   headerWhite: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
     paddingVertical: 10,
-    backgroundColor: "#FFFFFF",
-  },
-  iconWrapper: {
-    backgroundColor: "#EFCEE6",
-    borderRadius: 30,
-    padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
+    backgroundColor: colors.white,
   },
   whiteOverlay: {
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    padding: 20,
     flexDirection: "column",
     alignItems: "center",
     flex: 1,
   },
-  // titleText: {
-  //   fontSize: 24,
-  //   fontWeight: 'bold',
-  //   color: '#000000',
-  //   paddingTop: 25,
-  // },
-  highlightedTitleText: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: "#E93C92",
+  titleTextDarkPink: {
     marginBottom: 15,
     paddingTop: 10,
   },
-  // subtitleText: {
-  //   fontSize: 24,
-  //   fontWeight: 'bold',
-  //   color: '#000000',
-  //   marginTop: 20,
-  //   marginBottom: 10,
-  // },
-  instructionTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: "#000000",
-  },
-  infoSourceText: {
-    fontSize: 12,
-    color: "#999999",
-    marginTop: 20,
-    fontStyle: "italic",
-  },
-  learnMoreText: {
-    fontSize: 12,
-    color: "#68C4FF",
-    fontWeight: "bold",
-  },
-  learnMoreTextContainer: {
-    alignItems: "center",
-  },
-  buttonContainer: {
+  
+  buttonBackNextContainer: {
     flexDirection: "column",
-    justifyContent: "space-between",
     rowGap: 20,
-    marginTop: 20,
     alignItems: "center",
   },
   buttonBack: {
-    backgroundColor: "#FFFFFF",
     paddingVertical: 10,
     paddingHorizontal: 20,
     width: "60%",
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#ACACAC",
   },
   buttonNext: {
-    backgroundColor: "#E93C92",
     paddingVertical: 10,
     paddingHorizontal: 40,
     width: "60%",
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#E93C92",
   },
   buttonTextBack: {
-    color: "#E93C92",
     fontSize: 14,
-    textAlign: "center",
-  },
-  buttonTextNext: {
-    color: "#FFFFFF",
-    fontSize: 18,
-    textAlign: "center",
-  },
-  grayLine: {
-    height: 2,
-    backgroundColor: "#D3D3D3",
-    marginVertical: 10,
   },
 });
