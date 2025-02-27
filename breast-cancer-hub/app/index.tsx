@@ -210,6 +210,30 @@ export default function HomeScreen(props: HomeScreenProps) {
             Learn More about Breast Cancer
           </ThemedText>
         </TouchableOpacity>
+
+        <View style={styles.logoSection}>
+          <TouchableOpacity onPress={() => Linking.openURL("https://mbcglobalalliance.org/")}>
+            <Image source={require("../assets/images/MBCGA-Logo-Stacked_real.png")} style={styles.logoImage} />
+            <ThemedText style={styles.logoText}>Male Breast Cancer Global Alliance</ThemedText>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={() => Linking.openURL("https://www.facebook.com/KurlbaumIllustration/")}>
+            <Image source={require("../assets/images/kurlbaum_logo.png")} style={styles.logoImage} />
+            <ThemedText style={styles.logoText}>Kurlbaum Illustration</ThemedText>
+          </TouchableOpacity>
+
+          
+          <TouchableOpacity onPress={() => Linking.openURL("https://malebreastcancerhappens.org/")}>
+            <Image source={require("../assets/images/MBCH-LOGO.png")} style={styles.logoImage} />
+            <ThemedText style={styles.logoText}>Male Breast Cancer Happens</ThemedText>
+          </TouchableOpacity>
+          
+          <TouchableOpacity onPress={() => Linking.openURL("https://www.hcamidwest.com/about-us/about-sarah-cannon")}>
+            <Image source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")} style={styles.logoImage} />
+            <ThemedText style={styles.logoText}>Sarah Cannon Cancer Institute</ThemedText>
+          </TouchableOpacity>
+        </View>
+
       </ScrollView>
 
       {/* Modal for Learn More */}
@@ -447,5 +471,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
+  },
+  logoSection: {
+    flexWrap: "wrap",
+    flexDirection: "row", 
+    justifyContent: "space-around", 
+    alignItems: "center",
+    paddingVertical: 20,
+    paddingHorizontal: 20,
+    width: "100%", 
+    backgroundColor:"#E93C92",
+  },
+  logoImage: {
+    width: 120,
+    height: 40,
+    resizeMode: "contain",
+    flexShrink: 1,  
+  },
+  logoText: {
+    fontSize: 10,
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+    textDecorationLine: "underline",
   },
 });
