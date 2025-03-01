@@ -19,6 +19,7 @@ import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import { ExternalLink } from "@/components/ExternalLink";
 
 type Noti = {
   id: number;
@@ -107,131 +108,168 @@ export default function HomeScreen(props: HomeScreenProps) {
       {/* Content */}
       <ScrollView
         style={styles.contentContainer}
-        contentContainerStyle={{ paddingBottom: 20 }}
+        contentContainerStyle={{ flexGrow: 1 }}
       >
-        {/* Alerts Introduction Line */}
-        <View style={styles.introLine}>
-          <Ionicons
-            name="notifications-outline"
-            size={20}
-            color={colors.darkPink}
-            style={styles.icon}
+      {/* ensures the pink footer is pushed to the bottom if there's extra space.*/}
+      <View style={{ flex: 1, justifyContent: "space-between" }}></View>
+        {/* Main Content with padding */}
+        <View style={styles.mainContent}>
+          {/* Alerts Introduction Line */}
+          <View style={styles.introLine}>
+            <Ionicons
+              name="notifications-outline"
+              size={20}
+              color={colors.darkPink}
+              style={styles.icon}
+            />
+            <ThemedText style={styles.introText}>Alerts</ThemedText>
+          </View>
+
+          {/* Spacing */}
+          <View style={{ height: 40 }} />
+
+          {/* Notifications or No Alerts Message */}
+          {notifications.length === 0 ? (
+            <ThemedText style={styles.noAlertsText}>
+              There are no new alerts
+            </ThemedText>
+          ) : (
+            notifications.map((notification) => (
+              <React.Fragment key={notification.id}>
+                <NotificationComponent
+                  variant={notification.variant}
+                  date={notification.date}
+                  onDismiss={() => removeNotification(notification.id)}
+                />
+                <View style={{ height: 15 }} />
+              </React.Fragment>
+            ))
+          )}
+
+          {/* Spacing between sections */}
+          <View style={{ height: 40 }} />
+
+          {/* Calendar Introduction Line */}
+          <View style={styles.introLine}>
+            <Ionicons
+              name="calendar-outline"
+              size={20}
+              color={colors.darkPink}
+              style={styles.icon}
+            />
+            <ThemedText style={styles.calendarIntroText}>
+              View your calendar
+            </ThemedText>
+          </View>
+
+          {/* Spacing */}
+          <View style={{ height: 10 }} />
+
+          {/* Calendar Component */}
+          <CalendarComponent
+            isMenstruating={isMenstruating}
+            updateCheckupDay={() => {
+              const ts = getCheckupDay();
+              if (ts) {
+                const date = new Date(ts.year, ts.month, ts.date + 7);
+
+                setNotifications([
+                  {
+                    id: 1,
+                    variant:
+                      new Date().getTime() < date.getTime()
+                        ? "default"
+                        : "overdue",
+                    date,
+                  },
+                ]);
+              }
+            }}
           />
-          <ThemedText style={styles.introText}>Alerts</ThemedText>
+
+          {/* View Past Examinations */}
+          <TouchableOpacity>
+            <ThemedText style={styles.pastExamsText}>
+              View your past examinations here
+            </ThemedText>
+          </TouchableOpacity>
+
+          {/* Spacer */}
+          <View style={{ height: 20 }} />
+
+          {/* Contact Buttons */}
+          <TouchableOpacity
+            style={styles.contactButton}
+            onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
+          >
+            <ThemedText style={styles.contactButtonText}>
+              Contact Dr. Lopa
+            </ThemedText>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.learnMoreButton}
+            onPress={() => setModalVisible(true)}
+          >
+            <ThemedText style={styles.learnMoreButtonText}>
+              Learn More about Breast Cancer
+            </ThemedText>
+          </TouchableOpacity>
         </View>
 
-        {/* Spacing */}
-        <View style={{ height: 40 }} />
-
-        {/* Notifications or No Alerts Message */}
-        {notifications.length === 0 ? (
-          <ThemedText style={styles.noAlertsText}>
-            There are no new alerts
-          </ThemedText>
-        ) : (
-          notifications.map((notification) => (
-            <React.Fragment key={notification.id}>
-              <NotificationComponent
-                variant={notification.variant}
-                date={notification.date}
-                onDismiss={() => removeNotification(notification.id)}
+        {/* footer with logos */}
+        <View style={styles.footerContainer}>
+          
+          <ExternalLink href="https://mbcglobalalliance.org/" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/MBCGA-Logo-Stacked_real.png")}
+                style={styles.footerLogo}
               />
-              <View style={{ height: 15 }} />
-            </React.Fragment>
-          ))
-        )}
+              <ThemedText style={styles.footerLogoText}>
+                Male Breast Cancer Global Alliance
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
 
-        {/* Spacing between sections */}
-        <View style={{ height: 40 }} />
+          <ExternalLink href="https://www.facebook.com/KurlbaumIllustration/" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/kurlbaum_logo.png")}
+                style={styles.footerLogo}
+              />
+              <ThemedText style={styles.footerLogoText}>
+                Kurlbaum Illustration
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
 
-        {/* Calendar Introduction Line */}
-        <View style={styles.introLine}>
-          <Ionicons
-            name="calendar-outline"
-            size={20}
-            color={colors.darkPink}
-            style={styles.icon}
-          />
-          <ThemedText style={styles.calendarIntroText}>
-            View your calendar
-          </ThemedText>
-        </View>
+          <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/MBCH-LOGO.png")}
+                style={styles.footerLogo}
+              />
+              <ThemedText style={styles.footerLogoText}>
+                Male Breast Cancer Happens
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
 
-        {/* Spacing */}
-        <View style={{ height: 10 }} />
-
-        {/* Calendar Component */}
-        <CalendarComponent
-          isMenstruating={isMenstruating}
-          updateCheckupDay={() => {
-            const ts = getCheckupDay();
-            if (ts) {
-              const date = new Date(ts.year, ts.month, ts.date + 7);
-
-              setNotifications([
-                {
-                  id: 1,
-                  variant:
-                    new Date().getTime() < date.getTime()
-                      ? "default"
-                      : "overdue",
-                  date,
-                },
-              ]);
-            }
-          }}
-        />
-
-        {/* View Past Examinations */}
-        <TouchableOpacity>
-          <ThemedText style={styles.pastExamsText}>
-            View your past examinations here
-          </ThemedText>
-        </TouchableOpacity>
-
-        {/* Spacer */}
-        <View style={{ height: 20 }} />
-
-        {/* Contact Buttons */}
-        <TouchableOpacity
-          style={styles.contactButton}
-          onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
-        >
-          <ThemedText style={styles.contactButtonText}>
-            Contact Dr. Lopa
-          </ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.learnMoreButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <ThemedText style={styles.learnMoreButtonText}>
-            Learn More about Breast Cancer
-          </ThemedText>
-        </TouchableOpacity>
-
-        <View style={styles.logoSection}>
-          <TouchableOpacity onPress={() => Linking.openURL("https://mbcglobalalliance.org/")}>
-            <Image source={require("../assets/images/MBCGA-Logo-Stacked_real.png")} style={styles.logoImage} />
-            <ThemedText style={styles.logoText}>Male Breast Cancer Global Alliance</ThemedText>
-          </TouchableOpacity>
-          
-          <TouchableOpacity onPress={() => Linking.openURL("https://www.facebook.com/KurlbaumIllustration/")}>
-            <Image source={require("../assets/images/kurlbaum_logo.png")} style={styles.logoImage} />
-            <ThemedText style={styles.logoText}>Kurlbaum Illustration</ThemedText>
-          </TouchableOpacity>
-
-          
-          <TouchableOpacity onPress={() => Linking.openURL("https://malebreastcancerhappens.org/")}>
-            <Image source={require("../assets/images/MBCH-LOGO.png")} style={styles.logoImage} />
-            <ThemedText style={styles.logoText}>Male Breast Cancer Happens</ThemedText>
-          </TouchableOpacity>
-          
-          <TouchableOpacity onPress={() => Linking.openURL("https://www.hcamidwest.com/about-us/about-sarah-cannon")}>
-            <Image source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")} style={styles.logoImage} />
-            <ThemedText style={styles.logoText}>Sarah Cannon Cancer Institute</ThemedText>
-          </TouchableOpacity>
+          <ExternalLink
+            href="https://www.hcamidwest.com/about-us/about-sarah-cannon"
+            asChild
+          >
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")}
+                style={styles.footerLogo}
+              />
+              <ThemedText style={styles.footerLogoText}>
+                Sarah Cannon Cancer Institute
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
         </View>
 
       </ScrollView>
@@ -364,13 +402,17 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    paddingHorizontal: 20,
+    // Removed horizontal padding so pink footer can extend edge-to-edge
     paddingTop: 20,
+  },
+  mainContent: {
+    // We wrap main content here so it has horizontal padding
+    paddingHorizontal: 20,
   },
   introLine: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10 + 20, // to replace Spacing
+    marginBottom: 30, // replaced 10 + 20
   },
   icon: {
     marginRight: 10,
@@ -432,6 +474,33 @@ const styles = StyleSheet.create({
     color: colors.darkPink,
     fontWeight: "bold",
   },
+
+  // Footer with logos
+  footerContainer: {
+    flexDirection: "column",
+    alignItems: "center",
+    backgroundColor: "#E93C92",
+    width: "100%",
+    paddingVertical: 20,
+  },
+  footerLogoContainer: {
+    width: "100%",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  footerLogo: {
+    width: 120,
+    height: 40,
+    resizeMode: "contain",
+  },
+  footerLogoText: {
+    fontSize: 10,
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+    textDecorationLine: "underline",
+  },
+
   // Modal styles
   modalOverlay: {
     flex: 1,
@@ -471,28 +540,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     textAlign: "center",
-  },
-  logoSection: {
-    flexWrap: "wrap",
-    flexDirection: "row", 
-    justifyContent: "space-around", 
-    alignItems: "center",
-    paddingVertical: 20,
-    paddingHorizontal: 20,
-    width: "100%", 
-    backgroundColor:"#E93C92",
-  },
-  logoImage: {
-    width: 120,
-    height: 40,
-    resizeMode: "contain",
-    flexShrink: 1,  
-  },
-  logoText: {
-    fontSize: 10,
-    color: "white",
-    textAlign: "center",
-    marginTop: 5,
-    textDecorationLine: "underline",
   },
 });
