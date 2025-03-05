@@ -19,6 +19,7 @@ export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
   const totalSteps = 4; 
 
+  //TODO: Upon pressing back or next, scroll to top of screen
   const handleNext = () => {
     if (step < totalSteps - 1) {
       setStep(step + 1);
@@ -32,22 +33,23 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={globalStyles.bodyContainerWhite}>
       <AccountSettingsHeaderComponent />
       <ScrollView contentContainerStyle={styles.scrollContent}>
         {step === 0 && (
           //understanding breast cancer section
-          <View style={styles.whiteOverlay}>
+          <View style={globalStyles.whiteOverlay}>
             <View style={styles.background}>
               <View style={styles.titleContainer}>
-                <ThemedText style={styles.understandingText}>
+                <ThemedText style={globalStyles.titleText}>
                   Understanding
                 </ThemedText>
-                <ThemedText style={styles.bcText}>
+                <ThemedText style={[globalStyles.titleTextDarkPink,
+                styles.highlightedTitleText]}>
                   Breast Cancer
                 </ThemedText>
               </View>
-              <View style={styles.grayLine} />
+              <View style={globalStyles.grayLine} />
               <ThemedText style={styles.paragraphTextTitle}>
                 What is Breast Cancer?
               </ThemedText>
@@ -79,8 +81,8 @@ export default function OnboardingScreen() {
 
         {step === 1 && (
           //purpose of a self-exam section
-          <View style={styles.whiteOverlay}>
-            <ThemedText style={[globalStyles.titleText, styles.titleText]}>
+          <View style={globalStyles.whiteOverlay}>
+            <ThemedText style={globalStyles.titleText}>
               The Purpose of
             </ThemedText>
             <ThemedText
@@ -91,7 +93,7 @@ export default function OnboardingScreen() {
             >
               A Self-Exam
             </ThemedText>
-            <View style={styles.grayLine} />
+            <View style={globalStyles.grayLine} />
             <ThemedText style={styles.noticeTitle}>Notice:</ThemedText>
             <ThemedText style={styles.noticeText}>
               A self-exam is not a substitute for annual breast cancer screenings.
@@ -114,7 +116,7 @@ export default function OnboardingScreen() {
               symptoms such as lumps, pain, or changes in size that may be of concern
               and respond to them.
             </ThemedText>
-            <View style={styles.grayLine} />
+            <View style={globalStyles.grayLine} />
             <View style={styles.quotesContainer}>
               <ThemedText style={styles.quoteText}>
                 “The difference is, this could save your life.”
@@ -134,17 +136,18 @@ export default function OnboardingScreen() {
 
         {step === 2 && (
           //breast cancer screening and techniques section
-          <View style={styles.whiteOverlay}>
+          <View style={globalStyles.whiteOverlay}>
             <View style={styles.background}>
               <View style={styles.titleContainer}>
-                <ThemedText style={styles.understandingText}>
+                <ThemedText style={globalStyles.titleText}>
                   Breast Cancer
                 </ThemedText>
-                <ThemedText style={styles.bcText}>
+                <ThemedText style={[globalStyles.titleTextDarkPink,
+                styles.highlightedTitleText]}>
                   Screening & Techniques
                 </ThemedText>
               </View>
-              <View style={styles.grayLine} />
+              <View style={globalStyles.grayLine} />
               <ThemedText style={styles.paragraphText}>
                 Breast cancer originates in one or both breasts. Early detection through regular screening is essential because it enables treatment at a stage when the cancer is most manageable, often resulting in less aggressive interventions and improved survival rates.
                 {"\n\n"}
@@ -163,17 +166,18 @@ export default function OnboardingScreen() {
 
         {step === 3 && (
           //additional resources and contact information section
-          <View style={styles.whiteOverlay}>
+          <View style={globalStyles.whiteOverlay}>
             <View style={styles.background}>
               <View style={styles.titleContainer}>
-                <ThemedText style={styles.understandingText}>
+                <ThemedText style={globalStyles.titleText}>
                   Additional Resources &
                 </ThemedText>
-                <ThemedText style={styles.bcText}>
+                <ThemedText style={[globalStyles.titleTextDarkPink,
+                styles.highlightedTitleText]}>
                   Contact Information
                 </ThemedText>
               </View>
-              <View style={styles.grayLine} />
+              <View style={globalStyles.grayLine} />
               <ThemedText style={styles.paragraphText}>
                 If you experience any symptoms or require further testing, please consult your healthcare provider promptly.
                 {"\n\n"}For additional support, you can download the "One-stop Lifesaving Early Detection Cards" for other prevalent cancers by visiting:
@@ -198,46 +202,46 @@ export default function OnboardingScreen() {
           </View>
         )}
 
-
         {/*navigation buttons*/}
-        <ThemedView style={styles.buttonContainer}>
-          {step > 0 && (
-            <TouchableOpacity style={globalStyles.buttonBack} onPress={handleBack}>
-              <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-            </TouchableOpacity>
-          )}
           
-          {/*conditional for when step = 0 (makes it so the next button stays to the right when the back button isn't present)*/}
-          {step === 0 ? (
-            <ThemedView style={styles.buttonStepZeroContainer}>
+        {/*conditional for when step = 0 (makes it so the next button stays to the right when the back button isn't present)*/}
+        {step === 0 ? (
+          <ThemedView style={styles.buttonStepZeroContainer}>
+            <TouchableOpacity style={globalStyles.buttonNext} onPress={handleNext}>
+              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+            </TouchableOpacity>
+          </ThemedView>
+        ) : (
+          <ThemedView style={globalStyles.buttonBackNextContainer}>
+            
+            <ThemedView>
+            {step > 0 && (
+              <TouchableOpacity style={globalStyles.buttonBack} onPress={handleBack}>
+                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+              </TouchableOpacity>
+            )}
+            </ThemedView>
+            <ThemedView>
+                {step < totalSteps - 1 ? (
               <TouchableOpacity style={globalStyles.buttonNext} onPress={handleNext}>
                 <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
               </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={globalStyles.buttonNext} onPress={() => {router.dismiss(1); router.push("/askMenstruate")}}>
+                <ThemedText style={globalStyles.buttonTextNext}>Finish</ThemedText>
+              </TouchableOpacity>
+            )}
             </ThemedView>
-          ) : (
-            <ThemedView style={styles.buttonBackNextContainer}>
-              {step < totalSteps - 1 ? (
-                <TouchableOpacity style={globalStyles.buttonNext} onPress={handleNext}>
-                  <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-                </TouchableOpacity>
-              ) : (
-                <TouchableOpacity style={globalStyles.buttonNext} onPress={() => router.push("/askMenstruate")}>
-                  <ThemedText style={globalStyles.buttonTextNext}>Finish</ThemedText>
-                </TouchableOpacity>
-              )}
-            </ThemedView>
-          )}
-        </ThemedView>
+            
+          </ThemedView>
+        )}
+        
       </ScrollView>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
   stepOneNextContainer: {
     justifyContent: "flex-end",
   },
@@ -247,13 +251,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingBottom: 20, 
   },
-  whiteOverlay: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    padding: 20,
-    marginBottom: 20,
-  },
   background: {
     padding: 10,
   },
@@ -261,22 +258,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  understandingText: {
-    color: colors.black,
-    fontSize: 32,
-    fontWeight: "bold",
+  highlightedTitleText: {
+    marginBottom: 15,
     paddingTop: 10,
-  },
-  bcText: {
-    color: colors.darkPink,
-    fontSize: 32,
-    fontWeight: "bold",
-    paddingTop: 10,
-  },
-  grayLine: {
-    height: 2,
-    backgroundColor: colors.lightestGray,
-    marginVertical: 10,
   },
   paragraphTextTitle: {
     fontSize: 20,
@@ -306,13 +290,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     marginBottom: 10,
   },
-  titleText: {
-    paddingTop: 25,
-  },
-  highlightedTitleText: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
+
   noticeTitle: {
     fontSize: 24,
     fontWeight: "bold",
@@ -363,18 +341,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginBottom: 10,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  buttonBackNextContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end", 
-    width: "90.3%", 
-    paddingHorizontal: 10, 
-    marginRight: 30
-  },
   buttonStepZeroContainer: {
     flexDirection: "row", 
     justifyContent: "flex-end", 
@@ -383,6 +349,6 @@ const styles = StyleSheet.create({
     marginRight: 30
   },
   linkText: {
-    color: "68C4FF"
+    color: colors.blue
   }
 });

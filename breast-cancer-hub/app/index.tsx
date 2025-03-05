@@ -120,6 +120,12 @@ export default function HomeScreen(props: HomeScreenProps) {
           <ThemedText style={styles.introText}>Alerts</ThemedText>
         </View>
 
+        <TouchableOpacity
+          onPress={() => {router.push("/onboarding")}}
+          style={{width: 100, height: 100}}>
+          <ThemedText>onboarding</ThemedText>
+        </TouchableOpacity>
+
         {/* Spacing */}
         <View style={{ height: 40 }} />
 
