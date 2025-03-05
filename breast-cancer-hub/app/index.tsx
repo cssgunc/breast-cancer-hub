@@ -106,12 +106,7 @@ export default function HomeScreen(props: HomeScreenProps) {
       </View>
 
       {/* Content */}
-      <ScrollView
-        style={styles.contentContainer}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-      {/* ensures the pink footer is pushed to the bottom if there's extra space.*/}
-      <View style={{ flex: 1, justifyContent: "space-between" }}></View>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
         {/* Main Content with padding */}
         <View style={styles.mainContent}>
           {/* Alerts Introduction Line */}
@@ -185,6 +180,7 @@ export default function HomeScreen(props: HomeScreenProps) {
                 ]);
               }
             }}
+
           />
 
           {/* View Past Examinations */}
@@ -219,7 +215,6 @@ export default function HomeScreen(props: HomeScreenProps) {
 
         {/* footer with logos */}
         <View style={styles.footerContainer}>
-          
           <ExternalLink href="https://mbcglobalalliance.org/" asChild>
             <TouchableOpacity style={styles.footerLogoContainer}>
               <Image
@@ -256,10 +251,7 @@ export default function HomeScreen(props: HomeScreenProps) {
             </TouchableOpacity>
           </ExternalLink>
 
-          <ExternalLink
-            href="https://www.hcamidwest.com/about-us/about-sarah-cannon"
-            asChild
-          >
+          <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
             <TouchableOpacity style={styles.footerLogoContainer}>
               <Image
                 source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")}
@@ -477,15 +469,19 @@ const styles = StyleSheet.create({
 
   // Footer with logos
   footerContainer: {
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     width: "100%",
     paddingVertical: 20,
+    minHeight: "100%",
+    marginBottom: -1000,
+    paddingBottom: 1000,
   },
   footerLogoContainer: {
     width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    paddingHorizontal: 20,
     marginVertical: 10,
   },
   footerLogo: {
@@ -494,10 +490,11 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   footerLogoText: {
-    fontSize: 10,
+    fontSize: 12,
     color: "white",
-    textAlign: "center",
-    marginTop: 5,
+    flex: 1,
+    textAlign: "right",
+    marginLeft: 20,
     textDecorationLine: "underline",
   },
 
