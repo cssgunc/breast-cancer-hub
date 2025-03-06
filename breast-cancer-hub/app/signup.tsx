@@ -61,7 +61,7 @@ export default function Signup() {
     };
     const body = JSON.stringify(data);
 
-    fetch(BACKEND_URL + "/auth", {
+    fetch("http://localhost:3000/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,10 +80,10 @@ export default function Signup() {
       })
       .then((responseData) => {
         console.log(responseData.message);
-        router.push("/");
         saveSetting("email", email);
         saveSetting("token", responseData.sessionToken);
         saveSetting("name", name);
+        router.push("/login")
 
         //setErrorMessage(responseData.message);
       })

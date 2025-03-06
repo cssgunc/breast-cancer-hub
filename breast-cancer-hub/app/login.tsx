@@ -26,7 +26,7 @@ export default function HomeScreen() {
 
     const data = { email, password };
 
-    fetch("https://your-backend-endpoint.com/api/auth", {
+    fetch("http://localhost:3000/auth", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +39,7 @@ export default function HomeScreen() {
           alert("Login successful");
           setEmail("");
           setPassword("");
+          router.push("/")
         } else if (data.error) {
           alert(`Error: ${data.error}`);
         }
