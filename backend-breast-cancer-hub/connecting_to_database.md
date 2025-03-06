@@ -5,8 +5,8 @@ Follow these instructions to be able to send requests to the server and perform 
 Create an .env file in the backend-breast-cancer-hub folder. It should just be called ".env"
 
 ## Database URI Variable
-In the .env file paste:
-`DATABASE_URL=postgresql://CSSGBCH_owner:dqr7O6GbVWiK@ep-damp-credit-a5cyk8ju.us-east-2.aws.neon.tech/CSSGBCH?sslmode=require`
+In the .env file DM one of the leads for the connection string to the database, and paste it into the .env file as:
+`DATABASE_URL=[connection string]`
 
 ## Starting the Server
 
