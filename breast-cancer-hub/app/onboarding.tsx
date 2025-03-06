@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -18,6 +18,14 @@ import { router } from "expo-router";
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
   const totalSteps = 4; 
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  //scrolls to top whenever the step changes
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    }
+  }, [step]);
 
   //TODO: Upon pressing back or next, scroll to top of screen
   const handleNext = () => {
@@ -35,7 +43,9 @@ export default function OnboardingScreen() {
   return (
     <ThemedView style={globalStyles.bodyContainerWhite}>
       <AccountSettingsHeaderComponent />
-      <ScrollView contentContainerStyle={styles.scrollContent}>
+      <ScrollView 
+      ref={scrollViewRef}
+      contentContainerStyle={styles.scrollContent}>
         {step === 0 && (
           //understanding breast cancer section
           <View style={globalStyles.whiteOverlay}>
