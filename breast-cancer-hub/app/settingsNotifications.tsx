@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
+import { colors } from "@/components/StyleSheet";
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -109,7 +110,7 @@ export default function NotificationsScreen() {
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons name="chevron-back" size={24} color="white" />
+          <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Notifications Text */}
         <ThemedText style={styles.headerTitle}>Notifications</ThemedText>
@@ -133,9 +134,9 @@ export default function NotificationsScreen() {
                 style={styles.checkboxContainer}
               >
                 {pushNotifications ? (
-                  <Ionicons name="checkbox" size={24} color="#E93C92" />
+                  <Ionicons name="checkbox" size={24} color={colors.darkPink} />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color="#E93C92" />
+                  <Ionicons name="square-outline" size={24} color={colors.darkPink} />
                 )}
               </TouchableOpacity>
               <ThemedText style={styles.optionTitle}>
@@ -157,9 +158,9 @@ export default function NotificationsScreen() {
                 style={styles.checkboxContainer}
               >
                 {inAppNotifications ? (
-                  <Ionicons name="checkbox" size={24} color="#E93C92" />
+                  <Ionicons name="checkbox" size={24} color={colors.darkPink} />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color="#E93C92" />
+                  <Ionicons name="square-outline" size={24} color={colors.darkPink} />
                 )}
               </TouchableOpacity>
               <ThemedText style={styles.optionTitle}>
@@ -197,11 +198,11 @@ export default function NotificationsScreen() {
                 <Switch
                   value={entry.enabled}
                   onValueChange={() => toggleTimeEntry(entry.id)}
-                  trackColor={{ false: "#767577", true: "#EFCEE6" }}
-                  thumbColor={entry.enabled ? "#ffffff" : "#f4f3f4"}
+                  trackColor={{ false: colors.backgroundGray, true: colors.darkPink }}
+                  thumbColor={colors.white}
                 />
                 <TouchableOpacity onPress={() => removeTimeEntry(entry.id)}>
-                  <MaterialIcons name="delete" size={24} color="black" />
+                  <MaterialIcons name="delete" size={24} color={colors.black} />
                 </TouchableOpacity>
               </View>
             </View>
@@ -209,7 +210,7 @@ export default function NotificationsScreen() {
 
           {/* Add Time Button */}
           <TouchableOpacity style={styles.addTimeButton} onPress={addTimeEntry}>
-            <Ionicons name="add-circle" size={24} color="#E93C92" />
+            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
 
@@ -226,7 +227,7 @@ export default function NotificationsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF7FD", // Background color of the page
+    backgroundColor: colors.backgroundLightGray, // Background color of the page
   },
   headerContainer: {
     flexDirection: "row",
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
@@ -246,7 +247,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 36,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   contentContainer: {
@@ -255,11 +256,11 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     width: "90%",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 20,
     padding: 40,
     // Shadow
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -267,23 +268,23 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     fontSize: 20,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
     marginBottom: 10,
   },
   sectionSubText1: {
     fontSize: 16,
     fontWeight: "500",
-    color: "black",
+    color: colors.black,
     marginBottom: 15,
   },
   sectionSubText2: {
     fontSize: 16,
     fontWeight: "500",
-    color: "black",
+    color: colors.black,
   },
   optionBox: {
-    backgroundColor: "#FFF7FD",
+    backgroundColor: colors.backgroundLightGray,
     borderRadius: 10,
     padding: 15,
     marginBottom: 15,
@@ -298,23 +299,23 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   optionDescription: {
     fontSize: 15,
-    color: "#757575",
+    color: colors.mediumGray,
     marginTop: 10,
     lineHeight: 20,
   },
   divider: {
     height: 4,
-    backgroundColor: "#EFCEE6",
+    backgroundColor: colors.lightPink,
     width: "100%",
     alignSelf: "center",
     marginVertical: 30,
   },
   selectTimesText: {
-    color: "#000000",
+    color: colors.black,
     fontSize: 16,
     fontStyle: "italic",
     fontWeight: "200",
@@ -323,7 +324,7 @@ const styles = StyleSheet.create({
   timeEntryBox: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#FFF7FD",
+    backgroundColor: colors.backgroundLightGray,
     borderRadius: 10,
     padding: 15,
     marginBottom: 10,
@@ -337,16 +338,16 @@ const styles = StyleSheet.create({
   },
   timeText: {
     fontSize: 15,
-    color: "black",
+    color: colors.black,
     marginRight: 5,
   },
   periodText: {
     fontSize: 15,
-    color: "black",
+    color: colors.black,
   },
   alarmText: {
     fontSize: 12,
-    color: "#757575",
+    color: colors.mediumGray,
     marginTop: 5,
   },
   timeEntryRight: {
@@ -357,21 +358,21 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     alignSelf: "center",
-    backgroundColor: "#FFF7FD",
+    backgroundColor: colors.backgroundLightGray,
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: "#E93C92",
+    borderColor: colors.darkPink,
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 10,
   },
   addTimeText: {
     fontSize: 16,
-    color: "#E93C92",
+    color: colors.darkPink,
     marginLeft: 10,
   },
   saveButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",
@@ -379,7 +380,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     fontSize: 20,
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
 });

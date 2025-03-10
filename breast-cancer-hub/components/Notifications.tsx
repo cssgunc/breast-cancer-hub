@@ -4,6 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { colors } from "./StyleSheet";
 
 interface NotificationComponentProps {
   variant?: "default" | "overdue";
@@ -25,9 +26,9 @@ export function NotificationComponent({
   const headerText =
     variant === "overdue" ? "Overdue Examination" : "Examination Reminder";
   const dateCircleBackgroundColor =
-    variant === "overdue" ? "#FF4D4D" : "#E93C92"; // Red tint for overdue
+    variant === "overdue" ? "#FF4D4D" : colors.darkPink; // Red tint for overdue
   const containerBackgroundColor =
-    variant === "overdue" ? "#FFE5E5" : "#FFF7FD"; // Lighter red background
+    variant === "overdue" ? "#FFE5E5" : colors.backgroundLightGray; // Lighter red background
 
   // Format the date
   const monthNames = [
@@ -73,7 +74,7 @@ export function NotificationComponent({
       </TouchableOpacity>
       {/* Trash Icon */}
       <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>
-        <Ionicons name="trash-outline" size={24} color="#E93C92" />
+        <Ionicons name="trash-outline" size={24} color={colors.darkPink} />
       </TouchableOpacity>
     </ThemedView>
   );
@@ -99,11 +100,11 @@ const styles = StyleSheet.create({
   },
   monthText: {
     fontSize: 16,
-    color: "white",
+    color: colors.white,
   },
   dayText: {
     fontSize: 20,
-    color: "white",
+    color: colors.white,
   },
   textContainer: {
     flex: 1,
@@ -111,12 +112,12 @@ const styles = StyleSheet.create({
   headerText: {
     fontWeight: "bold",
     fontSize: 16,
-    color: "black",
+    color: colors.black,
     marginBottom: 5,
   },
   bodyText: {
     fontSize: 14,
-    color: "black",
+    color: colors.black,
   },
   trashIconContainer: {
     paddingLeft: 10,

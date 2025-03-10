@@ -12,6 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
+import { colors } from "@/components/StyleSheet";
 
 
 
@@ -80,7 +81,7 @@ export default function SettingsScreen() {
           style={styles.backButton}
           onPress={() => router.back()}
         >
-          <Ionicons name="chevron-back" size={24} color="white" />
+          <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Settings Text */}
         <ThemedText style={styles.settingsText}>Settings</ThemedText>
@@ -100,7 +101,7 @@ export default function SettingsScreen() {
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
-              <Ionicons name="person" size={36} color="#E93C92" />
+              <Ionicons name="person" size={36} color={colors.darkPink} />
             </View>
           </View>
 
@@ -113,42 +114,42 @@ export default function SettingsScreen() {
 
             {/* Notification Preferences */}
             <TouchableOpacity
-              style={styles.optionContainer}
+              style={[styles.optionContainer, {height: 1}]}
               onPress={() => router.push("./settingsNotifications")}
             >
               <ThemedText style={styles.optionText}>
                 Notification Preferences
               </ThemedText>
-              <Ionicons name="chevron-forward" size={20} color="black" />
+              <Ionicons name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity style={styles.optionContainer}>
+            <TouchableOpacity style={[styles.optionContainer, {height: 1}]}>
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
               </ThemedText>
-              <Ionicons name="chevron-forward" size={20} color="black" />
+              <Ionicons name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
 
             {/* Telemetry */}
-            <View style={styles.optionContainer}>
+            <View style={[styles.optionContainer, {height: 1}]}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: "#EFCEE6" }}
-                thumbColor={isTelemetryEnabled ? "#ffffff" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#767577", true: colors.lightPink }}
+                thumbColor={isTelemetryEnabled ? colors.white : "#f4f3f4"}
+                ios_backgroundColor={colors.darkGray}
                 onValueChange={() => setIsTelemetryEnabled(!isTelemetryEnabled)}
                 value={isTelemetryEnabled}
               />
             </View>
 
             {/* Backup */}
-            <View style={styles.optionContainer}>
+            <View style={[styles.optionContainer, {height: 1}]}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: "#EFCEE6" }}
-                thumbColor={isBackupEnabled ? "#ffffff" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#767577", true: colors.lightPink }}
+                thumbColor={isBackupEnabled ? colors.white : "#f4f3f4"}
+                ios_backgroundColor={colors.darkGray}
                 onValueChange={() => setIsBackupEnabled(!isBackupEnabled)}
                 value={isBackupEnabled}
               />
@@ -170,16 +171,16 @@ export default function SettingsScreen() {
               onPress={() => router.push("./settingsProfile")}
             >
               <ThemedText style={styles.optionText}>Edit Profile</ThemedText>
-              <Ionicons name="chevron-forward" size={20} color="black" />
+              <Ionicons name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
 
             {/* Dark Mode */}
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Dark Mode</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: "#EFCEE6" }}
-                thumbColor={isDarkModeEnabled ? "#ffffff" : "#f4f3f4"}
-                ios_backgroundColor="#3e3e3e"
+                trackColor={{ false: "#767577", true: colors.lightPink }}
+                thumbColor={isDarkModeEnabled ? colors.white : "#f4f3f4"}
+                ios_backgroundColor={ colors.darkGray }
                 onValueChange={() => setIsDarkModeEnabled(!isDarkModeEnabled)}
                 value={isDarkModeEnabled}
               />
@@ -195,7 +196,7 @@ export default function SettingsScreen() {
               >
                 Change Date or Scheduling Type
               </ThemedText>
-              <Ionicons name="chevron-forward" size={20} color="black" />
+              <Ionicons name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
           </View>
 
@@ -215,7 +216,7 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF7FD", // Background color of the page
+    backgroundColor: colors.backgroundLightGray, // Background color of the page
   },
   headerContainer: {
     flexDirection: "row",
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
@@ -235,7 +236,7 @@ const styles = StyleSheet.create({
   },
   settingsText: {
     fontSize: 36,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   contentContainer: {
@@ -244,11 +245,11 @@ const styles = StyleSheet.create({
   },
   mainContainer: {
     width: "90%",
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     borderRadius: 20,
     padding: 40,
     // Shadow
-    shadowColor: "#000",
+    shadowColor: colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 5,
@@ -264,15 +265,15 @@ const styles = StyleSheet.create({
   },
   userNameText: {
     fontSize: 36,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   userEmailText: {
     fontSize: 15,
-    color: "black",
+    color: colors.black,
   },
   profileIconContainer: {
-    backgroundColor: "#F5C4DC",
+    backgroundColor: colors.mediumPink, //Light-ish pink used specifically for 
     width: 60,
     height: 60,
     borderRadius: 30, // Circular
@@ -281,7 +282,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 4,
-    backgroundColor: "#EFCEE6",
+    backgroundColor: colors.lightPink,
     width: "100%",
     alignSelf: "center",
     marginVertical: 30,
@@ -291,7 +292,7 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     fontSize: 20,
-    color: "black",
+    color: colors.black,
     fontWeight: "bold",
     marginBottom: 10,
   },
@@ -303,12 +304,12 @@ const styles = StyleSheet.create({
   },
   optionText: {
     fontSize: 15,
-    color: "black",
+    color: colors.black,
     flex: 1,
     flexWrap: "wrap",
   },
   saveButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",
@@ -316,7 +317,7 @@ const styles = StyleSheet.create({
   },
   saveButtonText: {
     fontSize: 20,
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
 });

@@ -13,6 +13,7 @@ import { router, useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -152,10 +153,10 @@ export default function HomeScreen() {
 
   if (isLoading) {
     return (
-      <ThemedView style={styles.container}>
+      <ThemedView style={globalStyles.bodyContainerDarkPink}>
         <AccountSettingsHeaderComponent />
 
-        <ThemedView style={styles.whiteOverlay}>
+        <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
           <ThemedView style={styles.imageContainer}>
             <Image
               source={instructions[0].image}
@@ -167,12 +168,12 @@ export default function HomeScreen() {
             {instructions[0].text}
           </ThemedText>
 
-          <ThemedView style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonBack} onPress={back}>
-              <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
+          <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
+            <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
+              <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonNext} onPress={next}>
-              <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
+            <TouchableOpacity style={[globalStyles.buttonNext, styles.buttonNext]} onPress={next}>
+              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
             </TouchableOpacity>
           </ThemedView>
         </ThemedView>
@@ -181,11 +182,11 @@ export default function HomeScreen() {
   }
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
       <AccountSettingsHeaderComponent />
 
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <ThemedView style={styles.whiteOverlay}>
+      <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+        <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
           {/* Image container */}
           <ThemedView style={styles.imageContainer}>
             <Image
@@ -200,12 +201,12 @@ export default function HomeScreen() {
             </Text>
           </ThemedView>
 
-          <ThemedView style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonBack} onPress={back}>
-              <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
+          <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
+            <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
+              <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonNext} onPress={next}>
-              <ThemedText style={styles.buttonTextNext}>Next</ThemedText>
+            <TouchableOpacity style={[globalStyles.buttonNext, styles.buttonNext]} onPress={next}>
+              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
             </TouchableOpacity>
           </ThemedView>
         </ThemedView>
@@ -215,11 +216,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E93C92",
-    flexDirection: "column",
-  },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
@@ -232,21 +228,13 @@ const styles = StyleSheet.create({
     height: "100%",
     margin: 10,
   },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
-  },
   whiteOverlay: {
-    backgroundColor: "#FFFFFF",
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    padding: 20,
     flexDirection: "column",
     alignItems: "center",
     flex: 1,
   },
   instructionText: {
-    color: "#000000",
+    color: colors.black,
     fontSize: 16,
     fontWeight: "bold",
     paddingTop: 10,
@@ -255,7 +243,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     padding: 10,
     borderWidth: 3,
-    borderColor: "#000000",
+    borderColor: colors.black,
     width: "20%",
     paddingHorizontal: "5%",
     paddingVertical: "2%",
@@ -270,34 +258,12 @@ const styles = StyleSheet.create({
   },
 
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
     marginTop: "auto",
   },
   buttonBack: {
-    backgroundColor: "#FFFFFF",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#ACACAC",
     margin: 20,
   },
   buttonNext: {
-    backgroundColor: "#E93C92",
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: "#E93C92",
     margin: 20,
-  },
-  buttonTextBack: {
-    color: "#E93C92",
-    fontSize: 18,
-  },
-  buttonTextNext: {
-    color: "#FFFFFF",
-    fontSize: 18,
   },
 });

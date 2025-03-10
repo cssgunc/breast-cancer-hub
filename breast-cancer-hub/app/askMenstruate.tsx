@@ -4,6 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
+import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
@@ -30,7 +31,7 @@ export default function MenstruationSelectionScreen() {
   };
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
       {/* Logo Container */}
       <View style={styles.logoContainer}>
         <View style={styles.logoCircle}>
@@ -135,10 +136,6 @@ export default function MenstruationSelectionScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E93C92",
-  },
   logoContainer: {
     position: "absolute",
     top: 130 - 82, // 60 (marginTop of whiteContainer) - 82 (half of logoCircle diameter)
@@ -151,7 +148,7 @@ const styles = StyleSheet.create({
     width: 164,
     height: 164,
     borderRadius: 82, // Half of the diameter
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -162,7 +159,7 @@ const styles = StyleSheet.create({
   },
   whiteContainer: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: colors.white,
     marginTop: 130,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -172,22 +169,22 @@ const styles = StyleSheet.create({
   },
   titleText: {
     fontSize: 20,
-    color: "#3E3E3E",
+    color: colors.darkGray,
     fontWeight: "bold",
     textAlign: "center",
     marginTop: 10, // Slight space under the circle
   },
   subtitleText: {
     fontSize: 15,
-    color: "#3E3E3E",
+    color: colors.darkGray,
     textAlign: "center",
     marginTop: 10,
     marginBottom: 20,
   },
   optionButton: {
     width: "60%", // Made the button smaller
-    backgroundColor: "#FFF7FD",
-    borderColor: "#E93C92",
+    backgroundColor: colors.backgroundLightGray,
+    borderColor: colors.darkPink,
     borderWidth: 3,
     borderRadius: 50,
     paddingVertical: 5, // Adjusted padding for smaller button
@@ -195,20 +192,20 @@ const styles = StyleSheet.create({
     marginTop: 15, // Slightly reduced to compact buttons
   },
   optionButtonSelected: {
-    backgroundColor: "#E93C92",
-    borderColor: "#A1145B",
+    backgroundColor: colors.darkPink,
+    borderColor: colors.darkestPink,
   },
   optionButtonText: {
     fontSize: 20,
-    color: "#E93C92",
+    color: colors.darkPink,
     fontWeight: "bold",
   },
   optionButtonSubText: {
     fontSize: 14,
-    color: "#E93C92",
+    color: colors.darkPink,
   },
   optionButtonTextSelected: {
-    color: "white",
+    color: colors.white,
   },
   errorMessage: {
     color: "red",
@@ -218,7 +215,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   saveButton: {
-    backgroundColor: "#E93C92",
+    backgroundColor: colors.darkPink,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",
@@ -226,7 +223,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   saveButtonText: {
-    color: "white",
+    color: colors.white,
     fontWeight: "bold",
   },
 });
