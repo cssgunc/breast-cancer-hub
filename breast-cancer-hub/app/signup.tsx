@@ -59,7 +59,7 @@ export default function Signup() {
     };
     const body = JSON.stringify(data);
 
-    fetch(BACKEND_URL + "/auth", {
+    fetch("http://localhost:3000" + "/auth", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -82,6 +82,7 @@ export default function Signup() {
         saveSetting("email", email);
         saveSetting("token", responseData.sessionToken);
         saveSetting("name", name);
+        saveSetting("userId", responseData.userId);
 
         //setErrorMessage(responseData.message);
       })

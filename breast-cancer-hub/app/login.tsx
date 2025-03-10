@@ -11,6 +11,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { saveSetting } from "@/hooks/useSettings";
 
 export default function HomeScreen() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ export default function HomeScreen() {
 
     const data = { email, password };
 
-    fetch("https://your-backend-endpoint.com/api/auth", {
+    fetch("http://localhost:3000/auth", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -36,8 +37,11 @@ export default function HomeScreen() {
       .then((data) => {
         if (data.message) {
           alert("Login successful");
-          setEmail("");
-          setPassword("");
+          router.push("/");
+          saveSetting("email", data.email);
+          saveSetting("token", data.sessionToken);
+          saveSetting("name", data.name);
+          saveSetting("userId", data.userId);
         } else if (data.error) {
           alert(`Error: ${data.error}`);
         }

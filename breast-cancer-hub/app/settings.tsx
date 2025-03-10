@@ -13,23 +13,64 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 
+
+
 export default function SettingsScreen() {
   const router = useRouter();
-
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [isDarkModeEnabled, setIsDarkModeEnabled] = React.useState(false);
-
-  const [person, setPerson] = useState({ name: "", email: "" });
-
+  
+  // API call to update user settings once "save settings" button is clicked
+  function saveSettings() {
+    fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+      method: "PUT", 
+      headers: {
+        "Content-Type" : "application/json",
+        "x-session-token": person.token,
+        'x-user-email' : person.email,
+        },
+        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: isDarkModeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, scheduling_type: "period", notification_times: '02:43:49.441286', locale: "temp"})
+      })
+  }
+  
+  // Pulling information from local storage
   useEffect(() => {
     getSetting("name").then((name) =>
-      getSetting("email").then((email) => {
-        setPerson({ name, email });
+      getSetting("email").then((email) => 
+        getSetting("token").then((token) => 
+          getSetting("userId").then((userId) => {
+        setPerson({ name,email,token, userId});
       })
+    )
+    )
     );
   }, []);
 
+  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
+
+  // API call to read user settings.
+  useEffect(() => {
+    if (person.token == "") {
+      return
+    } else {
+      fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+        method: "GET", 
+        headers: {
+          "x-session-token": person.token,
+          'x-user-email' : person.email,
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          setIsTelemetryEnabled(data.settings.use_telemetry);
+          setIsDarkModeEnabled(data.settings.use_dark_mode);
+          setIsBackupEnabled(data.settings.use_backup_data);
+        })
+        .catch(error => console.error(error));
+    }
+  }, [person.token]);
+  
   return (
     <ThemedView style={styles.container}>
       {/* Header */}
@@ -159,8 +200,11 @@ export default function SettingsScreen() {
           </View>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton}>
-            <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
+          <TouchableOpacity style={styles.saveButton} onPress={() => saveSettings()}>
+            <ThemedText 
+              style={styles.saveButtonText}
+              onPress = {() => {saveSettings();}}
+            >Save Settings</ThemedText>
           </TouchableOpacity>
         </View>
       </ScrollView>

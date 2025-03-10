@@ -63,8 +63,8 @@ app.post('/auth', async (req: Request, res: Response) => {
       [result.rows[0].id, hashedToken]
     )
 
-    res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken })
-    console.log("succ")
+    res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken, userId: result.rows[0].id })
+    console.log("gotta give them that noct-tuah")
     return
 
 
@@ -86,13 +86,14 @@ app.put('/auth', async (req: Request, res: Response) => {
   }
 
   try {
-    const check = await pool.query('SELECT id, password_hash FROM USERS WHERE USERS.email = $1', [email])
+    const check = await pool.query('SELECT id, password_hash, user_name FROM USERS WHERE USERS.email = $1', [email])
     if (check.rows.length == 0) {
       res.status(404).json({ error: 'Account not found' })
       return
     }
     const hashedPassword = check.rows[0].password_hash
     const userId = check.rows[0].id
+    const name = check.rows[0].user_name
 
 
     const passwordMatch = await bcrypt.compare(password, hashedPassword)
@@ -105,7 +106,7 @@ app.put('/auth', async (req: Request, res: Response) => {
         [hashedToken, userId]
       )
 
-      res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken })
+      res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken, userId: userId, name: name, email: email})
       return
     }
     else {
@@ -183,31 +184,40 @@ app.get('/settings', async (req: Request, res: Response) => {
 app.put('/settings', async (req: Request, res: Response) => {
   const sessionToken = req.headers['x-session-token'] as string;
   const email = req.headers['x-user-email'] as string;
-  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification } = req.body;
+  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_dark_mode, use_push_notifications, use_in_app_notifications } = req.body;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
     res.status(403).json({ error: 'Unauthorized' });
     return
   }
 
-  if (!user_id || !scheduling_type || !notification_times || !locale) {
-    res.status(400).json({ error: 'user_id, scheduling_type, notification_times, and locale are required' });
+  if (!user_id) {
+    res.status(400).json({ error: 'user_id is required' });
     return
   }
 
   try {
     const result = await pool.query(
-      `UPDATE settings 
-       SET scheduling_type = $1, 
-           notification_times = $2, 
-           locale = $3, 
-           use_backup_data = $4, 
-           use_telemetry = $5, 
-           use_push_notification = $6, 
-           use_in_app_notification = $7 
-       WHERE user_id = $8 
+      `INSERT INTO settings
+        (scheduling_type, notification_times, locale, use_backup_data, use_telemetry,
+        use_dark_mode, use_push_notifications, use_in_app_notifications, user_id)
+        VALUES 
+        (COALESCE($1, 'period'), COALESCE($2::time without time zone, '12:00:00.000000'), COALESCE($3, 'English'), COALESCE($4, false), COALESCE($5, false), 
+        COALESCE($6, false), COALESCE($7, false), COALESCE($8, false), $9) 
+      ON CONFLICT (user_id) 
+      DO UPDATE SET 
+        scheduling_type = COALESCE($1, settings.scheduling_type), 
+        notification_times = COALESCE($2::time without time zone, settings.notification_times), 
+        locale = COALESCE($3, settings.locale), 
+        use_backup_data = COALESCE($4, settings.use_backup_data), 
+        use_telemetry = COALESCE($5, settings.use_telemetry), 
+        use_dark_mode = COALESCE($6, settings.use_dark_mode),
+        use_push_notifications = COALESCE($7, settings.use_push_notifications), 
+        use_in_app_notifications = COALESCE($8, settings.use_in_app_notifications)
+      WHERE settings.user_id = $9
        RETURNING *`,
-      [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification, user_id]
+      [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, 
+        use_dark_mode, use_push_notifications, use_in_app_notifications, user_id]
     );
 
     if (result.rowCount === 0) {
