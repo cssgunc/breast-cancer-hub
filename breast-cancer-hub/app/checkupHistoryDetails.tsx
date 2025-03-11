@@ -75,22 +75,22 @@ export default function HomeScreen() {
       setExamTypeF(schedulingType === "period");
       setIsLoading(false);
     };
-    
+
     const fetchHistory = async () => {
-        // const history = await getExaminationData(date);
-        // above should get exam data for specific date 
-        // if (history) {
-        //   setSymptomData(history.symptoms);
-        //   i.e. symptoms = [true, true, false, false, false, true]
-        //   setExamDate(history.date);
-        //   i.e. date = "2/26/25" or some other way of storing it
-        // }
-        setExamDate("2/26/25");
-        const symptomList = examTypeF ? info_f : info_m;
-        const n = symptomList.length;
-        const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
-        setSelection(symptoms);
-      };
+      // const history = await getExaminationData(date);
+      // above should get exam data for specific date from local storage
+      // if (history) {
+      //   setSymptomData(history.symptoms);
+      //   i.e. symptoms = [true, true, false, false, false, true]
+      //   setExamDate(history.date);
+      //   i.e. date = "2/26/25" or some other way of storing it
+      // }
+      setExamDate("2/26/25");
+      const symptomList = examTypeF ? info_f : info_m;
+      const n = symptomList.length;
+      const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
+      setSelection(symptoms);
+    };
 
     getType();
     fetchHistory();
@@ -105,10 +105,10 @@ export default function HomeScreen() {
         {/* Page Title */}
         <ThemedView style={styles.whiteOverlay}>
           <ThemedText style={styles.highlightedTitleText}>
-            Checkup History - {examDate}
+            Checkup History
           </ThemedText>
-          
-          {/* <ThemedText style={styles.titleText}>Check All That Apply</ThemedText> */}
+
+          <ThemedText style={styles.titleText}>{examDate}</ThemedText>
 
           <ThemedView style={styles.grayLine} />
 
@@ -131,9 +131,9 @@ export default function HomeScreen() {
             <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.buttonBack}
-                onPress={() => router.push("/selfExam")}
+                onPress={() => router.push("/")}
               >
-                <ThemedText style={styles.buttonTextBack}>Back</ThemedText>
+                <ThemedText style={styles.buttonTextBack}>Back to Home</ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.buttonNext}
@@ -162,10 +162,9 @@ export default function HomeScreen() {
         {/* Page Title */}
         <ThemedView style={styles.whiteOverlay}>
           <ThemedText style={styles.highlightedTitleText}>
-                Checkup History - {examDate}
-                {/* text above should show loaded data for date of specific examination */}
+            Checkup History
           </ThemedText>
-          <ThemedText style={styles.titleText}>Symptoms Logged</ThemedText>
+          <ThemedText style={styles.titleText}>{examDate}</ThemedText>
 
           <ThemedView style={styles.grayLine} />
 
@@ -179,7 +178,7 @@ export default function HomeScreen() {
           <ThemedView style={styles.whiteOverlay}>
             {/* Info Section */}
             <ThemedText style={styles.subtitleText}>
-              {/* What did you notice? */}
+              Symptoms Logged
             </ThemedText>
 
             <ThemedView style={styles.elevatedBox}>
@@ -223,10 +222,10 @@ export default function HomeScreen() {
             <ThemedView style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.buttonBack}
-                onPress={() => router.push("./selfExam")}
+                onPress={() => router.push("./")}
               >
                 <ThemedText style={styles.buttonTextBack}>
-                  Back to Exam
+                  Back to Home
                 </ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
