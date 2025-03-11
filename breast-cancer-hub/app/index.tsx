@@ -20,6 +20,7 @@ import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
+import CheckupWidget from "@/components/CheckupWidget";
 
 type Noti = {
   id: number;
@@ -189,6 +190,14 @@ export default function HomeScreen(props: HomeScreenProps) {
               View your past examinations here
             </ThemedText>
           </TouchableOpacity>
+
+
+          {/* Checkup History Homepage Widget, dates must be ISO format */}
+          <CheckupWidget
+            startDate="2025-03-04T00:00:00Z"
+            endDate="2025-03-10T00:00:00Z"
+            completedDate="2025-03-17T00:00:00Z"
+          />
 
           {/* Spacer */}
           <View style={{ height: 20 }} />
