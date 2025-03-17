@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,6 +11,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { colors } from "@/components/StyleSheet";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -23,6 +24,35 @@ export default function NotificationsScreen() {
   const [timeEntries, setTimeEntries] = useState<
     { id: number; time: string; period: string; enabled: boolean }[]
   >([]);
+
+  // Load saved notification preferences
+  useEffect(() => {
+    const loadNotificationSettings = async () => {
+        try {
+            const isPushEnabled = await getSetting("usePushNotifications");
+            const isInAppEnabled = await getSetting("useInAppNotifications");
+
+            setPushNotifications(isPushEnabled);
+            setInAppNotifications(isInAppEnabled);
+        } catch (error) {
+            console.error("Error loading notification settings:", error);
+        }
+    };
+    
+    loadNotificationSettings();
+  }, []);
+
+  // Save notification preferences to local storage
+  const saveNotificationSettings = async () => {
+    if (!pushNotifications && !inAppNotifications) {
+      alert("At least one notification type must be selected.");
+      return;
+    }
+
+    await saveSetting("usePushNotifications", pushNotifications);
+    await saveSetting("useInAppNotifications", inAppNotifications);
+    alert("Settings saved successfully.");
+  };
 
   // Function to add a new time entry
   const addTimeEntry = () => {
@@ -163,7 +193,7 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton}>
+          <TouchableOpacity style={styles.saveButton} onPress={saveNotificationSettings}>
             <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
           </TouchableOpacity>
         </View>
