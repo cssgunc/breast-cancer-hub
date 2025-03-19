@@ -197,6 +197,10 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: colors.darkPink,
     fontWeight: "bold",
+    lineHeight: 35,
+    marginTop: 20,
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   contentContainer: {
     alignItems: "center",

@@ -14,13 +14,13 @@ import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
 
+
 export default function SettingsScreen() {
   const router = useRouter();
 
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [isDarkModeEnabled, setIsDarkModeEnabled] = React.useState(false);
-
   const [person, setPerson] = useState({ name: "", email: "" });
 
   useEffect(() => {
@@ -177,9 +177,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 50,
+    paddingTop: "15%", 
     paddingHorizontal: 20,
-    marginBottom: 20,
+    marginBottom: "8%",
   },
   backButton: {
     backgroundColor: colors.darkPink,
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: colors.darkPink,
     fontWeight: "bold",
+    lineHeight: 40,
   },
   contentContainer: {
     alignItems: "center",
@@ -256,13 +257,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 10,
+    paddingVertical: 25,
   },
   optionText: {
     fontSize: 15,
     color: colors.black,
     flex: 1,
     flexWrap: "wrap",
+    padding:30,
   },
   saveButton: {
     backgroundColor: colors.darkPink,

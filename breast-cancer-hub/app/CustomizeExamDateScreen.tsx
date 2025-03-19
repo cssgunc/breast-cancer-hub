@@ -159,6 +159,7 @@ const styles = StyleSheet.create({
   },
   titleContainer: {
     flexDirection: "column",
+    marginLeft: 20,
   },
   customizeYourText: {
     paddingTop: 20,
@@ -166,6 +167,7 @@ const styles = StyleSheet.create({
     color: colors.darkPink,
     fontWeight: "bold",
     paddingBottom: 10,
+    lineHeight: 35,
   },
   yourText: {
     fontSize: 29,
@@ -177,6 +179,7 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontWeight: "bold",
     paddingBottom: 20,
+    lineHeight: 35,
   },
   bodyContainer: {
     flex: 1,
@@ -224,6 +227,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontWeight: "bold",
     textAlign: "center",
+    lineHeight: 50,
   },
   chevronContainer: {
     flexDirection: "column",
