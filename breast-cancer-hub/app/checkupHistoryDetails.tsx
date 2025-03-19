@@ -83,9 +83,9 @@ export default function HomeScreen() {
       //   setSymptomData(history.symptoms);
       //   i.e. symptoms = [true, true, false, false, false, true]
       //   setExamDate(history.date);
-      //   i.e. date = "2/26/25" or some other way of storing it
+      //   i.e. date = "2025-03-05T14:48:00.000Z" as an iso string
       // }
-      setExamDate("2/26/25");
+      setExamDate("2025-03-05T14:48:00.000Z");
       const symptomList = examTypeF ? info_f : info_m;
       const n = symptomList.length;
       const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
@@ -95,6 +95,15 @@ export default function HomeScreen() {
     getType();
     fetchHistory();
   }, []);
+
+  const formatDate = (isoString: string) => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
 
   if (isLoading == true) {
     return (
@@ -108,7 +117,7 @@ export default function HomeScreen() {
             Checkup History
           </ThemedText>
 
-          <ThemedText style={styles.titleText}>{examDate}</ThemedText>
+          <ThemedText style={styles.titleText}>{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={styles.grayLine} />
 
@@ -164,7 +173,7 @@ export default function HomeScreen() {
           <ThemedText style={styles.highlightedTitleText}>
             Checkup History
           </ThemedText>
-          <ThemedText style={styles.titleText}>{examDate}</ThemedText>
+          <ThemedText style={styles.titleText}>{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={styles.grayLine} />
 
@@ -313,20 +322,19 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     marginBottom: 20,
     alignContent: "center",
+    alignItems: "flex-end",
     marginTop: 5,
   },
   listContainer: {
-    flexDirection: "column",
-    paddingVertical: 20,
-    justifyContent: "flex-start",
-    alignContent: "flex-start",
     backgroundColor: "transparent",
+    width: 315,
   },
   listItemContainer: {
     flexDirection: "row",
     columnGap: 20,
     textAlign: "left",
     justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 10,
     backgroundColor: "transparent",
@@ -340,6 +348,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#000",
+    maxWidth: "80%",
   },
   infoSourceText: {
     fontSize: 12,
