@@ -14,6 +14,7 @@ import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
 import { colors } from "@/components/StyleSheet";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -27,7 +28,7 @@ export default function NotificationsScreen() {
     { id: number; time: string; period: string; enabled: boolean }[]
   >([]);
 
-  function saveSettings() {
+  async function saveSettingsToBackend() {
     fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
       method: "PUT", 
       headers: {
@@ -75,6 +76,21 @@ export default function NotificationsScreen() {
           .catch(error => console.error(error));
       }
     }, [person.token]);
+    
+  // Save notification preferences to local storage
+  const saveNotificationSettings = async () => {
+    if (!pushNotifications && !inAppNotifications) {
+      alert("At least one notification type must be selected.");
+      return;
+    }
+
+    await saveSetting("usePushNotifications", pushNotifications);
+    await saveSetting("useInAppNotifications", inAppNotifications);
+    
+    await saveSettingsToBackend();
+    
+    alert("Settings saved successfully.");
+  };
 
   // Function to add a new time entry
   const addTimeEntry = () => {
@@ -215,7 +231,7 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={() => saveSettings()}>
+          <TouchableOpacity style={styles.saveButton} onPress={saveNotificationSettings}>
             <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
           </TouchableOpacity>
         </View>
