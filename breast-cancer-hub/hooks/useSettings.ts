@@ -18,12 +18,12 @@ export type SettingsMap = {
   "useTelemetry": boolean,
   "usePushNotifications": boolean,
   "useInAppNotifications": boolean,
-  "useDarkMode" : boolean,
+  "useDarkTheme" : boolean,
 }
 
 export type SettingKeys = keyof SettingsMap;
 
-const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "userId", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications", "useDarkMode"]
+const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "userId", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications", "useDarkTheme"]
 
 export async function getSetting<T extends SettingKeys>(key: T): Promise<SettingsMap[T]>{
   let res
@@ -87,7 +87,7 @@ export function generateDefaultSettings(){
     locale: 'en-US',
     useBackupData: false,
     useTelemetry: false,
-    useDarkMode: false,
+    useDarkTheme: false,
     usePushNotifications: false,
     useInAppNotifications: false
   }

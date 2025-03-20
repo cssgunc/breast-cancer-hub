@@ -64,7 +64,6 @@ app.post('/auth', async (req: Request, res: Response) => {
     )
 
     res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken, userId: result.rows[0].id })
-    console.log("gotta give them that noct-tuah")
     return
 
 
@@ -184,7 +183,7 @@ app.get('/settings', async (req: Request, res: Response) => {
 app.put('/settings', async (req: Request, res: Response) => {
   const sessionToken = req.headers['x-session-token'] as string;
   const email = req.headers['x-user-email'] as string;
-  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_dark_mode, use_push_notifications, use_in_app_notifications } = req.body;
+  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_dark_theme, use_push_notifications, use_in_app_notifications } = req.body;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
     res.status(403).json({ error: 'Unauthorized' });
@@ -200,7 +199,7 @@ app.put('/settings', async (req: Request, res: Response) => {
     const result = await pool.query(
       `INSERT INTO settings
         (scheduling_type, notification_times, locale, use_backup_data, use_telemetry,
-        use_dark_mode, use_push_notifications, use_in_app_notifications, user_id)
+        use_dark_theme, use_push_notifications, use_in_app_notifications, user_id)
         VALUES 
         (COALESCE($1, 'period'), COALESCE($2::time without time zone, '12:00:00.000000'), COALESCE($3, 'English'), COALESCE($4, false), COALESCE($5, false), 
         COALESCE($6, false), COALESCE($7, false), COALESCE($8, false), $9) 
@@ -211,13 +210,13 @@ app.put('/settings', async (req: Request, res: Response) => {
         locale = COALESCE($3, settings.locale), 
         use_backup_data = COALESCE($4, settings.use_backup_data), 
         use_telemetry = COALESCE($5, settings.use_telemetry), 
-        use_dark_mode = COALESCE($6, settings.use_dark_mode),
+        use_dark_theme = COALESCE($6, settings.use_dark_theme),
         use_push_notifications = COALESCE($7, settings.use_push_notifications), 
         use_in_app_notifications = COALESCE($8, settings.use_in_app_notifications)
       WHERE settings.user_id = $9
        RETURNING *`,
       [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, 
-        use_dark_mode, use_push_notifications, use_in_app_notifications, user_id]
+        use_dark_theme, use_push_notifications, use_in_app_notifications, user_id]
     );
 
     if (result.rowCount === 0) {
