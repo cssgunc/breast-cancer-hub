@@ -6,6 +6,7 @@ export type SettingsMap = {
   "name": string,
   "email": string,
   "token": string,
+  "userId": string,
 
   "schedulingType": {day: number} | "period"
 
@@ -17,11 +18,12 @@ export type SettingsMap = {
   "useTelemetry": boolean,
   "usePushNotifications": boolean,
   "useInAppNotifications": boolean,
+  "useDarkTheme" : boolean,
 }
 
 export type SettingKeys = keyof SettingsMap;
 
-const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications"]
+const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "userId", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications", "useDarkTheme"]
 
 export async function getSetting<T extends SettingKeys>(key: T): Promise<SettingsMap[T]>{
   let res
@@ -77,6 +79,7 @@ export function generateDefaultSettings(){
     name: '',
     email: '',
     token: '',
+    userId: '',
     schedulingType: {
       day: 0
     },
@@ -84,6 +87,7 @@ export function generateDefaultSettings(){
     locale: 'en-US',
     useBackupData: false,
     useTelemetry: false,
+    useDarkTheme: false,
     usePushNotifications: false,
     useInAppNotifications: false
   }

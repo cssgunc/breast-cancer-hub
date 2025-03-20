@@ -10,6 +10,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { getSetting } from "@/hooks/useSettings";
+import { saveSetting } from "@/hooks/useSettings";
+import { push } from "expo-router/build/global-state/routing";
 import { colors } from "@/components/StyleSheet";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 
@@ -17,7 +20,7 @@ export default function NotificationsScreen() {
   const router = useRouter();
 
   // State for checkboxes
-  const [pushNotifications, setPushNotifications] = useState(false);
+  const [pushNotifications, setPushNotifications] = useState(true);
   const [inAppNotifications, setInAppNotifications] = useState(false);
 
   // State for time entries
@@ -25,23 +28,55 @@ export default function NotificationsScreen() {
     { id: number; time: string; period: string; enabled: boolean }[]
   >([]);
 
-  // Load saved notification preferences
+  async function saveSettingsToBackend() {
+    fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+      method: "PUT", 
+      headers: {
+        "Content-Type" : "application/json",
+        "x-session-token": person.token,
+        'x-user-email' : person.email,
+        },
+        body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications})
+      })
+  }
+
+  // Fetching information from local storage for API call
+    useEffect(() => {
+      getSetting("name").then((name) =>
+        getSetting("email").then((email) => 
+          getSetting("token").then((token) => 
+            getSetting("userId").then((userId) => {
+          setPerson({ name,email,token, userId});
+        })
+      )
+      )
+      );
+    }, []);
+  
+  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
+  
+  // Making an API call to read user settings.
   useEffect(() => {
-    const loadNotificationSettings = async () => {
-        try {
-            const isPushEnabled = await getSetting("usePushNotifications");
-            const isInAppEnabled = await getSetting("useInAppNotifications");
-
-            setPushNotifications(isPushEnabled);
-            setInAppNotifications(isInAppEnabled);
-        } catch (error) {
-            console.error("Error loading notification settings:", error);
-        }
-    };
+      if (person.token == "") {
+        return
+      } else {
+        fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+          method: "GET", 
+          headers: {
+            "x-session-token": person.token,
+            'x-user-email' : person.email,
+            }
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            setInAppNotifications(data.settings.use_in_app_notifications);
+            setPushNotifications(data.settings.use_push_notifications);
+          })
+          .catch(error => console.error(error));
+      }
+    }, [person.token]);
     
-    loadNotificationSettings();
-  }, []);
-
   // Save notification preferences to local storage
   const saveNotificationSettings = async () => {
     if (!pushNotifications && !inAppNotifications) {
@@ -51,6 +86,9 @@ export default function NotificationsScreen() {
 
     await saveSetting("usePushNotifications", pushNotifications);
     await saveSetting("useInAppNotifications", inAppNotifications);
+    
+    await saveSettingsToBackend();
+    
     alert("Settings saved successfully.");
   };
 
