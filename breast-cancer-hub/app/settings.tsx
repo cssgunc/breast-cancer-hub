@@ -73,7 +73,7 @@ export default function SettingsScreen() {
 
             {/* Notification Preferences */}
             <TouchableOpacity
-              style={[styles.optionContainer, {height: 1}]}
+              style={styles.optionContainer}
               onPress={() => router.push("./settingsNotifications")}
             >
               <ThemedText style={styles.optionText}>
@@ -83,7 +83,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity style={[styles.optionContainer, {height: 1}]}>
+            <TouchableOpacity style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
               </ThemedText>
@@ -91,7 +91,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Telemetry */}
-            <View style={[styles.optionContainer, {height: 1}]}>
+            <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
@@ -103,7 +103,7 @@ export default function SettingsScreen() {
             </View>
 
             {/* Backup */}
-            <View style={[styles.optionContainer, {height: 1}]}>
+            <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingTop: "15%", 
-    paddingHorizontal: 20,
+    paddingHorizontal: "6%",
     marginBottom: "8%",
   },
   backButton: {
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   userInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
   userTextContainer: {
     flex: 1,
@@ -257,14 +257,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: 25,
+    paddingVertical: 10,
   },
   optionText: {
     fontSize: 15,
     color: colors.black,
-    flex: 1,
+    flex: 0.5,
     flexWrap: "wrap",
-    padding:30,
   },
   saveButton: {
     backgroundColor: colors.darkPink,

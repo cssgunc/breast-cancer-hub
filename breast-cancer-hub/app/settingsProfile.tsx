@@ -91,9 +91,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: "8%",
+    paddingTop: "15%",
     paddingHorizontal: 20,
-    marginBottom: "3%",
+    marginBottom: "5%",
   },
   backButton: {
     backgroundColor: colors.darkPink,
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
     color: colors.darkPink,
     fontWeight: "bold",
     lineHeight: 40,
-    marginTop: 30,
-    marginHorizontal: 10,
-    marginBottom: 20,
+    marginTop:  5,
+    marginHorizontal: 2,
+    marginBottom: 5,
   },
   mainContainer: {
     flex: 1, // Extend to the bottom

@@ -379,6 +379,8 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: "bold",
     color: colors.black,
+    lineHeight: 30,
+    
   },
   nameText: {
     fontSize: 29,
