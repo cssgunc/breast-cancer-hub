@@ -102,25 +102,20 @@ const styles = StyleSheet.create({
     borderRadius: 20, // Circular
     alignItems: "center",
     justifyContent: "center",
-    marginRight: 10,
   },
   headerTitle: {
     fontSize: 36,
     color: colors.darkPink,
     fontWeight: "bold",
     lineHeight: 40,
-    marginTop:  5,
-    marginHorizontal: 2,
-    marginBottom: 5,
+    margin:  15,
   },
   mainContainer: {
     flex: 1, // Extend to the bottom
     width: "90%",
     backgroundColor: colors.white,
     borderRadius: 20,
-    paddingHorizontal: 40,
-    paddingTop: 40,
-    paddingBottom: 20, // Add padding at the bottom
+    padding: 40,
     alignSelf: "center",
     // Shadow
     shadowColor: "#000",

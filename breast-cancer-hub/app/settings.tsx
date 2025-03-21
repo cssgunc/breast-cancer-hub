@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingTop: "15%", 
-    paddingHorizontal: "6%",
+    paddingHorizontal: "5%",
     marginBottom: "8%",
   },
   backButton: {
@@ -195,6 +195,7 @@ const styles = StyleSheet.create({
     color: colors.darkPink,
     fontWeight: "bold",
     lineHeight: 40,
+    margin: 10,
   },
   contentContainer: {
     alignItems: "center",
