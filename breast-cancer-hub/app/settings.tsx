@@ -146,13 +146,13 @@ export default function SettingsScreen() {
             </View>
 
             {/* Change Date or Scheduling Type */}
-            <TouchableOpacity style={styles.optionContainer}>
-              <ThemedText
-                style={styles.optionText}
-                onPress={() => {
-                  router.push("/askMenstruate");
-                }}
-              >
+            <TouchableOpacity
+              style={styles.optionContainer}
+              onPress={() => {
+                router.push("/askMenstruate");
+              }}
+            >
+              <ThemedText style={styles.optionText}>
                 Change Date or Scheduling Type
               </ThemedText>
               <Ionicons name="chevron-forward" size={20} color={colors.black} />
