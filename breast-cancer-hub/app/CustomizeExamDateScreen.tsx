@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     fontSize: 29,
     color: colors.black,
     fontWeight: "bold",
-    paddingBottom: 20,
+    paddingBottom: 10,
     lineHeight: 35,
   },
   bodyContainer: {
