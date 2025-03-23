@@ -14,7 +14,6 @@ import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
 import { colors } from "@/components/StyleSheet";
-import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export default function NotificationsScreen() {
   const router = useRouter();
