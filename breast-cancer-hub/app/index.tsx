@@ -184,7 +184,14 @@ export default function HomeScreen(props: HomeScreenProps) {
           />
 
           {/* View Past Examinations */}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              router.push({pathname: "/checkupHistoryDetails",
+              params: {dateString: new Date().getTime().toString()}
+            });
+            
+          }}
+          >
             <ThemedText style={styles.pastExamsText}>
               View your past examinations here
             </ThemedText>

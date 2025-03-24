@@ -10,17 +10,21 @@ import {
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { globalStyles } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
   const router = useRouter();
 
+  const { dateString } = useLocalSearchParams<{dateString: string}>();
+  let date : Date = new Date(+dateString);
+
   // const [symptomData, setSymptomData] = useState<number[]>([]);
-  const [examDate, setExamDate] = useState("");
+  const [examDate, setExamDate] = useState(new Date(0));
 
   const info_f = [
     { id: 0, text: "Swelling of part or all of a breast." },
@@ -85,19 +89,22 @@ export default function HomeScreen() {
       //   setExamDate(history.date);
       //   i.e. date = "2025-03-05T14:48:00.000Z" as an iso string
       // }
-      setExamDate("2025-03-05T14:48:00.000Z");
+      setExamDate(date);
+
+      // TODO: Replace this with fetching data from local storage given the datestring
       const symptomList = examTypeF ? info_f : info_m;
       const n = symptomList.length;
       const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
       setSelection(symptoms);
+
     };
 
     getType();
     fetchHistory();
   }, []);
 
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
+  const formatDate = (date: Date) => {
+    if (date.getTime() == 0) return "";
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -107,7 +114,7 @@ export default function HomeScreen() {
 
   if (isLoading == true) {
     return (
-      <ThemedView style={styles.container}>
+      <ThemedView style={globalStyles.bodyContainerDarkPink}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
@@ -164,7 +171,7 @@ export default function HomeScreen() {
     );
   } else {
     return (
-      <ThemedView style={styles.container}>
+      <ThemedView style={globalStyles.bodyContainerDarkPink}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
@@ -261,10 +268,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E93C92",
-  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
