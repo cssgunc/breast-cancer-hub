@@ -260,9 +260,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignContent: "center",
     marginTop: 5,
+    alignItems: "flex-end",
   },
   listContainer: {
     backgroundColor: "transparent",
+    width: 315,
   },
   listItemContainer: {
     justifyContent: "space-between",
@@ -273,6 +275,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: colors.black,
+    maxWidth: "80%",
   },
   
 });

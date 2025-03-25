@@ -11,6 +11,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { saveSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
 
 export default function HomeScreen() {
@@ -37,9 +38,11 @@ export default function HomeScreen() {
       .then((data) => {
         if (data.message) {
           alert("Login successful");
-          setEmail("");
-          setPassword("");
-          router.push("/")
+          router.push("/");
+          saveSetting("email", data.email);
+          saveSetting("token", data.sessionToken);
+          saveSetting("name", data.name);
+          saveSetting("userId", data.userId);
         } else if (data.error) {
           alert(`Error: ${data.error}`);
         }

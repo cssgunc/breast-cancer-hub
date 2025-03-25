@@ -83,7 +83,8 @@ export default function Signup() {
         saveSetting("email", email);
         saveSetting("token", responseData.sessionToken);
         saveSetting("name", name);
-        router.push("/login")
+        saveSetting("userId", responseData.userId);
+        router.push("/login");
 
         //setErrorMessage(responseData.message);
       })
