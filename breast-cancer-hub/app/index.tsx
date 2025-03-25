@@ -49,16 +49,16 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [name, setName] = useState<string | undefined>("");
 
   useEffect(() => {
-    if (props.isMenstruating === undefined) {
+    //if (props.isMenstruating === undefined) {
       getSetting("schedulingType").then((s) => {
         setIsMenstruating(s == "period");
       });
-    }
-    if (props.name === undefined) {
+    //}
+    //if (props.name === undefined) {
       getSetting("name").then((value) => {
         setName(value);
       });
-    }
+    //}
   }, []);
 
   if (name === undefined || isMenstruating === undefined) {
