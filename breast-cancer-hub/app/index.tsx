@@ -89,7 +89,6 @@ export default function HomeScreen(props: HomeScreenProps) {
               source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
               style={styles.logo}
             />
-            <ThemedText style={styles.homeText}>Home</ThemedText>
           </View>
           {/* Profile Icon */}
           <TouchableOpacity
@@ -376,6 +375,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   logoHomeContainer: {
+    padding:10,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -400,6 +400,8 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: "bold",
     color: colors.black,
+    lineHeight: 30,
+    
   },
   nameText: {
     fontSize: 29,
@@ -415,17 +417,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    // Removed horizontal padding so pink footer can extend edge-to-edge
     paddingTop: 20,
   },
   mainContent: {
-    // We wrap main content here so it has horizontal padding
+    paddingTop:40,
     paddingHorizontal: 20,
   },
   introLine: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 30, // replaced 10 + 20
+    marginBottom: 30, 
   },
   icon: {
     marginRight: 10,

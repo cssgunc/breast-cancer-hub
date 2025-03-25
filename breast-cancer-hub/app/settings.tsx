@@ -114,7 +114,7 @@ export default function SettingsScreen() {
 
             {/* Notification Preferences */}
             <TouchableOpacity
-              style={[styles.optionContainer, {height: 1}]}
+              style={styles.optionContainer}
               onPress={() => router.push("./settingsNotifications")}
             >
               <ThemedText style={styles.optionText}>
@@ -124,7 +124,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity style={[styles.optionContainer, {height: 1}]}>
+            <TouchableOpacity style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
               </ThemedText>
@@ -132,7 +132,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Telemetry */}
-            <View style={[styles.optionContainer, {height: 1}]}>
+            <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
@@ -144,7 +144,7 @@ export default function SettingsScreen() {
             </View>
 
             {/* Backup */}
-            <View style={[styles.optionContainer, {height: 1}]}>
+            <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
@@ -187,13 +187,13 @@ export default function SettingsScreen() {
             </View>
 
             {/* Change Date or Scheduling Type */}
-            <TouchableOpacity style={styles.optionContainer}>
-              <ThemedText
-                style={styles.optionText}
-                onPress={() => {
-                  router.push("/askMenstruate");
-                }}
-              >
+            <TouchableOpacity
+              style={styles.optionContainer}
+              onPress={() => {
+                router.push("/askMenstruate");
+              }}
+            >
+              <ThemedText style={styles.optionText}>
                 Change Date or Scheduling Type
               </ThemedText>
               <Ionicons name="chevron-forward" size={20} color={colors.black} />
@@ -221,9 +221,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingTop: "15%", 
+    paddingHorizontal: "5%",
+    marginBottom: "8%",
   },
   backButton: {
     backgroundColor: colors.darkPink,
@@ -238,6 +238,8 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: colors.darkPink,
     fontWeight: "bold",
+    lineHeight: 40,
+    margin: 10,
   },
   contentContainer: {
     alignItems: "center",
@@ -258,7 +260,7 @@ const styles = StyleSheet.create({
   userInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
   userTextContainer: {
     flex: 1,
@@ -305,7 +307,7 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 15,
     color: colors.black,
-    flex: 1,
+    flex: 0.5,
     flexWrap: "wrap",
   },
   saveButton: {
