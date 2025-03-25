@@ -182,7 +182,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   optionButton: {
-    width: "60%", // Made the button smaller
+    //width: "60%", // Made the button smaller
+    alignSelf: 'center',
+    paddingLeft: 15,
+    paddingRight: 15,
     backgroundColor: colors.backgroundLightGray,
     borderColor: colors.darkPink,
     borderWidth: 3,
