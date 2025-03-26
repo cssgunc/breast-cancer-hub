@@ -23,10 +23,12 @@ export default function LanguageScreen() {
 
     const saveSettings = async () => {
         //saves language selection locally
-
-        // await saveSetting("language", language);    GIVING ERROR CURRENTLY => WILL CHECK WITH MADDIE AND FIX
-
-        alert("Settings saved successfully.")
+      try {
+          await saveSetting("language", language);
+          alert("Settings saved successfully.");
+      } catch (error) {
+          console.error("Error saving language:", error);
+      }
     }
 
 
@@ -41,22 +43,14 @@ export default function LanguageScreen() {
         >
           <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
-        {/* Notifications Text */}
         <ThemedText style={styles.headerTitle}>Language</ThemedText>
       </View>
-
-      {/* Content */}
       <ScrollView contentContainerStyle={styles.contentContainer}>
         {/* Main White Rounded Rectangle */}
         <View style={styles.mainContainer}>
-          {/* Alerts Section */}
           <ThemedText style={styles.sectionHeaderText}>Change the language for your self-examination</ThemedText>
-         
-          {/* Divider */}
-          <View style={styles.divider} />
-
+            <View style={styles.divider} />
           <SelectLanguage></SelectLanguage>
-
           {/* Save Settings Button */}
           <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
             <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
