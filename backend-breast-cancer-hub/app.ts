@@ -63,6 +63,11 @@ app.post('/auth', async (req: Request, res: Response) => {
       [result.rows[0].id, hashedToken]
     )
 
+    await pool.query(
+      'INSERT INTO SETTINGS(user_id) VALUES($1)',
+      [result.rows[0].id]
+    )
+
     res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken, userId: result.rows[0].id })
     return
 
