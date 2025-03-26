@@ -14,10 +14,11 @@ import { colors, globalStyles } from "@/components/StyleSheet";
 import StepIndicators from "@/components/StepIndicators";
 import { ExternalLink } from "@/components/ExternalLink";
 import { router } from "expo-router";
+import { SelectLanguage } from "@/components/SelectLanguage";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
-  const totalSteps = 4; 
+  const totalSteps = 5; 
   const scrollViewRef = useRef<ScrollView>(null);
 
   //scrolls to top whenever the step changes
@@ -48,9 +49,9 @@ export default function OnboardingScreen() {
       contentContainerStyle={styles.scrollContent}>
         {step === 0 && (
           //understanding breast cancer section
-          <View style={globalStyles.whiteOverlay}>
-            <View style={styles.background}>
-              <View style={styles.titleContainer}>
+          <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={styles.background}>
+              <ThemedView style={styles.titleContainer}>
                 <ThemedText style={globalStyles.titleText}>
                   Understanding
                 </ThemedText>
@@ -58,8 +59,8 @@ export default function OnboardingScreen() {
                 styles.highlightedTitleText]}>
                   Breast Cancer
                 </ThemedText>
-              </View>
-              <View style={globalStyles.grayLine} />
+              </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
               <ThemedText style={styles.paragraphTextTitle}>
                 What is Breast Cancer?
               </ThemedText>
@@ -72,7 +73,7 @@ export default function OnboardingScreen() {
                 {"\n\n"}Breast Cancer is when cancer forms in the breast. This disease can
                 occur in both women and men, but is far more prevalent in women.
               </ThemedText>
-              <View style={styles.statContainer}>
+              <ThemedView style={styles.statContainer}>
                 <ThemedText style={styles.statTextBold}>2nd</ThemedText>
                 <ThemedText style={styles.statText}>
                   most common cancer in women
@@ -82,16 +83,16 @@ export default function OnboardingScreen() {
                   women will develop invasive breast cancer over the course of her
                   lifetime
                 </ThemedText>
-              </View>
+              </ThemedView>
               <StepIndicators totalSteps={totalSteps} currentStep={step} />
               <LearnMoreTextContainer />
-            </View>
-          </View>
+            </ThemedView>
+          </ThemedView>
         )}
 
         {step === 1 && (
           //purpose of a self-exam section
-          <View style={globalStyles.whiteOverlay}>
+          <ThemedView style={globalStyles.whiteOverlay}>
             <ThemedText style={globalStyles.titleText}>
               The Purpose of
             </ThemedText>
@@ -103,7 +104,7 @@ export default function OnboardingScreen() {
             >
               A Self-Exam
             </ThemedText>
-            <View style={globalStyles.grayLine} />
+            <ThemedView style={globalStyles.grayLine} />
             <ThemedText style={styles.noticeTitle}>Notice:</ThemedText>
             <ThemedText style={styles.noticeText}>
               A self-exam is not a substitute for annual breast cancer screenings.
@@ -126,8 +127,8 @@ export default function OnboardingScreen() {
               symptoms such as lumps, pain, or changes in size that may be of concern
               and respond to them.
             </ThemedText>
-            <View style={globalStyles.grayLine} />
-            <View style={styles.quotesContainer}>
+            <ThemedView style={globalStyles.grayLine} />
+            <ThemedView style={styles.quotesContainer}>
               <ThemedText style={styles.quoteText}>
                 “The difference is, this could save your life.”
               </ThemedText>
@@ -138,17 +139,17 @@ export default function OnboardingScreen() {
               <ThemedText style={styles.quoteText}>
                 “Early detection is the key.”
               </ThemedText>
-            </View>
+            </ThemedView>
             <StepIndicators totalSteps={totalSteps} currentStep={step} />
             <LearnMoreTextContainer />
-          </View>
+          </ThemedView>
         )}
 
         {step === 2 && (
           //breast cancer screening and techniques section
-          <View style={globalStyles.whiteOverlay}>
-            <View style={styles.background}>
-              <View style={styles.titleContainer}>
+          <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={styles.background}>
+              <ThemedView style={styles.titleContainer}>
                 <ThemedText style={globalStyles.titleText}>
                   Breast Cancer
                 </ThemedText>
@@ -156,8 +157,8 @@ export default function OnboardingScreen() {
                 styles.highlightedTitleText]}>
                   Screening & Techniques
                 </ThemedText>
-              </View>
-              <View style={globalStyles.grayLine} />
+              </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
               <ThemedText style={styles.paragraphText}>
                 Breast cancer originates in one or both breasts. Early detection through regular screening is essential because it enables treatment at a stage when the cancer is most manageable, often resulting in less aggressive interventions and improved survival rates.
                 {"\n\n"}
@@ -170,15 +171,15 @@ export default function OnboardingScreen() {
               </ThemedText>
               <StepIndicators totalSteps={totalSteps} currentStep={step} />
               <LearnMoreTextContainer />
-            </View>
-          </View>
+            </ThemedView>
+          </ThemedView>
         )}
 
         {step === 3 && (
           //additional resources and contact information section
-          <View style={globalStyles.whiteOverlay}>
-            <View style={styles.background}>
-              <View style={styles.titleContainer}>
+          <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={styles.background}>
+              <ThemedView style={styles.titleContainer}>
                 <ThemedText style={globalStyles.titleText}>
                   Additional Resources &
                 </ThemedText>
@@ -186,8 +187,8 @@ export default function OnboardingScreen() {
                 styles.highlightedTitleText]}>
                   Contact Information
                 </ThemedText>
-              </View>
-              <View style={globalStyles.grayLine} />
+              </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
               <ThemedText style={styles.paragraphText}>
                 If you experience any symptoms or require further testing, please consult your healthcare provider promptly.
                 {"\n\n"}For additional support, you can download the "One-stop Lifesaving Early Detection Cards" for other prevalent cancers by visiting:
@@ -208,8 +209,30 @@ export default function OnboardingScreen() {
               </ThemedText>
               <StepIndicators totalSteps={totalSteps} currentStep={step} />
               <LearnMoreTextContainer />
-            </View>
-          </View>
+            </ThemedView>
+          </ThemedView>
+        )}
+
+        {step === 4 &&(
+            <ThemedView style={globalStyles.whiteOverlay}>
+              <ThemedView style={styles.background}>
+                <ThemedView style={styles.titleContainer}>
+                  <ThemedText style={globalStyles.titleText}>
+                    Change Your
+                  </ThemedText>
+                  <ThemedText style={[globalStyles.titleTextDarkPink,
+                  styles.highlightedTitleText]}>
+                    Self-Examination Language
+                   </ThemedText>
+                </ThemedView>
+                <ThemedView style={globalStyles.grayLine} />
+                <ThemedView style={styles.selectLanguages}>
+                  <SelectLanguage></SelectLanguage>
+                </ThemedView>
+                <StepIndicators totalSteps={totalSteps} currentStep={step} />
+                <LearnMoreTextContainer />
+              </ThemedView>
+            </ThemedView>
         )}
 
         {/*navigation buttons*/}
@@ -360,5 +383,9 @@ const styles = StyleSheet.create({
   },
   linkText: {
     color: colors.blue
+  },
+  selectLanguages: {
+    marginTop: 30,
+    marginBottom: 30,
   }
 });
