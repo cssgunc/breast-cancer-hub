@@ -14,6 +14,7 @@ import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHead
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import StepIndicators from "@/components/StepIndicators";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -200,6 +201,8 @@ export default function HomeScreen() {
               {instructions[currentStep].text}
             </Text>
           </ThemedView>
+
+          <StepIndicators totalSteps={7} currentStep={currentStep}/>
 
           <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
             <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
