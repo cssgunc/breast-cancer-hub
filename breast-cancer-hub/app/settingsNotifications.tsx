@@ -17,7 +17,7 @@ import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
 import { colors } from "@/components/StyleSheet";
 
-import DateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -29,11 +29,14 @@ export default function NotificationsScreen() {
   const [locale, setLocale] = useState('en-US');
 
   const [date, setDate] = useState(new Date());
-  const [modalVisible, setModalVisible] = useState(false);
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
+
+  const [alarmToDelete, setAlarmToDelete] = useState(0);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   // State for time entries
   const [timeEntries, setTimeEntries] = useState<
-    { id: number; time: string; period: string; enabled: boolean }[]
+    { id: number; time: string; enabled: boolean }[]
   >([]);
 
   async function saveSettingsToBackend() {
@@ -80,6 +83,7 @@ export default function NotificationsScreen() {
             console.log(data);
             setInAppNotifications(data.settings.use_in_app_notifications);
             setPushNotifications(data.settings.use_push_notifications);
+            setLocale(data.settings.locale);
           })
           .catch(error => console.error(error));
       }
@@ -101,11 +105,10 @@ export default function NotificationsScreen() {
   };
 
   // Function to add a new time entry
-  const addTimeEntry = () => {
+  const addTimeEntry = (newDate: Date) => {
     const newEntry = {
       id: Date.now(),
-      time: "8:00",
-      period: "PM" as "AM" | "PM",
+      time: newDate.toLocaleTimeString(locale),
       enabled: true,
     };
     setTimeEntries([newEntry, ...timeEntries]);
@@ -212,9 +215,6 @@ export default function NotificationsScreen() {
               <View style={styles.timeEntryLeft}>
                 <View style={styles.timeRow}>
                   <ThemedText style={styles.timeText}>{entry.time}</ThemedText>
-                  <ThemedText style={styles.periodText}>
-                    {entry.period}
-                  </ThemedText>
                 </View>
                 <ThemedText style={styles.alarmText}>Alarm</ThemedText>
               </View>
@@ -225,7 +225,10 @@ export default function NotificationsScreen() {
                   trackColor={{ false: colors.backgroundGray, true: colors.darkPink }}
                   thumbColor={colors.white}
                 />
-                <TouchableOpacity onPress={() => removeTimeEntry(entry.id)}>
+                <TouchableOpacity onPress={() => {
+                  setAlarmToDelete(entry.id);
+                  setDeleteModalVisible(true);
+                }}>
                   <MaterialIcons name="delete" size={24} color={colors.black} />
                 </TouchableOpacity>
               </View>
@@ -233,7 +236,7 @@ export default function NotificationsScreen() {
           ))}
 
           {/* Add Time Button */}
-          <TouchableOpacity style={styles.addTimeButton} onPress={addTimeEntry}>
+          <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
             <Ionicons name="add-circle" size={24} color={colors.darkPink} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
@@ -244,44 +247,52 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {timePickerVisible && (
+        <RNDateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="time"
+          positiveButton={{label: 'Add', textColor: colors.darkPink}}
+          negativeButton={{label: 'Cancel', textColor: colors.darkPink}}
+          onChange={(event, selectedDate) => {
+            if (event.type == 'set' && selectedDate) {
+              setDate(selectedDate);
+              addTimeEntry(selectedDate);
+            }
+            else setDate(new Date());
+            setTimePickerVisible(false);
+          }}
+        />
+      )}
 
       <Modal
-        visible={modalVisible}
+        visible={deleteModalVisible}
+        style={styles.modalOverlay}
         transparent
-        animationType="fade"
-        onRequestClose={() => {
-          setDate(new Date(Date.now()));
-          setModalVisible(false);
-        }}
+        animationType='slide'
+        onRequestClose={() => setDeleteModalVisible(false)}
       >
-        <TouchableWithoutFeedback onPress={() => {setDate(new Date(Date.now())); setModalVisible(false)}}>
+        <TouchableWithoutFeedback onPress={() => setDeleteModalVisible(false)}>
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
+
               <View style={styles.modalContainer}>
-                <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode="time"
-                  is24Hour={true}
-                  onChange={(_, selectedDate) => {
-                    if (selectedDate) setDate(selectedDate)
-                  }}
-                />
-                <TouchableOpacity
-                  style={styles.modalButton}
-                  onPress={() => addTimeEntry}
-                >
-                  <ThemedText style={styles.modalButtonText}>
-                    Add
-                  </ThemedText>
-                </TouchableOpacity>
+                <ThemedText style={styles.modalTitle}>Delete Alarm?</ThemedText>
+                <View style={{flexDirection: 'row', width: 'auto'}}>
+                  <TouchableOpacity style={styles.modalButton} onPress={() => setDeleteModalVisible(false)}>
+                    <ThemedText style={styles.modalButtonText}>Cancel</ThemedText>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.modalButton} onPress={() => {setDeleteModalVisible(false); removeTimeEntry(alarmToDelete);}}>
+                    <ThemedText style={styles.modalButtonText}>Delete</ThemedText>
+                  </TouchableOpacity>
+                </View>
               </View>
-
+              
             </TouchableWithoutFeedback>
-
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+          
     </ThemedView>
   );
 }
@@ -479,8 +490,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     paddingVertical: 15,
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
     marginBottom: 10,
+    marginHorizontal: 10,
     width: 'auto',
     alignItems: "center",
   },
