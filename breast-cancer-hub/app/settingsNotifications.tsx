@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
+  TouchableWithoutFeedback,
+  Modal,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -15,12 +17,17 @@ import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
 import { colors } from "@/components/StyleSheet";
 
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 export default function NotificationsScreen() {
   const router = useRouter();
 
   // State for checkboxes
   const [pushNotifications, setPushNotifications] = useState(true);
   const [inAppNotifications, setInAppNotifications] = useState(false);
+  
+  const [date, setDate] = useState(new Date());
+  const [modalVisible, setModalVisible] = useState(false);
 
   // State for time entries
   const [timeEntries, setTimeEntries] = useState<
@@ -235,6 +242,44 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      <Modal
+        visible={modalVisible}
+        transparent
+        animationType="fade"
+        onRequestClose={() => {
+          setDate(new Date(Date.now()));
+          setModalVisible(false);
+        }}
+      >
+        <TouchableWithoutFeedback onPress={() => {setDate(new Date(Date.now())); setModalVisible(false)}}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContainer}>
+                <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode="time"
+                  is24Hour={true}
+                  onChange={(_, selectedDate) => {
+                    if (selectedDate) setDate(selectedDate)
+                  }}
+                />
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => addTimeEntry}
+                >
+                  <ThemedText style={styles.modalButtonText}>
+                    Add
+                  </ThemedText>
+                </TouchableOpacity>
+              </View>
+
+            </TouchableWithoutFeedback>
+
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </ThemedView>
   );
 }
@@ -401,5 +446,46 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.white,
     fontWeight: "bold",
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: colors.white,
+    width: "80%",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+  },
+  modalTitle: {
+    fontSize: 20,
+    color: colors.darkPink,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: colors.darkPink,
+    borderColor: colors.grayHomePageLearnMoreButton,
+    borderWidth: 1,
+    borderRadius: 50,
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    marginBottom: 10,
+    width: 'auto',
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
