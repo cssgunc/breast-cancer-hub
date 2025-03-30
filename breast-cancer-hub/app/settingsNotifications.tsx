@@ -26,6 +26,8 @@ export default function NotificationsScreen() {
   const [pushNotifications, setPushNotifications] = useState(true);
   const [inAppNotifications, setInAppNotifications] = useState(false);
   
+  const [locale, setLocale] = useState('en-US');
+
   const [date, setDate] = useState(new Date());
   const [modalVisible, setModalVisible] = useState(false);
 
