@@ -40,6 +40,8 @@ export default function NotificationsScreen() {
   >([]);
 
   async function saveSettingsToBackend() {
+    console.log((timeEntries as { id: number, time: string, enabled: boolean }[])
+    .map((val) => {return [person.userId, val.time, val.enabled];}))
     fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
       method: "PUT", 
       headers: {
@@ -47,8 +49,8 @@ export default function NotificationsScreen() {
         "x-session-token": person.token,
         'x-user-email' : person.email,
         },
-        body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications})
-      })
+        body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications, notification_times: timeEntries})
+      });
   }
 
   // Fetching information from local storage for API call
@@ -86,6 +88,24 @@ export default function NotificationsScreen() {
             setLocale(data.settings.locale);
           })
           .catch(error => console.error(error));
+        
+          fetch("http://localhost:3000/settings_notifications" + "?user_id=" + person.userId, {
+            method: "GET", 
+            headers: {
+              "x-session-token": person.token,
+              'x-user-email' : person.email,
+              }
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              // Convert retrieved times to local format
+              for (let i = 0; i < data.time_entries.length; i++) {
+                let timearr : any[] = data.time_entries[i].time.split(":");
+                data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale)
+              }
+              setTimeEntries(data.time_entries);
+            })
       }
     }, [person.token]);
     
@@ -106,6 +126,8 @@ export default function NotificationsScreen() {
 
   // Function to add a new time entry
   const addTimeEntry = (newDate: Date) => {
+    console.log(newDate);
+    console.log(locale);
     const newEntry = {
       id: Date.now(),
       time: newDate.toLocaleTimeString(locale),
@@ -239,6 +261,12 @@ export default function NotificationsScreen() {
           <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
             <Ionicons name="add-circle" size={24} color={colors.darkPink} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
+          </TouchableOpacity>
+
+          {/* Debug Add Time Button */}
+          <TouchableOpacity style={styles.addTimeButton} onPress={() => addTimeEntry(new Date())}>
+            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
+            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
           </TouchableOpacity>
 
           {/* Save Settings Button */}
