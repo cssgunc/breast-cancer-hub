@@ -85,7 +85,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Logo and Home */}
           <View style={styles.logoHomeContainer}>
             <Image
-              source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
+              source={require("../../assets/images/BCH-Logo-Stacked-CMYK.png")}
               style={styles.logo}
             />
           </View>
@@ -217,7 +217,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <ExternalLink href="https://mbcglobalalliance.org/" asChild>
             <TouchableOpacity style={styles.footerLogoContainer}>
               <Image
-                source={require("../assets/images/MBCGA-Logo-Stacked_real.png")}
+                source={require("../../assets/images/MBCGA-Logo-Stacked_real.png")}
                 style={styles.footerLogo}
               />
               <ThemedText style={styles.footerLogoText}>
@@ -229,7 +229,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <ExternalLink href="https://www.facebook.com/KurlbaumIllustration/" asChild>
             <TouchableOpacity style={styles.footerLogoContainer}>
               <Image
-                source={require("../assets/images/kurlbaum_logo.png")}
+                source={require("../../assets/images/kurlbaum_logo.png")}
                 style={styles.footerLogo}
               />
               <ThemedText style={styles.footerLogoText}>
@@ -241,7 +241,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
             <TouchableOpacity style={styles.footerLogoContainer}>
               <Image
-                source={require("../assets/images/MBCH-LOGO.png")}
+                source={require("../../assets/images/MBCH-LOGO.png")}
                 style={styles.footerLogo}
               />
               <ThemedText style={styles.footerLogoText}>
@@ -253,7 +253,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
             <TouchableOpacity style={styles.footerLogoContainer}>
               <Image
-                source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")}
+                source={require("../../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")}
                 style={styles.footerLogo}
               />
               <ThemedText style={styles.footerLogoText}>

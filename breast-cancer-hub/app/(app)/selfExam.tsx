@@ -22,37 +22,37 @@ export default function HomeScreen() {
     {
       id: 1,
       text: "Check your breasts in front of a mirror for any symptoms or abnormalities.",
-      image: require("../assets/images/FEMALE ART 1.jpg"),
+      image: require("../../assets/images/FEMALE ART 1.jpg"),
     },
     {
       id: 2,
       text: "Check your nipples carefully. Lumps may be found behind the nipple.",
-      image: require("../assets/images/FEMALE ART 2.jpg"),
+      image: require("../../assets/images/FEMALE ART 2.jpg"),
     },
     {
       id: 3,
       text: "In a sitting or standing position, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/FEMALE ART 3.jpg"),
+      image: require("../../assets/images/FEMALE ART 3.jpg"),
     },
     {
       id: 4,
       text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/FEMALE ART 4.jpg"),
+      image: require("../../assets/images/FEMALE ART 4.jpg"),
     },
     {
       id: 5,
       text: "Lie down, face up, which leads to a more even distribution of your breast tissue. Repeat step 3 and 4.",
-      image: require("../assets/images/FEMALE ART 5.png"),
+      image: require("../../assets/images/FEMALE ART 5.png"),
     },
     {
       id: 6,
       text: "While lying face up, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/FEMALE ART 3.jpg"),
+      image: require("../../assets/images/FEMALE ART 3.jpg"),
     },
     {
       id: 7,
       text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/FEMALE ART 4.jpg"),
+      image: require("../../assets/images/FEMALE ART 4.jpg"),
     },
   ];
 
@@ -60,45 +60,45 @@ export default function HomeScreen() {
     {
       id: 1,
       text: "Check your breasts in front of a mirror for any symptoms or abnormalities.",
-      image: require("../assets/images/MALE ART 1.jpg"),
+      image: require("../../assets/images/MALE ART 1.jpg"),
     },
     {
       id: 2,
       text: "Examine the nipple. Most men find their lumps under the nipple.",
-      image: require("../assets/images/MALE ART 2.jpg"),
+      image: require("../../assets/images/MALE ART 2.jpg"),
     },
     {
       id: 3,
       text: "In a sitting or standing position, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/MALE ART 3.jpg"),
+      image: require("../../assets/images/MALE ART 3.jpg"),
     },
     {
       id: 4,
       text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/MALE ART 4.jpg"),
+      image: require("../../assets/images/MALE ART 4.jpg"),
     },
     {
       id: 5,
       text: "Lie down, face up, which leads to a more even distribution of your breast tissue. Repeat step 3 and 4.",
-      image: require("../assets/images/MALE ART 5.png"),
+      image: require("../../assets/images/MALE ART 5.png"),
     },
     {
       id: 6,
       text: "While lying face up, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/MALE ART 3.jpg"),
+      image: require("../../assets/images/MALE ART 3.jpg"),
     },
     {
       id: 7,
       text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/MALE ART 4.jpg"),
+      image: require("../../assets/images/MALE ART 4.jpg"),
     },
   ];
 
   const [instructions, setInstructions] = useState([
-    { id: 1, text: "", image: require("../assets/images/BCH ribbon.png") },
+    { id: 1, text: "", image: require("../../assets/images/BCH ribbon.png") },
   ]);
 
-  // const [usedInstructions, setUsedInstructions] = useState({id: 1, text: "", image: require('../assets/images/BCH ribbon.png')})
+  // const [usedInstructions, setUsedInstructions] = useState({id: 1, text: "", image: require('../../assets/images/BCH ribbon.png')})
 
   const [isLoading, setIsLoading] = useState(true);
 

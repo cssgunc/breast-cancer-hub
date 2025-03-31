@@ -12,8 +12,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../hooks/useSettings";
-import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { getSetting } from "../../hooks/useSettings";
+import { LearnMoreTextContainer } from "../../components/LearnMoreText";
 import { colors, globalStyles } from "@/components/StyleSheet";
 
 export default function SelfExamInfo() {
