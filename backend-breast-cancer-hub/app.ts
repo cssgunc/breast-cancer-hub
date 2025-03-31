@@ -185,10 +185,50 @@ app.get('/settings', async (req: Request, res: Response) => {
   }
 });
 
+app.get('/settings_notifications', async (req: Request, res: Response) => {
+  const sessionToken = req.headers['x-session-token'] as string;
+  const email = req.headers['x-user-email'] as string;
+  const userId = req.query.user_id as string;
+
+  if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
+    res.status(403).json({ error: 'Unauthorized' });
+    return
+  }
+
+  if (!userId) {
+    res.status(400).json({ error: 'user_id is required' });
+    return
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM notification_times WHERE user_id=$1', [userId])
+
+    let index = 0;
+
+    res.status(200).json(
+      {
+        time_entries:
+          result.rows.map((row) => {
+            return {
+              id: row.id,
+              time: row.time,
+              enabled: row.enabled
+            }
+          })
+      }
+    )
+
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+})
+
 app.put('/settings', async (req: Request, res: Response) => {
   const sessionToken = req.headers['x-session-token'] as string;
   const email = req.headers['x-user-email'] as string;
-  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_dark_theme, use_push_notifications, use_in_app_notifications } = req.body;
+  const { user_id, scheduling_type, locale, use_backup_data, use_telemetry, use_dark_theme, use_push_notifications, use_in_app_notifications, notification_times } = req.body;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
     res.status(403).json({ error: 'Unauthorized' });
@@ -203,24 +243,23 @@ app.put('/settings', async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
       `INSERT INTO settings
-        (scheduling_type, notification_times, locale, use_backup_data, use_telemetry,
+        (scheduling_type, locale, use_backup_data, use_telemetry,
         use_dark_theme, use_push_notifications, use_in_app_notifications, user_id)
         VALUES 
-        (COALESCE($1, 'period'), COALESCE($2::time without time zone, '12:00:00.000000'), COALESCE($3, 'English'), COALESCE($4, false), COALESCE($5, false), 
-        COALESCE($6, false), COALESCE($7, false), COALESCE($8, false), $9) 
+        (COALESCE($1, 'period'), COALESCE($2, 'en-US'), COALESCE($3, false), COALESCE($4, false), 
+        COALESCE($5, false), COALESCE($6, false), COALESCE($7, false), $8) 
       ON CONFLICT (user_id) 
       DO UPDATE SET 
         scheduling_type = COALESCE($1, settings.scheduling_type), 
-        notification_times = COALESCE($2::time without time zone, settings.notification_times), 
-        locale = COALESCE($3, settings.locale), 
-        use_backup_data = COALESCE($4, settings.use_backup_data), 
-        use_telemetry = COALESCE($5, settings.use_telemetry), 
-        use_dark_theme = COALESCE($6, settings.use_dark_theme),
-        use_push_notifications = COALESCE($7, settings.use_push_notifications), 
-        use_in_app_notifications = COALESCE($8, settings.use_in_app_notifications)
-      WHERE settings.user_id = $9
+        locale = COALESCE($2, settings.locale), 
+        use_backup_data = COALESCE($3, settings.use_backup_data), 
+        use_telemetry = COALESCE($4, settings.use_telemetry), 
+        use_dark_theme = COALESCE($5, settings.use_dark_theme),
+        use_push_notifications = COALESCE($6, settings.use_push_notifications), 
+        use_in_app_notifications = COALESCE($7, settings.use_in_app_notifications)
+      WHERE settings.user_id = $8
        RETURNING *`,
-      [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, 
+      [scheduling_type, locale, use_backup_data, use_telemetry, 
         use_dark_theme, use_push_notifications, use_in_app_notifications, user_id]
     );
 
@@ -229,7 +268,29 @@ app.put('/settings', async (req: Request, res: Response) => {
       return
     }
 
+    const clearNotifsResult = await pool.query(
+      `DELETE FROM notification_times WHERE user_id=$1`,
+      [user_id]
+    );
+
+    const notifUserIds = Array(notification_times.length).fill(user_id)
+    const notifTimes : String[] = []
+    const notifEnabled : Boolean[] = []
+
+    notification_times.forEach((elt: { id: number, time: string, enabled: boolean }) => {
+      notifTimes.push(elt.time);
+      notifEnabled.push(elt.enabled);
+    })
+
+    const notifsResult = await pool.query(
+      `INSERT INTO notification_times
+      (user_id, time, enabled)
+      SELECT * FROM UNNEST ($1::int[], $2::time[], $3::boolean[])`,
+      [notifUserIds, notifTimes, notifEnabled]
+    )
+
     res.status(200).json({ message: 'Settings updated successfully', settings: result.rows[0] });
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });

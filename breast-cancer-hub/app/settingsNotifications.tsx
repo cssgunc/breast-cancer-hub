@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   ScrollView,
   Switch,
+  TouchableWithoutFeedback,
+  Modal,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -15,19 +17,31 @@ import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
 import { colors } from "@/components/StyleSheet";
 
+import RNDateTimePicker from '@react-native-community/datetimepicker';
+
 export default function NotificationsScreen() {
   const router = useRouter();
 
   // State for checkboxes
   const [pushNotifications, setPushNotifications] = useState(true);
   const [inAppNotifications, setInAppNotifications] = useState(false);
+  
+  const [locale, setLocale] = useState('en-US');
+
+  const [date, setDate] = useState(new Date());
+  const [timePickerVisible, setTimePickerVisible] = useState(false);
+
+  const [alarmToDelete, setAlarmToDelete] = useState(0);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
   // State for time entries
   const [timeEntries, setTimeEntries] = useState<
-    { id: number; time: string; period: string; enabled: boolean }[]
+    { id: number; time: string; enabled: boolean }[]
   >([]);
 
   async function saveSettingsToBackend() {
+    console.log((timeEntries as { id: number, time: string, enabled: boolean }[])
+    .map((val) => {return [person.userId, val.time, val.enabled];}))
     fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
       method: "PUT", 
       headers: {
@@ -35,8 +49,8 @@ export default function NotificationsScreen() {
         "x-session-token": person.token,
         'x-user-email' : person.email,
         },
-        body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications})
-      })
+        body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications, notification_times: timeEntries})
+      });
   }
 
   // Fetching information from local storage for API call
@@ -71,8 +85,27 @@ export default function NotificationsScreen() {
             console.log(data);
             setInAppNotifications(data.settings.use_in_app_notifications);
             setPushNotifications(data.settings.use_push_notifications);
+            setLocale(data.settings.locale);
           })
           .catch(error => console.error(error));
+        
+          fetch("http://localhost:3000/settings_notifications" + "?user_id=" + person.userId, {
+            method: "GET", 
+            headers: {
+              "x-session-token": person.token,
+              'x-user-email' : person.email,
+              }
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log(data);
+              // Convert retrieved times to local format
+              for (let i = 0; i < data.time_entries.length; i++) {
+                let timearr : any[] = data.time_entries[i].time.split(":");
+                data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale)
+              }
+              setTimeEntries(data.time_entries);
+            })
       }
     }, [person.token]);
     
@@ -92,11 +125,12 @@ export default function NotificationsScreen() {
   };
 
   // Function to add a new time entry
-  const addTimeEntry = () => {
+  const addTimeEntry = (newDate: Date) => {
+    console.log(newDate);
+    console.log(locale);
     const newEntry = {
       id: Date.now(),
-      time: "8:00",
-      period: "PM" as "AM" | "PM",
+      time: newDate.toLocaleTimeString(locale),
       enabled: true,
     };
     setTimeEntries([newEntry, ...timeEntries]);
@@ -203,9 +237,6 @@ export default function NotificationsScreen() {
               <View style={styles.timeEntryLeft}>
                 <View style={styles.timeRow}>
                   <ThemedText style={styles.timeText}>{entry.time}</ThemedText>
-                  <ThemedText style={styles.periodText}>
-                    {entry.period}
-                  </ThemedText>
                 </View>
                 <ThemedText style={styles.alarmText}>Alarm</ThemedText>
               </View>
@@ -216,7 +247,10 @@ export default function NotificationsScreen() {
                   trackColor={{ false: colors.backgroundGray, true: colors.darkPink }}
                   thumbColor={colors.white}
                 />
-                <TouchableOpacity onPress={() => removeTimeEntry(entry.id)}>
+                <TouchableOpacity onPress={() => {
+                  setAlarmToDelete(entry.id);
+                  setDeleteModalVisible(true);
+                }}>
                   <MaterialIcons name="delete" size={24} color={colors.black} />
                 </TouchableOpacity>
               </View>
@@ -224,9 +258,15 @@ export default function NotificationsScreen() {
           ))}
 
           {/* Add Time Button */}
-          <TouchableOpacity style={styles.addTimeButton} onPress={addTimeEntry}>
+          <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
             <Ionicons name="add-circle" size={24} color={colors.darkPink} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
+          </TouchableOpacity>
+
+          {/* Debug Add Time Button */}
+          <TouchableOpacity style={styles.addTimeButton} onPress={() => addTimeEntry(new Date())}>
+            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
+            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
           </TouchableOpacity>
 
           {/* Save Settings Button */}
@@ -235,6 +275,52 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+      {timePickerVisible && (
+        <RNDateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode="time"
+          positiveButton={{label: 'Add', textColor: colors.darkPink}}
+          negativeButton={{label: 'Cancel', textColor: colors.darkPink}}
+          onChange={(event, selectedDate) => {
+            if (event.type == 'set' && selectedDate) {
+              setDate(selectedDate);
+              addTimeEntry(selectedDate);
+            }
+            else setDate(new Date());
+            setTimePickerVisible(false);
+          }}
+        />
+      )}
+
+      <Modal
+        visible={deleteModalVisible}
+        style={styles.modalOverlay}
+        transparent
+        animationType='slide'
+        onRequestClose={() => setDeleteModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => setDeleteModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+
+              <View style={styles.modalContainer}>
+                <ThemedText style={styles.modalTitle}>Delete Alarm?</ThemedText>
+                <View style={{flexDirection: 'row', width: 'auto'}}>
+                  <TouchableOpacity style={styles.modalButton} onPress={() => setDeleteModalVisible(false)}>
+                    <ThemedText style={styles.modalButtonText}>Cancel</ThemedText>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.modalButton} onPress={() => {setDeleteModalVisible(false); removeTimeEntry(alarmToDelete);}}>
+                    <ThemedText style={styles.modalButtonText}>Delete</ThemedText>
+                  </TouchableOpacity>
+                </View>
+              </View>
+              
+            </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+          
     </ThemedView>
   );
 }
@@ -401,5 +487,47 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: colors.white,
     fontWeight: "bold",
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: colors.white,
+    width: "80%",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  closeButton: {
+    alignSelf: "flex-end",
+  },
+  modalTitle: {
+    fontSize: 20,
+    color: colors.darkPink,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: colors.darkPink,
+    borderColor: colors.grayHomePageLearnMoreButton,
+    borderWidth: 1,
+    borderRadius: 50,
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    marginBottom: 10,
+    marginHorizontal: 10,
+    width: 'auto',
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: colors.white,
+    fontSize: 16,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

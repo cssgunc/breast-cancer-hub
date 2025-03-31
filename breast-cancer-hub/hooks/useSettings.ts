@@ -10,7 +10,7 @@ export type SettingsMap = {
 
   "schedulingType": {day: number} | "period"
 
-  "notificationTimes": {hour: number, minute: number}[], //using expo-notifications trigger format
+  "notificationTimes": {id: number, time: string, enabled: boolean}[], //using expo-notifications trigger format
 
   "locale": string, //using expo-localization
 
