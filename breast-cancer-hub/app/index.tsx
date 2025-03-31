@@ -21,6 +21,9 @@ import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
 
+import * as Notifications from 'expo-notifications';
+import * as TaskManager from 'expo-task-manager';
+
 type Noti = {
   id: number;
   variant: "default" | "overdue" | undefined;
@@ -31,6 +34,28 @@ export type HomeScreenProps = Partial<{
   name: string;
   isMenstruating: boolean;
 }>;
+
+TaskManager.defineTask("test ping", async ({ data, error, executionInfo }) => {
+  alert("ping");
+  if (error) {
+    console.error(error);
+    alert(error.message);
+  }
+  if (data) {
+    console.log(data);
+    alert("ping")
+  }
+});
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+Notifications.registerTaskAsync("test ping");
 
 export default function HomeScreen(props: HomeScreenProps) {
   const router = useRouter();
@@ -75,6 +100,37 @@ export default function HomeScreen(props: HomeScreenProps) {
       notifications.filter((notification) => notification.id !== id)
     );
   };
+
+  const testPing = () => {
+    const trigger = (new Date(Date.now() + 5000));
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: true,
+      }),
+    });
+    // Notifications.scheduleNotificationAsync({
+    //   content: {
+    //     title: 'ping2',
+    //     body: "pingbody2"
+    //   },
+    //   trigger: {
+    //     type: Notifications.SchedulableTriggerInputTypes.DATE,
+    //     date: trigger,
+    //   }
+    // });
+    alert("scheduling for time " + trigger.toLocaleTimeString('en-US'));
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'ping2',
+        body: "pingbody2",
+        priority: Notifications.AndroidNotificationPriority.MAX,
+        interruptionLevel: 'timeSensitive',
+      },
+      trigger: null
+    });
+  }
 
   return (
     <ThemedView style={globalStyles.bodyContainerWhite}>
@@ -181,6 +237,12 @@ export default function HomeScreen(props: HomeScreenProps) {
             }}
 
           />
+
+          <TouchableOpacity style={styles.learnMoreButton} onPress={() => {
+            testPing();
+          }}>
+            <ThemedText>ping</ThemedText>
+          </TouchableOpacity>
 
           {/* View Past Examinations */}
           <TouchableOpacity>
