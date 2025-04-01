@@ -263,59 +263,6 @@ export default function HomeScreen(props: HomeScreenProps) {
           </ExternalLink>
         </View>
 
-        {/* Spacing */}
-        <View style={{ height: 10 }} />
-
-        {/* Calendar Component */}
-        <CalendarComponent
-          isMenstruating={isMenstruating}
-          updateCheckupDay={() => {
-            const ts = getCheckupDay();
-            if (ts) {
-              const date = new Date(ts.year, ts.month, ts.date + 7);
-
-              setNotifications([
-                {
-                  id: 1,
-                  variant:
-                    new Date().getTime() < date.getTime()
-                      ? "default"
-                      : "overdue",
-                  date,
-                },
-              ]);
-            }
-          }}
-        />
-
-        {/* View Past Examinations */}
-        <TouchableOpacity>
-          <ThemedText style={styles.pastExamsText}>
-            View your past examinations here
-          </ThemedText>
-        </TouchableOpacity>
-
-        {/* Spacer */}
-        <View style={{ height: 20 }} />
-
-        {/* Contact Buttons */}
-        <TouchableOpacity
-          style={styles.contactButton}
-          onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
-        >
-          <ThemedText style={styles.contactButtonText}>
-            Contact Dr. Lopa
-          </ThemedText>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.learnMoreButton}
-          onPress={() => setModalVisible(true)}
-        >
-          <ThemedText style={styles.learnMoreButtonText}>
-            Learn More about Breast Cancer
-          </ThemedText>
-        </TouchableOpacity>
       </ScrollView>
 
       {/* Modal for Learn More */}
