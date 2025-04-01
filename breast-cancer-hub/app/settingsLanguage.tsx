@@ -24,7 +24,7 @@ export default function LanguageScreen() {
     const saveSettings = async () => {
         //saves language selection locally
       try {
-          await saveSetting("language", language);
+          await saveSetting("locale", language);
           alert("Settings saved successfully.");
       } catch (error) {
           console.error("Error saving language:", error);

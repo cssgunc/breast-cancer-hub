@@ -13,7 +13,6 @@ export type SettingsMap = {
   "notificationTimes": {hour: number, minute: number}[], //using expo-notifications trigger format
 
   "locale": string, //using expo-localization
-  "language": string,
 
   "useBackupData": boolean,
   "useTelemetry": boolean,
@@ -24,7 +23,7 @@ export type SettingsMap = {
 
 export type SettingKeys = keyof SettingsMap;
 
-const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "userId", "schedulingType", "notificationTimes", "locale", "language", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications", "useDarkTheme"]
+const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "userId", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications", "useDarkTheme"]
 
 export async function getSetting<T extends SettingKeys>(key: T): Promise<SettingsMap[T]>{
   let res
@@ -86,7 +85,6 @@ export function generateDefaultSettings(){
     },
     notificationTimes: [],
     locale: 'en-US',
-    language: "English",
     useBackupData: false,
     useTelemetry: false,
     useDarkTheme: false,
