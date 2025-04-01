@@ -19,6 +19,7 @@ import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import { ExternalLink } from "@/components/ExternalLink";
 
 type Noti = {
   id: number;
@@ -87,7 +88,6 @@ export default function HomeScreen(props: HomeScreenProps) {
               source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
               style={styles.logo}
             />
-            <ThemedText style={styles.homeText}>Home</ThemedText>
           </View>
           {/* Profile Icon */}
           <TouchableOpacity
@@ -105,56 +105,162 @@ export default function HomeScreen(props: HomeScreenProps) {
       </View>
 
       {/* Content */}
-      <ScrollView
-        style={styles.contentContainer}
-        contentContainerStyle={{ paddingBottom: 20 }}
-      >
-        {/* Alerts Introduction Line */}
-        <View style={styles.introLine}>
-          <Ionicons
-            name="notifications-outline"
-            size={20}
-            color={colors.darkPink}
-            style={styles.icon}
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+        {/* Main Content with padding */}
+        <View style={styles.mainContent}>
+          {/* Alerts Introduction Line */}
+          <View style={styles.introLine}>
+            <Ionicons
+              name="notifications-outline"
+              size={20}
+              color={colors.darkPink}
+              style={styles.icon}
+            />
+            <ThemedText style={styles.introText}>Alerts</ThemedText>
+          </View>
+
+          {/* Spacing */}
+          <View style={{ height: 40 }} />
+
+          {/* Notifications or No Alerts Message */}
+          {notifications.length === 0 ? (
+            <ThemedText style={styles.noAlertsText}>
+              There are no new alerts
+            </ThemedText>
+          ) : (
+            notifications.map((notification) => (
+              <React.Fragment key={notification.id}>
+                <NotificationComponent
+                  variant={notification.variant}
+                  date={notification.date}
+                  onDismiss={() => removeNotification(notification.id)}
+                />
+                <View style={{ height: 15 }} />
+              </React.Fragment>
+            ))
+          )}
+
+          {/* Spacing between sections */}
+          <View style={{ height: 40 }} />
+
+          {/* Calendar Introduction Line */}
+          <View style={styles.introLine}>
+            <Ionicons
+              name="calendar-outline"
+              size={20}
+              color={colors.darkPink}
+              style={styles.icon}
+            />
+            <ThemedText style={styles.calendarIntroText}>
+              View your calendar
+            </ThemedText>
+          </View>
+
+          {/* Spacing */}
+          <View style={{ height: 10 }} />
+
+          {/* Calendar Component */}
+          <CalendarComponent
+            isMenstruating={isMenstruating}
+            updateCheckupDay={() => {
+              const ts = getCheckupDay();
+              if (ts) {
+                const date = new Date(ts.year, ts.month, ts.date + 7);
+
+                setNotifications([
+                  {
+                    id: 1,
+                    variant:
+                      new Date().getTime() < date.getTime()
+                        ? "default"
+                        : "overdue",
+                    date,
+                  },
+                ]);
+              }
+            }}
+
           />
-          <ThemedText style={styles.introText}>Alerts</ThemedText>
+
+          {/* View Past Examinations */}
+          <TouchableOpacity>
+            <ThemedText style={styles.pastExamsText}>
+              View your past examinations here
+            </ThemedText>
+          </TouchableOpacity>
+
+          {/* Spacer */}
+          <View style={{ height: 20 }} />
+
+          {/* Contact Buttons */}
+          <TouchableOpacity
+            style={styles.contactButton}
+            onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
+          >
+            <ThemedText style={styles.contactButtonText}>
+              Contact Dr. Lopa
+            </ThemedText>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.learnMoreButton}
+            onPress={() => setModalVisible(true)}
+          >
+            <ThemedText style={styles.learnMoreButtonText}>
+              Learn More about Breast Cancer
+            </ThemedText>
+          </TouchableOpacity>
         </View>
 
-        {/* Spacing */}
-        <View style={{ height: 40 }} />
-
-        {/* Notifications or No Alerts Message */}
-        {notifications.length === 0 ? (
-          <ThemedText style={styles.noAlertsText}>
-            There are no new alerts
-          </ThemedText>
-        ) : (
-          notifications.map((notification) => (
-            <React.Fragment key={notification.id}>
-              <NotificationComponent
-                variant={notification.variant}
-                date={notification.date}
-                onDismiss={() => removeNotification(notification.id)}
+        {/* footer with logos */}
+        <View style={styles.footerContainer}>
+          <ExternalLink href="https://mbcglobalalliance.org/" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/MBCGA-Logo-Stacked_real.png")}
+                style={styles.footerLogo}
               />
-              <View style={{ height: 15 }} />
-            </React.Fragment>
-          ))
-        )}
+              <ThemedText style={styles.footerLogoText}>
+                Male Breast Cancer Global Alliance
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
 
-        {/* Spacing between sections */}
-        <View style={{ height: 40 }} />
+          <ExternalLink href="https://www.facebook.com/KurlbaumIllustration/" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/kurlbaum_logo.png")}
+                style={styles.footerLogo}
+              />
+              <ThemedText style={styles.footerLogoText}>
+                Kurlbaum Illustration
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
 
-        {/* Calendar Introduction Line */}
-        <View style={styles.introLine}>
-          <Ionicons
-            name="calendar-outline"
-            size={20}
-            color={colors.darkPink}
-            style={styles.icon}
-          />
-          <ThemedText style={styles.calendarIntroText}>
-            View your calendar
-          </ThemedText>
+          <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/MBCH-LOGO.png")}
+                style={styles.footerLogo}
+              />
+              <ThemedText style={styles.footerLogoText}>
+                Male Breast Cancer Happens
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
+
+          <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
+            <TouchableOpacity style={styles.footerLogoContainer}>
+              <Image
+                source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")}
+                style={styles.footerLogo}
+              />
+              <ThemedText style={styles.footerLogoText}>
+                Sarah Cannon Cancer Institute
+              </ThemedText>
+            </TouchableOpacity>
+          </ExternalLink>
         </View>
 
         {/* Spacing */}
@@ -188,20 +294,6 @@ export default function HomeScreen(props: HomeScreenProps) {
             View your past examinations here
           </ThemedText>
         </TouchableOpacity>
-
-                {/* View Past Examinations */}
-                <TouchableOpacity>
-          <ThemedText style={styles.pastExamsText} onPress={() => router.push("/onboarding")}>
-onboarding          </ThemedText>
-        </TouchableOpacity>
-
-
-                {/* View Past Examinations */}
-                <TouchableOpacity>
-          <ThemedText style={styles.pastExamsText} onPress={() => router.push("/purposeOfExam")}>
-testing          </ThemedText>
-        </TouchableOpacity>
-
 
         {/* Spacer */}
         <View style={{ height: 20 }} />
@@ -315,6 +407,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   logoHomeContainer: {
+    padding:10,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -339,6 +432,8 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: "bold",
     color: colors.black,
+    lineHeight: 30,
+    
   },
   nameText: {
     fontSize: 29,
@@ -354,13 +449,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    paddingHorizontal: 20,
     paddingTop: 20,
+  },
+  mainContent: {
+    paddingTop:40,
+    paddingHorizontal: 20,
   },
   introLine: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10 + 20, // to replace Spacing
+    marginBottom: 30, 
   },
   icon: {
     marginRight: 10,
@@ -422,6 +520,38 @@ const styles = StyleSheet.create({
     color: colors.darkPink,
     fontWeight: "bold",
   },
+
+  // Footer with logos
+  footerContainer: {
+    backgroundColor: colors.darkPink,
+    width: "100%",
+    paddingVertical: 20,
+    minHeight: "100%",
+    marginBottom: -1000,
+    paddingBottom: 1000,
+  },
+  footerLogoContainer: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    marginVertical: 10,
+  },
+  footerLogo: {
+    width: 120,
+    height: 40,
+    resizeMode: "contain",
+  },
+  footerLogoText: {
+    fontSize: 12,
+    color: "white",
+    flex: 1,
+    textAlign: "right",
+    marginLeft: 20,
+    textDecorationLine: "underline",
+  },
+
   // Modal styles
   modalOverlay: {
     flex: 1,

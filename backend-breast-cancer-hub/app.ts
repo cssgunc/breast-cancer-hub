@@ -63,8 +63,12 @@ app.post('/auth', async (req: Request, res: Response) => {
       [result.rows[0].id, hashedToken]
     )
 
-    res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken })
-    console.log("succ")
+    await pool.query(
+      'INSERT INTO SETTINGS(user_id) VALUES($1)',
+      [result.rows[0].id]
+    )
+
+    res.status(201).json({ message: 'User registered successfully', sessionToken: sessionToken, userId: result.rows[0].id })
     return
 
 
@@ -86,13 +90,14 @@ app.put('/auth', async (req: Request, res: Response) => {
   }
 
   try {
-    const check = await pool.query('SELECT id, password_hash FROM USERS WHERE USERS.email = $1', [email])
+    const check = await pool.query('SELECT id, password_hash, user_name FROM USERS WHERE USERS.email = $1', [email])
     if (check.rows.length == 0) {
       res.status(404).json({ error: 'Account not found' })
       return
     }
     const hashedPassword = check.rows[0].password_hash
     const userId = check.rows[0].id
+    const name = check.rows[0].user_name
 
 
     const passwordMatch = await bcrypt.compare(password, hashedPassword)
@@ -105,7 +110,7 @@ app.put('/auth', async (req: Request, res: Response) => {
         [hashedToken, userId]
       )
 
-      res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken })
+      res.status(200).json({ message: 'User logged in successfully', sessionToken: sessionToken, userId: userId, name: name, email: email})
       return
     }
     else {
@@ -180,34 +185,82 @@ app.get('/settings', async (req: Request, res: Response) => {
   }
 });
 
-app.put('/settings', async (req: Request, res: Response) => {
+app.get('/settings_notifications', async (req: Request, res: Response) => {
   const sessionToken = req.headers['x-session-token'] as string;
   const email = req.headers['x-user-email'] as string;
-  const { user_id, scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification } = req.body;
+  const userId = req.query.user_id as string;
 
   if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
     res.status(403).json({ error: 'Unauthorized' });
     return
   }
 
-  if (!user_id || !scheduling_type || !notification_times || !locale) {
-    res.status(400).json({ error: 'user_id, scheduling_type, notification_times, and locale are required' });
+  if (!userId) {
+    res.status(400).json({ error: 'user_id is required' });
+    return
+  }
+
+  try {
+    const result = await pool.query('SELECT * FROM notification_times WHERE user_id=$1', [userId])
+
+    let index = 0;
+
+    res.status(200).json(
+      {
+        time_entries:
+          result.rows.map((row) => {
+            return {
+              id: row.id,
+              time: row.time,
+              enabled: row.enabled
+            }
+          })
+      }
+    )
+
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+})
+
+app.put('/settings', async (req: Request, res: Response) => {
+  const sessionToken = req.headers['x-session-token'] as string;
+  const email = req.headers['x-user-email'] as string;
+  const { user_id, scheduling_type, locale, use_backup_data, use_telemetry, use_dark_theme, use_push_notifications, use_in_app_notifications, notification_times } = req.body;
+
+  if (!sessionToken || !email || !(await checkToken(sessionToken, email))) {
+    res.status(403).json({ error: 'Unauthorized' });
+    return
+  }
+
+  if (!user_id) {
+    res.status(400).json({ error: 'user_id is required' });
     return
   }
 
   try {
     const result = await pool.query(
-      `UPDATE settings 
-       SET scheduling_type = $1, 
-           notification_times = $2, 
-           locale = $3, 
-           use_backup_data = $4, 
-           use_telemetry = $5, 
-           use_push_notification = $6, 
-           use_in_app_notification = $7 
-       WHERE user_id = $8 
+      `INSERT INTO settings
+        (scheduling_type, locale, use_backup_data, use_telemetry,
+        use_dark_theme, use_push_notifications, use_in_app_notifications, user_id)
+        VALUES 
+        (COALESCE($1, 'period'), COALESCE($2, 'en-US'), COALESCE($3, false), COALESCE($4, false), 
+        COALESCE($5, false), COALESCE($6, false), COALESCE($7, false), $8) 
+      ON CONFLICT (user_id) 
+      DO UPDATE SET 
+        scheduling_type = COALESCE($1, settings.scheduling_type), 
+        locale = COALESCE($2, settings.locale), 
+        use_backup_data = COALESCE($3, settings.use_backup_data), 
+        use_telemetry = COALESCE($4, settings.use_telemetry), 
+        use_dark_theme = COALESCE($5, settings.use_dark_theme),
+        use_push_notifications = COALESCE($6, settings.use_push_notifications), 
+        use_in_app_notifications = COALESCE($7, settings.use_in_app_notifications)
+      WHERE settings.user_id = $8
        RETURNING *`,
-      [scheduling_type, notification_times, locale, use_backup_data, use_telemetry, use_push_notification, use_in_app_notification, user_id]
+      [scheduling_type, locale, use_backup_data, use_telemetry, 
+        use_dark_theme, use_push_notifications, use_in_app_notifications, user_id]
     );
 
     if (result.rowCount === 0) {
@@ -215,7 +268,29 @@ app.put('/settings', async (req: Request, res: Response) => {
       return
     }
 
+    const clearNotifsResult = await pool.query(
+      `DELETE FROM notification_times WHERE user_id=$1`,
+      [user_id]
+    );
+
+    const notifUserIds = Array(notification_times.length).fill(user_id)
+    const notifTimes : String[] = []
+    const notifEnabled : Boolean[] = []
+
+    notification_times.forEach((elt: { id: number, time: string, enabled: boolean }) => {
+      notifTimes.push(elt.time);
+      notifEnabled.push(elt.enabled);
+    })
+
+    const notifsResult = await pool.query(
+      `INSERT INTO notification_times
+      (user_id, time, enabled)
+      SELECT * FROM UNNEST ($1::int[], $2::time[], $3::boolean[])`,
+      [notifUserIds, notifTimes, notifEnabled]
+    )
+
     res.status(200).json({ message: 'Settings updated successfully', settings: result.rows[0] });
+    
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Server error' });

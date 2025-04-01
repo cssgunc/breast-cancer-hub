@@ -14,23 +14,64 @@ import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
 
+
+
 export default function SettingsScreen() {
   const router = useRouter();
-
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
-  const [isDarkModeEnabled, setIsDarkModeEnabled] = React.useState(false);
-
-  const [person, setPerson] = useState({ name: "", email: "" });
-
+  const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
+  
+  // API call to update user settings once "save settings" button is clicked
+  function saveSettings() {
+    fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+      method: "PUT", 
+      headers: {
+        "Content-Type" : "application/json",
+        "x-session-token": person.token,
+        'x-user-email' : person.email,
+        },
+        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, scheduling_type: "period", notification_times: '02:43:49.441286', locale: "temp"})
+      })
+  }
+  
+  // Pulling information from local storage
   useEffect(() => {
     getSetting("name").then((name) =>
-      getSetting("email").then((email) => {
-        setPerson({ name, email });
+      getSetting("email").then((email) => 
+        getSetting("token").then((token) => 
+          getSetting("userId").then((userId) => {
+        setPerson({ name,email,token, userId});
       })
+    )
+    )
     );
   }, []);
 
+  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
+
+  // API call to read user settings.
+  useEffect(() => {
+    if (person.token == "") {
+      return
+    } else {
+      fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+        method: "GET", 
+        headers: {
+          "x-session-token": person.token,
+          'x-user-email' : person.email,
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          setIsTelemetryEnabled(data.settings.use_telemetry);
+          setIsDarkThemeEnabled(data.settings.use_dark_mode);
+          setIsBackupEnabled(data.settings.use_backup_data);
+        })
+        .catch(error => console.error(error));
+    }
+  }, [person.token]);
+  
   return (
     <ThemedView style={styles.container}>
       {/* Header */}
@@ -73,7 +114,7 @@ export default function SettingsScreen() {
 
             {/* Notification Preferences */}
             <TouchableOpacity
-              style={[styles.optionContainer, {height: 1}]}
+              style={styles.optionContainer}
               onPress={() => router.push("./settingsNotifications")}
             >
               <ThemedText style={styles.optionText}>
@@ -83,7 +124,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity style={[styles.optionContainer, {height: 1}]}>
+            <TouchableOpacity style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
               </ThemedText>
@@ -91,7 +132,7 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Telemetry */}
-            <View style={[styles.optionContainer, {height: 1}]}>
+            <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
@@ -103,7 +144,7 @@ export default function SettingsScreen() {
             </View>
 
             {/* Backup */}
-            <View style={[styles.optionContainer, {height: 1}]}>
+            <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
@@ -138,21 +179,21 @@ export default function SettingsScreen() {
               <ThemedText style={styles.optionText}>Dark Mode</ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightPink }}
-                thumbColor={isDarkModeEnabled ? colors.white : "#f4f3f4"}
+                thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={ colors.darkGray }
-                onValueChange={() => setIsDarkModeEnabled(!isDarkModeEnabled)}
-                value={isDarkModeEnabled}
+                onValueChange={() => setIsDarkThemeEnabled(!IsDarkThemeEnabled)}
+                value={IsDarkThemeEnabled}
               />
             </View>
 
             {/* Change Date or Scheduling Type */}
-            <TouchableOpacity style={styles.optionContainer}>
-              <ThemedText
-                style={styles.optionText}
-                onPress={() => {
-                  router.push("/askMenstruate");
-                }}
-              >
+            <TouchableOpacity
+              style={styles.optionContainer}
+              onPress={() => {
+                router.push("/askMenstruate");
+              }}
+            >
+              <ThemedText style={styles.optionText}>
                 Change Date or Scheduling Type
               </ThemedText>
               <Ionicons name="chevron-forward" size={20} color={colors.black} />
@@ -160,8 +201,11 @@ export default function SettingsScreen() {
           </View>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton}>
-            <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
+          <TouchableOpacity style={styles.saveButton} onPress={() => saveSettings()}>
+            <ThemedText 
+              style={styles.saveButtonText}
+              onPress = {() => {saveSettings();}}
+            >Save Settings</ThemedText>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -177,9 +221,9 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    marginBottom: 20,
+    paddingTop: "15%", 
+    paddingHorizontal: "5%",
+    marginBottom: "8%",
   },
   backButton: {
     backgroundColor: colors.darkPink,
@@ -194,6 +238,8 @@ const styles = StyleSheet.create({
     fontSize: 36,
     color: colors.darkPink,
     fontWeight: "bold",
+    lineHeight: 40,
+    margin: 10,
   },
   contentContainer: {
     alignItems: "center",
@@ -214,7 +260,7 @@ const styles = StyleSheet.create({
   userInfoContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
   userTextContainer: {
     flex: 1,
@@ -261,7 +307,7 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 15,
     color: colors.black,
-    flex: 1,
+    flex: 0.5,
     flexWrap: "wrap",
   },
   saveButton: {
