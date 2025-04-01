@@ -189,6 +189,20 @@ export default function HomeScreen(props: HomeScreenProps) {
           </ThemedText>
         </TouchableOpacity>
 
+                {/* View Past Examinations */}
+                <TouchableOpacity>
+          <ThemedText style={styles.pastExamsText} onPress={() => router.push("/onboarding")}>
+onboarding          </ThemedText>
+        </TouchableOpacity>
+
+
+                {/* View Past Examinations */}
+                <TouchableOpacity>
+          <ThemedText style={styles.pastExamsText} onPress={() => router.push("/purposeOfExam")}>
+testing          </ThemedText>
+        </TouchableOpacity>
+
+
         {/* Spacer */}
         <View style={{ height: 20 }} />
 

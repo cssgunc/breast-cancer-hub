@@ -42,7 +42,7 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <ThemedView style={globalStyles.bodyContainerWhite}>
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
       <AccountSettingsHeaderComponent />
       <ScrollView 
       ref={scrollViewRef}
@@ -283,6 +283,10 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingHorizontal: 10,
     paddingBottom: 20, 
+    backgroundColor: "white",
+    borderTopLeftRadius: 17,
+    borderTopRightRadius: 17,
+    marginTop: 10,
   },
   background: {
     padding: 10,
