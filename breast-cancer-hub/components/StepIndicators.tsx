@@ -1,6 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { colors } from "./StyleSheet";
 
 interface StepIndicatorsProps {
   totalSteps: number;
@@ -18,7 +19,7 @@ const StepIndicators: React.FC<StepIndicatorsProps> = ({ totalSteps, currentStep
               key={index}
               name={iconName}
               size={24}
-              color="#E93C92" 
+              color={colors.darkPink}
               style={styles.indicator}
             />
           );
