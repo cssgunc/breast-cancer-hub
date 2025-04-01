@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { saveSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen() {
   const [email, setEmail] = useState("");
@@ -35,14 +36,24 @@ export default function HomeScreen() {
       body: JSON.stringify(data),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         if (data.message) {
           alert("Login successful");
-          router.push("/");
           saveSetting("email", data.email);
           saveSetting("token", data.sessionToken);
           saveSetting("name", data.name);
           saveSetting("userId", data.userId);
+          try {
+            const onboarding = await AsyncStorage.getItem("onboarding");
+            if (onboarding === null || onboarding === "false") {
+              await AsyncStorage.setItem("onboarding", "true");
+              router.push("/onboarding");
+            } else if (onboarding === "true") {
+              router.push("/")
+            }
+          } catch (error) {
+            console.error(error);
+          }
         } else if (data.error) {
           alert(`Error: ${data.error}`);
         }
