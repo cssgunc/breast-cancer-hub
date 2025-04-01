@@ -12,10 +12,12 @@ import { Colors } from "@/constants/Colors";
 import { BorderlessButton } from "react-native-gesture-handler";
 import { colors } from "./StyleSheet";
 
-const languages = ["EN", "SP", "FR", "RU", "ZH"];
+const languages = ["English", "Assamese", "Arabic", "Bahasa", "Bengali", "Chinese", "German", "Gujarati", "Hindi", 
+"Japanese", "Kannada", "Kiswahili", "Malayalam", "Marathi", "Odia", "Persian", "Portuguese", "Punjabi", "Russian", 
+"Spanish", "Tamil", "Telugu", "Urdu", "Uzbek"];
 
 export function SelectLanguage() {
-  const [selectedLanguage, setSelectedLanguage] = useState("EN");
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? "light";
 
@@ -69,12 +71,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     borderRadius: 25,
-    width: 217,
     height: 48,
     backgroundColor: colors.white, // White background
     paddingHorizontal: 18, // Padding for button content
     borderWidth: 2,
     borderColor: "#aaaaaa", // Border color for button
+    marginTop: 20
   },
   selectLanguageText: {
     color: "#666666", // Grey color for 'Select Language'
@@ -91,7 +93,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   dropdown: {
-    marginTop: 0,
+    marginTop: 5,
     borderWidth: 2,
     borderColor: "#cccccc",
     borderRadius: 25,

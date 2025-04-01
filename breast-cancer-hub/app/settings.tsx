@@ -124,7 +124,10 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity style={styles.optionContainer}>
+            <TouchableOpacity 
+              style={styles.optionContainer} 
+              onPress={() => router.push("./settingsLanguage")}
+            >
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
               </ThemedText>
