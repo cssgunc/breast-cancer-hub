@@ -90,11 +90,13 @@ export const globalStyles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     color: colors.black,
+    lineHeight: 32,
   },
   titleTextDarkPink: {
     fontSize: 32,
     fontWeight: "bold",
     color: colors.darkPink,
+    lineHeight: 32,
   },
 
   listTitleTextExam: {
