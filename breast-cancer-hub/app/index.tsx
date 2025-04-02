@@ -50,16 +50,16 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [name, setName] = useState<string | undefined>("");
 
   useEffect(() => {
-    if (props.isMenstruating === undefined) {
+    //if (props.isMenstruating === undefined) {
       getSetting("schedulingType").then((s) => {
         setIsMenstruating(s == "period");
       });
-    }
-    if (props.name === undefined) {
+    //}
+    //if (props.name === undefined) {
       getSetting("name").then((value) => {
         setName(value);
       });
-    }
+    //}
   }, []);
 
   if (name === undefined || isMenstruating === undefined) {
@@ -90,7 +90,6 @@ export default function HomeScreen(props: HomeScreenProps) {
               source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
               style={styles.logo}
             />
-            <ThemedText style={styles.homeText}>Home</ThemedText>
           </View>
           {/* Profile Icon */}
           <TouchableOpacity
@@ -209,6 +208,23 @@ export default function HomeScreen(props: HomeScreenProps) {
                 </ThemedText>
             </TouchableOpacity>
           </View>
+          {/* { isMenstruating ?
+            (
+              <CheckupWidget
+                isMenstruating={isMenstruating}
+                startDate="2025-03-04T00:00:00Z"
+                endDate="2025-03-10T00:00:00Z"
+                completedDate="2025-03-17T00:00:00Z"
+              />
+            ) : (
+              <CheckupWidget
+                isMenstruating={isMenstruating}
+                completedDate="2025-03-17T00:00:00Z"
+              />
+            )
+
+          } */}
+
 
           {/* Spacer */}
           <View style={{ height: 20 }} />
@@ -375,6 +391,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   logoHomeContainer: {
+    padding:10,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -399,6 +416,8 @@ const styles = StyleSheet.create({
     fontSize: 29,
     fontWeight: "bold",
     color: colors.black,
+    lineHeight: 30,
+    
   },
   nameText: {
     fontSize: 29,
@@ -414,17 +433,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   contentContainer: {
-    // Removed horizontal padding so pink footer can extend edge-to-edge
     paddingTop: 20,
   },
   mainContent: {
-    // We wrap main content here so it has horizontal padding
+    paddingTop:40,
     paddingHorizontal: 20,
   },
   introLine: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 30, // replaced 10 + 20
+    marginBottom: 30, 
   },
   icon: {
     marginRight: 10,

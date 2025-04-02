@@ -1,10 +1,11 @@
 import { View, FlatList, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-// import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import CheckupWidget from "@/components/CheckupWidget";
 import { colors } from "@/components/StyleSheet";
+import { useEffect, useState } from "react";
+import { getSetting } from "@/hooks/useSettings";
 
 // placeholder, future cycle data must be get from API call
 const cycleData = [
@@ -22,6 +23,13 @@ interface CycleLogProps {
 
 export default function CycleLogPage({ limit }: CycleLogProps) {
     const displayedCycles = limit ? cycleData.slice(0, limit) : cycleData;
+    const [isMenstruating, setIsMenstruating] = useState<boolean>(true); // default type set to F
+
+    useEffect(() => {
+        getSetting("schedulingType").then((s) => {
+            setIsMenstruating(s === "period");
+        })
+    });
 
     return (
         <ThemedView>
@@ -39,7 +47,7 @@ export default function CycleLogPage({ limit }: CycleLogProps) {
             <FlatList
                 data={displayedCycles}
                 keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item }) => <CheckupWidget {...item} />}
+                renderItem={({ item }) => <CheckupWidget {...item} isMenstruating={isMenstruating} />}
             />
         </ThemedView>
     );

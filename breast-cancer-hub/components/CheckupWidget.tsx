@@ -4,34 +4,68 @@ import { ThemedView } from "./ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { colors } from "./StyleSheet";
 
-interface CheckupWidgetProps {
+interface CheckupWidgetMenstruateProps {
+    isMenstruating: boolean;
     startDate: string;
     endDate: string;
     completedDate: string;
 }
 
-export default function CheckupWidget({ startDate, endDate, completedDate }: CheckupWidgetProps) {
+interface CheckupWidgetNoMenstruateProps {
+    isMenstruating: boolean;
+    completedDate: string;
+}
+
+export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruateProps | CheckupWidgetNoMenstruateProps) {
     const formatDate = (date: Date) => date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-
     // date objects for props
-    const dateStart = new Date(startDate);
-    const dateEnd = new Date(endDate);
-    const dateComplete = new Date(completedDate);
+    // const dateStart = new Date(startDate);
+    // const dateEnd = new Date(endDate);
+    // const dateComplete = new Date(completedDate);
 
-    const length = Math.ceil((dateEnd.getTime() - dateStart.getTime()) / (1000 * 60 * 60 * 24))
+    var startDate : Date = new Date(0);
+    var endDate : Date = new Date(0);
+    var length;
+
+    if (checkupWidgetProps.isMenstruating) {
+        startDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).startDate);
+        endDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).endDate);
+        length = length = Math.ceil((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24));
+    }
+    const completedDate = new Date(checkupWidgetProps.completedDate);
+
+    console.log(checkupWidgetProps.isMenstruating);
 
     return (
-        <ThemedView style={[styles.card]}>
-            <ThemedText style={styles.periodText}>
-                {formatDate(dateStart)} - {formatDate(dateEnd)} ({length} days)
-            </ThemedText>
-            <ThemedText style={styles.completedText}>Checkup completed: {formatDate(dateComplete)}</ThemedText>
-            <TouchableOpacity
-                // will eventually push to symptom checklist for specific date 
-                onPress={() => router.push(`/selfExamChecklist`)}>
-                <ThemedText style={styles.pastExamsText}>View checkup details</ThemedText>
-            </TouchableOpacity>
+        <ThemedView>
+            {checkupWidgetProps.isMenstruating ? (
+                <ThemedView style={[styles.card]}>
+                    
+                    <ThemedText style={styles.periodText}>
+                        {formatDate(startDate)} - {formatDate(endDate)} ({length} days)
+                    </ThemedText>
+                    <ThemedText style={styles.completedText}>Checkup completed: {formatDate(completedDate)}</ThemedText>
+                    <TouchableOpacity
+                        // will eventually push to symptom checklist for specific date 
+                        onPress={() => router.push(`/selfExamChecklist`)}>
+                        <ThemedText style={styles.pastExamsText}>View checkup details</ThemedText>
+                    </TouchableOpacity>
+                </ThemedView>
+            ) : (
+                <ThemedView style={[styles.card]}>
+                    
+                    <ThemedText style={styles.periodText}>
+                        {formatDate(completedDate)}
+                    </ThemedText>
+                    <TouchableOpacity
+                        // will eventually push to symptom checklist for specific date 
+                        onPress={() => router.push(`/selfExamChecklist`)}>
+                        <ThemedText style={styles.pastExamsText}>View checkup details</ThemedText>
+                    </TouchableOpacity>
+                </ThemedView>
+            )}
         </ThemedView>
+
     );
 };
 
@@ -48,7 +82,7 @@ const styles = StyleSheet.create({
     periodText: {
         fontWeight: "bold",
         fontSize: 16,
-        color: "#000000",
+        color: colors.black,
     },
     completedText: {
         fontSize: 14,
