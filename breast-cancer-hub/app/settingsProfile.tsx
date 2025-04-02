@@ -10,15 +10,28 @@ import { colors } from "@/components/StyleSheet";
 export default function ProfileSettingsScreen() {
   const router = useRouter();
 
-  const [person, setPerson] = useState({ name: "", email: "" });
+  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
 
   useEffect(() => {
     getSetting("name").then((name) =>
-      getSetting("email").then((email) => {
-        setPerson({ name, email });
+      getSetting("email").then((email) => 
+        getSetting("token").then((token) => 
+          getSetting("userId").then((userId) => {
+        setPerson({ name,email,token, userId});
       })
+    )
+    )
     );
   }, []);
+
+  function logout() {
+    localStorage.removeItem("name");
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("onboarding");
+    router.push("/login");
+  }
 
   return (
     <ThemedView style={styles.container}>
@@ -74,7 +87,7 @@ export default function ProfileSettingsScreen() {
         </ScrollView>
 
         {/* Sign Out Button */}
-        <TouchableOpacity style={styles.signOutButton}>
+        <TouchableOpacity style={styles.signOutButton} onPress={() => logout()}>
           <ThemedText style={styles.signOutButtonText}>Sign Out</ThemedText>
         </TouchableOpacity>
       </View>
