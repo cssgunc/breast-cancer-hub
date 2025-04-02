@@ -18,7 +18,7 @@ export default function CheckupWidget({ startDate, endDate, completedDate }: Che
     const dateEnd = new Date(endDate);
     const dateComplete = new Date(completedDate);
 
-    const length = dateEnd.getDate() - dateStart.getDate();
+    const length = Math.ceil((dateEnd.getTime() - dateStart.getTime()) / (1000 * 60 * 60 * 24))
 
     return (
         <ThemedView style={[styles.card]}>

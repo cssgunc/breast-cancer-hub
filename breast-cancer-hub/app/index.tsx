@@ -21,6 +21,7 @@ import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
 import CheckupWidget from "@/components/CheckupWidget";
+import CycleLogPage from "@/app/cycleLog"; 
 
 type Noti = {
   id: number;
@@ -193,11 +194,21 @@ export default function HomeScreen(props: HomeScreenProps) {
 
 
           {/* Checkup History Homepage Widget, dates must be ISO format */}
-          <CheckupWidget
-            startDate="2025-03-04T00:00:00Z"
-            endDate="2025-03-10T00:00:00Z"
-            completedDate="2025-03-17T00:00:00Z"
-          />
+          <View style={{ flex: 1, padding: 20 }}>
+            <CycleLogPage limit={4} />
+            <TouchableOpacity 
+                onPress={() => router.push("/cycleLog")} 
+                style={{
+                    marginTop: 10,
+                    paddingVertical: 10,
+                    borderRadius: 5,
+                    alignItems: "center",
+                }}>
+                <ThemedText style={{ fontSize: 14, fontWeight: "bold", color: "#007AFF" }}>
+                    View All Checkups
+                </ThemedText>
+            </TouchableOpacity>
+          </View>
 
           {/* Spacer */}
           <View style={{ height: 20 }} />
