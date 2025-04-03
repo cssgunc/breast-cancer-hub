@@ -30,7 +30,7 @@ export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruat
     if (checkupWidgetProps.isMenstruating) {
         startDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).startDate);
         endDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).endDate);
-        length = length = Math.ceil((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24));
+        length = length = Math.ceil((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24))*-1;
     }
     const completedDate = new Date(checkupWidgetProps.completedDate);
 

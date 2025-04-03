@@ -21,7 +21,8 @@ import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
 import CheckupWidget from "@/components/CheckupWidget";
-import CycleLogPage from "@/app/cycleLog"; 
+import CycleHistoryPage from "@/app/cycleHistory";
+import CycleLog from "@/components/CycleLog";
 
 type Noti = {
   id: number;
@@ -51,14 +52,14 @@ export default function HomeScreen(props: HomeScreenProps) {
 
   useEffect(() => {
     //if (props.isMenstruating === undefined) {
-      getSetting("schedulingType").then((s) => {
-        setIsMenstruating(s == "period");
-      });
+    getSetting("schedulingType").then((s) => {
+      setIsMenstruating(s == "period");
+    });
     //}
     //if (props.name === undefined) {
-      getSetting("name").then((value) => {
-        setName(value);
-      });
+    getSetting("name").then((value) => {
+      setName(value);
+    });
     //}
   }, []);
 
@@ -107,7 +108,7 @@ export default function HomeScreen(props: HomeScreenProps) {
       </View>
 
       {/* Content */}
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
         {/* Main Content with padding */}
         <View style={styles.mainContent}>
           {/* Alerts Introduction Line */}
@@ -184,28 +185,28 @@ export default function HomeScreen(props: HomeScreenProps) {
 
           />
 
-          {/* View Past Examinations */}
-          <TouchableOpacity>
-            <ThemedText style={styles.pastExamsText}>
-              View your past examinations here
-            </ThemedText>
-          </TouchableOpacity>
-
-
           {/* Checkup History Homepage Widget, dates must be ISO format */}
-          <View style={{ flex: 1, padding: 20 }}>
-            <CycleLogPage limit={4} />
-            <TouchableOpacity 
-                onPress={() => router.push("/cycleLog")} 
-                style={{
-                    marginTop: 10,
-                    paddingVertical: 10,
-                    borderRadius: 5,
-                    alignItems: "center",
-                }}>
-                <ThemedText style={{ fontSize: 14, fontWeight: "bold", color: "#007AFF" }}>
-                    View All Checkups
-                </ThemedText>
+          <View style={styles.titleLine}>
+            <Ionicons
+              name="list-outline"
+              size={20}
+              color={colors.darkPink}
+              style={styles.icon}
+            />
+            <ThemedText style={styles.titleText}>
+              {"Recent Checkups"}
+            </ThemedText>
+          </View>
+          <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10}}>
+            <CycleLog limit={4} isMenstruating={isMenstruating} />
+            <TouchableOpacity
+              onPress={() => router.push("/cycleHistory")}
+              style={{
+                alignItems: "center",
+              }}>
+              <ThemedText style={styles.pastExamsText}>
+                View your past examinations here
+              </ThemedText>
             </TouchableOpacity>
           </View>
           {/* { isMenstruating ?
@@ -391,7 +392,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   logoHomeContainer: {
-    padding:10,
+    padding: 10,
     flexDirection: "row",
     alignItems: "center",
   },
@@ -417,7 +418,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.black,
     lineHeight: 30,
-    
+
   },
   nameText: {
     fontSize: 29,
@@ -436,13 +437,13 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   mainContent: {
-    paddingTop:40,
+    paddingTop: 40,
     paddingHorizontal: 20,
   },
   introLine: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 30, 
+    marginBottom: 30,
   },
   icon: {
     marginRight: 10,
@@ -473,6 +474,17 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.blue,
     textAlign: "center",
+    fontWeight: "bold",
+  },
+  titleLine: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 30,
+  },
+  titleText: {
+    fontSize: 20,
+    color: colors.black,
     fontWeight: "bold",
   },
   contactButton: {
