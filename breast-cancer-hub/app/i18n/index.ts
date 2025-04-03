@@ -10,8 +10,7 @@ const resources = {
   "en-US": { translation: translationEn },
   en: { translation: translationEn },
   "es-ES": { translation: translationEs },
-  ko: { translation: translationEs },
-
+  es: { translation: translationEs },
 };
 
 const RTL_LANGUAGES = ["ar", "ar-SA"];
@@ -58,7 +57,8 @@ const initI18n = async () => {
       lng: selectedLanguage,
       fallbackLng: {
         "en-*": ["en-US", "en"],
-        "es-*": ["es-ES", "es", "en-US"],
+        "ko-*": ["ko-KR", "ko", "en-US"],
+        "ar-*": ["ar-SA", "ar", "en-US"],
         default: ["en-US"],
       },
       interpolation: {
