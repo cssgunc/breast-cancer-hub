@@ -24,7 +24,8 @@ export default function Signup() {
   const [name, setName] = useState(""); // New state for name input
   const [errorMessage, setErrorMessage] = useState<undefined | string>();
   const router = useRouter();
-
+  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+  
   const handleSubmit = () => {
     if (pending) return;
 
@@ -61,7 +62,7 @@ export default function Signup() {
     };
     const body = JSON.stringify(data);
 
-    fetch("http://localhost:3000/auth", {
+    fetch(`${BASE_URL}/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

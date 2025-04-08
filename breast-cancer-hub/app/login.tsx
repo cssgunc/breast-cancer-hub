@@ -15,6 +15,8 @@ import { saveSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+
 export default function HomeScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,10 +27,8 @@ export default function HomeScreen() {
       alert("Please enter a valid email address.");
       return;
     }
-
     const data = { email, password };
-
-    fetch("http://localhost:3000/auth", {
+    fetch(`${BASE_URL}/auth`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

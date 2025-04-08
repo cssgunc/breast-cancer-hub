@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import { GLOBAL_PERIOD_DATA, initPeriods } from "@/hooks/usePeriodData";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
@@ -19,8 +20,9 @@ export default function MenstruationSelectionScreen() {
       // Navigate to index.tsx
       //router.back();
       if (selectedOption == "menstruate") {
+        // Save the setting and navigate to calendar
         saveSetting("schedulingType", "period").then(() => {
-          router.back();
+          router.push("/");
         });
       } else {
         router.push("/CustomizeExamDateScreen");
