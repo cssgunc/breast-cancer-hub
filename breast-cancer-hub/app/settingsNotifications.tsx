@@ -21,6 +21,7 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 
 export default function NotificationsScreen() {
   const router = useRouter();
+  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 
   // State for checkboxes
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -42,7 +43,7 @@ export default function NotificationsScreen() {
   async function saveSettingsToBackend() {
     console.log((timeEntries as { id: number, time: string, enabled: boolean }[])
     .map((val) => {return [person.userId, val.time, val.enabled];}))
-    fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+    fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
       method: "PUT", 
       headers: {
         "Content-Type" : "application/json",
@@ -73,7 +74,7 @@ export default function NotificationsScreen() {
       if (person.token == "") {
         return
       } else {
-        fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+        fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
           method: "GET", 
           headers: {
             "x-session-token": person.token,
@@ -89,7 +90,7 @@ export default function NotificationsScreen() {
           })
           .catch(error => console.error(error));
         
-          fetch("http://localhost:3000/settings_notifications" + "?user_id=" + person.userId, {
+          fetch(`${BASE_URL}/settings_notifications` + "?user_id=" + person.userId, {
             method: "GET", 
             headers: {
               "x-session-token": person.token,
