@@ -57,8 +57,7 @@ const initI18n = async () => {
       lng: selectedLanguage,
       fallbackLng: {
         "en-*": ["en-US", "en"],
-        "ko-*": ["ko-KR", "ko", "en-US"],
-        "ar-*": ["ar-SA", "ar", "en-US"],
+        "es-*": ["es-ES", "es", "en-US"],
         default: ["en-US"],
       },
       interpolation: {
