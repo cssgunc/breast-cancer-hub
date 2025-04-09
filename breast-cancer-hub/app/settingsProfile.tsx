@@ -4,7 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getSetting } from "@/hooks/useSettings";
+import { saveSetting, getSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
 
 export default function ProfileSettingsScreen() {
@@ -25,12 +25,12 @@ export default function ProfileSettingsScreen() {
   }, []);
 
   function logout() {
-    localStorage.removeItem("name");
-    localStorage.removeItem("email");
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("onboarding");
-    router.push("/login");
+    saveSetting("name", "");
+    saveSetting("token", "");
+    saveSetting("email", "");
+    saveSetting("userId", "");
+    router.dismissAll();
+    router.replace("/login");
   }
 
   return (
