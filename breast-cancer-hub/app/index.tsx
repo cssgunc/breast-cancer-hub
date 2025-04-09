@@ -16,7 +16,7 @@ import { CalendarComponent } from "@/components/Calendar"; // Ensure this path i
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
-import { getSetting } from "@/hooks/useSettings";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
@@ -47,9 +47,14 @@ export default function HomeScreen(props: HomeScreenProps) {
 
   const [name, setName] = useState<string | undefined>("");
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     if (props.isMenstruating === undefined) {
-      getSetting("schedulingType").then((s) => {
+      getSetting("${id.userId}_schedulingType" as keyof SettingsMap).then((s) => {
         setIsMenstruating(s == "period");
       });
     }

@@ -12,7 +12,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../hooks/useSettings";
+import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { colors, globalStyles } from "@/components/StyleSheet";
 
@@ -54,9 +54,14 @@ export default function SelfExamInfo() {
 
   const [examTypeF, setExamTypeF] = useState(true);
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
+      const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
       setExamTypeF(schedulingType == "period");
       setInfo(examTypeF ? info_f : info_m);
       setIsLoading(false);

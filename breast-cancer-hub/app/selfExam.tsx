@@ -11,7 +11,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { router, useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "@/hooks/useSettings";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import StepIndicators from "@/components/StepIndicators";
@@ -107,9 +107,14 @@ export default function HomeScreen() {
 
   const [currentStep, setCurrentStep] = useState(0);
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
+      const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
       setExamTypeF(schedulingType == "period");
       setInstructions(examTypeF ? instructions_f : instructions_m);
       setIsLoading(false);

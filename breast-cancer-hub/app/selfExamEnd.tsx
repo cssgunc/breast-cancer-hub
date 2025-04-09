@@ -13,7 +13,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../hooks/useSettings";
+import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { colors, globalStyles } from "@/components/StyleSheet";
 
@@ -23,9 +23,14 @@ export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [checkText, setCheckText] = useState("");
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
+      const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
       if (schedulingType == "period") {
         setCheckText("Check yourself a week after your period starts.");
       } else {

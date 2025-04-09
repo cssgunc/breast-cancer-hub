@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
-import { saveSetting } from "@/hooks/useSettings";
+import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { GLOBAL_PERIOD_DATA, initPeriods } from "@/hooks/usePeriodData";
 
@@ -13,15 +13,25 @@ export default function MenstruationSelectionScreen() {
     null | "menstruate" | "notMenstruate"
   >(null);
   const [errorMessage, setErrorMessage] = useState("");
+  const [id, setId] = useState({ userId: ""});
+
+  useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
+  }, []);
 
   const handleSaveChanges = () => {
     if (selectedOption) {
       // TODO: Save the selection to your data store or state management
       // Navigate to index.tsx
       //router.back();
+      if (!id.userId) {
+        setErrorMessage("User ID not available");
+        return;
+      }
       if (selectedOption == "menstruate") {
-        // Save the setting and navigate to calendar
-        saveSetting("schedulingType", "period").then(() => {
+        saveSetting("${id.userId}_schedulingType" as keyof SettingsMap, "period").then(() => {
           router.push("/");
         });
       } else {
