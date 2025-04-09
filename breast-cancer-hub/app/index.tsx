@@ -189,6 +189,15 @@ export default function HomeScreen(props: HomeScreenProps) {
             </ThemedText>
           </TouchableOpacity>
 
+          {/* Debug */}
+          <TouchableOpacity
+          onPress={() => router.push("/login")}
+          >
+            <ThemedText style={styles.pastExamsText}>
+              Go to Login
+            </ThemedText>
+          </TouchableOpacity>
+
           {/* Spacer */}
           <View style={{ height: 20 }} />
 

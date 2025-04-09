@@ -41,6 +41,17 @@ Open the repository in an IDE of your choice, preferably VSCode.
 3. Run `npm run dev` to start up the server. You should see "Server is running on http://localhost:3000/".
 4. You have succeeded when the main route just shows "error: ". Try navigating to `/settings`. You should see an Unauthorized error, and the terminal should print out "req made".
 
+### Connecting mobile to backend
+
+1. Set up a .env file in the frontend folder so it is in `breast-cancer-hub/breast-cancer-hub`.
+2. If you haven't already, connect to the UNC PSK network instead of the eduroam network on both your laptop and mobile device. Steps to set it up can be found online.
+3. Turn off randomized MAC addresses for the PSK network on both your laptop and mobile.
+4. Run ipconfig (Windows) or ifconfig (Mac) to get your current IPv4 address for your laptop. Take note of the address.
+5. Once you have the IP address for your laptop, create a key in the .env file like EXPO_PUBLIC_BASE_URL=http://152.23.142.148:3000 but use your IP address.
+6. Start your backend server.
+7. Try to access that base url from a browser in your laptop by entering it into the browser. If it connects successfully, you can now use the Expo Go app like normal, and your backend requests will be received successfully.
+8. If it doesn't work, this usually means you haven't given Node.js runtimes enough permission. Try to retrigger the permissions ask and allow all permissions. You can try switching from app.listen(PORT, () => {console.log(`Server is running on http://localhost:${PORT}/`); }); to app.listen(3000, '0.0.0.0', () => { console.log('Server running on http://0.0.0.0:3000/'); }); and running the server, accepting the permissions, and then switching back.
+
 ### Stopping the Project
 
 1. Close the running frontend app with Ctrl + C.
