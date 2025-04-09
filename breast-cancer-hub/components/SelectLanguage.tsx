@@ -12,7 +12,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useTranslation } from "react-i18next";
 import { colors } from "./StyleSheet";
-
+import { useEffect } from "react";
 
 const languageMap: Record<string, string> = {
   English: "en-US",
@@ -48,6 +48,26 @@ export function SelectLanguage() {
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? "light";
+
+  useEffect(() => {
+    const getStoredLanguage = async () => {
+      try {
+        const storedLanguageCode = await AsyncStorage.getItem("@app_language");
+        if (storedLanguageCode) {
+          const matchedLanguage = Object.keys(languageMap).find(
+            (key) => languageMap[key] === storedLanguageCode
+          );
+          if (matchedLanguage) {
+            setSelectedLanguage(matchedLanguage);
+          }
+        }
+      } catch (error) {
+        console.error("Error loading stored language:", error);
+      }
+    };
+  
+    getStoredLanguage();
+  }, []);
 
   //handles the language switch, sets RTL if necessary, and saves the preference.
   const toggleLanguage = async (language: string) => {

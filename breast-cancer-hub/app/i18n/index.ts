@@ -5,12 +5,15 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { I18nManager } from "react-native";
 import translationEn from "./locales/en-US/translations.json";
 import translationEs from "./locales/es-ES/translations.json";
+import translationAs from "./locales/as-IN/translations.json";
 
 const resources = {
   "en-US": { translation: translationEn },
   en: { translation: translationEn },
   "es-ES": { translation: translationEs },
   es: { translation: translationEs },
+  "as-IN": { translation: translationAs },
+  as: { translation: translationAs },
 };
 
 const RTL_LANGUAGES = ["ar", "ar-SA"];

@@ -16,35 +16,39 @@ import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHead
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
+
 
   const info_f = [
-    { id: 0, text: "Swelling of part or all of a breast." },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
     {
       id: 1,
-      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
+      key: "SIGNS_SYMPTOMS_2_F",
     },
-    { id: 2, text: "Breast or nipple pain." },
-    { id: 3, text: "Nipple retraction (turning inward)" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
     {
       id: 4,
-      text: "Redness, scaliness, or thickening of the nipples or breast skin",
+      key: "SIGNS_SYMPTOMS_5_F",
     },
-    { id: 5, text: "Nipple discharge (other than breast milk)" },
+    { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
   ];
   const info_m = [
-    { id: 0, text: "A painless lump or thickening in your breast tissue." },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
     {
       id: 1,
-      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
+      key: "SIGNS_SYMPTOMS_2_M",
     },
     {
       id: 2,
-      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
+      key: "SIGNS_SYMPTOMS_3_M",
     },
-    { id: 3, text: "Discharge from your nipple." },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
   ];
 
   const [isSelected, setSelection] = useState([
@@ -74,6 +78,11 @@ export default function HomeScreen() {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
       setExamTypeF(schedulingType === "period");
+      const LANGUAGE_KEY = "@app_language";
+      const storedLanguageCode = await AsyncStorage.getItem(LANGUAGE_KEY);
+      if (storedLanguageCode && i18n.language !== storedLanguageCode) {
+        await i18n.changeLanguage(storedLanguageCode);
+      }
       setIsLoading(false);
     };
 
@@ -170,7 +179,7 @@ export default function HomeScreen() {
                   {info_f.map((item) => (
                     <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
                       <ThemedText style={styles.instructionText}>
-                        {item.text}
+                        {t(item.key)}
                       </ThemedText>
                       <View style={styles.checkBoxContainer}>
                         <CheckBox
@@ -185,10 +194,10 @@ export default function HomeScreen() {
                 </ThemedView>
               ) : (
                 <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                  {info_m.map((item: { id: number; text: string }) => (
+                  {info_m.map((item: { id: number; key: string }) => (
                     <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
                       <ThemedText style={styles.instructionText}>
-                        {item.text}
+                        {t(item.key)}
                       </ThemedText>
                       <View style={styles.checkBoxContainer}>
                         <CheckBox
