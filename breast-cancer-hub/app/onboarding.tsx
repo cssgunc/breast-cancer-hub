@@ -18,7 +18,7 @@ import { SelectLanguage } from "@/components/SelectLanguage";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
-  const totalSteps = 5; 
+  const totalSteps = 6; 
   const scrollViewRef = useRef<ScrollView>(null);
 
   //scrolls to top whenever the step changes
@@ -213,7 +213,38 @@ export default function OnboardingScreen() {
           </ThemedView>
         )}
 
-        {step === 4 &&(
+        {step === 4 && (
+          // Step 4 (NEW): Telemetry consent page (placeholder text)
+          <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={styles.background}>
+              <ThemedView style={styles.titleContainer}>
+                <ThemedText style={globalStyles.titleText}>
+                  Telemetry & Data
+                </ThemedText>
+                <ThemedText
+                  style={[
+                    globalStyles.titleTextDarkPink,
+                    styles.highlightedTitleText
+                  ]}
+                >
+                  Collection
+                </ThemedText>
+              </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
+              <ThemedText style={styles.paragraphText}>
+                {/* Placeholder content — adapt as needed */}
+                We would like to collect limited, anonymous usage data to help
+                us improve this app and provide a better experience. Your data
+                will remain private, and you can opt out at any time.
+              </ThemedText>
+              <StepIndicators totalSteps={totalSteps} currentStep={step} />
+              <LearnMoreTextContainer />
+            </ThemedView>
+          </ThemedView>
+        )}
+
+        {step === 5 &&(
+          // Language settings page
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
