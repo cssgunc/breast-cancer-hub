@@ -39,6 +39,19 @@ export function CalendarComponent({
   const [periodDay, setPeriodDay] = useState<number>(28);
   const [_seed, setSeed] = useState(0);
 
+  // Full refresh function
+  const refreshCalendar = () => {
+    setCurrentDate(new Date());
+    setIsEditing(false);
+    setPeriodDay(28);
+    setSeed(Math.random());
+    initPeriods().then((original) => {
+      if (original) {
+        updateCheckupDay();
+      }
+    });
+  };
+
   useEffect(() => {
     getSetting("schedulingType").then((type) => {
       if (type != "period") {
@@ -55,6 +68,16 @@ export function CalendarComponent({
       }
     });
   }, []);
+
+  // Handle menstruation status changes
+  useEffect(() => {
+    if (isMenstruating) {
+      refreshCalendar();
+    } else {
+      setIsEditing(false);
+      setSeed(Math.random());
+    }
+  }, [isMenstruating]);
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
@@ -128,7 +151,7 @@ export function CalendarComponent({
         p,
         date: daysInPrevMonth - i,
         inCurrentMonth: false,
-        isPeriodDay: isPeriodDay(p),
+        isPeriodDay: isMenstruating && isPeriodDay(p),
         isSpecialDay: isMenstruating
           ? isCheckupDay(p)
           : startingDay - 1 === periodDay,
@@ -145,7 +168,7 @@ export function CalendarComponent({
         p,
         date: i,
         inCurrentMonth: true,
-        isPeriodDay: isPeriodDay(p),
+        isPeriodDay: isMenstruating && isPeriodDay(p),
         isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }
@@ -161,7 +184,7 @@ export function CalendarComponent({
         p,
         date: i,
         inCurrentMonth: false,
-        isPeriodDay: isPeriodDay(p),
+        isPeriodDay: isMenstruating && isPeriodDay(p),
         isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }

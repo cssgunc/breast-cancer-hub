@@ -22,9 +22,11 @@ export default function SettingsScreen() {
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
   
+  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+
   // API call to update user settings once "save settings" button is clicked
   function saveSettings() {
-    fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+    fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
       method: "PUT", 
       headers: {
         "Content-Type" : "application/json",
@@ -55,7 +57,7 @@ export default function SettingsScreen() {
     if (person.token == "") {
       return
     } else {
-      fetch("http://localhost:3000/settings" + "?user_id=" + person.userId, {
+      fetch(`${BASE_URL}:3000/settings` + "?user_id=" + person.userId, {
         method: "GET", 
         headers: {
           "x-session-token": person.token,
@@ -124,7 +126,10 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity style={styles.optionContainer}>
+            <TouchableOpacity 
+              style={styles.optionContainer} 
+              onPress={() => router.push("./settingsLanguage")}
+            >
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
               </ThemedText>

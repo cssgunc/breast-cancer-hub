@@ -9,6 +9,8 @@ This API Has three resources: auth, settings, and user
 
 [4. GET /settings](#4-get-settings)
 
+[4. GET /settings_notifications](#4-get-notification-times)
+
 [4. GET /user](#4-get-user)
 
 [5. PUT /settings](#5-put-settings)
@@ -173,6 +175,37 @@ Retrieves the settings for the specified user, requiring authorization headers.
 ### ***Response***
 - **200** OK: Settings retrieved successfully.
   - Example: `{ "settings": { ...settings data... } }`
+- **400** Bad Request: Missing required fields.
+  - Example: `{ "error": "user_id is required" }`
+- **403** Forbidden: Unauthorized request.
+  - Example: `{ "error": "Unauthorized" }`
+- **404** Not Found: No settings found.
+  - Example: `{ "error": "No settings found for this user" }`
+- **500** Internal Server Error: Server error occurred.
+
+----------
+
+## 4. `GET /settings_notifications`
+
+### ***Description***
+
+Retrieves the notification times for the specified user, requiring authorization headers.
+
+### ***Headers***
+- x-session-token: The session token for authorization.
+- x-user-email: The email of the user for authorization.
+
+### ***Query Parameters***
+- user_id: The ID of the user whose settings are to be retrieved.
+
+### ***Process***
+1. Verifies the session token and email.
+2. Checks if user_id is provided.
+3. Queries the notification_times table for the times of the specified user.
+
+### ***Response***
+- **200** OK: Settings retrieved successfully.
+  - Example: `{ time_entries: { id: number, time: string, enabled: boolean }[] }`
 - **400** Bad Request: Missing required fields.
   - Example: `{ "error": "user_id is required" }`
 - **403** Forbidden: Unauthorized request.
