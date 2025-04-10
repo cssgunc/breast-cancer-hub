@@ -37,6 +37,7 @@ export default function HomeScreen() {
       key: "SIGNS_SYMPTOMS_5_F",
     },
     { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
+    { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
   const info_m = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
@@ -49,9 +50,11 @@ export default function HomeScreen() {
       key: "SIGNS_SYMPTOMS_3_M",
     },
     { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
+    { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
 
   const [isSelected, setSelection] = useState([
+    false,
     false,
     false,
     false,

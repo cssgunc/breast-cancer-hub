@@ -47,16 +47,6 @@ export default function HomeScreen() {
       key: "IN_BED_F",
       image: require("../assets/images/FEMALE ART 5.png"),
     },
-    {
-      id: 6,
-      key: "While lying face up, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/FEMALE ART 3.jpg"),
-    },
-    {
-      id: 7,
-      key: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/FEMALE ART 4.jpg"),
-    },
   ];
 
   const instructions_m = [
@@ -84,16 +74,6 @@ export default function HomeScreen() {
       id: 5,
       key: "IN_BED_M",
       image: require("../assets/images/MALE ART 5.png"),
-    },
-    {
-      id: 6,
-      key: "While lying face up, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/MALE ART 3.jpg"),
-    },
-    {
-      id: 7,
-      key: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/MALE ART 4.jpg"),
     },
   ];
 
@@ -133,7 +113,7 @@ export default function HomeScreen() {
   }, []);
 
   const next = () => {
-    if (currentStep == 6) {
+    if (currentStep == 4) {
       router.push("./selfExamChecklist");
     } else {
       // advance step
@@ -204,7 +184,7 @@ export default function HomeScreen() {
             </Text>
           </ThemedView>
 
-          <StepIndicators totalSteps={7} currentStep={currentStep}/>
+          <StepIndicators totalSteps={5} currentStep={currentStep}/>
 
           <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
             <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>

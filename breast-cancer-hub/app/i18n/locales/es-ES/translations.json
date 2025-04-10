@@ -9,16 +9,15 @@
     "SITTING_STANDING_M": "Examine sus senos con los pulpejos de los tres dedos centrales, aplique mediana a profunda presión y utilice luz para el examen. Realice este examen sentado y parado. (Vea paso 4, para el área a ser examinada)",
     "COLLARBONE_M": "El examen debe iniciarse desde la clavicula y en forma descendente y luego ascendiendo hasta cubrir totalmente el área de la mama/seno.",
     "IN_BED_M": "Acuéstese boca arriba, en esta posición su tejido mamario estará dispuesto en una forma más homogénea. Repita paso 3 y 4 en esta posición.",
-    "SIGNS_SYMPTOMS_F": "Sintomas y signos",
     "SIGNS_SYMPTOMS_1_F": "Inflamación de la mama/ seno parcial o total (a pesar de que no se palpe ningún bulto)",
     "SIGNS_SYMPTOMS_2_F": "Irritación arrugamiento de la piel de la mama/ seno (a veces luce como piel de naranja)",
     "SIGNS_SYMPTOMS_3_F": "Dolor en la mama/ seno o en el pezón",
     "SIGNS_SYMPTOMS_4_F": "Retracción del pezón (pezón umbilicado)",
     "SIGNS_SYMPTOMS_5_F": "Enrojecimiento, descamación o engrosamiento de la piel de la mama/ seno o del pezón",
     "SIGNS_SYMPTOMS_6_F": "Descarga de liquido por el pezón (diferente de la leche materna)",
-    "SIGNS_SYMPTOMS_M": "Sintomas y signos",
     "SIGNS_SYMPTOMS_1_M": "Un bulto indoloro o engrosamiento del tejido mamario",
     "SIGNS_SYMPTOMS_2_M": "Cambios en la piel que cubre el seno, como ser arrugamiento, enrojecimiento y piel de naranja",
     "SIGNS_SYMPTOMS_3_M": "Cambios en el pezón, como ser enrojecimiento, descamación o un pezón que comienza a meterse hacia adentro (pezón umbilicado)",
-    "SIGNS_SYMPTOMS_4_M": "Descarga de liquido por el pezón"
+    "SIGNS_SYMPTOMS_4_M": "Descarga de liquido por el pezón",
+    "PAINFUL_PAINLESS_SYMPTOMS_F_M": "Tumores indoloros o dolorosos"
 }

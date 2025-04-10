@@ -6,6 +6,9 @@ import { I18nManager } from "react-native";
 import translationEn from "./locales/en-US/translations.json";
 import translationEs from "./locales/es-ES/translations.json";
 import translationAs from "./locales/as-IN/translations.json";
+import translationAr from "./locales/ar-SA/translations.json";
+import translationId from "./locales/id-ID/translations.json";
+
 
 const resources = {
   "en-US": { translation: translationEn },
@@ -14,6 +17,10 @@ const resources = {
   es: { translation: translationEs },
   "as-IN": { translation: translationAs },
   as: { translation: translationAs },
+  "ar-SA": { translation: translationAr },
+  ar: { translation: translationAr },
+  "id-ID": { translation: translationId },
+  id: { translation: translationId },
 };
 
 const RTL_LANGUAGES = ["ar", "ar-SA"];

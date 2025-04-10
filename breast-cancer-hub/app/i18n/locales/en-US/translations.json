@@ -9,16 +9,15 @@
     "SITTING_STANDING_M": "In a sitting or standing position, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
     "COLLARBONE_M": "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
     "IN_BED_M": "Lie down, face up, which leads to a more even distribution of your breast tissue. Repeat step 3 and 4.",
-    "SIGNS_SYMPTOMS_F": "Signs and Symptoms",
     "SIGNS_SYMPTOMS_1_F": "Swelling of all or part of a breast (even if no distinct lump is felt).",
     "SIGNS_SYMPTOMS_2_F": "Skin irritation or dimpling (sometimes looking like an orange peel).",
     "SIGNS_SYMPTOMS_3_F": "Breast or nipple pain.",
     "SIGNS_SYMPTOMS_4_F": "Nipple retraction (turning inward).",
     "SIGNS_SYMPTOMS_5_F": "Redness, scaliness, or thickening of the nipple or breast skin.",
     "SIGNS_SYMPTOMS_6_F": "Nipple discharge (other than breast milk).",
-    "SIGNS_SYMPTOMS_M": "Signs and Symptoms",
     "SIGNS_SYMPTOMS_1_M": "A painless lump or thickening in your breast tissue.",
     "SIGNS_SYMPTOMS_2_M": "Changes to the skin covering your breast, such as dimpling, wrinkling. redness, or scaling",
     "SIGNS_SYMPTOMS_3_M": "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-    "SIGNS_SYMPTOMS_4_M": "Discharge from your nipple"
+    "SIGNS_SYMPTOMS_4_M": "Discharge from your nipple",
+    "PAINFUL_PAINLESS_SYMPTOMS_F_M": "Painless or painful tumor"
 }
