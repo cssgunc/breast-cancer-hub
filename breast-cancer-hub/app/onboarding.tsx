@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Switch,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -20,6 +21,7 @@ export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
   const totalSteps = 6; 
   const scrollViewRef = useRef<ScrollView>(null);
+  const [telemetryEnabled, setTelemetryEnabled] = useState(false);
 
   //scrolls to top whenever the step changes
   useEffect(() => {
@@ -222,11 +224,7 @@ export default function OnboardingScreen() {
                   Telemetry & Data
                 </ThemedText>
                 <ThemedText
-                  style={[
-                    globalStyles.titleTextDarkPink,
-                    styles.highlightedTitleText
-                  ]}
-                >
+                  style={[globalStyles.titleTextDarkPink, styles.highlightedTitleText]}>
                   Collection
                 </ThemedText>
               </ThemedView>
@@ -237,6 +235,18 @@ export default function OnboardingScreen() {
                 us improve this app and provide a better experience. Your data
                 will remain private, and you can opt out at any time.
               </ThemedText>
+              <View style={styles.toggleContainer}>
+                <ThemedText style={styles.optionText}>
+                  {telemetryEnabled ? "Opted In" : "Opted Out"}
+                </ThemedText>
+                <Switch
+                  trackColor={{ false: "#767577", true: colors.lightPink }}
+                  thumbColor={telemetryEnabled ? colors.white : "#f4f3f4"}
+                  ios_backgroundColor={colors.darkGray}
+                  onValueChange={() => setTelemetryEnabled(!telemetryEnabled)}
+                  value={telemetryEnabled}
+                />
+              </View>
               <StepIndicators totalSteps={totalSteps} currentStep={step} />
               <LearnMoreTextContainer />
             </ThemedView>
@@ -422,5 +432,15 @@ const styles = StyleSheet.create({
   selectLanguages: {
     marginTop: 30,
     marginBottom: 30,
-  }
+  },
+  toggleContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginVertical: 20,
+  },
+  optionText: {
+    fontSize: 15,
+    color: colors.black,
+  },
 });
