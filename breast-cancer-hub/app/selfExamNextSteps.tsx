@@ -116,7 +116,7 @@ export default function HomeScreen() {
                 {/* TODO: Make this clear the route history */}
                 <TouchableOpacity
                   style={globalStyles.buttonNext}
-                  onPress={() => router.push("/")}
+                  onPress={() => {router.dismissAll(); router.replace("/")}}
                 >
                   <ThemedText style={globalStyles.buttonTextNext}>
                     Return home
