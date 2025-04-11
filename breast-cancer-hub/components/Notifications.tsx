@@ -65,7 +65,7 @@ export function NotificationComponent({
       {/* Right Side with Header and Body */}
       <TouchableOpacity
         style={styles.textContainer}
-        onPress={() => router.push("/selfExam")}
+        onPress={() => router.push("/selfExamIntro")}
       >
         <ThemedText style={styles.headerText}>{headerText}</ThemedText>
         <ThemedText style={styles.bodyText}>

@@ -81,7 +81,20 @@ export const globalStyles = StyleSheet.create({
     columnGap: 20,
     textAlign: "left",
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    marginVertical: 5,
+    paddingVertical: 5,
+  },
+
+  elevatedBox: {
+    backgroundColor: colors.backgroundLightGray,
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 15,
+    shadowColor: colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 
   // Text
@@ -103,8 +116,8 @@ export const globalStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     color: colors.black,
-    marginTop: 20,
-    marginBottom: 10,
+    // marginTop: 20,
+    // marginBottom: 10,
   },
   mediumBoldText: {
     fontSize: 20,
