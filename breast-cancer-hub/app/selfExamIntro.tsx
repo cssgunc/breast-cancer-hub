@@ -94,7 +94,7 @@ export default function SelfExamInfo() {
             <ThemedView style={globalStyles.buttonBackNextContainer}>
               <TouchableOpacity
                 style={globalStyles.buttonBack}
-                onPress={() => router.back()}
+                onPress={() => {router.dismissAll(); router.replace("/")}}
               >
                 <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
@@ -124,45 +124,48 @@ export default function SelfExamInfo() {
 
           <ThemedView style={globalStyles.grayLine} />
         </ThemedView>
+        
+        <ThemedView style={globalStyles.bodyContainerWhite}>
+          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+            <ThemedView style={globalStyles.whiteOverlay}>
+              {/* Info Section */}
+              <ThemedText style={globalStyles.listTitleTextExam}>
+                Signs and Symptoms
+              </ThemedText>
+              <ThemedView style={globalStyles.listContainer}>
+                {info.map((item: { id: number; text: string }) => (
+                  <ThemedView key={item.id} style={globalStyles.listItemContainer}>
+                    <ThemedText style={styles.instructionTextBold}>
+                      {item.id + "."}
+                    </ThemedText>
+                    <ThemedText style={styles.instructionText}>
+                      {item.text}
+                    </ThemedText>
+                  </ThemedView>
+                ))}
+              </ThemedView>
 
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
-              Signs and Symptoms
-            </ThemedText>
-            <ThemedView style={globalStyles.listContainer}>
-              {info.map((item: { id: number; text: string }) => (
-                <ThemedView key={item.id} style={globalStyles.listItemContainer}>
-                  <ThemedText style={styles.instructionTextBold}>
-                    {item.id + "."}
-                  </ThemedText>
-                  <ThemedText style={styles.instructionText}>
-                    {item.text}
-                  </ThemedText>
-                </ThemedView>
-              ))}
+              <LearnMoreTextContainer />
+
+              {/* Navigation Buttons */}
+              <ThemedView style={globalStyles.buttonBackNextContainer}>
+                <TouchableOpacity
+                  style={globalStyles.buttonBack}
+                  onPress={() => {router.dismissAll(); router.replace("/")}}
+                >
+                  <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={globalStyles.buttonNext}
+                  onPress={() => router.push("/selfExam")}
+                >
+                  <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                </TouchableOpacity>
+              </ThemedView>
             </ThemedView>
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => router.back()}
-              >
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonNext}
-                onPress={() => router.push("/selfExam")}
-              >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
+          </ScrollView>
+        </ThemedView>
+        
       </ThemedView>
     );
   }
@@ -170,10 +173,9 @@ export default function SelfExamInfo() {
 
 const styles = StyleSheet.create({
   titleText: {
-    paddingTop: 25,
+    fontSize: 24,
   },
   titleTextDarkPink: {
-    marginBottom: 15,
     paddingTop: 10,
   },
   instructionTextBold: {

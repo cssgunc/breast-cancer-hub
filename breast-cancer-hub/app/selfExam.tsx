@@ -152,8 +152,7 @@ export default function HomeScreen() {
 
   const back = () => {
     if (currentStep == 0) {
-      router.dismissAll();
-      router.replace("/");
+      router.back();
 
     } else {
       // advance step

@@ -80,130 +80,75 @@ export default function HomeScreen() {
     getType();
   }, []);
 
-  if (isLoading == true) {
-    return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
+  return (
+    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      {/* Header Container */}
+      <AccountSettingsHeaderComponent />
 
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
-            Log Your Symptoms
-          </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
+      {/* Page Title */}
+      <ThemedView style={globalStyles.whiteOverlay}>
+        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+          Log Your Symptoms
+        </ThemedText>
+        <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
 
-          <ThemedView style={globalStyles.grayLine} />
+        <ThemedView style={globalStyles.grayLine} />
 
-          {/* Debug button */}
-          {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
+        {/* Debug button */}
+        {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
           <ThemedText style={styles.buttonTextBack}>log</ThemedText>
         </TouchableOpacity> */}
-        </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
-              What did you notice?
-            </ThemedText>
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => router.push("/selfExam")}
-              >
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonNext}
-                onPress={() =>
-                  router.push({
-                    pathname: "/selfExamNextSteps",
-                    params: {
-                      symptoms: isSelected.map((value) => (value ? 1 : 0)),
-                    },
-                  })
-                }
-              >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
       </ThemedView>
-    );
-  } else {
-    return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
-
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
-            Log Your Symptoms
-          </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
-
-          <ThemedView style={globalStyles.grayLine} />
-
-          {/* Debug button */}
-          {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
-            <ThemedText style={styles.buttonTextBack}>log</ThemedText>
-          </TouchableOpacity> */}
-        </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+      
+      <ThemedView style={globalStyles.bodyContainerWhite}>
+        <ScrollView contentContainerStyle={[globalStyles.scrollContent, {paddingTop: 0}]}>
           <ThemedView style={globalStyles.whiteOverlay}>
             {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
+            <ThemedText style={[globalStyles.listTitleTextExam, styles.listTitleTextExam]}>
               What did you notice?
             </ThemedText>
 
-            <ThemedView style={styles.elevatedBox}>
-              {examTypeF ? (
-                <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                  {info_f.map((item) => (
-                    <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
-                      <ThemedText style={styles.instructionText}>
-                        {item.text}
-                      </ThemedText>
-                      <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          value={isSelected[item.id]}
-                          onValueChange={(value) => {
-                            toggleCheckbox(item.id, value);
-                          }}
-                        />
-                      </View>
-                    </ThemedView>
-                  ))}
-                </ThemedView>
-              ) : (
-                <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                  {info_m.map((item: { id: number; text: string }) => (
-                    <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
-                      <ThemedText style={styles.instructionText}>
-                        {item.text}
-                      </ThemedText>
-                      <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          key={item.id}
-                          value={isSelected[item.id]}
-                          onValueChange={(value) => {
-                            toggleCheckbox(item.id, value);
-                          }}
-                        />
-                      </View>
-                    </ThemedView>
-                  ))}
-                </ThemedView>
-              )}
-            </ThemedView>
+            {!isLoading && (<ThemedView style={[globalStyles.elevatedBox, {paddingVertical: 0}]}>
+                {examTypeF ? (
+                  <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                    {info_f.map((item) => (
+                      <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                        <ThemedText style={styles.instructionText}>
+                          {item.text}
+                        </ThemedText>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            value={isSelected[item.id]}
+                            onValueChange={(value) => {
+                              toggleCheckbox(item.id, value);
+                            }}
+                          />
+                        </View>
+                      </ThemedView>
+                    ))}
+                  </ThemedView>
+                ) : (
+                  <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                    {info_m.map((item: { id: number; text: string }) => (
+                      <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                        <ThemedText style={styles.instructionText}>
+                          {item.text}
+                        </ThemedText>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            key={item.id}
+                            value={isSelected[item.id]}
+                            onValueChange={(value) => {
+                              toggleCheckbox(item.id, value);
+                            }}
+                          />
+                        </View>
+                      </ThemedView>
+                    ))}
+                  </ThemedView>
+                )}
+              </ThemedView>
+            )}
 
             <LearnMoreTextContainer />
 
@@ -236,8 +181,9 @@ export default function HomeScreen() {
           </ThemedView>
         </ScrollView>
       </ThemedView>
-    );
-  }
+      
+    </ThemedView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -245,26 +191,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     paddingTop: 10,
   },
-  elevatedBox: {
-    backgroundColor: colors.backgroundLightGray,
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
   checkBoxContainer: {
     flexDirection: "column",
-    marginBottom: 20,
-    alignContent: "center",
-    marginTop: 5,
-    alignItems: "flex-end",
+    justifyContent: "center"
+  },
+
+  listTitleTextExam: {
+    marginBottom: 10,
   },
   listContainer: {
     backgroundColor: "transparent",
-    width: 315,
+    marginHorizontal: 0,
   },
   listItemContainer: {
     justifyContent: "space-between",
@@ -276,6 +213,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: colors.black,
     maxWidth: "80%",
+    lineHeight: 20,
   },
   
 });
