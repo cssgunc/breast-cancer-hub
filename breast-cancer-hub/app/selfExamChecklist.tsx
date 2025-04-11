@@ -211,7 +211,7 @@ export default function HomeScreen() {
             <ThemedView style={globalStyles.buttonBackNextContainer}>
               <TouchableOpacity
                 style={globalStyles.buttonBack}
-                onPress={() => router.push("./selfExam")}
+                onPress={() => router.replace("./selfExam")}
               >
                 <ThemedText style={globalStyles.buttonTextBack}>
                   Back to Exam
