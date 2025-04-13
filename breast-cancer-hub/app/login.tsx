@@ -21,7 +21,7 @@ export default function HomeScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const handleSubmit = () => {
     if (!email.includes("@") || email.length === 0) {

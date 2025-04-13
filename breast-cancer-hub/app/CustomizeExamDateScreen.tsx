@@ -17,7 +17,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors} = useColors();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
 
   const handleSaveChanges = () => {

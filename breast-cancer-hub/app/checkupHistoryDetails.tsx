@@ -17,39 +17,41 @@ import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 
+const info_f = [
+  { id: 0, text: "Swelling of part or all of a breast." },
+  {
+    id: 1,
+    text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
+  },
+  { id: 2, text: "Breast or nipple pain." },
+  { id: 3, text: "Nipple retraction (turning inward)" },
+  {
+    id: 4,
+    text: "Redness, scaliness, or thickening of the nipples or breast skin",
+  },
+  { id: 5, text: "Nipple discharge (other than breast milk)" },
+];
+
+const info_m = [
+  { id: 0, text: "A painless lump or thickening in your breast tissue." },
+  {
+    id: 1,
+    text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
+  },
+  {
+    id: 2,
+    text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
+  },
+  { id: 3, text: "Discharge from your nipple." },
+];
+
 export default function HomeScreen() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
   // const [symptomData, setSymptomData] = useState<number[]>([]);
   const [examDate, setExamDate] = useState("");
 
-  const info_f = [
-    { id: 0, text: "Swelling of part or all of a breast." },
-    {
-      id: 1,
-      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
-    },
-    { id: 2, text: "Breast or nipple pain." },
-    { id: 3, text: "Nipple retraction (turning inward)" },
-    {
-      id: 4,
-      text: "Redness, scaliness, or thickening of the nipples or breast skin",
-    },
-    { id: 5, text: "Nipple discharge (other than breast milk)" },
-  ];
 
-  const info_m = [
-    { id: 0, text: "A painless lump or thickening in your breast tissue." },
-    {
-      id: 1,
-      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
-    },
-    {
-      id: 2,
-      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-    },
-    { id: 3, text: "Discharge from your nipple." },
-  ];
 
   const [isSelected, setSelection] = useState([
     false,

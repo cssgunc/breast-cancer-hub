@@ -21,7 +21,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function NotificationsScreen() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors} = useColors();
   
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 

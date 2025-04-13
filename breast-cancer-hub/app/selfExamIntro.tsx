@@ -18,7 +18,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function SelfExamInfo() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const info_f = [
     { id: 1, text: "Swelling of part or all of a breast." },

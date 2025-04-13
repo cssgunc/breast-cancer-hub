@@ -104,7 +104,7 @@ const instructions_m : instruction[] = [
 export default function HomeScreen() {
   const router = useRouter();
 
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const [instructions, setInstructions] = useState([
     { id: 1, text: "", image: require("../assets/images/BCH ribbon.png") },

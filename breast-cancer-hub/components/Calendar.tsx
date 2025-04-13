@@ -35,7 +35,7 @@ export function CalendarComponent({
   isMenstruating,
   updateCheckupDay,
 }: CalendarComponentProps) {
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors} = useColors();
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);

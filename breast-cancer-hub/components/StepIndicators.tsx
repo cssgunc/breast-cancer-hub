@@ -9,7 +9,7 @@ interface StepIndicatorsProps {
 }
 
 const StepIndicators: React.FC<StepIndicatorsProps> = ({ totalSteps, currentStep }) => {
-    const {colors, globalStyles, setDarkMode} = useColors();
+    const {colors} = useColors();
 
     const styles = StyleSheet.create({
       indicatorContainer: {

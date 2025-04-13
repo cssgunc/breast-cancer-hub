@@ -9,7 +9,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors} = useColors();
 
   const [person, setPerson] = useState({ name: "", email: "" });
 

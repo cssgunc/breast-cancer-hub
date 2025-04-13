@@ -17,7 +17,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function UnderstandingBC() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors} = useColors();
 
   const styles = StyleSheet.create({
     container: {

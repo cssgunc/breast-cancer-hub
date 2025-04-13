@@ -17,7 +17,7 @@ export function NotificationComponent({
   date,
   onDismiss,
 }: NotificationComponentProps) {
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();

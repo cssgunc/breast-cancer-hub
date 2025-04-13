@@ -19,7 +19,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const info_f = [
     { id: 0, text: "Swelling of part or all of a breast." },

@@ -35,7 +35,7 @@ export type HomeScreenProps = Partial<{
 export default function HomeScreen(props: HomeScreenProps) {
   const router = useRouter();
 
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
     undefined

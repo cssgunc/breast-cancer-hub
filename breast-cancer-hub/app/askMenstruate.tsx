@@ -10,7 +10,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
   const [selectedOption, setSelectedOption] = useState<
     null | "menstruate" | "notMenstruate"
   >(null);

@@ -21,7 +21,7 @@ export default function OnboardingScreen() {
   const totalSteps = 5; 
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   //scrolls to top whenever the step changes
   useEffect(() => {

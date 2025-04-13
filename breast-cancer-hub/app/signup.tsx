@@ -15,7 +15,7 @@ import { BACKEND_URL, saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 
 export default function Signup() {
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

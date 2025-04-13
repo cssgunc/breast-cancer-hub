@@ -19,7 +19,7 @@ import { SelectLanguage } from "@/components/SelectLanguage";
 export default function LanguageScreen() {
   const router = useRouter();
 
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors} = useColors();
 
   const [language, setLanguage] = useState("English");
 

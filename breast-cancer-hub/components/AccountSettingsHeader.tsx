@@ -5,7 +5,7 @@ import { ThemedView } from "./ThemedView";
 import { useColors } from "@/components/ColorContext";
 
 export function AccountSettingsHeaderComponent() {
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const styles = StyleSheet.create({
     iconWrapper: {
