@@ -9,7 +9,7 @@ export default function IconButton() {
   return (
     <Link href="/settings" asChild>
       <Pressable style={styles.button}>
-        <MaterialIcons name="settings" size={24} color={colors.darkPink} />
+        <MaterialIcons name="settings" size={24} color={colors.darkHighlight} />
       </Pressable>
     </Link>
   );

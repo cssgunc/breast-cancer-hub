@@ -86,7 +86,7 @@ export default function UnderstandingBC() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
   },
   scrollContent: {
     flexGrow: 1,
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   bcText: {
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontSize: 32,
     fontWeight: "bold",
     paddingTop: 10,
@@ -137,13 +137,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
     padding: 10,
     borderLeftWidth: 4,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     marginVertical: 15,
   },
   statTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   statText: {
     fontSize: 16,
@@ -164,15 +164,15 @@ const styles = StyleSheet.create({
     borderColor: colors.lighterGray,
   },
   buttonNext: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
   },
   buttonTextBack: {
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontSize: 20,
   },
   buttonTextNext: {

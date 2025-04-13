@@ -74,7 +74,7 @@ export default function HomeScreen() {
           <ThemedView style={commonLoginSignupStyles.topText}>
             <ThemedText style={commonLoginSignupStyles.titleWelcomeText}>WELCOME</ThemedText>
             <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>Log in to The</ThemedText>
-            <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titlePinkText]}>Breast Cancer Hub</ThemedText>
+            <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleHighlightText]}>Breast Cancer Hub</ThemedText>
             <ThemedText style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>self-exam App!</ThemedText>
           </ThemedView>
           <ThemedView style={commonLoginSignupStyles.inputsContainer}>
@@ -90,7 +90,7 @@ export default function HomeScreen() {
                 style={commonLoginSignupStyles.icon}
                 name="mail"
                 size={24}
-                color={colors.darkPink}
+                color={colors.darkHighlight}
               />
             </ThemedView>
             <ThemedView style={commonLoginSignupStyles.inputContainer}>
@@ -181,7 +181,7 @@ export const commonLoginSignupStyles = StyleSheet.create({
     alignItems: "center",
   },
   titleWelcomeText: {//COMMON
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     textTransform: "uppercase",
     fontSize: 20,
@@ -198,8 +198,8 @@ export const commonLoginSignupStyles = StyleSheet.create({
   titleGrayText: {//COMMON
     color: colors.darkGray,
   },
-  titlePinkText: {//COMMON
-    color: colors.darkPink,
+  titleHighlightText: {//COMMON
+    color: colors.darkHighlight,
   },
 
   inputsContainer: {//COMMON
@@ -224,7 +224,7 @@ export const commonLoginSignupStyles = StyleSheet.create({
     borderRadius: 40,
     paddingHorizontal: 15,
     marginVertical: 10,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     borderWidth: 2,
     height: 60,
   },
@@ -232,7 +232,7 @@ export const commonLoginSignupStyles = StyleSheet.create({
     flex: 1,
     fontSize: 15,
     height: 60,
-    //borderColor: colors.darkPink,
+    //borderColor: colors.darkHighlight,
   },
   passwordInput: {//COMMON
     flex: 1,
@@ -243,7 +243,7 @@ export const commonLoginSignupStyles = StyleSheet.create({
     marginHorizontal: 10,
   },
   button: {//COMMON
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     height: 60,
     width: "80%",
     borderRadius: 40,

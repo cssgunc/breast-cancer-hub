@@ -4,7 +4,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { colors } from "./StyleSheet";
+import { getColors } from "./StyleSheet";
+
+const colors = getColors();
 
 interface NotificationComponentProps {
   variant?: "default" | "overdue";
@@ -26,7 +28,7 @@ export function NotificationComponent({
   const headerText =
     variant === "overdue" ? "Overdue Examination" : "Examination Reminder";
   const dateCircleBackgroundColor =
-    variant === "overdue" ? "#FF4D4D" : colors.darkPink; // Red tint for overdue
+    variant === "overdue" ? "#FF4D4D" : colors.darkHighlight; // Red tint for overdue
   const containerBackgroundColor =
     variant === "overdue" ? "#FFE5E5" : colors.backgroundLightGray; // Lighter red background
 
@@ -74,7 +76,7 @@ export function NotificationComponent({
       </TouchableOpacity>
       {/* Trash Icon */}
       <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>
-        <Ionicons name="trash-outline" size={24} color={colors.darkPink} />
+        <Ionicons name="trash-outline" size={24} color={colors.darkHighlight} />
       </TouchableOpacity>
     </ThemedView>
   );

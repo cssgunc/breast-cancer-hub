@@ -81,13 +81,13 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
       <ThemedView style={globalStyles.whiteOverlay}>
-        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
           Log Your Symptoms
         </ThemedText>
         <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
@@ -187,7 +187,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  titleTextDarkPink: {
+  titleTextDarkHighlight: {
     marginBottom: 15,
     paddingTop: 10,
   },

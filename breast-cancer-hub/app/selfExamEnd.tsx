@@ -38,11 +38,11 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
 
       <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
-        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
           You're All Set!
         </ThemedText>
         <ThemedView style={globalStyles.grayLine} />
@@ -55,7 +55,7 @@ export default function HomeScreen() {
               minWidth: "200px",
               minHeight: "200px",
               borderRadius: "50%",
-              backgroundColor: colors.darkPink,
+              backgroundColor: colors.darkHighlight,
               alignContent: "center",
               alignItems: "center",
             }}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
   },
-  titleTextDarkPink: {
+  titleTextDarkHighlight: {
     marginBottom: 15,
     paddingTop: 10,
   },

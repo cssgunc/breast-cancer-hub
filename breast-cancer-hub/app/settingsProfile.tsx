@@ -41,7 +41,7 @@ export default function ProfileSettingsScreen() {
         <ScrollView contentContainerStyle={styles.contentContainer}>
           {/* Profile Icon */}
           <View style={styles.profileIconContainer}>
-            <Ionicons name="person" size={96} color={colors.darkPink} />
+            <Ionicons name="person" size={96} color={colors.darkHighlight} />
           </View>
 
           {/* User Info */}
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: "5%",
   },
   backButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     width: 40,
     height: 40,
     borderRadius: 20, // Circular
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 36,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     lineHeight: 40,
     margin:  15,
@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 4,
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightHighlight,
     width: "100%",
     marginVertical: 20,
   },
@@ -155,14 +155,14 @@ const styles = StyleSheet.create({
   infoLabel: {
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   infoValue: {
     fontSize: 16,
     color: colors.black,
   },
   signOutButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",

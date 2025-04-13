@@ -67,13 +67,13 @@ export default function SelfExamInfo() {
 
   if (isLoading == true) {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
             Before You Begin
           </ThemedText>
           <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
@@ -111,13 +111,13 @@ export default function SelfExamInfo() {
     );
   } else {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
             Before You Begin
           </ThemedText>
           <ThemedText style={[globalStyles.titleText, styles.titleText]}>Things to Look For</ThemedText>
@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 24,
   },
-  titleTextDarkPink: {
+  titleTextDarkHighlight: {
     paddingTop: 10,
   },
   instructionTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   instructionText: {
     fontSize: 16,

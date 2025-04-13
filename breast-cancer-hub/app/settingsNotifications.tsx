@@ -184,9 +184,9 @@ export default function NotificationsScreen() {
                 style={styles.checkboxContainer}
               >
                 {pushNotifications ? (
-                  <Ionicons name="checkbox" size={24} color={colors.darkPink} />
+                  <Ionicons name="checkbox" size={24} color={colors.darkHighlight} />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color={colors.darkPink} />
+                  <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
               </TouchableOpacity>
               <ThemedText style={styles.optionTitle}>
@@ -208,9 +208,9 @@ export default function NotificationsScreen() {
                 style={styles.checkboxContainer}
               >
                 {inAppNotifications ? (
-                  <Ionicons name="checkbox" size={24} color={colors.darkPink} />
+                  <Ionicons name="checkbox" size={24} color={colors.darkHighlight} />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color={colors.darkPink} />
+                  <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
               </TouchableOpacity>
               <ThemedText style={styles.optionTitle}>
@@ -245,7 +245,7 @@ export default function NotificationsScreen() {
                 <Switch
                   value={entry.enabled}
                   onValueChange={() => toggleTimeEntry(entry.id)}
-                  trackColor={{ false: colors.backgroundGray, true: colors.darkPink }}
+                  trackColor={{ false: colors.backgroundGray, true: colors.darkHighlight }}
                   thumbColor={colors.white}
                 />
                 <TouchableOpacity onPress={() => {
@@ -260,13 +260,13 @@ export default function NotificationsScreen() {
 
           {/* Add Time Button */}
           <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
-            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
+            <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
 
           {/* Debug Add Time Button */}
           <TouchableOpacity style={styles.addTimeButton} onPress={() => addTimeEntry(new Date())}>
-            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
+            <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
             <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
           </TouchableOpacity>
 
@@ -281,8 +281,8 @@ export default function NotificationsScreen() {
           testID="dateTimePicker"
           value={date}
           mode="time"
-          positiveButton={{label: 'Add', textColor: colors.darkPink}}
-          negativeButton={{label: 'Cancel', textColor: colors.darkPink}}
+          positiveButton={{label: 'Add', textColor: colors.darkHighlight}}
+          negativeButton={{label: 'Cancel', textColor: colors.darkHighlight}}
           onChange={(event, selectedDate) => {
             if (event.type == 'set' && selectedDate) {
               setDate(selectedDate);
@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 36,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     lineHeight: 35,
     marginTop: 20,
@@ -405,7 +405,7 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   optionDescription: {
     fontSize: 15,
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 4,
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightHighlight,
     width: "100%",
     alignSelf: "center",
     marginVertical: 30,
@@ -467,18 +467,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundLightGray,
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 10,
   },
   addTimeText: {
     fontSize: 16,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     marginLeft: 10,
   },
   saveButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",
@@ -509,12 +509,12 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     fontSize: 20,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderColor: colors.grayHomePageLearnMoreButton,
     borderWidth: 1,
     borderRadius: 50,

@@ -102,7 +102,7 @@ export default function Signup() {
         <View style={commonLoginSignupStyles.topText}>
           <Text style={commonLoginSignupStyles.titleWelcomeText}>WELCOME</Text>
           <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>Register in to The</Text>
-          <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titlePinkText]}>Breast Cancer Hub</Text>
+          <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleHighlightText]}>Breast Cancer Hub</Text>
           <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>self-exam App!</Text>
         </View>
         <View style={commonLoginSignupStyles.inputsContainer}>
@@ -117,7 +117,7 @@ export default function Signup() {
             <MaterialIcons
               name="mail"
               size={24}
-              color={colors.darkPink}
+              color={colors.darkHighlight}
               style={commonLoginSignupStyles.icon}
             />
           </View>
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignSelf: "center",
     paddingLeft: 15,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   hidden: {
     display: "none",

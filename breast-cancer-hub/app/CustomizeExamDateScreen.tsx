@@ -79,7 +79,7 @@ export default function CustomizeExamDateScreen() {
 
             <View style={{ height: 20 }} />
 
-            {/* Pink Rectangle */}
+            {/* Highlight Rectangle */}
             <View style={styles.pinkRectangle}>
               {/* Display Exam Day */}
               <ThemedText style={styles.dayDisplay}>{examDay}</ThemedText>
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   backButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     width: 40,
     height: 40,
     borderRadius: 20, // Circular button
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
   customizeYourText: {
     paddingTop: 20,
     fontSize: 29,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     paddingBottom: 10,
     lineHeight: 35,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
   pinkRectangle: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 20,
     paddingHorizontal: 10,
     marginBottom: 40,
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   chevronCircle: {
-    backgroundColor: colors.mediumPink,
+    backgroundColor: colors.mediumHighlight,
     width: 30,
     height: 30,
     borderRadius: 15, // Circular
@@ -247,14 +247,14 @@ const styles = StyleSheet.create({
   },
   changeAnytimeText: {
     fontSize: 15,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontStyle: "italic",
     marginTop: 10,
     marginBottom: 20,
     textAlign: "center",
   },
   saveButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 30,
     paddingVertical: 15,
     paddingHorizontal: 30,

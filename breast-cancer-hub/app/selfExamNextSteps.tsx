@@ -34,14 +34,14 @@ export default function HomeScreen() {
   }, []);
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
       <ThemedView style={styles.whiteOverlay}>
 
-        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleText]}>
+        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleText]}>
           Based On Your Symptoms
         </ThemedText>
         <ThemedText style={styles.subtitleText}>Recommended actions</ThemedText>
@@ -61,7 +61,7 @@ export default function HomeScreen() {
             {getHasSymptoms(symptoms as string) ? (
               <ThemedView style={styles.whiteOverlay}>
                 <ThemedView style={styles.noticeContainer}>
-                  <MaterialIcons name="error" size={28} color={colors.darkPink} />
+                  <MaterialIcons name="error" size={28} color={colors.darkHighlight} />
                   <ThemedText style={styles.instructionTextBoldBlack}>
                     Notice!
                   </ThemedText>
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   instructionTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     textAlign: "center",
   },
   instructionTextBoldBlack: {

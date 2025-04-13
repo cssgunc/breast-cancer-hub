@@ -42,7 +42,7 @@ export default function OnboardingScreen() {
   };
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
       <ScrollView 
       ref={scrollViewRef}
@@ -55,7 +55,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.titleText}>
                   Understanding
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkPink,
+                <ThemedText style={[globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText]}>
                   Breast Cancer
                 </ThemedText>
@@ -98,7 +98,7 @@ export default function OnboardingScreen() {
             </ThemedText>
             <ThemedText
               style={[
-                globalStyles.titleTextDarkPink,
+                globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText,
               ]}
             >
@@ -153,7 +153,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.titleText}>
                   Breast Cancer
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkPink,
+                <ThemedText style={[globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText]}>
                   Screening & Techniques
                 </ThemedText>
@@ -183,7 +183,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.titleText}>
                   Additional Resources &
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkPink,
+                <ThemedText style={[globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText]}>
                   Contact Information
                 </ThemedText>
@@ -220,7 +220,7 @@ export default function OnboardingScreen() {
                   <ThemedText style={globalStyles.titleText}>
                     Change Your
                   </ThemedText>
-                  <ThemedText style={[globalStyles.titleTextDarkPink,
+                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
                   styles.highlightedTitleText]}>
                     Self-Examination Language
                    </ThemedText>
@@ -314,13 +314,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#F9F9F9",
     padding: 10,
     borderLeftWidth: 4,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     marginVertical: 15,
   },
   statTextBold: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   statText: {
     fontSize: 16,
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
   noticeTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     marginVertical: 10,
   },
   noticeText: {
@@ -347,7 +347,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   highlightText: {
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
   },
   boldText: {
@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
   quoteText: {
     fontSize: 16,
     fontStyle: "italic",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     textAlign: "center",
     marginBottom: 10,
   },

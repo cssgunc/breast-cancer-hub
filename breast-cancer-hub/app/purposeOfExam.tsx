@@ -19,7 +19,7 @@ export default function SelfExamInfo() {
   const router = useRouter();
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
@@ -27,7 +27,7 @@ export default function SelfExamInfo() {
         <ThemedView style={globalStyles.whiteOverlay}>
           {/* Page Title */}
           <ThemedText style={[globalStyles.titleText, styles.titleText]}>The Purpose of</ThemedText>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.highlightedTitleText]}>
+          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.highlightedTitleText]}>
             A Self-Exam
           </ThemedText>
 
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   noticeTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     marginTop: 20,
     marginBottom: 10,
   },
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   highlightText: {
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
   },
   boldText: {
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   quoteText: {
     fontSize: 16,
     fontStyle: "italic",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     textAlign: "center",
     marginBottom: 10,
   },

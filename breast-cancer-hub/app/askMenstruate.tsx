@@ -33,7 +33,7 @@ export default function MenstruationSelectionScreen() {
   };
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Logo Container */}
       <View style={styles.logoContainer}>
         <View style={styles.logoCircle}>
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     width: 164,
     height: 164,
     borderRadius: 82, // Half of the diameter
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
     backgroundColor: colors.backgroundLightGray,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     borderWidth: 3,
     borderRadius: 50,
     paddingVertical: 5, // Adjusted padding for smaller button
@@ -197,17 +197,17 @@ const styles = StyleSheet.create({
     marginTop: 15, // Slightly reduced to compact buttons
   },
   optionButtonSelected: {
-    backgroundColor: colors.darkPink,
-    borderColor: colors.darkestPink,
+    backgroundColor: colors.darkHighlight,
+    borderColor: colors.darkestHighlight,
   },
   optionButtonText: {
     fontSize: 20,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
   },
   optionButtonSubText: {
     fontSize: 14,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   optionButtonTextSelected: {
     color: colors.white,
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   saveButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",

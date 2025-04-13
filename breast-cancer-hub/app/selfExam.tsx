@@ -171,7 +171,7 @@ export default function HomeScreen() {
   if (isLoading) {
     console.log(instructions[0].image);
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         <AccountSettingsHeaderComponent />
 
         <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
@@ -200,7 +200,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
 
       <ScrollView contentContainerStyle={globalStyles.scrollContent}>

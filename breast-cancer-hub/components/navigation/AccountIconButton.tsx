@@ -8,7 +8,7 @@ export default function IconButton() {
   return (
     <Link href="/" asChild>
       <Pressable style={styles.button}>
-        <MaterialIcons name="account-circle" size={24} color={colors.darkPink} />
+        <MaterialIcons name="account-circle" size={24} color={colors.darkHighlight} />
       </Pressable>
     </Link>
   );
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightHighlight,
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",

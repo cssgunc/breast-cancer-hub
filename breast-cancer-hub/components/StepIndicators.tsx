@@ -19,7 +19,7 @@ const StepIndicators: React.FC<StepIndicatorsProps> = ({ totalSteps, currentStep
               key={index}
               name={iconName}
               size={24}
-              color={colors.darkPink}
+              color={colors.darkHighlight}
               style={styles.indicator}
             />
           );

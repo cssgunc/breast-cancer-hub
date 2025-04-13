@@ -2,7 +2,9 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedView } from "./ThemedView";
-import { globalStyles, colors } from "./StyleSheet";
+import { globalStyles, getColors } from "./StyleSheet";
+
+const colors = getColors();
 
 export function AccountSettingsHeaderComponent() {
   return (
@@ -11,13 +13,13 @@ export function AccountSettingsHeaderComponent() {
         style={styles.iconWrapper}
         // onPress={() => router.push('/account')}
       >
-        <MaterialIcons name="person" size={28} color={colors.darkPink} />
+        <MaterialIcons name="person" size={28} color={colors.darkHighlight} />
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.iconWrapper}
         onPress={() => router.push("/settings")}
       >
-        <MaterialIcons name="settings" size={28} color={colors.darkPink} />
+        <MaterialIcons name="settings" size={28} color={colors.darkHighlight} />
       </TouchableOpacity>
     </ThemedView>
   );
@@ -25,7 +27,7 @@ export function AccountSettingsHeaderComponent() {
 
 const styles = StyleSheet.create({
   iconWrapper: {
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightHighlight,
     borderRadius: 30,
     padding: 8,
     alignItems: "center",

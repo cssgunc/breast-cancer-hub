@@ -11,9 +11,9 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
-import { getSetting } from "@/hooks/useSettings";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 import { colors } from "@/components/StyleSheet";
-
+import { setGlobalDarkThemeEnabled } from "@/components/StyleSheet";
 
 
 export default function SettingsScreen() {
@@ -33,8 +33,17 @@ export default function SettingsScreen() {
         "x-session-token": person.token,
         'x-user-email' : person.email,
         },
-        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, scheduling_type: "period", notification_times: '02:43:49.441286', locale: "temp"})
+        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, locale: "temp"})
+      });
+    setGlobalDarkThemeEnabled(IsDarkThemeEnabled);
+    saveSetting("useTelemetry", isTelemetryEnabled).then(() => {
+      saveSetting("useDarkTheme", IsDarkThemeEnabled).then(() => {
+        saveSetting("userId", person.userId);
       })
+    });
+    
+
+    
   }
   
   // Pulling information from local storage
@@ -103,7 +112,7 @@ export default function SettingsScreen() {
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
-              <Ionicons name="person" size={36} color={colors.darkPink} />
+              <Ionicons name="person" size={36} color={colors.darkHighlight} />
             </View>
           </View>
 
@@ -140,7 +149,7 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: colors.lightPink }}
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={isTelemetryEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={colors.darkGray}
                 onValueChange={() => setIsTelemetryEnabled(!isTelemetryEnabled)}
@@ -152,7 +161,7 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: colors.lightPink }}
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={isBackupEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={colors.darkGray}
                 onValueChange={() => setIsBackupEnabled(!isBackupEnabled)}
@@ -181,9 +190,9 @@ export default function SettingsScreen() {
 
             {/* Dark Mode */}
             <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>Dark Mode</ThemedText>
+              <ThemedText style={styles.optionText}>Dark Theme</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: colors.lightPink }}
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={ colors.darkGray }
                 onValueChange={() => setIsDarkThemeEnabled(!IsDarkThemeEnabled)}
@@ -231,7 +240,7 @@ const styles = StyleSheet.create({
     marginBottom: "8%",
   },
   backButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
@@ -241,7 +250,7 @@ const styles = StyleSheet.create({
   },
   settingsText: {
     fontSize: 36,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     lineHeight: 40,
     margin: 10,
@@ -272,7 +281,7 @@ const styles = StyleSheet.create({
   },
   userNameText: {
     fontSize: 36,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
   },
   userEmailText: {
@@ -280,7 +289,7 @@ const styles = StyleSheet.create({
     color: colors.black,
   },
   profileIconContainer: {
-    backgroundColor: colors.mediumPink, //Light-ish pink used specifically for 
+    backgroundColor: colors.mediumHighlight, //Light-ish pink used specifically for 
     width: 60,
     height: 60,
     borderRadius: 30, // Circular
@@ -289,7 +298,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 4,
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightHighlight,
     width: "100%",
     alignSelf: "center",
     marginVertical: 30,
@@ -316,7 +325,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
   },
   saveButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",

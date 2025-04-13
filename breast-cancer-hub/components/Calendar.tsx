@@ -15,7 +15,9 @@ import {
   removePeriod,
 } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
-import { colors } from "./StyleSheet";
+import { getColors } from "./StyleSheet";
+
+const colors = getColors();
 
 type CalendarItem = {
   p: Date;
@@ -356,7 +358,7 @@ const styles = StyleSheet.create({
   },
   yearText: {
     fontSize: 18,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
   },
   weekDaysContainer: {
@@ -367,7 +369,7 @@ const styles = StyleSheet.create({
   weekDayText: {
     width: "14.28%",
     textAlign: "center",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   daysContainer: {
     flexDirection: "row",
@@ -400,9 +402,9 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   periodDayCircle: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderWidth: 2,
-    borderColor: colors.darkestPink,
+    borderColor: colors.darkestHighlight,
     borderRadius: 25,
     width: 43,
     height: 43,
@@ -429,7 +431,7 @@ const styles = StyleSheet.create({
   logPeriodButton: {
     alignSelf: "center",
     backgroundColor: colors.white,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     borderWidth: 2,
     borderRadius: 25,
     paddingVertical: 10,
@@ -438,7 +440,7 @@ const styles = StyleSheet.create({
   },
   logPeriodButtonText: {
     textAlign: "center",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
   },
   cannotLogPeriodText: {

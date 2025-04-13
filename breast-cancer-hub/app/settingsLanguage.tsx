@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   backButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     width: 40,
     height: 40,
     borderRadius: 20, // Makes it circular
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 36,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     fontWeight: "bold",
     lineHeight: 35,
     marginTop: 20,
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   optionTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    color: colors.darkPink,
+    color: colors.darkHighlight,
   },
   optionDescription: {
     fontSize: 15,
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   },
   divider: {
     height: 4,
-    backgroundColor: colors.lightPink,
+    backgroundColor: colors.lightHighlight,
     width: "100%",
     alignSelf: "center",
     marginVertical: 30,
@@ -202,18 +202,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundLightGray,
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: colors.darkPink,
+    borderColor: colors.darkHighlight,
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 10,
   },
   addTimeText: {
     fontSize: 16,
-    color: colors.darkPink,
+    color: colors.darkHighlight,
     marginLeft: 10,
   },
   saveButton: {
-    backgroundColor: colors.darkPink,
+    backgroundColor: colors.darkHighlight,
     borderRadius: 30,
     paddingVertical: 15,
     alignItems: "center",
