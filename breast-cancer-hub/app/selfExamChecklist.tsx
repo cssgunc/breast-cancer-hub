@@ -15,10 +15,11 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const {colors, globalStyles, setDarkMode} = useColors();
 
   const info_f = [
     { id: 0, text: "Swelling of part or all of a breast." },
@@ -79,6 +80,38 @@ export default function HomeScreen() {
 
     getType();
   }, []);
+
+  const styles = StyleSheet.create({
+    titleTextDarkHighlight: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    checkBoxContainer: {
+      flexDirection: "column",
+      justifyContent: "center"
+    },
+  
+    listTitleTextExam: {
+      marginBottom: 10,
+    },
+    listContainer: {
+      backgroundColor: "transparent",
+      marginHorizontal: 0,
+    },
+    listItemContainer: {
+      justifyContent: "space-between",
+      backgroundColor: "transparent",
+    },
+    
+    instructionText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.black,
+      maxWidth: "80%",
+      lineHeight: 20,
+    },
+    
+  });
 
   return (
     <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
@@ -185,35 +218,3 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleTextDarkHighlight: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  checkBoxContainer: {
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-
-  listTitleTextExam: {
-    marginBottom: 10,
-  },
-  listContainer: {
-    backgroundColor: "transparent",
-    marginHorizontal: 0,
-  },
-  listItemContainer: {
-    justifyContent: "space-between",
-    backgroundColor: "transparent",
-  },
-  
-  instructionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.black,
-    maxWidth: "80%",
-    lineHeight: 20,
-  },
-  
-});

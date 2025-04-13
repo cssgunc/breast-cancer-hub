@@ -5,10 +5,11 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
-import { colors } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
+  const {colors, globalStyles, setDarkMode} = useColors();
 
   const [person, setPerson] = useState({ name: "", email: "" });
 
@@ -19,6 +20,100 @@ export default function ProfileSettingsScreen() {
       })
     );
   }, []);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.backgroundLightGray, // Background color of the page
+      paddingBottom: 20,
+    },
+    headerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingTop: "15%",
+      paddingHorizontal: 20,
+      marginBottom: "5%",
+    },
+    backButton: {
+      backgroundColor: colors.darkHighlight,
+      width: 40,
+      height: 40,
+      borderRadius: 20, // Circular
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    headerTitle: {
+      fontSize: 36,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+      lineHeight: 40,
+      margin:  15,
+    },
+    mainContainer: {
+      flex: 1, // Extend to the bottom
+      width: "90%",
+      backgroundColor: colors.white,
+      borderRadius: 20,
+      padding: 40,
+      alignSelf: "center",
+      // Shadow
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    contentContainer: {
+      paddingBottom: 20,
+    },
+    profileIconContainer: {
+      alignItems: "center",
+      marginBottom: 20,
+    },
+    userInfoContainer: {
+      alignItems: "flex-start",
+      width: "100%",
+    },
+    userName: {
+      fontSize: 24,
+      color: colors.black,
+      fontWeight: "bold",
+    },
+    divider: {
+      height: 4,
+      backgroundColor: colors.lightHighlight,
+      width: "100%",
+      marginVertical: 20,
+    },
+    infoRow: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
+      marginBottom: 10,
+    },
+    infoLabel: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    infoValue: {
+      fontSize: 16,
+      color: colors.black,
+    },
+    signOutButton: {
+      backgroundColor: colors.darkHighlight,
+      borderRadius: 30,
+      paddingVertical: 15,
+      alignItems: "center",
+      marginTop: "auto", // Push the button to the bottom
+      width: "100%",
+    },
+    signOutButtonText: {
+      fontSize: 20,
+      color: colors.white,
+      fontWeight: "bold",
+    },
+  });  
 
   return (
     <ThemedView style={styles.container}>
@@ -81,97 +176,3 @@ export default function ProfileSettingsScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundLightGray, // Background color of the page
-    paddingBottom: 20,
-  },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: "15%",
-    paddingHorizontal: 20,
-    marginBottom: "5%",
-  },
-  backButton: {
-    backgroundColor: colors.darkHighlight,
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Circular
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  headerTitle: {
-    fontSize: 36,
-    color: colors.darkHighlight,
-    fontWeight: "bold",
-    lineHeight: 40,
-    margin:  15,
-  },
-  mainContainer: {
-    flex: 1, // Extend to the bottom
-    width: "90%",
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 40,
-    alignSelf: "center",
-    // Shadow
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  contentContainer: {
-    paddingBottom: 20,
-  },
-  profileIconContainer: {
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  userInfoContainer: {
-    alignItems: "flex-start",
-    width: "100%",
-  },
-  userName: {
-    fontSize: 24,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  divider: {
-    height: 4,
-    backgroundColor: colors.lightHighlight,
-    width: "100%",
-    marginVertical: 20,
-  },
-  infoRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    marginBottom: 10,
-  },
-  infoLabel: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-  },
-  infoValue: {
-    fontSize: 16,
-    color: colors.black,
-  },
-  signOutButton: {
-    backgroundColor: colors.darkHighlight,
-    borderRadius: 30,
-    paddingVertical: 15,
-    alignItems: "center",
-    marginTop: "auto", // Push the button to the bottom
-    width: "100%",
-  },
-  signOutButtonText: {
-    fontSize: 20,
-    color: colors.white,
-    fontWeight: "bold",
-  },
-});

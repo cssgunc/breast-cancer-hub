@@ -10,7 +10,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { BorderlessButton } from "react-native-gesture-handler";
-import { colors } from "./StyleSheet";
+import { colors } from "./StyleSheet"; // Will not update with theme
 
 const languages = ["English", "Assamese", "Arabic", "Bahasa", "Bengali", "Chinese", "German", "Gujarati", "Hindi", 
 "Japanese", "Kannada", "Kiswahili", "Malayalam", "Marathi", "Odia", "Persian", "Portuguese", "Punjabi", "Russian", 

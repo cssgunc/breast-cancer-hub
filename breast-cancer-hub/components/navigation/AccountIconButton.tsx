@@ -2,30 +2,18 @@ import React from "react";
 import { StyleSheet, Pressable } from "react-native";
 import { Link } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { colors } from "../StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function IconButton() {
+  const {colors, globalStyles, setDarkMode} = useColors();
+
   return (
     <Link href="/" asChild>
-      <Pressable style={styles.button}>
+      <Pressable style={globalStyles.HeaderIconButton}>
         <MaterialIcons name="account-circle" size={24} color={colors.darkHighlight} />
       </Pressable>
     </Link>
   );
 }
 
-export const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    backgroundColor: colors.lightHighlight,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
-    elevation: 5,
-  },
-});
+

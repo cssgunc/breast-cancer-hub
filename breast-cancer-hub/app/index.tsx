@@ -18,7 +18,6 @@ import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
-import { getColors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
 import { useColors } from "@/components/ColorContext";
 
@@ -36,7 +35,7 @@ export type HomeScreenProps = Partial<{
 export default function HomeScreen(props: HomeScreenProps) {
   const router = useRouter();
 
-  const {colors, setDarkMode} = useColors();
+  const {colors, globalStyles, setDarkMode} = useColors();
 
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
     undefined

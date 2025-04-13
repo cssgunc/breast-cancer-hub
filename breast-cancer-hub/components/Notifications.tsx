@@ -4,9 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getColors } from "./StyleSheet";
-
-const colors = getColors();
+import { useColors } from "@/components/ColorContext";
 
 interface NotificationComponentProps {
   variant?: "default" | "overdue";
@@ -19,6 +17,8 @@ export function NotificationComponent({
   date,
   onDismiss,
 }: NotificationComponentProps) {
+  const {colors, globalStyles, setDarkMode} = useColors();
+
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
 
@@ -49,6 +49,53 @@ export function NotificationComponent({
   ];
   const month = monthNames[date.getMonth()];
   const day = date.getDate();
+
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: "row",
+      borderRadius: 50, // Circular sides
+      borderColor: "#B3B3B3",
+      borderWidth: 1,
+      padding: 15,
+      alignItems: "center",
+      position: "relative",
+    },
+    dateCircle: {
+      width: 60,
+      height: 60,
+      borderRadius: 30, // Circular
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: 15,
+    },
+    monthText: {
+      fontSize: 16,
+      color: colors.white,
+    },
+    dayText: {
+      fontSize: 20,
+      color: colors.white,
+    },
+    textContainer: {
+      flex: 1,
+    },
+    headerText: {
+      fontWeight: "bold",
+      fontSize: 16,
+      color: colors.black,
+      marginBottom: 5,
+    },
+    bodyText: {
+      fontSize: 14,
+      color: colors.black,
+    },
+    trashIconContainer: {
+      paddingLeft: 10,
+      paddingRight: 5,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  });  
 
   return (
     <ThemedView
@@ -81,50 +128,3 @@ export function NotificationComponent({
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-    borderRadius: 50, // Circular sides
-    borderColor: "#B3B3B3",
-    borderWidth: 1,
-    padding: 15,
-    alignItems: "center",
-    position: "relative",
-  },
-  dateCircle: {
-    width: 60,
-    height: 60,
-    borderRadius: 30, // Circular
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 15,
-  },
-  monthText: {
-    fontSize: 16,
-    color: colors.white,
-  },
-  dayText: {
-    fontSize: 20,
-    color: colors.white,
-  },
-  textContainer: {
-    flex: 1,
-  },
-  headerText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: colors.black,
-    marginBottom: 5,
-  },
-  bodyText: {
-    fontSize: 14,
-    color: colors.black,
-  },
-  trashIconContainer: {
-    paddingLeft: 10,
-    paddingRight: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

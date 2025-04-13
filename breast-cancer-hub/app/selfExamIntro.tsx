@@ -14,10 +14,11 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function SelfExamInfo() {
   const router = useRouter();
+  const {colors, globalStyles, setDarkMode} = useColors();
 
   const info_f = [
     { id: 1, text: "Swelling of part or all of a breast." },
@@ -64,6 +65,24 @@ export default function SelfExamInfo() {
 
     getType();
   }, []);
+
+  const styles = StyleSheet.create({
+    titleText: {
+      fontSize: 24,
+    },
+    titleTextDarkHighlight: {
+      paddingTop: 10,
+    },
+    instructionTextBold: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    instructionText: {
+      fontSize: 16,
+      color: colors.mediumGray,
+    },
+  });
 
   if (isLoading == true) {
     return (
@@ -170,21 +189,3 @@ export default function SelfExamInfo() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  titleText: {
-    fontSize: 24,
-  },
-  titleTextDarkHighlight: {
-    paddingTop: 10,
-  },
-  instructionTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-  },
-  instructionText: {
-    fontSize: 16,
-    color: colors.mediumGray,
-  },
-});

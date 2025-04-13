@@ -1,9 +1,26 @@
 import { TouchableOpacity, Linking, StyleSheet } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
-import { globalStyles, colors } from "./StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export function LearnMoreTextContainer() {
+  const {colors, globalStyles, setDarkMode} = useColors();
+
+  const styles = StyleSheet.create({
+    infoSourceText: {
+      color: colors.lightGray,
+      marginTop: 20,
+    },
+    learnMoreText: {
+      fontSize: 12,
+      color: colors.blue,
+      fontWeight: "bold",
+    },
+    learnMoreTextContainer: {
+      alignItems: "center",
+    },
+  });  
+
   return (
     <ThemedView style={styles.learnMoreTextContainer}>
       <ThemedText style={[globalStyles.smallItalicText, styles.infoSourceText]}>
@@ -24,18 +41,3 @@ export function LearnMoreTextContainer() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  infoSourceText: {
-    color: colors.lightGray,
-    marginTop: 20,
-  },
-  learnMoreText: {
-    fontSize: 12,
-    color: colors.blue,
-    fontWeight: "bold",
-  },
-  learnMoreTextContainer: {
-    alignItems: "center",
-  },
-});

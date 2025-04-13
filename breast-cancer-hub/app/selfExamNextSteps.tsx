@@ -15,11 +15,12 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();
-
+  const {colors, globalStyles, setDarkMode} = useColors();
+  
   // NOT TYPE SAFE
   const { symptoms } = useLocalSearchParams();
 
@@ -32,6 +33,60 @@ export default function HomeScreen() {
     console.log(symptoms);
     console.log(symptoms as string);
   }, []);
+
+  const styles = StyleSheet.create({
+    noticeContainer: {
+      paddingVertical: 30,
+      flexDirection: "row",
+      justifyContent: "flex-start",
+      columnGap: 10,
+    },
+    whiteOverlay: {
+      backgroundColor: colors.white,
+      borderTopLeftRadius: 17,
+      borderTopRightRadius: 17,
+      padding: 20,
+    },
+    // Here, the main title is highlighted pink, while the subtitle is black.
+    subtitleText: {
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.black,
+    },
+    titleText: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    
+    checkBoxContainer: {
+      flexDirection: "column",
+      marginBottom: 20,
+      alignContent: "center",
+      marginTop: 5,
+    },
+    instructionTextBold: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+      textAlign: "center",
+    },
+    instructionTextBoldBlack: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.black,
+      textAlign: "center",
+    },
+    instructionText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.black,
+    },
+    singleButtonContainer: {
+      flexDirection: "row",
+      justifyContent: "center",
+      marginTop: 20,
+    },
+  });
 
   return (
     <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
@@ -131,57 +186,3 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  noticeContainer: {
-    paddingVertical: 30,
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    columnGap: 10,
-  },
-  whiteOverlay: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    padding: 20,
-  },
-  // Here, the main title is highlighted pink, while the subtitle is black.
-  subtitleText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: colors.black,
-  },
-  titleText: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  
-  checkBoxContainer: {
-    flexDirection: "column",
-    marginBottom: 20,
-    alignContent: "center",
-    marginTop: 5,
-  },
-  instructionTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-    textAlign: "center",
-  },
-  instructionTextBoldBlack: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.black,
-    textAlign: "center",
-  },
-  instructionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.black,
-  },
-  singleButtonContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-});

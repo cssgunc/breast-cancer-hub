@@ -13,10 +13,109 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { colors } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function UnderstandingBC() {
   const router = useRouter();
+  const {colors, globalStyles, setDarkMode} = useColors();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.darkHighlight,
+    },
+    scrollContent: {
+      flexGrow: 1,
+      paddingTop: 10,
+    },
+    whiteOverlay: {
+      backgroundColor: colors.white,
+      borderTopLeftRadius: 17,
+      borderTopRightRadius: 17,
+      padding: 20,
+    },
+    background: {
+      padding: 10,
+    },
+    titleContainer: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+    understandingText: {
+      color: colors.black,
+      fontSize: 32,
+      fontWeight: "bold",
+      paddingTop: 10,
+    },
+    bcText: {
+      color: colors.darkHighlight,
+      fontSize: 32,
+      fontWeight: "bold",
+      paddingTop: 10,
+    },
+    grayLine: {
+      height: 2,
+      backgroundColor: colors.lightestGray,
+      marginVertical: 10,
+    },
+    paragraphTextTitle: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginTop: 10,
+    },
+    paragraphText: {
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 10,
+      lineHeight: 24,
+    },
+    statContainer: {
+      backgroundColor: "#F9F9F9",
+      padding: 10,
+      borderLeftWidth: 4,
+      borderColor: colors.darkHighlight,
+      marginVertical: 15,
+    },
+    statTextBold: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    statText: {
+      fontSize: 16,
+      color: colors.black,
+      marginBottom: 10,
+    },
+    buttonContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginTop: 20,
+    },
+    buttonBack: {
+      backgroundColor: colors.white,
+      paddingVertical: 15,
+      paddingHorizontal: 40,
+      borderRadius: 30,
+      borderWidth: 2,
+      borderColor: colors.lighterGray,
+    },
+    buttonNext: {
+      backgroundColor: colors.darkHighlight,
+      paddingVertical: 15,
+      paddingHorizontal: 40,
+      borderRadius: 30,
+      borderWidth: 2,
+      borderColor: colors.darkHighlight,
+    },
+    buttonTextBack: {
+      color: colors.darkHighlight,
+      fontSize: 20,
+    },
+    buttonTextNext: {
+      color: colors.white,
+      fontSize: 20,
+    },
+  });  
 
   return (
     <ThemedView style={styles.container}>
@@ -82,101 +181,3 @@ export default function UnderstandingBC() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.darkHighlight,
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
-  },
-  whiteOverlay: {
-    backgroundColor: colors.white,
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    padding: 20,
-  },
-  background: {
-    padding: 10,
-  },
-  titleContainer: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  understandingText: {
-    color: colors.black,
-    fontSize: 32,
-    fontWeight: "bold",
-    paddingTop: 10,
-  },
-  bcText: {
-    color: colors.darkHighlight,
-    fontSize: 32,
-    fontWeight: "bold",
-    paddingTop: 10,
-  },
-  grayLine: {
-    height: 2,
-    backgroundColor: colors.lightestGray,
-    marginVertical: 10,
-  },
-  paragraphTextTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  paragraphText: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 10,
-    lineHeight: 24,
-  },
-  statContainer: {
-    backgroundColor: "#F9F9F9",
-    padding: 10,
-    borderLeftWidth: 4,
-    borderColor: colors.darkHighlight,
-    marginVertical: 15,
-  },
-  statTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-  },
-  statText: {
-    fontSize: 16,
-    color: colors.black,
-    marginBottom: 10,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginTop: 20,
-  },
-  buttonBack: {
-    backgroundColor: colors.white,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: colors.lighterGray,
-  },
-  buttonNext: {
-    backgroundColor: colors.darkHighlight,
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-    borderColor: colors.darkHighlight,
-  },
-  buttonTextBack: {
-    color: colors.darkHighlight,
-    fontSize: 20,
-  },
-  buttonTextNext: {
-    color: colors.white,
-    fontSize: 20,
-  },
-});

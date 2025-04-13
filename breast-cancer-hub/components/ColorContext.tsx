@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { lightColors, darkColors } from './StyleSheet';
+import { lightColors, darkColors, globalStylesLight, globalStylesDark } from './StyleSheet';
 import { getSetting, saveSetting } from '@/hooks/useSettings';
 
 interface Theme {
@@ -28,6 +28,7 @@ interface Theme {
 
 const ColorContext = createContext<{
   colors: Theme,
+  globalStyles: any,
   setDarkMode: (enabled: boolean) => void,
 } | null>(null);
 
@@ -46,9 +47,10 @@ export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const colors = darkMode ? darkColors : lightColors;
+  const globalStyles = darkMode ? globalStylesDark : globalStylesLight;
 
   return (
-    <ColorContext.Provider value={{ colors, setDarkMode }}>
+    <ColorContext.Provider value={{ colors, globalStyles, setDarkMode }}>
       {children}
     </ColorContext.Provider>
   );

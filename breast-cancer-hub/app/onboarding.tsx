@@ -10,16 +10,18 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
 import StepIndicators from "@/components/StepIndicators";
 import { ExternalLink } from "@/components/ExternalLink";
 import { router } from "expo-router";
 import { SelectLanguage } from "@/components/SelectLanguage";
+import { useColors } from "@/components/ColorContext";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
   const totalSteps = 5; 
   const scrollViewRef = useRef<ScrollView>(null);
+
+  const {colors, globalStyles, setDarkMode} = useColors();
 
   //scrolls to top whenever the step changes
   useEffect(() => {
@@ -40,6 +42,126 @@ export default function OnboardingScreen() {
       setStep(step - 1);
     }
   };
+
+  const styles = StyleSheet.create({
+    stepOneNextContainer: {
+      justifyContent: "flex-end",
+    },
+    scrollContent: {
+      flexGrow: 1,
+      paddingTop: 10,
+      paddingHorizontal: 10,
+      paddingBottom: 20, 
+      backgroundColor: "white",
+      borderTopLeftRadius: 17,
+      borderTopRightRadius: 17,
+      marginTop: 10,
+    },
+    background: {
+      padding: 10,
+    },
+    titleContainer: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+    highlightedTitleText: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    paragraphTextTitle: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginTop: 10,
+    },
+    paragraphText: {
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 10,
+      lineHeight: 24,
+    },
+    statContainer: {
+      backgroundColor: "#F9F9F9",
+      padding: 10,
+      borderLeftWidth: 4,
+      borderColor: colors.darkHighlight,
+      marginVertical: 15,
+    },
+    statTextBold: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    statText: {
+      fontSize: 16,
+      color: colors.black,
+      marginBottom: 10,
+    },
+  
+    noticeTitle: {
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+      marginVertical: 10,
+    },
+    noticeText: {
+      fontSize: 16,
+      color: colors.black,
+      lineHeight: 24,
+    },
+    noticeText2: {
+      fontSize: 15,
+      color: colors.darkGray,
+      lineHeight: 24,
+      fontStyle: "italic",
+      marginTop: 20,
+    },
+    highlightText: {
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    boldText: {
+      fontWeight: "bold",
+      fontStyle: "italic",
+    },
+    infoText: {
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 10,
+      lineHeight: 24,
+    },
+    infoBoldText: {
+      fontWeight: "bold",
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 15,
+      lineHeight: 24,
+      marginTop: 20,
+    },
+    quotesContainer: {
+      marginVertical: 20,
+    },
+    quoteText: {
+      fontSize: 16,
+      fontStyle: "italic",
+      color: colors.darkHighlight,
+      textAlign: "center",
+      marginBottom: 10,
+    },
+    buttonStepZeroContainer: {
+      flexDirection: "row", 
+      justifyContent: "flex-end", 
+      width: "100%", 
+      paddingHorizontal: 10, 
+      marginRight: 30
+    },
+    linkText: {
+      color: colors.blue
+    },
+    selectLanguages: {
+      marginTop: 30,
+      marginBottom: 30,
+    }
+  });
 
   return (
     <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
@@ -273,123 +395,3 @@ export default function OnboardingScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  stepOneNextContainer: {
-    justifyContent: "flex-end",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    paddingBottom: 20, 
-    backgroundColor: "white",
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    marginTop: 10,
-  },
-  background: {
-    padding: 10,
-  },
-  titleContainer: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  highlightedTitleText: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  paragraphTextTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  paragraphText: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 10,
-    lineHeight: 24,
-  },
-  statContainer: {
-    backgroundColor: "#F9F9F9",
-    padding: 10,
-    borderLeftWidth: 4,
-    borderColor: colors.darkHighlight,
-    marginVertical: 15,
-  },
-  statTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-  },
-  statText: {
-    fontSize: 16,
-    color: colors.black,
-    marginBottom: 10,
-  },
-
-  noticeTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-    marginVertical: 10,
-  },
-  noticeText: {
-    fontSize: 16,
-    color: colors.black,
-    lineHeight: 24,
-  },
-  noticeText2: {
-    fontSize: 15,
-    color: colors.darkGray,
-    lineHeight: 24,
-    fontStyle: "italic",
-    marginTop: 20,
-  },
-  highlightText: {
-    color: colors.darkHighlight,
-    fontWeight: "bold",
-  },
-  boldText: {
-    fontWeight: "bold",
-    fontStyle: "italic",
-  },
-  infoText: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 10,
-    lineHeight: 24,
-  },
-  infoBoldText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 15,
-    lineHeight: 24,
-    marginTop: 20,
-  },
-  quotesContainer: {
-    marginVertical: 20,
-  },
-  quoteText: {
-    fontSize: 16,
-    fontStyle: "italic",
-    color: colors.darkHighlight,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  buttonStepZeroContainer: {
-    flexDirection: "row", 
-    justifyContent: "flex-end", 
-    width: "100%", 
-    paddingHorizontal: 10, 
-    marginRight: 30
-  },
-  linkText: {
-    color: colors.blue
-  },
-  selectLanguages: {
-    marginTop: 30,
-    marginBottom: 30,
-  }
-});
