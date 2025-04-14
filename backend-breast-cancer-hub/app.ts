@@ -309,23 +309,25 @@ app.put("/settings", async (req: Request, res: Response) => {
       [user_id]
     );
 
-    const notifUserIds = Array(notification_times.length).fill(user_id);
-    const notifTimes: String[] = [];
-    const notifEnabled: Boolean[] = [];
+    if (notification_times == null) {
+      const notifUserIds = Array(notification_times.length).fill(user_id);
+      const notifTimes: String[] = [];
+      const notifEnabled: Boolean[] = [];
 
-    notification_times.forEach(
-      (elt: { id: number; time: string; enabled: boolean }) => {
-        notifTimes.push(elt.time);
-        notifEnabled.push(elt.enabled);
-      }
-    );
+      notification_times.forEach(
+        (elt: { id: number; time: string; enabled: boolean }) => {
+          notifTimes.push(elt.time);
+          notifEnabled.push(elt.enabled);
+        }
+      );
 
-    const notifsResult = await pool.query(
-      `INSERT INTO notification_times
-      (user_id, time, enabled)
-      SELECT * FROM UNNEST ($1::int[], $2::time[], $3::boolean[])`,
-      [notifUserIds, notifTimes, notifEnabled]
-    );
+      const notifsResult = await pool.query(
+        `INSERT INTO notification_times
+        (user_id, time, enabled)
+        SELECT * FROM UNNEST ($1::int[], $2::time[], $3::boolean[])`,
+        [notifUserIds, notifTimes, notifEnabled]
+      );
+    }
 
     res.status(200).json({
       message: "Settings updated successfully",
