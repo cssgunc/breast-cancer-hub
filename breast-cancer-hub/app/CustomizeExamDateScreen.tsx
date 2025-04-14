@@ -12,7 +12,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
-import { colors } from "@/components/StyleSheet";
 import { useColors } from "@/components/ColorContext";
 
 export default function CustomizeExamDateScreen() {

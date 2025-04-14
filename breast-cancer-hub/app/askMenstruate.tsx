@@ -4,7 +4,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
-import { colors, globalStyles } from "@/components/StyleSheet";
 import { GLOBAL_PERIOD_DATA, initPeriods } from "@/hooks/usePeriodData";
 import { useColors } from "@/components/ColorContext";
 
