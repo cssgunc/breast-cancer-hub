@@ -17,7 +17,7 @@ import { useColors } from "@/components/ColorContext";
 export default function SettingsScreen() {
   const router = useRouter();
 
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const {colors, setDarkMode} = useColors();
 
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
