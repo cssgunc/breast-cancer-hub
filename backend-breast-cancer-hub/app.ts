@@ -309,7 +309,7 @@ app.put("/settings", async (req: Request, res: Response) => {
       [user_id]
     );
 
-    if (notification_times == null) {
+    if (notification_times != null) {
       const notifUserIds = Array(notification_times.length).fill(user_id);
       const notifTimes: String[] = [];
       const notifEnabled: Boolean[] = [];
