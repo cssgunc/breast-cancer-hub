@@ -4,26 +4,95 @@ import {
   StyleSheet,
   TouchableOpacity,
   useColorScheme,
-  View,
+  I18nManager,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
-import { BorderlessButton } from "react-native-gesture-handler";
+import { useTranslation } from "react-i18next";
 import { colors } from "./StyleSheet";
+import { useEffect } from "react";
 
-const languages = ["English", "Assamese", "Arabic", "Bahasa", "Bengali", "Chinese", "German", "Gujarati", "Hindi", 
-"Japanese", "Kannada", "Kiswahili", "Malayalam", "Marathi", "Odia", "Persian", "Portuguese", "Punjabi", "Russian", 
-"Spanish", "Tamil", "Telugu", "Urdu", "Uzbek"];
+const languageMap: Record<string, string> = {
+  English: "en-US",
+  Assamese: "as-IN",
+  Arabic: "ar-SA",
+  Bahasa: "id-ID", // Indonesian (Bahasa Indonesia)
+  Bengali: "bn-BD",
+  Chinese: "zh-CN",
+  German: "de-DE",
+  Gujarati: "gu-IN",
+  Hindi: "hi-IN",
+  Japanese: "ja-JP",
+  Kannada: "kn-IN",
+  Kiswahili: "sw-KE",
+  Malayalam: "ml-IN",
+  Marathi: "mr-IN",
+  Odia: "or-IN",
+  Persian: "fa-IR",
+  Portuguese: "pt-BR", // Assuming Brazilian Portuguese, use "pt-PT" for European Portuguese
+  Punjabi: "pa-IN",
+  Russian: "ru-RU",
+  Spanish: "es-ES",
+  Tamil: "ta-IN",
+  Telugu: "te-IN",
+  Urdu: "ur-PK", // Assuming Pakistan Urdu, "ur-IN" for Indian Urdu
+  Uzbek: "uz-UZ",
+};
+
+const languages = Object.keys(languageMap);
 
 export function SelectLanguage() {
+  const { t, i18n } = useTranslation(); 
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);
   const theme = useColorScheme() ?? "light";
 
-  const toggleLanguage = (language: string) => {
+  useEffect(() => {
+    const getStoredLanguage = async () => {
+      try {
+        const storedLanguageCode = await AsyncStorage.getItem("@app_language");
+        if (storedLanguageCode) {
+          const matchedLanguage = Object.keys(languageMap).find(
+            (key) => languageMap[key] === storedLanguageCode
+          );
+          if (matchedLanguage) {
+            setSelectedLanguage(matchedLanguage);
+          }
+        }
+      } catch (error) {
+        console.error("Error loading stored language:", error);
+      }
+    };
+  
+    getStoredLanguage();
+  }, []);
+
+  //handles the language switch, sets RTL if necessary, and saves the preference.
+  const toggleLanguage = async (language: string) => {
     setSelectedLanguage(language);
-    setIsOpen(false); // Close the dropdown after selection
+    setIsOpen(false);
+    const languageCode = languageMap[language];
+    if (languageCode) {
+      try {
+        const RTL_LANGUAGES = ["ar", "ar-SA"];
+        const LANGUAGE_KEY = "@app_language";
+
+        //handles RTL layout if needed
+        const isRTL = RTL_LANGUAGES.includes(languageCode);
+        if (I18nManager.isRTL !== isRTL) {
+          I18nManager.allowRTL(isRTL);
+          I18nManager.forceRTL(isRTL);
+        }
+
+        //changes the language and saves the preference
+        await i18n.changeLanguage(languageCode);
+        await AsyncStorage.setItem(LANGUAGE_KEY, languageCode);
+      } catch (error) {
+        console.error("Error changing language: ", error);
+      }
+    }
   };
 
   return (
@@ -35,7 +104,7 @@ export function SelectLanguage() {
         activeOpacity={0.8}
       >
         <ThemedText style={styles.selectLanguageText}>
-          Select Language
+          {t("Select Language")}
         </ThemedText>
         <ThemedText style={styles.separator}> | </ThemedText>
         <ThemedText style={styles.language}>{selectedLanguage}</ThemedText>
@@ -55,7 +124,7 @@ export function SelectLanguage() {
               style={styles.languageOption}
               onPress={() => toggleLanguage(language)}
             >
-              <ThemedText>{language}</ThemedText>
+              <ThemedText>{t(`${language}`) || language}</ThemedText>
             </TouchableOpacity>
           ))}
         </ThemedView>

@@ -25,7 +25,6 @@ export default function LanguageScreen() {
         //saves language selection locally
       try {
           await saveSetting("locale", language);
-          alert("Settings saved successfully.");
       } catch (error) {
           console.error("Error saving language:", error);
       }

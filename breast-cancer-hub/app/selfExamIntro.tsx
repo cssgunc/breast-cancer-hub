@@ -15,39 +15,32 @@ import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHead
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SelfExamInfo() {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
 
   const info_f = [
-    { id: 1, text: "Swelling of part or all of a breast." },
-    {
-      id: 2,
-      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
-    },
-    { id: 3, text: "Breast or nipple pain." },
-    { id: 4, text: "Nipple retraction (turning inward)" },
-    {
-      id: 5,
-      text: "Redness, scaliness, or thickening of the nipples or breast skin",
-    },
-    { id: 6, text: "Nipple discharge (other than breast milk)" },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
+    { id: 4, key: "SIGNS_SYMPTOMS_5_F" },
+    { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
+    { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
   const info_m = [
-    { id: 1, text: "A painless lump or thickening in your breast tissue." },
-    {
-      id: 2,
-      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
-    },
-    {
-      id: 3,
-      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-    },
-    { id: 4, text: "Discharge from your nipple." },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_M" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
+    { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
 
   const [info, setInfo] = useState([
-    { id: 1, text: "Loading signs and symptoms... " },
+    { id: 1, key: "Loading signs and symptoms... " },
   ]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -57,13 +50,21 @@ export default function SelfExamInfo() {
   useEffect(() => {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
-      setExamTypeF(schedulingType == "period");
-      setInfo(examTypeF ? info_f : info_m);
+      const isF = schedulingType === "period";
+      setExamTypeF(isF);
+  
+      const selectedInfo = isF ? info_f : info_m;
+      const translatedInfo = selectedInfo.map((item) => ({
+        id: item.id,
+        key: t(item.key),
+      }));
+  
+      setInfo(translatedInfo);
       setIsLoading(false);
     };
-
+  
     getType();
-  }, []);
+  }, [t]);
 
   if (isLoading == true) {
     return (
@@ -133,13 +134,13 @@ export default function SelfExamInfo() {
                 Signs and Symptoms
               </ThemedText>
               <ThemedView style={globalStyles.listContainer}>
-                {info.map((item: { id: number; text: string }) => (
+                {info.map((item: { id: number; key: string }) => (
                   <ThemedView key={item.id} style={globalStyles.listItemContainer}>
                     <ThemedText style={styles.instructionTextBold}>
-                      {item.id + "."}
+                      {item.id + 1 + "."}
                     </ThemedText>
                     <ThemedText style={styles.instructionText}>
-                      {item.text}
+                      {t(item.key)}
                     </ThemedText>
                   </ThemedView>
                 ))}
@@ -162,6 +163,7 @@ export default function SelfExamInfo() {
                   <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
                 </TouchableOpacity>
               </ThemedView>
+              
             </ThemedView>
           </ScrollView>
         </ThemedView>
