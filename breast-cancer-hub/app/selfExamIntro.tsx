@@ -22,7 +22,6 @@ export default function SelfExamInfo() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
-
   const info_f = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
     { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
@@ -126,24 +125,6 @@ export default function SelfExamInfo() {
 
           <ThemedView style={globalStyles.grayLine} />
         </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
-              Signs and Symptoms
-            </ThemedText>
-            <ThemedView style={globalStyles.listContainer}>
-              {info.map((item: { id: number; key: string }) => (
-                <ThemedView key={item.id} style={globalStyles.listItemContainer}>
-                  <ThemedText style={styles.instructionTextBold}>
-                    {item.id + 1 + "."}
-                  </ThemedText>
-                  <ThemedText style={styles.instructionText}>
-                    {item.key}
-                  </ThemedText>
-                </ThemedView>
-              ))}
         
         <ThemedView style={globalStyles.bodyContainerWhite}>
           <ScrollView contentContainerStyle={globalStyles.scrollContent}>
