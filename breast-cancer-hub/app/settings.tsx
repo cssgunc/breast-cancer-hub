@@ -318,7 +318,10 @@ export default function SettingsScreen() {
                 trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={ colors.darkGray }
-                onValueChange={() => setIsDarkThemeEnabled(!IsDarkThemeEnabled)}
+                onValueChange={() => {
+                  setDarkMode(!IsDarkThemeEnabled);
+                  setIsDarkThemeEnabled(!IsDarkThemeEnabled);
+                }}
                 value={IsDarkThemeEnabled}
               />
             </View>

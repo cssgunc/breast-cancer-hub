@@ -26,11 +26,12 @@ export function NotificationComponent({
 
   // Determine header text and colors based on the variant
   const headerText =
-    variant === "overdue" ? "Overdue Examination" : "Examination Reminder";
+    variant === "overdue" ? "! Overdue Examination !" : "Examination Reminder";
+  const headerTextColor =
+    variant === "overdue" ? colors.darkHighlight : colors.black;
   const dateCircleBackgroundColor =
     variant === "overdue" ? "#FF4D4D" : colors.darkHighlight; // Red tint for overdue
-  const containerBackgroundColor =
-    variant === "overdue" ? "#FFE5E5" : colors.backgroundLightGray; // Lighter red background
+  const containerBackgroundColor = colors.backgroundLightGray;
 
   // Format the date
   const monthNames = [
@@ -116,7 +117,7 @@ export function NotificationComponent({
         style={styles.textContainer}
         onPress={() => router.push("/selfExamIntro")}
       >
-        <ThemedText style={styles.headerText}>{headerText}</ThemedText>
+        <ThemedText style={[styles.headerText, {color: headerTextColor}]}>{headerText}</ThemedText>
         <ThemedText style={styles.bodyText}>
           Complete your self-examination.
         </ThemedText>
