@@ -16,39 +16,34 @@ import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHead
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
+import { useTranslation } from "react-i18next";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
+
   const {colors, globalStyles} = useColors();
 
   const info_f = [
-    { id: 0, text: "Swelling of part or all of a breast." },
-    {
-      id: 1,
-      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
-    },
-    { id: 2, text: "Breast or nipple pain." },
-    { id: 3, text: "Nipple retraction (turning inward)" },
-    {
-      id: 4,
-      text: "Redness, scaliness, or thickening of the nipples or breast skin",
-    },
-    { id: 5, text: "Nipple discharge (other than breast milk)" },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
+    { id: 4, key: "SIGNS_SYMPTOMS_5_F" },
+    { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
+    { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
   const info_m = [
-    { id: 0, text: "A painless lump or thickening in your breast tissue." },
-    {
-      id: 1,
-      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
-    },
-    {
-      id: 2,
-      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-    },
-    { id: 3, text: "Discharge from your nipple." },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_M" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
+    { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
 
   const [isSelected, setSelection] = useState([
+    false,
     false,
     false,
     false,
@@ -75,6 +70,11 @@ export default function HomeScreen() {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
       setExamTypeF(schedulingType === "period");
+      const LANGUAGE_KEY = "@app_language";
+      const storedLanguageCode = await AsyncStorage.getItem(LANGUAGE_KEY);
+      if (storedLanguageCode && i18n.language !== storedLanguageCode) {
+        await i18n.changeLanguage(storedLanguageCode);
+      }
       setIsLoading(false);
     };
 
@@ -119,7 +119,7 @@ export default function HomeScreen() {
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
-      <ThemedView style={globalStyles.whiteOverlay}>
+      <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
         <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
           Log Your Symptoms
         </ThemedText>
@@ -135,7 +135,7 @@ export default function HomeScreen() {
       
       <ThemedView style={globalStyles.bodyContainerWhite}>
         <ScrollView contentContainerStyle={[globalStyles.scrollContent, {paddingTop: 0}]}>
-          <ThemedView style={globalStyles.whiteOverlay}>
+          <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
             {/* Info Section */}
             <ThemedText style={[globalStyles.listTitleTextExam, styles.listTitleTextExam]}>
               What did you notice?
@@ -144,10 +144,10 @@ export default function HomeScreen() {
             {!isLoading && (<ThemedView style={[globalStyles.elevatedBox, {paddingVertical: 0}]}>
                 {examTypeF ? (
                   <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                    {info_f.map((item) => (
+                    {info_f.map((item: { id: number; key: string }) => (
                       <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
                         <ThemedText style={styles.instructionText}>
-                          {item.text}
+                          {t(item.key)}
                         </ThemedText>
                         <View style={styles.checkBoxContainer}>
                           <CheckBox
@@ -162,10 +162,10 @@ export default function HomeScreen() {
                   </ThemedView>
                 ) : (
                   <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                    {info_m.map((item: { id: number; text: string }) => (
+                    {info_m.map((item: { id: number; key: string }) => (
                       <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
                         <ThemedText style={styles.instructionText}>
-                          {item.text}
+                          {t(item.key)}
                         </ThemedText>
                         <View style={styles.checkBoxContainer}>
                           <CheckBox
