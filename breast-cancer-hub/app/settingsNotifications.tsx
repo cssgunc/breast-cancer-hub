@@ -24,6 +24,8 @@ export default function NotificationsScreen() {
   const {colors} = useColors();
   
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+  const TIME_FORMAT_OPTIONS : {hour: "2-digit" | "numeric" | undefined, minute: "2-digit" | "numeric" | undefined}
+   = {hour: "2-digit", minute: "2-digit"};
 
   // State for checkboxes
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -42,6 +44,10 @@ export default function NotificationsScreen() {
     { id: number; time: string; enabled: boolean }[]
   >([]);
 
+  const fixTempLocaleToUS = (locale: string) => {
+    return (locale === "temp") ? 'en-us' : locale;
+  }
+
   async function saveSettingsToBackend() {
     console.log((timeEntries as { id: number, time: string, enabled: boolean }[])
     .map((val) => {return [person.userId, val.time, val.enabled];}))
@@ -53,7 +59,7 @@ export default function NotificationsScreen() {
         'x-user-email' : person.email,
         },
         body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications, notification_times: timeEntries})
-      });
+      }).then((res) => {console.log(res.status);});
   }
 
   // Fetching information from local storage for API call
@@ -62,10 +68,10 @@ export default function NotificationsScreen() {
         getSetting("email").then((email) => 
           getSetting("token").then((token) => 
             getSetting("userId").then((userId) => {
-          setPerson({ name,email,token, userId});
-        })
-      )
-      )
+              setPerson({ name,email,token, userId});
+            })
+          )
+        )
       );
     }, []);
   
@@ -73,43 +79,62 @@ export default function NotificationsScreen() {
   
   // Making an API call to read user settings.
   useEffect(() => {
-      if (person.token == "") {
-        return
-      } else {
-        fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-          method: "GET", 
-          headers: {
-            "x-session-token": person.token,
-            'x-user-email' : person.email,
-            }
+    getSetting("useInAppNotifications").then( (inapp) => {
+      getSetting("usePushNotifications").then( (push) => {
+        getSetting("notificationTimes").then( (times) => {
+          getSetting("locale").then( (loc) => {
+            // console.log("inapp:" + inapp);
+            // console.log("push:" + push);
+            // console.log("locale:" + fixTempLocaleToUS(loc));
+            // console.log("times:");
+            // times.forEach((entry) => console.log(entry))
+            setInAppNotifications(inapp);
+            setPushNotifications(push);
+            setLocale(fixTempLocaleToUS(locale));
+            setTimeEntries(times);
           })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            setInAppNotifications(data.settings.use_in_app_notifications);
-            setPushNotifications(data.settings.use_push_notifications);
-            setLocale(data.settings.locale);
-          })
-          .catch(error => console.error(error));
+        })
+      })
+    })
+      // if (person.token == "") {
+      //   return
+      // } else {
+      //   fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
+      //     method: "GET", 
+      //     headers: {
+      //       "x-session-token": person.token,
+      //       'x-user-email' : person.email,
+      //       }
+      //     })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //       console.log(data);
+      //       setInAppNotifications(data.settings.use_in_app_notifications);
+      //       setPushNotifications(data.settings.use_push_notifications);
+      //       setLocale(fixTempLocaleToUS(data.settings.locale));
+      //     })
+      //     .catch(error => console.error(error));
+
+      //     getSetting("notificationTimes").then(val => console.log("local entries:" + val));
         
-          fetch(`${BASE_URL}/settings_notifications` + "?user_id=" + person.userId, {
-            method: "GET", 
-            headers: {
-              "x-session-token": person.token,
-              'x-user-email' : person.email,
-              }
-            })
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-              // Convert retrieved times to local format
-              for (let i = 0; i < data.time_entries.length; i++) {
-                let timearr : any[] = data.time_entries[i].time.split(":");
-                data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale)
-              }
-              setTimeEntries(data.time_entries);
-            })
-      }
+      //     fetch(`${BASE_URL}/settings_notifications` + "?user_id=" + person.userId, {
+      //       method: "GET", 
+      //       headers: {
+      //         "x-session-token": person.token,
+      //         'x-user-email' : person.email,
+      //         }
+      //       })
+      //       .then(response => response.json())
+      //       .then(data => {
+      //         console.log(data);
+      //         // Convert retrieved times to local format
+      //         for (let i = 0; i < data.time_entries.length; i++) {
+      //           let timearr : any[] = data.time_entries[i].time.split(":");
+      //           data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale, TIME_FORMAT_OPTIONS)
+      //         }
+      //         setTimeEntries(data.time_entries);
+      //       })
+      // }
     }, [person.token]);
     
   // Save notification preferences to local storage
@@ -121,6 +146,7 @@ export default function NotificationsScreen() {
 
     await saveSetting("usePushNotifications", pushNotifications);
     await saveSetting("useInAppNotifications", inAppNotifications);
+    await saveSetting("notificationTimes", timeEntries);
     
     await saveSettingsToBackend();
     
@@ -133,10 +159,25 @@ export default function NotificationsScreen() {
     console.log(locale);
     const newEntry = {
       id: Date.now(),
-      time: newDate.toLocaleTimeString(locale),
+      time: newDate.toLocaleTimeString(locale, TIME_FORMAT_OPTIONS),
       enabled: true,
     };
-    setTimeEntries([newEntry, ...timeEntries]);
+
+    // If an entry already exists with the same hour/minute, don't allow creating the duplicate
+    let overlap : boolean = false;
+    for (let i = 0; i < timeEntries.length; i++) {
+      if (newEntry.time == timeEntries[i].time) {
+        overlap = true;
+        break;
+      }
+    }
+
+    if (overlap) {
+      alert("Time already exists!")
+    } else {
+      setTimeEntries([newEntry, ...timeEntries]);
+    }
+    
   };
 
   // Function to remove a time entry
@@ -386,10 +427,9 @@ export default function NotificationsScreen() {
           </ThemedText>
 
           {/* Push Notifications Option */}
-          <View style={styles.optionBox}>
+          <TouchableOpacity style={styles.optionBox} onPress={() => setPushNotifications(!pushNotifications)}>
             <View style={styles.optionHeader}>
-              <TouchableOpacity
-                onPress={() => setPushNotifications(!pushNotifications)}
+              <View
                 style={styles.checkboxContainer}
               >
                 {pushNotifications ? (
@@ -397,7 +437,7 @@ export default function NotificationsScreen() {
                 ) : (
                   <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
-              </TouchableOpacity>
+              </View>
               <ThemedText style={styles.optionTitle}>
                 Push Notifications
               </ThemedText>
@@ -407,13 +447,12 @@ export default function NotificationsScreen() {
               screen.{"\n"}
               It will be visible to anyone.
             </ThemedText>
-          </View>
+          </TouchableOpacity>
 
           {/* In-App Notifications Option */}
-          <View style={styles.optionBox}>
+          <TouchableOpacity style={styles.optionBox} onPress={() => setInAppNotifications(!inAppNotifications)}>
             <View style={styles.optionHeader}>
-              <TouchableOpacity
-                onPress={() => setInAppNotifications(!inAppNotifications)}
+              <View
                 style={styles.checkboxContainer}
               >
                 {inAppNotifications ? (
@@ -421,7 +460,7 @@ export default function NotificationsScreen() {
                 ) : (
                   <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
-              </TouchableOpacity>
+              </View>
               <ThemedText style={styles.optionTitle}>
                 Notification While in App
               </ThemedText>
@@ -429,7 +468,7 @@ export default function NotificationsScreen() {
             <ThemedText style={styles.optionDescription}>
               The app will display a notification when you open it.
             </ThemedText>
-          </View>
+          </TouchableOpacity>
 
           {/* Divider */}
           <View style={styles.divider} />

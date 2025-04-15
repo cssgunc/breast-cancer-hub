@@ -304,12 +304,13 @@ app.put("/settings", async (req: Request, res: Response) => {
       return;
     }
 
-    const clearNotifsResult = await pool.query(
-      `DELETE FROM notification_times WHERE user_id=$1`,
-      [user_id]
-    );
-
     if (notification_times != null) {
+
+      const clearNotifsResult = await pool.query(
+        `DELETE FROM notification_times WHERE user_id=$1`,
+        [user_id]
+      );
+
       const notifUserIds = Array(notification_times.length).fill(user_id);
       const notifTimes: String[] = [];
       const notifEnabled: Boolean[] = [];
@@ -324,7 +325,7 @@ app.put("/settings", async (req: Request, res: Response) => {
       const notifsResult = await pool.query(
         `INSERT INTO notification_times
         (user_id, time, enabled)
-        SELECT * FROM UNNEST ($1::int[], $2::time[], $3::boolean[])`,
+        SELECT * FROM UNNEST ($1::int[], CAST($2::text[] AS time[]), $3::boolean[])`,
         [notifUserIds, notifTimes, notifEnabled]
       );
     }
