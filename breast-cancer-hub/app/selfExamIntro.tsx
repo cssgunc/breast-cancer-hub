@@ -25,29 +25,17 @@ export default function SelfExamInfo() {
 
   const info_f = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
-    {
-      id: 1,
-      key: "SIGNS_SYMPTOMS_2_F",
-    },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
     { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
     { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
-    {
-      id: 4,
-      key: "SIGNS_SYMPTOMS_5_F",
-    },
+    { id: 4, key: "SIGNS_SYMPTOMS_5_F" },
     { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
     { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
   const info_m = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
-    {
-      id: 1,
-      key: "SIGNS_SYMPTOMS_2_M",
-    },
-    {
-      id: 2,
-      key: "SIGNS_SYMPTOMS_3_M",
-    },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_M" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
     { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
     { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
@@ -108,7 +96,7 @@ export default function SelfExamInfo() {
             <ThemedView style={globalStyles.buttonBackNextContainer}>
               <TouchableOpacity
                 style={globalStyles.buttonBack}
-                onPress={() => router.back()}
+                onPress={() => {router.dismissAll(); router.replace("/")}}
               >
                 <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
@@ -156,27 +144,49 @@ export default function SelfExamInfo() {
                   </ThemedText>
                 </ThemedView>
               ))}
-            </ThemedView>
+        
+        <ThemedView style={globalStyles.bodyContainerWhite}>
+          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+            <ThemedView style={globalStyles.whiteOverlay}>
+              {/* Info Section */}
+              <ThemedText style={globalStyles.listTitleTextExam}>
+                Signs and Symptoms
+              </ThemedText>
+              <ThemedView style={globalStyles.listContainer}>
+                {info.map((item: { id: number; key: string }) => (
+                  <ThemedView key={item.id} style={globalStyles.listItemContainer}>
+                    <ThemedText style={styles.instructionTextBold}>
+                      {item.id + 1 + "."}
+                    </ThemedText>
+                    <ThemedText style={styles.instructionText}>
+                      {t(item.key)}
+                    </ThemedText>
+                  </ThemedView>
+                ))}
+              </ThemedView>
 
-            <LearnMoreTextContainer />
+              <LearnMoreTextContainer />
 
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => router.back()}
-              >
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonNext}
-                onPress={() => router.push("/selfExam")}
-              >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-              </TouchableOpacity>
+              {/* Navigation Buttons */}
+              <ThemedView style={globalStyles.buttonBackNextContainer}>
+                <TouchableOpacity
+                  style={globalStyles.buttonBack}
+                  onPress={() => {router.dismissAll(); router.replace("/")}}
+                >
+                  <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={globalStyles.buttonNext}
+                  onPress={() => router.push("/selfExam")}
+                >
+                  <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                </TouchableOpacity>
+              </ThemedView>
+              
             </ThemedView>
-          </ThemedView>
-        </ScrollView>
+          </ScrollView>
+        </ThemedView>
+        
       </ThemedView>
     );
   }
@@ -184,10 +194,9 @@ export default function SelfExamInfo() {
 
 const styles = StyleSheet.create({
   titleText: {
-    paddingTop: 25,
+    fontSize: 24,
   },
   titleTextDarkPink: {
-    marginBottom: 15,
     paddingTop: 10,
   },
   instructionTextBold: {
