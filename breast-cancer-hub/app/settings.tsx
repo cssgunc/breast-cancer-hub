@@ -11,13 +11,14 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
-import { getSetting } from "@/hooks/useSettings";
-import { colors } from "@/components/StyleSheet";
-
-
+import { getSetting, saveSetting } from "@/hooks/useSettings";
+import { useColors } from "@/components/ColorContext";
 
 export default function SettingsScreen() {
   const router = useRouter();
+
+  const {colors, setDarkMode} = useColors();
+
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
@@ -33,8 +34,15 @@ export default function SettingsScreen() {
         "x-session-token": person.token,
         'x-user-email' : person.email,
         },
-        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, scheduling_type: "period", notification_times: '02:43:49.441286', locale: "temp"})
+        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, locale: "temp"})
+      });
+    setDarkMode(IsDarkThemeEnabled);
+    saveSetting("useTelemetry", isTelemetryEnabled).then(() => {
+      saveSetting("useDarkTheme", IsDarkThemeEnabled).then(() => {
+        saveSetting("useBackupData", isBackupEnabled);
       })
+    });
+    
   }
   
   // Pulling information from local storage
@@ -48,31 +56,155 @@ export default function SettingsScreen() {
     )
     )
     );
+
+    getSetting("useDarkTheme").then((dark) =>
+      getSetting("useTelemetry").then((telemetry) => 
+        getSetting("useBackupData").then((backup) => {
+          setIsTelemetryEnabled(telemetry);
+          setIsDarkThemeEnabled(dark);
+          setIsBackupEnabled(backup);
+        }
+        )
+      )
+    );
   }, []);
 
   const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
 
-  // API call to read user settings.
-  useEffect(() => {
-    if (person.token == "") {
-      return
-    } else {
-      fetch(`${BASE_URL}:3000/settings` + "?user_id=" + person.userId, {
-        method: "GET", 
-        headers: {
-          "x-session-token": person.token,
-          'x-user-email' : person.email,
-          }
-        })
-        .then(response => response.json())
-        .then(data => {
-          setIsTelemetryEnabled(data.settings.use_telemetry);
-          setIsDarkThemeEnabled(data.settings.use_dark_mode);
-          setIsBackupEnabled(data.settings.use_backup_data);
-        })
-        .catch(error => console.error(error));
-    }
-  }, [person.token]);
+  // API call to read user settings from database.
+  // **REPLACED WITH LOCAL STORAGE CALL**
+  // useEffect(() => {
+  //   if (person.token == "") {
+  //     return
+  //   } else {
+  //     fetch(`${BASE_URL}:3000/settings` + "?user_id=" + person.userId, {
+  //       method: "GET", 
+  //       headers: {
+  //         "x-session-token": person.token,
+  //         'x-user-email' : person.email,
+  //         }
+  //       })
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         setIsTelemetryEnabled(data.settings.use_telemetry);
+  //         setIsDarkThemeEnabled(data.settings.use_dark_mode);
+  //         setIsBackupEnabled(data.settings.use_backup_data);
+  //       })
+  //       .catch(error => console.error(error));
+  //   }
+  // }, [person.token]);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.backgroundLightGray, // Background color of the page
+    },
+    headerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingTop: "15%", 
+      paddingHorizontal: "5%",
+      marginBottom: "8%",
+    },
+    backButton: {
+      backgroundColor: colors.darkHighlight,
+      width: 40,
+      height: 40,
+      borderRadius: 20, // Makes it circular
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: 10,
+    },
+    settingsText: {
+      fontSize: 36,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+      lineHeight: 40,
+      margin: 10,
+    },
+    contentContainer: {
+      alignItems: "center",
+      paddingBottom: 50,
+    },
+    mainContainer: {
+      width: "90%",
+      backgroundColor: colors.white,
+      borderRadius: 20,
+      padding: 40,
+      // Shadow
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    userInfoContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginTop: 10,
+    },
+    userTextContainer: {
+      flex: 1,
+    },
+    userNameText: {
+      fontSize: 36,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    userEmailText: {
+      fontSize: 15,
+      color: colors.black,
+    },
+    profileIconContainer: {
+      backgroundColor: colors.mediumHighlight, //Light-ish pink used specifically for 
+      width: 60,
+      height: 60,
+      borderRadius: 30, // Circular
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    divider: {
+      height: 4,
+      backgroundColor: colors.lightHighlight,
+      width: "100%",
+      alignSelf: "center",
+      marginVertical: 30,
+    },
+    sectionContainer: {
+      marginBottom: 0,
+    },
+    sectionHeaderText: {
+      fontSize: 20,
+      color: colors.black,
+      fontWeight: "bold",
+      marginBottom: 10,
+    },
+    optionContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingVertical: 10,
+    },
+    optionText: {
+      fontSize: 15,
+      color: colors.black,
+      flex: 0.5,
+      flexWrap: "wrap",
+    },
+    saveButton: {
+      backgroundColor: colors.darkHighlight,
+      borderRadius: 30,
+      paddingVertical: 15,
+      alignItems: "center",
+      marginTop: 50,
+    },
+    saveButtonText: {
+      fontSize: 20,
+      color: colors.white,
+      fontWeight: "bold",
+    },
+  });
+  
   
   return (
     <ThemedView style={styles.container}>
@@ -103,7 +235,7 @@ export default function SettingsScreen() {
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
-              <Ionicons name="person" size={36} color={colors.darkPink} />
+              <Ionicons name="person" size={36} color={colors.darkHighlight} />
             </View>
           </View>
 
@@ -140,7 +272,7 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Telemetry</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: colors.lightPink }}
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={isTelemetryEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={colors.darkGray}
                 onValueChange={() => setIsTelemetryEnabled(!isTelemetryEnabled)}
@@ -152,7 +284,7 @@ export default function SettingsScreen() {
             <View style={styles.optionContainer}>
               <ThemedText style={styles.optionText}>Backup</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: colors.lightPink }}
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={isBackupEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={colors.darkGray}
                 onValueChange={() => setIsBackupEnabled(!isBackupEnabled)}
@@ -181,12 +313,15 @@ export default function SettingsScreen() {
 
             {/* Dark Mode */}
             <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>Dark Mode</ThemedText>
+              <ThemedText style={styles.optionText}>Dark Theme</ThemedText>
               <Switch
-                trackColor={{ false: "#767577", true: colors.lightPink }}
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={ colors.darkGray }
-                onValueChange={() => setIsDarkThemeEnabled(!IsDarkThemeEnabled)}
+                onValueChange={() => {
+                  setDarkMode(!IsDarkThemeEnabled);
+                  setIsDarkThemeEnabled(!IsDarkThemeEnabled);
+                }}
                 value={IsDarkThemeEnabled}
               />
             </View>
@@ -218,113 +353,3 @@ export default function SettingsScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundLightGray, // Background color of the page
-  },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: "15%", 
-    paddingHorizontal: "5%",
-    marginBottom: "8%",
-  },
-  backButton: {
-    backgroundColor: colors.darkPink,
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Makes it circular
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-  },
-  settingsText: {
-    fontSize: 36,
-    color: colors.darkPink,
-    fontWeight: "bold",
-    lineHeight: 40,
-    margin: 10,
-  },
-  contentContainer: {
-    alignItems: "center",
-    paddingBottom: 50,
-  },
-  mainContainer: {
-    width: "90%",
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 40,
-    // Shadow
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  userInfoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 10,
-  },
-  userTextContainer: {
-    flex: 1,
-  },
-  userNameText: {
-    fontSize: 36,
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  userEmailText: {
-    fontSize: 15,
-    color: colors.black,
-  },
-  profileIconContainer: {
-    backgroundColor: colors.mediumPink, //Light-ish pink used specifically for 
-    width: 60,
-    height: 60,
-    borderRadius: 30, // Circular
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  divider: {
-    height: 4,
-    backgroundColor: colors.lightPink,
-    width: "100%",
-    alignSelf: "center",
-    marginVertical: 30,
-  },
-  sectionContainer: {
-    marginBottom: 0,
-  },
-  sectionHeaderText: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  optionContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-  },
-  optionText: {
-    fontSize: 15,
-    color: colors.black,
-    flex: 0.5,
-    flexWrap: "wrap",
-  },
-  saveButton: {
-    backgroundColor: colors.darkPink,
-    borderRadius: 30,
-    paddingVertical: 15,
-    alignItems: "center",
-    marginTop: 50,
-  },
-  saveButtonText: {
-    fontSize: 20,
-    color: colors.white,
-    fontWeight: "bold",
-  },
-});

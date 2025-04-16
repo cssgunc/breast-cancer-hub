@@ -14,13 +14,14 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SelfExamInfo() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
+  const {colors, globalStyles} = useColors();
 
   const info_f = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
@@ -66,15 +67,33 @@ export default function SelfExamInfo() {
     getType();
   }, [t]);
 
+  const styles = StyleSheet.create({
+    titleText: {
+      fontSize: 24,
+    },
+    titleTextDarkHighlight: {
+      paddingTop: 10,
+    },
+    instructionTextBold: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    instructionText: {
+      fontSize: 16,
+      color: colors.mediumGray,
+    },
+  });
+
   if (isLoading == true) {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
             Before You Begin
           </ThemedText>
           <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
@@ -85,7 +104,7 @@ export default function SelfExamInfo() {
         <ScrollView contentContainerStyle={globalStyles.scrollContent}>
           <ThemedView style={globalStyles.whiteOverlay}>
             {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
+            <ThemedText style={[globalStyles.listTitleTextExam, {paddingBottom: 5}]}>
               Signs and Symptoms
             </ThemedText>
 
@@ -112,13 +131,13 @@ export default function SelfExamInfo() {
     );
   } else {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+        <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
+          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
             Before You Begin
           </ThemedText>
           <ThemedText style={[globalStyles.titleText, styles.titleText]}>Things to Look For</ThemedText>
@@ -128,12 +147,12 @@ export default function SelfExamInfo() {
         
         <ThemedView style={globalStyles.bodyContainerWhite}>
           <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-            <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
               {/* Info Section */}
-              <ThemedText style={globalStyles.listTitleTextExam}>
+              <ThemedText style={[globalStyles.listTitleTextExam, {paddingBottom: 5}]}>
                 Signs and Symptoms
               </ThemedText>
-              <ThemedView style={globalStyles.listContainer}>
+              <ThemedView style={[globalStyles.listContainer, {paddingVertical: 10}]}>
                 {info.map((item: { id: number; key: string }) => (
                   <ThemedView key={item.id} style={globalStyles.listItemContainer}>
                     <ThemedText style={styles.instructionTextBold}>
@@ -172,21 +191,3 @@ export default function SelfExamInfo() {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  titleText: {
-    fontSize: 24,
-  },
-  titleTextDarkPink: {
-    paddingTop: 10,
-  },
-  instructionTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.darkPink,
-  },
-  instructionText: {
-    fontSize: 16,
-    color: colors.mediumGray,
-  },
-});

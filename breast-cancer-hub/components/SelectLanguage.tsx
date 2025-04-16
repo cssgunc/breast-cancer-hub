@@ -11,7 +11,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useTranslation } from "react-i18next";
-import { colors } from "./StyleSheet";
+import { colors } from "./StyleSheet"; // Will not update with theme
 import { useEffect } from "react";
 
 const languageMap: Record<string, string> = {

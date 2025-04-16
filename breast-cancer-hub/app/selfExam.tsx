@@ -16,8 +16,8 @@ import { router, useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
-import { colors, globalStyles } from "@/components/StyleSheet";
 import StepIndicators from "@/components/StepIndicators";
+import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
 
 interface instruction {
@@ -84,6 +84,8 @@ const instructions_f = [
 
 export default function HomeScreen() {
   const router = useRouter();
+
+  const {colors, globalStyles} = useColors();
   const { t, i18n } = useTranslation();
   
   const [instructions, setInstructions] = useState([
@@ -154,10 +156,63 @@ export default function HomeScreen() {
     Math.round((Math.min(windowWidth, windowHeight) * 1) / 3)
   );
 
+  const styles = StyleSheet.create({
+    titleContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginTop: "auto",
+      padding: 10,
+      gap: 8,
+    },
+    bodyContainer: {
+      flexDirection: "column",
+      height: "100%",
+      margin: 10,
+    },
+    whiteOverlay: {
+      flexDirection: "column",
+      alignItems: "center",
+      flex: 1,
+    },
+    instructionText: {
+      color: colors.black,
+      fontSize: 16,
+      fontWeight: "bold",
+      paddingTop: 10,
+      textAlign: "center",
+    },
+    imageContainer: {
+      padding: 10,
+      borderWidth: 3,
+      borderColor: colors.black,
+      width: "60%",
+      paddingHorizontal: "5%",
+      paddingVertical: "2%",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+    textContainer: {
+      padding: 10,
+      borderWidth: 0,
+      width: "60%",
+      alignItems: "center",
+    },
+
+    buttonContainer: {
+      marginTop: "auto",
+    },
+    buttonBack: {
+      margin: 20,
+    },
+    buttonNext: {
+      margin: 20,
+    },
+  });
+
   if (isLoading) {
     console.log(instructions[0].image);
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         <AccountSettingsHeaderComponent />
 
         <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
@@ -186,7 +241,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
 
       <ScrollView contentContainerStyle={globalStyles.scrollContent}>
@@ -206,7 +261,7 @@ export default function HomeScreen() {
               {t(instructions[mapStepToIndex(currentStep)].key)}
             </Text>
           </ThemedView>
-        
+
           <ThemedView style={{flexDirection: 'column', alignContent: 'flex-end', marginTop: 'auto'}}>
 
             <StepIndicators totalSteps={6} currentStep={currentStep}/>
@@ -227,56 +282,3 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: "auto",
-    padding: 10,
-    gap: 8,
-  },
-  bodyContainer: {
-    flexDirection: "column",
-    height: "100%",
-    margin: 10,
-  },
-  whiteOverlay: {
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1,
-  },
-  instructionText: {
-    color: colors.black,
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingTop: 10,
-    textAlign: "center",
-  },
-  imageContainer: {
-    padding: 10,
-    borderWidth: 3,
-    borderColor: colors.black,
-    width: "60%",
-    paddingHorizontal: "5%",
-    paddingVertical: "2%",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-  textContainer: {
-    padding: 10,
-    borderWidth: 0,
-    width: "60%",
-    alignItems: "center",
-  },
-
-  buttonContainer: {
-    marginTop: "auto",
-  },
-  buttonBack: {
-    margin: 20,
-  },
-  buttonNext: {
-    margin: 20,
-  },
-});

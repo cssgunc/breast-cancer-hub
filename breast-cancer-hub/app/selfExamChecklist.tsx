@@ -15,7 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -23,6 +23,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
+  const {colors, globalStyles} = useColors();
 
   const info_f = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
@@ -80,14 +81,46 @@ export default function HomeScreen() {
     getType();
   }, []);
 
+  const styles = StyleSheet.create({
+    titleTextDarkHighlight: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    checkBoxContainer: {
+      flexDirection: "column",
+      justifyContent: "center"
+    },
+  
+    listTitleTextExam: {
+      marginBottom: 10,
+    },
+    listContainer: {
+      backgroundColor: "transparent",
+      marginHorizontal: 0,
+    },
+    listItemContainer: {
+      justifyContent: "space-between",
+      backgroundColor: "transparent",
+    },
+    
+    instructionText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.black,
+      maxWidth: "80%",
+      lineHeight: 20,
+    },
+    
+  });
+
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
-      <ThemedView style={globalStyles.whiteOverlay}>
-        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+      <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
+        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
           Log Your Symptoms
         </ThemedText>
         <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
@@ -102,7 +135,7 @@ export default function HomeScreen() {
       
       <ThemedView style={globalStyles.bodyContainerWhite}>
         <ScrollView contentContainerStyle={[globalStyles.scrollContent, {paddingTop: 0}]}>
-          <ThemedView style={globalStyles.whiteOverlay}>
+          <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
             {/* Info Section */}
             <ThemedText style={[globalStyles.listTitleTextExam, styles.listTitleTextExam]}>
               What did you notice?
@@ -185,35 +218,3 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleTextDarkPink: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  checkBoxContainer: {
-    flexDirection: "column",
-    justifyContent: "center"
-  },
-
-  listTitleTextExam: {
-    marginBottom: 10,
-  },
-  listContainer: {
-    backgroundColor: "transparent",
-    marginHorizontal: 0,
-  },
-  listItemContainer: {
-    justifyContent: "space-between",
-    backgroundColor: "transparent",
-  },
-  
-  instructionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.black,
-    maxWidth: "80%",
-    lineHeight: 20,
-  },
-  
-});
