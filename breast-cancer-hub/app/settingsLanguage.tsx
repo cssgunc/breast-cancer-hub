@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Switch,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -21,16 +20,21 @@ export default function LanguageScreen() {
 
   const {colors} = useColors();
 
-  const [language, setLanguage] = useState("English");
+  // const [language, setLanguage] = useState("English");
 
-  const saveSettings = async () => {
-  //saves language selection locally
-    try {
-        await saveSetting("locale", language);
-    } catch (error) {
-        console.error("Error saving language:", error);
-    }
-  }
+  // useEffect(() => {
+    
+  // }, [])
+  
+  // const saveSettings = async () => {
+  // //saves language selection locally
+  //   try {
+  //       console.log(language);
+  //       await saveSetting("locale", language);
+  //   } catch (error) {
+  //       console.error("Error saving language:", error);
+  //   }
+  // }
 
   const styles = StyleSheet.create({
     container: {
@@ -133,9 +137,9 @@ export default function LanguageScreen() {
             <View style={styles.divider} />
           <SelectLanguage></SelectLanguage>
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
+          {/* <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
             <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </ThemedView>
