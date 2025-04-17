@@ -16,6 +16,7 @@ import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHead
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { colors, globalStyles } from "@/components/StyleSheet";
+import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -79,6 +80,12 @@ export default function HomeScreen() {
 
     getType();
   }, []);
+
+  const { saveCheckup } = useCheckupStorage();
+  const saveSymptoms = async () => {
+    // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
+    await saveCheckup(isSelected);
+  };
 
   if (isLoading == true) {
     return (
@@ -219,7 +226,8 @@ export default function HomeScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.buttonNext}
-                onPress={() =>
+                onPress={() =>{
+                  saveSymptoms();
                   router.push({
                     pathname: "/selfExamNextSteps",
                     params: {
@@ -227,7 +235,7 @@ export default function HomeScreen() {
                         .map((value) => (value ? 1 : 0))
                         .toString(),
                     },
-                  })
+                  })}
                 }
               >
                 <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>

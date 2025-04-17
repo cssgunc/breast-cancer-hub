@@ -15,12 +15,14 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 
-export default function HomeScreen() {
+export default function HomeScreen({ date }: { date: string }) {
   const router = useRouter();
 
   // const [symptomData, setSymptomData] = useState<number[]>([]);
-  const [examDate, setExamDate] = useState("");
+  const [examDate, setExamDate] = useState(date);
+  const { symptoms, fetchSymptoms } = useCheckupStorage(); 
 
   const info_f = [
     { id: 0, text: "Swelling of part or all of a breast." },
@@ -85,10 +87,13 @@ export default function HomeScreen() {
       //   setExamDate(history.date);
       //   i.e. date = "2025-03-05T14:48:00.000Z" as an iso string
       // }
-      setExamDate("2025-03-05T14:48:00.000Z");
-      const symptomList = examTypeF ? info_f : info_m;
-      const n = symptomList.length;
-      const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
+      // setExamDate("2025-03-05T14:48:00.000Z");
+      if (examDate) {
+        fetchSymptoms(date);
+      }
+      // const symptomList = examTypeF ? info_f : info_m;
+      // const n = symptomList.length;
+      // const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
       setSelection(symptoms);
     };
 
