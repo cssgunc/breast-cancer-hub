@@ -11,8 +11,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { saveSetting } from "@/hooks/useSettings";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
@@ -45,11 +44,11 @@ export default function HomeScreen() {
           saveSetting("name", data.name);
           saveSetting("userId", data.userId);
           try {
-            const onboarding = await AsyncStorage.getItem("onboarding");
-            if (onboarding === null || onboarding === "false") {
-              await AsyncStorage.setItem("onboarding", "true");
+            const onboarding = await getSetting("onboarding");
+            if (onboarding === false) {
+              await saveSetting("onboarding", true);
               router.push("/onboarding");
-            } else if (onboarding === "true") {
+            } else if (onboarding === true) {
               router.push("/")
             }
           } catch (error) {

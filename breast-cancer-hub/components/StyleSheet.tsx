@@ -11,6 +11,7 @@ const lightestGray = "#D3D3D3";
 
 const backgroundGray = "#ECECEC";
 const backgroundLightGray = "#FFF7FD";
+const backgroundLightGrayPurplish = "#FAF7FF";
 
 const grayHomePageLearnMoreButton = "#D5D5D5";
 
@@ -105,7 +106,7 @@ export var darkColors = {
   lightestGray: lightestGray,
 
   backgroundGray: backgroundGray,
-  backgroundLightGray: backgroundLightGray,
+  backgroundLightGray: backgroundLightGrayPurplish,
 
   grayHomePageLearnMoreButton: grayHomePageLearnMoreButton,
 

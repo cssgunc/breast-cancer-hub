@@ -34,7 +34,7 @@ export default function SettingsScreen() {
         "x-session-token": person.token,
         'x-user-email' : person.email,
         },
-        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, locale: "temp"})
+        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId})
       });
     setDarkMode(IsDarkThemeEnabled);
     saveSetting("useTelemetry", isTelemetryEnabled).then(() => {
@@ -318,7 +318,10 @@ export default function SettingsScreen() {
                 trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={ colors.darkGray }
-                onValueChange={() => setIsDarkThemeEnabled(!IsDarkThemeEnabled)}
+                onValueChange={() => {
+                  setDarkMode(!IsDarkThemeEnabled);
+                  setIsDarkThemeEnabled(!IsDarkThemeEnabled);
+                }}
                 value={IsDarkThemeEnabled}
               />
             </View>

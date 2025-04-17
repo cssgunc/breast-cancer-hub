@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
-  Switch,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -21,17 +20,21 @@ export default function LanguageScreen() {
 
   const {colors} = useColors();
 
-  const [language, setLanguage] = useState("English");
+  // const [language, setLanguage] = useState("English");
 
-  const saveSettings = async () => {
-  //saves language selection locally
-    try {
-        await saveSetting("locale", language);
-        alert("Settings saved successfully.");
-    } catch (error) {
-        console.error("Error saving language:", error);
-    }
-  }
+  // useEffect(() => {
+    
+  // }, [])
+  
+  // const saveSettings = async () => {
+  // //saves language selection locally
+  //   try {
+  //       console.log(language);
+  //       await saveSetting("locale", language);
+  //   } catch (error) {
+  //       console.error("Error saving language:", error);
+  //   }
+  // }
 
   const styles = StyleSheet.create({
     container: {
@@ -85,41 +88,6 @@ export default function LanguageScreen() {
       fontWeight: "bold",
       marginBottom: 10,
     },
-    sectionSubText1: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: colors.black,
-      marginBottom: 15,
-    },
-    sectionSubText2: {
-      fontSize: 16,
-      fontWeight: "500",
-      color: colors.black,
-    },
-    optionBox: {
-      backgroundColor: colors.backgroundLightGray,
-      borderRadius: 10,
-      padding: 15,
-      marginBottom: 15,
-    },
-    optionHeader: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    checkboxContainer: {
-      marginRight: 10,
-    },
-    optionTitle: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-    },
-    optionDescription: {
-      fontSize: 15,
-      color: colors.mediumGray,
-      marginTop: 10,
-      lineHeight: 20,
-    },
     divider: {
       height: 4,
       backgroundColor: colors.lightHighlight,
@@ -133,56 +101,6 @@ export default function LanguageScreen() {
       fontStyle: "italic",
       fontWeight: "200",
       marginBottom: 20,
-    },
-    timeEntryBox: {
-      flexDirection: "row",
-      alignItems: "center",
-      backgroundColor: colors.backgroundLightGray,
-      borderRadius: 10,
-      padding: 15,
-      marginBottom: 10,
-    },
-    timeEntryLeft: {
-      flex: 1,
-    },
-    timeRow: {
-      flexDirection: "row",
-      alignItems: "baseline",
-    },
-    timeText: {
-      fontSize: 15,
-      color: colors.black,
-      marginRight: 5,
-    },
-    periodText: {
-      fontSize: 15,
-      color: colors.black,
-    },
-    alarmText: {
-      fontSize: 12,
-      color: colors.mediumGray,
-      marginTop: 5,
-    },
-    timeEntryRight: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    addTimeButton: {
-      flexDirection: "row",
-      alignItems: "center",
-      alignSelf: "center",
-      backgroundColor: colors.backgroundLightGray,
-      borderRadius: 25,
-      borderWidth: 1,
-      borderColor: colors.darkHighlight,
-      paddingVertical: 10,
-      paddingHorizontal: 20,
-      marginTop: 10,
-    },
-    addTimeText: {
-      fontSize: 16,
-      color: colors.darkHighlight,
-      marginLeft: 10,
     },
     saveButton: {
       backgroundColor: colors.darkHighlight,
@@ -219,9 +137,9 @@ export default function LanguageScreen() {
             <View style={styles.divider} />
           <SelectLanguage></SelectLanguage>
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
+          {/* <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
             <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </ThemedView>
