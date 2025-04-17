@@ -22,6 +22,7 @@ import { ExternalLink } from "@/components/ExternalLink";
 import { useColors } from "@/components/ColorContext";
 
 import * as Notifications from 'expo-notifications';
+import { SendNotificationOnDate } from "./notifications/notifications";
 
 type Noti = {
   id: number;
@@ -325,16 +326,18 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Alerts Introduction Line */}
 
           <TouchableOpacity style={globalStyles.buttonNext} onPress={() => {
-            Notifications.scheduleNotificationAsync({
-              content: {
-                title: 'Test notification',
-                body: "Body",
-              },
-              trigger: {
-                type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
-                seconds: 5,
-              },
-            });
+            // alert("alert set");
+            // Notifications.scheduleNotificationAsync({
+            //   content: {
+            //     title: 'Test notification',
+            //     body: "Body",
+            //   },
+            //   trigger: {
+            //     type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+            //     seconds: 5,
+            //   },
+            // });
+            SendNotificationOnDate('a', 'b', new Date(Date.now() + 5000))
           }}>
             <ThemedText>alert</ThemedText>
           </TouchableOpacity>
