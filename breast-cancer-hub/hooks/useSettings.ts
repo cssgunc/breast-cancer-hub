@@ -10,7 +10,7 @@ export type SettingsMap = {
 
   "schedulingType": {day: number} | "period"
 
-  "notificationTimes": {hour: number, minute: number}[], //using expo-notifications trigger format
+  "notificationTimes": {id: number, time: string, enabled: boolean}[], //using expo-notifications trigger format
 
   "locale": string, //using expo-localization
 
@@ -19,6 +19,8 @@ export type SettingsMap = {
   "usePushNotifications": boolean,
   "useInAppNotifications": boolean,
   "useDarkTheme" : boolean,
+
+  "onboarding" : boolean,
 }
 
 export type SettingKeys = keyof SettingsMap;
@@ -89,7 +91,8 @@ export function generateDefaultSettings(){
     useTelemetry: false,
     useDarkTheme: false,
     usePushNotifications: false,
-    useInAppNotifications: false
+    useInAppNotifications: false,
+    onboarding: false
   }
   return def
 }
