@@ -34,7 +34,7 @@ export default function SettingsScreen() {
         "x-session-token": person.token,
         'x-user-email' : person.email,
         },
-        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId, locale: "temp"})
+        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId})
       });
     setDarkMode(IsDarkThemeEnabled);
     saveSetting("useTelemetry", isTelemetryEnabled).then(() => {

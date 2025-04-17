@@ -1,13 +1,13 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { I18nManager } from "react-native";
 import translationEn from "./locales/en-US/translations.json";
 import translationEs from "./locales/es-ES/translations.json";
 import translationAs from "./locales/as-IN/translations.json";
 import translationAr from "./locales/ar-SA/translations.json";
 import translationId from "./locales/id-ID/translations.json";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 
 const resources = {
@@ -25,12 +25,10 @@ const resources = {
 
 const RTL_LANGUAGES = ["ar", "ar-SA"];
 
-const LANGUAGE_KEY = "@app_language";
-
 const initI18n = async () => {
   try {
     // Try to get saved language preference
-    const savedLanguage = await AsyncStorage.getItem(LANGUAGE_KEY);
+    const savedLanguage = await getSetting("locale");
 
     // Determine which language to use
     let selectedLanguage = savedLanguage;
@@ -80,7 +78,7 @@ const initI18n = async () => {
 
     // Save the selected language
     if (!savedLanguage) {
-      await AsyncStorage.setItem(LANGUAGE_KEY, selectedLanguage);
+      await saveSetting("locale", selectedLanguage);
     }
   } catch (error) {
     console.error("Error initializing i18n:", error);

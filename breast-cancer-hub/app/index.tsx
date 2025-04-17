@@ -48,7 +48,7 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [notifications, setNotifications] = useState<Noti[]>([]);
 
   const [name, setName] = useState<string | undefined>("");
-
+  
   useEffect(() => {
     if (props.isMenstruating === undefined) {
       getSetting("schedulingType").then((s) => {
