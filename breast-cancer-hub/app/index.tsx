@@ -21,6 +21,8 @@ import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/ExternalLink";
 import { useColors } from "@/components/ColorContext";
 
+import * as Notifications from 'expo-notifications';
+
 type Noti = {
   id: number;
   variant: "default" | "overdue" | undefined;
@@ -321,6 +323,22 @@ export default function HomeScreen(props: HomeScreenProps) {
         {/* Main Content with padding */}
         <View style={styles.mainContent}>
           {/* Alerts Introduction Line */}
+
+          <TouchableOpacity style={globalStyles.buttonNext} onPress={() => {
+            Notifications.scheduleNotificationAsync({
+              content: {
+                title: 'Test notification',
+                body: "Body",
+              },
+              trigger: {
+                type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                seconds: 5,
+              },
+            });
+          }}>
+            <ThemedText>alert</ThemedText>
+          </TouchableOpacity>
+
           <View style={styles.introLine}>
             <Ionicons
               name="notifications-outline"
