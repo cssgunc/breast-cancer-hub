@@ -6,15 +6,16 @@ import {
   useColorScheme,
   I18nManager,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Colors } from "@/constants/Colors";
 import { useTranslation } from "react-i18next";
 import { colors } from "./StyleSheet"; // Will not update with theme
 import { useEffect } from "react";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
+import { locale } from "expo-localization";
 
-const languageMap: Record<string, string> = {
+export const languageMap: Record<string, string> = {
   English: "en-US",
   Assamese: "as-IN",
   Arabic: "ar-SA",
@@ -52,13 +53,14 @@ export function SelectLanguage() {
   useEffect(() => {
     const getStoredLanguage = async () => {
       try {
-        const storedLanguageCode = await AsyncStorage.getItem("@app_language");
+        const storedLanguageCode = await getSetting("locale");
         if (storedLanguageCode) {
           const matchedLanguage = Object.keys(languageMap).find(
             (key) => languageMap[key] === storedLanguageCode
           );
           if (matchedLanguage) {
             setSelectedLanguage(matchedLanguage);
+            console.log(matchedLanguage);
           }
         }
       } catch (error) {
@@ -77,7 +79,6 @@ export function SelectLanguage() {
     if (languageCode) {
       try {
         const RTL_LANGUAGES = ["ar", "ar-SA"];
-        const LANGUAGE_KEY = "@app_language";
 
         //handles RTL layout if needed
         const isRTL = RTL_LANGUAGES.includes(languageCode);
@@ -88,7 +89,8 @@ export function SelectLanguage() {
 
         //changes the language and saves the preference
         await i18n.changeLanguage(languageCode);
-        await AsyncStorage.setItem(LANGUAGE_KEY, languageCode);
+        await saveSetting("locale", languageCode);
+        console.log(languageCode);
       } catch (error) {
         console.error("Error changing language: ", error);
       }

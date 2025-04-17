@@ -17,7 +17,7 @@ import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { store } from "expo-router/build/global-state/router-store";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -67,11 +67,12 @@ export default function HomeScreen() {
   // }
 
   useEffect(() => {
+    
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
       setExamTypeF(schedulingType === "period");
-      const LANGUAGE_KEY = "@app_language";
-      const storedLanguageCode = await AsyncStorage.getItem(LANGUAGE_KEY);
+      const storedLanguageCode = await getSetting("locale");
+      console.log(storedLanguageCode);
       if (storedLanguageCode && i18n.language !== storedLanguageCode) {
         await i18n.changeLanguage(storedLanguageCode);
       }

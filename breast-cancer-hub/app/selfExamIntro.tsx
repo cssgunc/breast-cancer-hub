@@ -2,21 +2,16 @@ import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
-  View,
-  Text,
   TouchableOpacity,
-  Linking,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function SelfExamInfo() {
   const router = useRouter();
@@ -46,13 +41,10 @@ export default function SelfExamInfo() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [examTypeF, setExamTypeF] = useState(true);
-
   useEffect(() => {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
       const isF = schedulingType === "period";
-      setExamTypeF(isF);
   
       const selectedInfo = isF ? info_f : info_m;
       const translatedInfo = selectedInfo.map((item) => ({
