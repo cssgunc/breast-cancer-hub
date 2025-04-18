@@ -92,7 +92,7 @@ export function generateDefaultSettings(){
     useDarkTheme: false,
     usePushNotifications: false,
     useInAppNotifications: false,
-    onboarding: false
+    onboarding: false,
   }
   return def
 }
