@@ -5,6 +5,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Switch,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -18,10 +19,11 @@ import { useColors } from "@/components/ColorContext";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
-  const totalSteps = 5; 
+  const totalSteps = 6; 
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const {colors, globalStyles} = useColors();
+  const {colors, globalStyles, setDarkMode} = useColors();
+  const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
 
   //scrolls to top whenever the step changes
   useEffect(() => {
@@ -160,6 +162,17 @@ export default function OnboardingScreen() {
     selectLanguages: {
       marginTop: 30,
       marginBottom: 30,
+    },
+    darkMode: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 30,
+      marginTop: 30,
+      marginBottom: 30,
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
     }
   });
 
@@ -335,7 +348,7 @@ export default function OnboardingScreen() {
           </ThemedView>
         )}
 
-        {step === 4 &&(
+        {step === 4 && (
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
@@ -354,6 +367,39 @@ export default function OnboardingScreen() {
                 <StepIndicators totalSteps={totalSteps} currentStep={step} />
                 <LearnMoreTextContainer />
               </ThemedView>
+            </ThemedView>
+        )}
+
+        {step === 5 && (
+            <ThemedView style={globalStyles.whiteOverlay}>
+              <ThemedView style={styles.background}>
+                <ThemedView style={styles.titleContainer}>
+                  <ThemedText style={globalStyles.titleText}>
+                    Choose Your
+                  </ThemedText>
+                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
+                    styles.highlightedTitleText]}>
+                    Color Theme
+                  </ThemedText>
+                  </ThemedView>
+                  <ThemedView style={globalStyles.grayLine} />
+                  <ThemedText style={styles.darkMode}>
+                    Pink
+                    <Switch
+                      trackColor={{ false: "#767577", true: colors.lightHighlight }}
+                      thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
+                      ios_backgroundColor={ colors.darkGray }
+                      onValueChange={() => {
+                        setDarkMode(!IsDarkThemeEnabled);
+                        setIsDarkThemeEnabled(!IsDarkThemeEnabled);
+                      }}
+                      value={IsDarkThemeEnabled}
+                    />
+                    Indigo
+                  </ThemedText>
+                  <StepIndicators totalSteps={totalSteps} currentStep={step} />
+                  <LearnMoreTextContainer />
+                </ThemedView>
             </ThemedView>
         )}
 
