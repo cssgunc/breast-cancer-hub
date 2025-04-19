@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   Switch,
+  Image
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -16,10 +17,11 @@ import { ExternalLink } from "@/components/ExternalLink";
 import { router } from "expo-router";
 import { SelectLanguage } from "@/components/SelectLanguage";
 import { useColors } from "@/components/ColorContext";
+import { saveSetting } from "@/hooks/useSettings";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
-  const totalSteps = 6; 
+  const totalSteps = 7; 
   const scrollViewRef = useRef<ScrollView>(null);
 
   const {colors, globalStyles, setDarkMode} = useColors();
@@ -44,6 +46,16 @@ export default function OnboardingScreen() {
       setStep(step - 1);
     }
   };
+
+  const avatarPress = async (avatarType: boolean) => {
+    try {
+      saveSetting("avatar", avatarType);
+      console.log("Saved avatar presentation");
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
 
   const styles = StyleSheet.create({
     stepOneNextContainer: {
@@ -172,6 +184,20 @@ export default function OnboardingScreen() {
       marginBottom: 30,
       fontSize: 24,
       fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    image: {
+      width: 300,
+      height: 300,
+    },
+    avatar: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 50,
+      marginTop: 15,
+      marginBottom: 15,
+      fontSize: 20,
       color: colors.darkHighlight,
     }
   });
@@ -400,6 +426,47 @@ export default function OnboardingScreen() {
                   <StepIndicators totalSteps={totalSteps} currentStep={step} />
                   <LearnMoreTextContainer />
                 </ThemedView>
+            </ThemedView>
+        )}
+        
+        {step === 6 && (
+            <ThemedView style={globalStyles.whiteOverlay}>
+              <ThemedView style={styles.background}>
+                <ThemedView style={styles.titleContainer}>
+                  <ThemedText style={globalStyles.titleText}>
+                    Choose Your
+                  </ThemedText>
+                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
+                    styles.highlightedTitleText]}>
+                    Self Examination Avatar
+                  </ThemedText>
+                </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
+              <ThemedView style={styles.avatar}>
+                <TouchableOpacity onPress={() => avatarPress(false)}>
+                  <Image
+                    source={require("../assets/images/FEMALE ART 1.jpg")}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => avatarPress(true)}>
+                  <Image
+                    source={require("../assets/images/MALE ART 1.jpg")}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+              </ThemedView>
+              <ThemedView style={styles.avatar}>
+                <ThemedText style={styles.avatar}>
+                  Female Avatar
+                </ThemedText>
+                <ThemedText style={styles.avatar}>
+                  Male Avatar
+                </ThemedText>
+              </ThemedView>
+              <StepIndicators totalSteps={totalSteps} currentStep={step} />
+              <LearnMoreTextContainer />
+              </ThemedView>
             </ThemedView>
         )}
 
