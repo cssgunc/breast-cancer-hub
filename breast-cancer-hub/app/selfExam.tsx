@@ -108,7 +108,7 @@ export default function HomeScreen() {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
       setExamTypeF(schedulingType == "period");
-      setInstructions(examTypeF ? instructions_f : instructions_m);
+      setInstructions(await getSetting("avatar") ? instructions_m : instructions_f);
       console.log(instructions);
       console.log(instructions[0].image);
       setIsLoading(false);
