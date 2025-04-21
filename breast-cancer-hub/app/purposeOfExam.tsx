@@ -13,13 +13,76 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function SelfExamInfo() {
   const router = useRouter();
+  const {colors, globalStyles} = useColors();
+
+
+  const styles = StyleSheet.create({
+    titleText: {
+      paddingTop: 25,
+    },
+    highlightedTitleText: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    noticeTitle: {
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+      marginTop: 20,
+      marginBottom: 10,
+    },
+    noticeText: {
+      fontSize: 16,
+      color: colors.black,
+      lineHeight: 24,
+    },
+    noticeText2: {
+      fontSize: 15,
+      color: colors.darkGray,
+      lineHeight: 24,
+      fontStyle: "italic",
+      marginTop: 20,
+    },
+    highlightText: {
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    boldText: {
+      fontWeight: "bold",
+      fontStyle: "italic",
+    },
+    infoText: {
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 10,
+      lineHeight: 24,
+    },
+    infoBoldText: {
+      fontWeight: "bold",
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 15,
+      lineHeight: 24,
+      marginTop: 20,
+    },
+    quotesContainer: {
+      marginVertical: 20,
+    },
+    quoteText: {
+      fontSize: 16,
+      fontStyle: "italic",
+      color: colors.darkHighlight,
+      textAlign: "center",
+      marginBottom: 10,
+    },
+  });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
@@ -27,7 +90,7 @@ export default function SelfExamInfo() {
         <ThemedView style={globalStyles.whiteOverlay}>
           {/* Page Title */}
           <ThemedText style={[globalStyles.titleText, styles.titleText]}>The Purpose of</ThemedText>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.highlightedTitleText]}>
+          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.highlightedTitleText]}>
             A Self-Exam
           </ThemedText>
 
@@ -103,64 +166,3 @@ export default function SelfExamInfo() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleText: {
-    paddingTop: 25,
-  },
-  highlightedTitleText: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  noticeTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: colors.darkPink,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  noticeText: {
-    fontSize: 16,
-    color: colors.black,
-    lineHeight: 24,
-  },
-  noticeText2: {
-    fontSize: 15,
-    color: colors.darkGray,
-    lineHeight: 24,
-    fontStyle: "italic",
-    marginTop: 20,
-  },
-  highlightText: {
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  boldText: {
-    fontWeight: "bold",
-    fontStyle: "italic",
-  },
-  infoText: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 10,
-    lineHeight: 24,
-  },
-  infoBoldText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 15,
-    lineHeight: 24,
-    marginTop: 20,
-  },
-  quotesContainer: {
-    marginVertical: 20,
-  },
-  quoteText: {
-    fontSize: 16,
-    fontStyle: "italic",
-    color: colors.darkPink,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-});
