@@ -19,6 +19,7 @@ export type SettingsMap = {
   "usePushNotifications": boolean,
   "useInAppNotifications": boolean,
   "useDarkTheme" : boolean,
+  "avatar" : boolean,
 
   "onboarding" : boolean,
 }
@@ -93,6 +94,7 @@ export function generateDefaultSettings(){
     usePushNotifications: false,
     useInAppNotifications: false,
     onboarding: false,
+    avatar: false,
   }
   return def
 }
