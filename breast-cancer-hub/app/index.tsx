@@ -101,7 +101,7 @@ export default function HomeScreen(props: HomeScreenProps) {
       alignItems: "center",
       width: "100%",
       paddingHorizontal: 20,
-      justifyContent: "space-between",
+      justifyContent: "space-around",
     },
     logoHomeContainer: {
       padding:10,
@@ -233,31 +233,42 @@ export default function HomeScreen(props: HomeScreenProps) {
     footerContainer: {
       backgroundColor: colors.darkHighlight,
       width: "100%",
-      paddingVertical: 20,
+      paddingVertical: 10,
       minHeight: "100%",
       marginBottom: -1000,
       paddingBottom: 1000,
     },
-    footerLogoContainer: {
-      width: "100%",
+    logosRow: {
       flexDirection: "row",
       justifyContent: "space-between",
       alignItems: "center",
       paddingHorizontal: 20,
-      marginVertical: 10,
+    },
+    footerLogoContainer: {
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    kurlbaumContainer: {
+      alignItems: "center",
+      justifyContent: "center",
+      height: 50,
     },
     footerLogo: {
-      width: 120,
-      height: 40,
+      width: 100,
+      height: 50,
+      resizeMode: "contain",
+    },
+    sarahCannonLogo: {
+      width: 160,
+      height: 100,
       resizeMode: "contain",
     },
     footerLogoText: {
-      fontSize: 12,
-      color: "white",
-      flex: 1,
-      textAlign: "right",
-      marginLeft: 20,
-      textDecorationLine: "underline",
+      fontSize: 10,
+      lineHeight: 10,
+      color: colors.black,
+      marginTop: 2,
+      textAlign: "center",
     },
 
     // Modal styles
@@ -484,53 +495,40 @@ export default function HomeScreen(props: HomeScreenProps) {
 
         {/* footer with logos */}
         <View style={styles.footerContainer}>
-          <ExternalLink href="https://mbcglobalalliance.org/" asChild>
-            <TouchableOpacity style={styles.footerLogoContainer}>
-              <Image
-                source={require("../assets/images/MBCGA-Logo-Stacked_real.png")}
-                style={styles.footerLogo}
-              />
-              <ThemedText style={styles.footerLogoText}>
-                Male Breast Cancer Global Alliance
-              </ThemedText>
-            </TouchableOpacity>
-          </ExternalLink>
+          <View style={styles.logosRow}>
+        
+            <ExternalLink href="https://www.facebook.com/KurlbaumIllustration/" asChild>
+              <TouchableOpacity style={styles.footerLogoContainer}>
+                <View style={styles.kurlbaumContainer}>
+                  <Image
+                    source={require("../assets/images/kurlbaum_logo_transparent.png")}
+                    style={styles.footerLogo}
+                  />
+                  <ThemedText style={styles.footerLogoText}>
+                    Kurlbaum Illustration
+                  </ThemedText>
+                </View>
+              </TouchableOpacity>
+            </ExternalLink>
 
-          <ExternalLink href="https://www.facebook.com/KurlbaumIllustration/" asChild>
-            <TouchableOpacity style={styles.footerLogoContainer}>
-              <Image
-                source={require("../assets/images/kurlbaum_logo.png")}
-                style={styles.footerLogo}
-              />
-              <ThemedText style={styles.footerLogoText}>
-                Kurlbaum Illustration
-              </ThemedText>
-            </TouchableOpacity>
-          </ExternalLink>
+            <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
+              <TouchableOpacity style={styles.footerLogoContainer}>
+                <Image
+                  source={require("../assets/images/MBCH-LOGO-transparent.png")}
+                  style={styles.footerLogo}
+                />
+              </TouchableOpacity>
+            </ExternalLink>
 
-          <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
-            <TouchableOpacity style={styles.footerLogoContainer}>
-              <Image
-                source={require("../assets/images/MBCH-LOGO.png")}
-                style={styles.footerLogo}
-              />
-              <ThemedText style={styles.footerLogoText}>
-                Male Breast Cancer Happens
-              </ThemedText>
-            </TouchableOpacity>
-          </ExternalLink>
-
-          <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
-            <TouchableOpacity style={styles.footerLogoContainer}>
-              <Image
-                source={require("../assets/images/Sarah-Cannon_HCA_stacked_logo_real.jpg")}
-                style={styles.footerLogo}
-              />
-              <ThemedText style={styles.footerLogoText}>
-                Sarah Cannon Cancer Institute
-              </ThemedText>
-            </TouchableOpacity>
-          </ExternalLink>
+            <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
+              <TouchableOpacity style={styles.footerLogoContainer}>
+                <Image
+                  source={require("../assets/images/Sarah-Cannon_transparent.png")}
+                  style={styles.sarahCannonLogo}
+                />
+              </TouchableOpacity>
+            </ExternalLink>
+          </View>
         </View>
 
       </ScrollView>
