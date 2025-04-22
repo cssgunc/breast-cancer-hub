@@ -4,22 +4,35 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getSetting } from "@/hooks/useSettings";
+import { saveSetting, getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
   const {colors} = useColors();
 
-  const [person, setPerson] = useState({ name: "", email: "" });
+  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
 
   useEffect(() => {
     getSetting("name").then((name) =>
-      getSetting("email").then((email) => {
-        setPerson({ name, email });
+      getSetting("email").then((email) => 
+        getSetting("token").then((token) => 
+          getSetting("userId").then((userId) => {
+        setPerson({ name,email,token, userId});
       })
+    )
+    )
     );
   }, []);
+
+  function logout() {
+    saveSetting("name", "");
+    saveSetting("token", "");
+    saveSetting("email", "");
+    saveSetting("userId", "");
+    router.dismissAll();
+    router.replace("/login");
+  }
 
   const styles = StyleSheet.create({
     container: {
@@ -169,7 +182,7 @@ export default function ProfileSettingsScreen() {
         </ScrollView>
 
         {/* Sign Out Button */}
-        <TouchableOpacity style={styles.signOutButton}>
+        <TouchableOpacity style={styles.signOutButton} onPress={() => logout()}>
           <ThemedText style={styles.signOutButtonText}>Sign Out</ThemedText>
         </TouchableOpacity>
       </View>
