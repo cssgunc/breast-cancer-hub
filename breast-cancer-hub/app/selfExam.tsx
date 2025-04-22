@@ -5,6 +5,9 @@ import {
   Text,
   Dimensions,
   ScrollView,
+  ImageSourcePropType,
+  useWindowDimensions,
+  ScaledSize,
 } from "react-native";
 
 import { ThemedView } from "@/components/ThemedView";
@@ -13,90 +16,80 @@ import { router, useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
-import { colors, globalStyles } from "@/components/StyleSheet";
 import StepIndicators from "@/components/StepIndicators";
+import { useColors } from "@/components/ColorContext";
+import { useTranslation } from "react-i18next";
 
-export default function HomeScreen() {
-  const router = useRouter();
+interface instruction {
+  id: number,
+  key: string,
+  image: any,
+}
 
-  const instructions_f = [
+const instructions_f = [
     {
       id: 1,
-      text: "Check your breasts in front of a mirror for any symptoms or abnormalities.",
+      key:  "CHECK_IN_MIRROR_F",
       image: require("../assets/images/FEMALE ART 1.jpg"),
     },
     {
       id: 2,
-      text: "Check your nipples carefully. Lumps may be found behind the nipple.",
+      key: "CHECK_NIPPLES_F",
       image: require("../assets/images/FEMALE ART 2.jpg"),
     },
     {
       id: 3,
-      text: "In a sitting or standing position, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
+      key: "SITTING_STANDING_F",
       image: require("../assets/images/FEMALE ART 3.jpg"),
     },
     {
       id: 4,
-      text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
+      key: "COLLARBONE_F",
       image: require("../assets/images/FEMALE ART 4.jpg"),
     },
     {
       id: 5,
-      text: "Lie down, face up, which leads to a more even distribution of your breast tissue. Repeat step 3 and 4.",
+      key: "IN_BED_F",
       image: require("../assets/images/FEMALE ART 5.png"),
-    },
-    {
-      id: 6,
-      text: "While lying face up, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/FEMALE ART 3.jpg"),
-    },
-    {
-      id: 7,
-      text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/FEMALE ART 4.jpg"),
     },
   ];
 
   const instructions_m = [
     {
       id: 1,
-      text: "Check your breasts in front of a mirror for any symptoms or abnormalities.",
+      key: "CHECK_IN_MIRROR_M",
       image: require("../assets/images/MALE ART 1.jpg"),
     },
     {
       id: 2,
-      text: "Examine the nipple. Most men find their lumps under the nipple.",
+      key: "CHECK_NIPPLES_M",
       image: require("../assets/images/MALE ART 2.jpg"),
     },
     {
       id: 3,
-      text: "In a sitting or standing position, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
+      key: "SITTING_STANDING_M",
       image: require("../assets/images/MALE ART 3.jpg"),
     },
     {
       id: 4,
-      text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
+      key: "COLLARBONE_M",
       image: require("../assets/images/MALE ART 4.jpg"),
     },
     {
       id: 5,
-      text: "Lie down, face up, which leads to a more even distribution of your breast tissue. Repeat step 3 and 4.",
+      key: "IN_BED_M",
       image: require("../assets/images/MALE ART 5.png"),
-    },
-    {
-      id: 6,
-      text: "While lying face up, use the pads of the three middle fingers. Examine using light, medium, and deep pressure. See next step.",
-      image: require("../assets/images/MALE ART 3.jpg"),
-    },
-    {
-      id: 7,
-      text: "Examining starts at the collarbone and continues down and up the entire breast in a vertical pattern.",
-      image: require("../assets/images/MALE ART 4.jpg"),
     },
   ];
 
+export default function HomeScreen() {
+  const router = useRouter();
+
+  const {colors, globalStyles} = useColors();
+  const { t, i18n } = useTranslation();
+  
   const [instructions, setInstructions] = useState([
-    { id: 1, text: "", image: require("../assets/images/BCH ribbon.png") },
+    { id: 1, key: "", image: require("../assets/images/BCH ribbon.png") },
   ]);
 
   // const [usedInstructions, setUsedInstructions] = useState({id: 1, text: "", image: require('../assets/images/BCH ribbon.png')})
@@ -109,6 +102,10 @@ export default function HomeScreen() {
 
   const [id, setId] = useState({ userId: ""});
 
+  const mapStepToIndex = (step: number) => {
+    return (step > 4) ? step - 2 : step;
+  }
+
   useEffect(() => {
     getSetting("userId").then((userId) => {
       setId({ userId});
@@ -116,28 +113,30 @@ export default function HomeScreen() {
     const getType = async () => {
       const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
       setExamTypeF(schedulingType == "period");
-      setInstructions(examTypeF ? instructions_f : instructions_m);
+      setInstructions(await getSetting("avatar") ? instructions_m : instructions_f);
+      console.log(instructions);
+      console.log(instructions[0].image);
       setIsLoading(false);
     };
 
     getType();
 
-    const handleResize = () => {
-      setImageSize(
-        Math.round((Math.min(window.innerWidth, window.innerHeight) * 1) / 3)
-      );
-    };
+    // const handleResize = () => {
+    //   setImageSize(
+    //     Math.round((Math.min(window.innerWidth, window.innerHeight) * 1) / 3)
+    //   );
+    // };
 
-    window.addEventListener("resize", handleResize);
+    // window.addEventListener("resize", handleResize);
 
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
+    // return () => {
+    //   window.removeEventListener("resize", handleResize);
+    // };
   }, []);
 
   const next = () => {
-    if (currentStep == 6) {
-      router.push("./selfExamChecklist");
+    if (currentStep == 5) {
+      router.replace("./selfExamChecklist");
     } else {
       // advance step
       setCurrentStep(currentStep + 1);
@@ -147,19 +146,78 @@ export default function HomeScreen() {
   const back = () => {
     if (currentStep == 0) {
       router.back();
+
     } else {
       // advance step
       setCurrentStep(currentStep - 1);
     }
   };
 
+  var dim : ScaledSize = useWindowDimensions();
+  var windowWidth = dim.width;
+  var windowHeight = dim.height;
+
   const [imageSize, setImageSize] = useState(
-    Math.round((Math.min(window.innerWidth, window.innerHeight) * 1) / 3)
+    Math.round((Math.min(windowWidth, windowHeight) * 1) / 3)
   );
 
+  const styles = StyleSheet.create({
+    titleContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginTop: "auto",
+      padding: 10,
+      gap: 8,
+    },
+    bodyContainer: {
+      flexDirection: "column",
+      height: "100%",
+      margin: 10,
+    },
+    whiteOverlay: {
+      flexDirection: "column",
+      alignItems: "center",
+      flex: 1,
+    },
+    instructionText: {
+      color: colors.black,
+      fontSize: 16,
+      fontWeight: "bold",
+      paddingTop: 10,
+      textAlign: "center",
+    },
+    imageContainer: {
+      padding: 10,
+      borderWidth: 3,
+      borderColor: colors.black,
+      width: "60%",
+      paddingHorizontal: "5%",
+      paddingVertical: "2%",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+    textContainer: {
+      padding: 10,
+      borderWidth: 0,
+      width: "60%",
+      alignItems: "center",
+    },
+
+    buttonContainer: {
+      marginTop: "auto",
+    },
+    buttonBack: {
+      margin: 20,
+    },
+    buttonNext: {
+      margin: 20,
+    },
+  });
+
   if (isLoading) {
+    console.log(instructions[0].image);
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         <AccountSettingsHeaderComponent />
 
         <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
@@ -171,7 +229,7 @@ export default function HomeScreen() {
           </ThemedView>
 
           <ThemedText style={styles.instructionText}>
-            {instructions[0].text}
+            {t(instructions[0].key)}
           </ThemedText>
 
           <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
@@ -188,90 +246,44 @@ export default function HomeScreen() {
   }
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
 
       <ScrollView contentContainerStyle={globalStyles.scrollContent}>
         <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
           {/* Image container */}
           <ThemedView style={styles.imageContainer}>
+            <ThemedText></ThemedText>
             <Image
-              source={instructions[currentStep].image}
+              source={instructions[mapStepToIndex(currentStep)].image}
               style={{ height: imageSize, width: imageSize, borderWidth: 0 }}
             ></Image>
+
           </ThemedView>
           {/* Text container */}
           <ThemedView style={styles.textContainer}>
             <Text style={styles.instructionText}>
-              {instructions[currentStep].text}
+              {t(instructions[mapStepToIndex(currentStep)].key)}
             </Text>
           </ThemedView>
 
-          <StepIndicators totalSteps={7} currentStep={currentStep}/>
+          <ThemedView style={{flexDirection: 'column', alignContent: 'flex-end', marginTop: 'auto'}}>
 
-          <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
-            <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
-              <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity style={[globalStyles.buttonNext, styles.buttonNext]} onPress={next}>
-              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-            </TouchableOpacity>
+            <StepIndicators totalSteps={6} currentStep={currentStep}/>
+
+            <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
+              <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
+                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+              </TouchableOpacity>
+              <TouchableOpacity style={[globalStyles.buttonNext, styles.buttonNext]} onPress={next}>
+                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+              </TouchableOpacity>
+            </ThemedView>
+
           </ThemedView>
+
         </ThemedView>
       </ScrollView>
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: "auto",
-    padding: 10,
-    gap: 8,
-  },
-  bodyContainer: {
-    flexDirection: "column",
-    height: "100%",
-    margin: 10,
-  },
-  whiteOverlay: {
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1,
-  },
-  instructionText: {
-    color: colors.black,
-    fontSize: 16,
-    fontWeight: "bold",
-    paddingTop: 10,
-    textAlign: "center",
-  },
-  imageContainer: {
-    padding: 10,
-    borderWidth: 3,
-    borderColor: colors.black,
-    width: "20%",
-    paddingHorizontal: "5%",
-    paddingVertical: "2%",
-    alignItems: "center",
-    flexDirection: "column",
-  },
-  textContainer: {
-    padding: 10,
-    borderWidth: 0,
-    width: "20%",
-    alignItems: "center",
-  },
-
-  buttonContainer: {
-    marginTop: "auto",
-  },
-  buttonBack: {
-    margin: 20,
-  },
-  buttonNext: {
-    margin: 20,
-  },
-});
