@@ -1,7 +1,7 @@
 import { View, StyleSheet, ScrollView, SafeAreaView } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 import { useEffect, useState } from "react";
 import { getSetting } from "@/hooks/useSettings";
 import CycleLog from "@/components/CycleLog";
@@ -9,31 +9,9 @@ import CycleLog from "@/components/CycleLog";
 export default function CycleHistoryPage() {
     const [loading, setLoading] = useState(true);
     const [isMenstruating, setIsMenstruating] = useState<boolean>(true);
+    const {colors, globalStyles } = useColors();
    
-    useEffect(() => {
-        getSetting("schedulingType").then((s) => {
-            setIsMenstruating(s === "period"); // assumes isMenstruating exists
-        })
-        setLoading(false);
-    })
-
-    if (loading) {
-        return <View style={[globalStyles.bodyContainerDarkPink]} />;
-    }
-    else {
-        return (
-                <SafeAreaView style={[globalStyles.bodyContainerDarkPink]}>
-                    <ThemedView style={[styles.logContainer]}>
-                        <View style={{ height: 30 }} />
-                        <ThemedText style={styles.titleText}>Cycle History</ThemedText>
-                        <CycleLog isMenstruating={isMenstruating}></CycleLog>
-                    </ThemedView>
-                </SafeAreaView>
-        );
-    }
-}
-
-const styles = StyleSheet.create({
+    const styles = StyleSheet.create({
     container: {
         backgroundColor: colors.backgroundGray,
     },
@@ -55,7 +33,7 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 32,
         fontWeight: "bold",
-        color: colors.darkPink,
+        color: colors.darkHighlight,
         lineHeight: 32,
     },
     log: {
@@ -65,3 +43,27 @@ const styles = StyleSheet.create({
         marginRight: 10,
     }
 }) 
+
+    useEffect(() => {
+        getSetting("schedulingType").then((s) => {
+            setIsMenstruating(s === "period"); // assumes isMenstruating exists
+        })
+        setLoading(false);
+    })
+
+    if (loading) {
+        return <View style={[globalStyles.bodyContainerDarkHighlight]} />;
+    }
+    else {
+        return (
+                <SafeAreaView style={[globalStyles.bodyContainerDarkHighlight]}>
+                    <ThemedView style={[styles.logContainer]}>
+                        <View style={{ height: 30 }} />
+                        <ThemedText style={styles.titleText}>Cycle History</ThemedText>
+                        <CycleLog isMenstruating={isMenstruating}></CycleLog>
+                    </ThemedView>
+                </SafeAreaView>
+        );
+    }
+
+}

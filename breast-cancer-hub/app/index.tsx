@@ -53,16 +53,16 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [name, setName] = useState<string | undefined>("");
   
   useEffect(() => {
-    //if (props.isMenstruating === undefined) {
-    getSetting("schedulingType").then((s) => {
-      setIsMenstruating(s == "period");
-    });
-    //}
-    //if (props.name === undefined) {
-    getSetting("name").then((value) => {
-      setName(value);
-    });
-    //}
+        if (props.isMenstruating === undefined) {
+      getSetting("schedulingType").then((s) => {
+        setIsMenstruating(s == "period");
+      });
+    }
+    if (props.name === undefined) {
+      getSetting("name").then((value) => {
+        setName(value);
+      });
+    }
   }, []);
 
   if (name === undefined || isMenstruating === undefined) {
@@ -180,6 +180,17 @@ export default function HomeScreen(props: HomeScreenProps) {
       color: colors.darkHighlight,
       fontWeight: "bold",
     },
+    pastExamsWidgetTitleLine: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 30,
+  },
+  pastExamsWidgetTitleText: {
+    fontSize: 20,
+    color: colors.black,
+    fontWeight: "bold",
+  },
     pastExamsText: {
       marginTop: 20,
       marginBottom: 40,
@@ -398,14 +409,14 @@ export default function HomeScreen(props: HomeScreenProps) {
           />
 
           {/* Checkup History Homepage Widget, dates must be ISO format */}
-          <View style={styles.titleLine}>
+          <View style={styles.pastExamsWidgetTitleLine}>
             <Ionicons
               name="list-outline"
               size={20}
-              color={colors.darkPink}
+              color={colors.darkHighlight}
               style={styles.icon}
             />
-            <ThemedText style={styles.titleText}>
+            <ThemedText style={styles.pastExamsWidgetTitleText}>
               {"Recent Checkups"}
             </ThemedText>
           </View>
@@ -588,225 +599,3 @@ export default function HomeScreen(props: HomeScreenProps) {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    backgroundColor: "white",
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    paddingTop: 40,
-    paddingBottom: 20,
-    flexDirection: "column",
-    alignItems: "flex-start",
-    zIndex: 1, // Ensure header stays above other content
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  headerTopRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    paddingHorizontal: 20,
-    justifyContent: "space-between",
-  },
-  logoHomeContainer: {
-    padding: 10,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  logo: {
-    width: 120,
-    height: 45,
-    marginRight: 10,
-  },
-  homeText: {
-    fontSize: 24,
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  greetingContainer: {
-    flexDirection: "row",
-    alignItems: "baseline",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingHorizontal: 20,
-  },
-  greetingText: {
-    fontSize: 29,
-    fontWeight: "bold",
-    color: colors.black,
-    lineHeight: 30,
-
-  },
-  nameText: {
-    fontSize: 29,
-    fontWeight: "bold",
-    color: colors.darkPink,
-  },
-  profileIconContainer: {
-    backgroundColor: colors.darkPink,
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  contentContainer: {
-    paddingTop: 20,
-  },
-  mainContent: {
-    paddingTop: 40,
-    paddingHorizontal: 20,
-  },
-  introLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 30,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  introText: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  noAlertsText: {
-    fontSize: 14,
-    color: "grey",
-    textAlign: "center",
-  },
-  calendarIntroText: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  customizeText: {
-    textAlign: "center",
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  pastExamsText: {
-    marginTop: 20,
-    marginBottom: 40,
-    fontSize: 16,
-    color: colors.blue,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-  titleLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 30,
-    marginTop: 30,
-  },
-  titleText: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  contactButton: {
-    marginTop: 20,
-    marginHorizontal: 100,
-    backgroundColor: colors.darkPink,
-    borderColor: colors.darkPink,
-    borderWidth: 1,
-    borderRadius: 50,
-    paddingVertical: 15,
-    alignItems: "center",
-  },
-  contactButtonText: {
-    color: colors.white,
-    fontWeight: "bold",
-  },
-  learnMoreButton: {
-    marginTop: 10,
-    marginBottom: 30,
-    marginHorizontal: 20,
-    backgroundColor: colors.white,
-    borderColor: colors.grayHomePageLearnMoreButton,
-    borderWidth: 2,
-    borderRadius: 50,
-    paddingVertical: 15,
-    alignItems: "center",
-  },
-  learnMoreButtonText: {
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-
-  // Footer with logos
-  footerContainer: {
-    backgroundColor: colors.darkPink,
-    width: "100%",
-    paddingVertical: 20,
-    minHeight: "100%",
-    marginBottom: -1000,
-    paddingBottom: 1000,
-  },
-  footerLogoContainer: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    marginVertical: 10,
-  },
-  footerLogo: {
-    width: 120,
-    height: 40,
-    resizeMode: "contain",
-  },
-  footerLogoText: {
-    fontSize: 12,
-    color: "white",
-    flex: 1,
-    textAlign: "right",
-    marginLeft: 20,
-    textDecorationLine: "underline",
-  },
-
-  // Modal styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContainer: {
-    backgroundColor: colors.white,
-    width: "80%",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-  },
-  closeButton: {
-    alignSelf: "flex-end",
-  },
-  modalTitle: {
-    fontSize: 20,
-    color: colors.darkPink,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  modalButton: {
-    backgroundColor: colors.white,
-    borderColor: colors.grayHomePageLearnMoreButton,
-    borderWidth: 1,
-    borderRadius: 50,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    width: "100%",
-    alignItems: "center",
-  },
-  modalButtonText: {
-    color: colors.blue,
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});
