@@ -27,7 +27,7 @@ export default function CustomizeExamDateScreen() {
     }, []);
 
   const handleSaveChanges = () => {
-    saveSetting("${id.userId}_schedulingType" as keyof SettingsMap, { day: examDay }).then(() =>
+    saveSetting(`${id.userId}_schedulingType` as keyof SettingsMap, { day: examDay }).then(() =>
       router.push("/")
     );
     // TODO: Save the examDay to your data store or state management

@@ -56,7 +56,7 @@ export default function HomeScreen(props: HomeScreenProps) {
       setId({ userId});
     })
     if (props.isMenstruating === undefined) {
-      getSetting("${id.userId}_schedulingType" as keyof SettingsMap).then((s) => {
+      getSetting(`${id.userId}_schedulingType` as keyof SettingsMap).then((s) => {
         setIsMenstruating(s == "period");
       });
     }

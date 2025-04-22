@@ -111,7 +111,7 @@ export default function HomeScreen() {
       setId({ userId});
     })
     const getType = async () => {
-      const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
+      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
       setExamTypeF(schedulingType == "period");
       setInstructions(await getSetting("avatar") ? instructions_m : instructions_f);
       console.log(instructions);

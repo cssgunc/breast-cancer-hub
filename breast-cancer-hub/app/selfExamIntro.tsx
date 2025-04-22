@@ -48,7 +48,7 @@ export default function SelfExamInfo() {
       setId({ userId});
     })
     const getType = async () => {
-      const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
+      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
       const isF = schedulingType === "period";
   
       const selectedInfo = isF ? info_f : info_m;

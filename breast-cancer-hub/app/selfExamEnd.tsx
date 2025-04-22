@@ -31,7 +31,7 @@ export default function HomeScreen() {
       setId({ userId});
     })
     const getType = async () => {
-      const schedulingType = await getSetting("${id.userId}_schedulingType" as keyof SettingsMap);
+      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
       if (schedulingType == "period") {
         setCheckText("Check yourself a week after your period starts.");
       } else {

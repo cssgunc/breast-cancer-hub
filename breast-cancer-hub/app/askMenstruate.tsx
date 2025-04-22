@@ -32,7 +32,7 @@ export default function MenstruationSelectionScreen() {
         return;
       }
       if (selectedOption == "menstruate") {
-        saveSetting("${id.userId}_schedulingType" as keyof SettingsMap, "period").then(() => {
+        saveSetting(`${id.userId}_schedulingType` as keyof SettingsMap, "period").then(() => {
           router.push("/");
         });
       } else {
