@@ -336,9 +336,26 @@ export default function HomeScreen(props: HomeScreenProps) {
             //     seconds: 5,
             //   },
             // });
-            ScheduleExam(new Date(Date.now() + 5000));
+            ScheduleExam(new Date(Date.now() + 1000));
           }}>
             <ThemedText>alert</ThemedText>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={globalStyles.buttonNext} onPress={() => {
+            // alert("alert set");
+            // Notifications.scheduleNotificationAsync({
+            //   content: {
+            //     title: 'Test notification',
+            //     body: "Body",
+            //   },
+            //   trigger: {
+            //     type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+            //     seconds: 5,
+            //   },
+            // });
+            router.push('/selfExamIntro');
+          }}>
+            <ThemedText>exam</ThemedText>
           </TouchableOpacity>
 
           <View style={styles.introLine}>
