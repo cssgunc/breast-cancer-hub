@@ -14,7 +14,7 @@ import {
   PeriodTimestamp,
   removePeriod,
 } from "@/hooks/usePeriodData";
-import { getSetting } from "@/hooks/useSettings";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 
 
@@ -55,12 +55,21 @@ export function CalendarComponent({
     });
   };
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
-    getSetting("schedulingType").then((type) => {
-      if (type != "period") {
-        setPeriodDay(type.day);
+    const init = async () => {
+      const userId = await getSetting("userId");
+      setId({ userId });
+
+      const type = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
+
+      console.log(type);
+      if (type !== "period") {
+        setPeriodDay((type as { day: number }).day);
       }
-    });
+    };
+    init();
   }, []);
 
   useEffect(() => {

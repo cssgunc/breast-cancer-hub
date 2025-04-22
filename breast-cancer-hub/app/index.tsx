@@ -52,21 +52,23 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [id, setId] = useState({ userId: ""});
 
   useEffect(() => {
-    getSetting("userId").then((userId) => {
-      setId({ userId});
-    })
-    if (props.isMenstruating === undefined) {
-      getSetting(`${id.userId}_schedulingType` as keyof SettingsMap).then((s) => {
-        setIsMenstruating(s == "period");
-      });
-    }
-    if (props.name === undefined) {
-      getSetting("name").then((value) => {
-        setName(value);
-      });
-    }
-  }, []);
+  const init = async () => {
+    const userId = await getSetting("userId");
+    setId({ userId });
 
+    if (props.isMenstruating === undefined) {
+      const s = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
+      setIsMenstruating(s === "period");
+    }
+
+    if (props.name === undefined) {
+      const value = await getSetting("name");
+      setName(value);
+    }
+  };
+
+  init();
+}, []);
   if (name === undefined || isMenstruating === undefined) {
     return LoadingScreen();
   }
