@@ -12,10 +12,11 @@ import { Link } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { BACKEND_URL, saveSetting } from "@/hooks/useSettings";
-import { colors } from "@/components/StyleSheet";
-import { commonLoginSignupStyles } from "./login";
+import { useColors } from "@/components/ColorContext";
 
 export default function Signup() {
+  const {colors, globalStyles} = useColors();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -24,7 +25,8 @@ export default function Signup() {
   const [name, setName] = useState(""); // New state for name input
   const [errorMessage, setErrorMessage] = useState<undefined | string>();
   const router = useRouter();
-
+  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+  
   const handleSubmit = () => {
     if (pending) return;
 
@@ -61,7 +63,7 @@ export default function Signup() {
     };
     const body = JSON.stringify(data);
 
-    fetch("http://localhost:3000/auth", {
+    fetch(`${BASE_URL}/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +85,8 @@ export default function Signup() {
         saveSetting("email", email);
         saveSetting("token", responseData.sessionToken);
         saveSetting("name", name);
-        router.push("/login")
+        saveSetting("userId", responseData.userId);
+        router.push("/login");
 
         //setErrorMessage(responseData.message);
       })
@@ -94,19 +97,61 @@ export default function Signup() {
       });
   };
 
+  const styles = StyleSheet.create({
+    scrollContainer: {
+      alignItems: "center",
+      paddingBottom: 20,
+    },
+    userInfoLabel: {
+      fontWeight: "bold",
+      fontSize: 20,
+      marginVertical: 10,
+      alignSelf: "center",
+      paddingLeft: 15,
+    },
+    errorLabel: {
+      marginVertical: 10,
+      alignSelf: "center",
+      paddingLeft: 15,
+      color: colors.darkHighlight,
+    },
+    hidden: {
+      display: "none",
+    },
+    hasAccount: {
+      flexDirection: "row",
+      alignItems: "center",
+      marginTop: 20,
+    },
+    hasAccountText: {
+      fontSize: 15,
+      color: colors.mediumGray,
+    },
+    infoContainer: {
+      alignItems: "center",
+      paddingTop: 15,
+    },
+    info: {
+      fontStyle: "italic",
+      fontSize: 15,
+      color: colors.mediumGray,
+    },
+  });
+  
+
   return (
-    <ThemedView style={commonLoginSignupStyles.bodyContainer}>
+    <ThemedView style={globalStyles.loginBodyContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={commonLoginSignupStyles.topText}>
-          <Text style={commonLoginSignupStyles.titleWelcomeText}>WELCOME</Text>
-          <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>Register in to The</Text>
-          <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titlePinkText]}>Breast Cancer Hub</Text>
-          <Text style={[commonLoginSignupStyles.titleText, commonLoginSignupStyles.titleGrayText]}>self-exam App!</Text>
+        <View style={globalStyles.loginTopText}>
+          <Text style={globalStyles.loginTitleWelcomeText}>WELCOME</Text>
+          <Text style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>Register in to The</Text>
+          <Text style={[globalStyles.loginTitleText, globalStyles.loginTitleHighlightText]}>Breast Cancer Hub</Text>
+          <Text style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>self-exam App!</Text>
         </View>
-        <View style={commonLoginSignupStyles.inputsContainer}>
-          <View style={[commonLoginSignupStyles.emailInputContainer]}>
+        <View style={globalStyles.loginInputsContainer}>
+          <View style={[globalStyles.loginEmailInputContainer]}>
             <TextInput
-              style={commonLoginSignupStyles.input}
+              style={globalStyles.loginInput}
               placeholder="Email"
               placeholderTextColor="gray"
               value={email}
@@ -115,13 +160,13 @@ export default function Signup() {
             <MaterialIcons
               name="mail"
               size={24}
-              color={colors.darkPink}
-              style={commonLoginSignupStyles.icon}
+              color={colors.darkHighlight}
+              style={globalStyles.loginIcon}
             />
           </View>
-          <View style={commonLoginSignupStyles.inputContainer}>
+          <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={commonLoginSignupStyles.passwordInput}
+              style={globalStyles.loginPasswordInput}
               placeholder="Password"
               placeholderTextColor="gray"
               value={password}
@@ -132,12 +177,12 @@ export default function Signup() {
               name="lock"
               size={24}
               color="gray"
-              style={commonLoginSignupStyles.icon}
+              style={globalStyles.loginIcon}
             />
           </View>
-          <View style={commonLoginSignupStyles.inputContainer}>
+          <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={commonLoginSignupStyles.passwordInput}
+              style={globalStyles.loginPasswordInput}
               placeholder="Confirm password"
               placeholderTextColor="gray"
               onChangeText={setConfirmPassword}
@@ -147,7 +192,7 @@ export default function Signup() {
               name="lock"
               size={24}
               color="gray"
-              style={commonLoginSignupStyles.icon}
+              style={globalStyles.loginIcon}
             />
           </View>
           <Text style={errorMessage ? styles.errorLabel : styles.hidden}>
@@ -155,9 +200,9 @@ export default function Signup() {
             {"Error: " + errorMessage}{" "}
           </Text>
           <Text style={styles.userInfoLabel}>User Information</Text>
-          <View style={commonLoginSignupStyles.inputContainer}>
+          <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={commonLoginSignupStyles.passwordInput}
+              style={globalStyles.loginPasswordInput}
               placeholder="Name"
               placeholderTextColor="gray"
               value={name}
@@ -167,20 +212,20 @@ export default function Signup() {
               name="person"
               size={24}
               color="gray"
-              style={commonLoginSignupStyles.icon}
+              style={globalStyles.loginIcon}
             />
           </View>
           <TouchableOpacity
-            style={commonLoginSignupStyles.button}
+            style={globalStyles.loginButton}
             onPress={handleSubmit}
             disabled={pending}
           >
-            <Text style={commonLoginSignupStyles.buttonText}>Sign Up</Text>
+            <Text style={globalStyles.loginButtonText}>Sign Up</Text>
           </TouchableOpacity>
           <View style={styles.hasAccount}>
             <Text style={styles.hasAccountText}>Already have an account? </Text>
             <TouchableOpacity onPress={() => router.push("/login")}>
-              <Text style={commonLoginSignupStyles.link}>Log in here</Text>
+              <Text style={globalStyles.loginLink}>Log in here</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.infoContainer}>
@@ -188,7 +233,7 @@ export default function Signup() {
               Information is collected for Dr. Lopa's team
             </Text>
             <TouchableOpacity onPress={() => router.push("/")}>
-              <Text style={commonLoginSignupStyles.link}>Learn more here</Text>
+              <Text style={globalStyles.loginLink}>Learn more here</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -196,44 +241,3 @@ export default function Signup() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollContainer: {
-    alignItems: "center",
-    paddingBottom: 20,
-  },
-  userInfoLabel: {
-    fontWeight: "bold",
-    fontSize: 20,
-    marginVertical: 10,
-    alignSelf: "center",
-    paddingLeft: 15,
-  },
-  errorLabel: {
-    marginVertical: 10,
-    alignSelf: "center",
-    paddingLeft: 15,
-    color: colors.darkPink,
-  },
-  hidden: {
-    display: "none",
-  },
-  hasAccount: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: 20,
-  },
-  hasAccountText: {
-    fontSize: 15,
-    color: colors.mediumGray,
-  },
-  infoContainer: {
-    alignItems: "center",
-    paddingTop: 15,
-  },
-  info: {
-    fontStyle: "italic",
-    fontSize: 15,
-    color: colors.mediumGray,
-  },
-});

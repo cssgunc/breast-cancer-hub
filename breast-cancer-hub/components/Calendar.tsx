@@ -15,7 +15,8 @@ import {
   removePeriod,
 } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
-import { colors } from "./StyleSheet";
+import { useColors } from "@/components/ColorContext";
+
 
 type CalendarItem = {
   p: Date;
@@ -34,10 +35,25 @@ export function CalendarComponent({
   isMenstruating,
   updateCheckupDay,
 }: CalendarComponentProps) {
+  const {colors} = useColors();
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
   const [periodDay, setPeriodDay] = useState<number>(28);
   const [_seed, setSeed] = useState(0);
+
+  // Full refresh function
+  const refreshCalendar = () => {
+    setCurrentDate(new Date());
+    setIsEditing(false);
+    setPeriodDay(28);
+    setSeed(Math.random());
+    initPeriods().then((original) => {
+      if (original) {
+        updateCheckupDay();
+      }
+    });
+  };
 
   useEffect(() => {
     getSetting("schedulingType").then((type) => {
@@ -55,6 +71,16 @@ export function CalendarComponent({
       }
     });
   }, []);
+
+  // Handle menstruation status changes
+  useEffect(() => {
+    if (isMenstruating) {
+      refreshCalendar();
+    } else {
+      setIsEditing(false);
+      setSeed(Math.random());
+    }
+  }, [isMenstruating]);
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
@@ -128,7 +154,7 @@ export function CalendarComponent({
         p,
         date: daysInPrevMonth - i,
         inCurrentMonth: false,
-        isPeriodDay: isPeriodDay(p),
+        isPeriodDay: isMenstruating && isPeriodDay(p),
         isSpecialDay: isMenstruating
           ? isCheckupDay(p)
           : startingDay - 1 === periodDay,
@@ -145,7 +171,7 @@ export function CalendarComponent({
         p,
         date: i,
         inCurrentMonth: true,
-        isPeriodDay: isPeriodDay(p),
+        isPeriodDay: isMenstruating && isPeriodDay(p),
         isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }
@@ -161,7 +187,7 @@ export function CalendarComponent({
         p,
         date: i,
         inCurrentMonth: false,
-        isPeriodDay: isPeriodDay(p),
+        isPeriodDay: isMenstruating && isPeriodDay(p),
         isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }
@@ -182,6 +208,140 @@ export function CalendarComponent({
     updateCheckupDay();
     setSeed(Math.random());
   };
+
+  const styles = StyleSheet.create({
+    footer: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingTop: 10,
+      paddingBottom: 10,
+      gap: 10,
+    },
+    container: {
+      padding: 10,
+    },
+    calendarContainer: {
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      padding: 10,
+      // iOS shadow properties
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      // Android elevation
+      elevation: 5,
+    },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingTop: 10,
+      paddingBottom: 20,
+    },
+    headerTitle: {
+      flexDirection: "row",
+      alignItems: "baseline",
+    },
+    monthText: {
+      fontSize: 18,
+      color: colors.black,
+      fontWeight: "bold",
+    },
+    yearText: {
+      fontSize: 18,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    weekDaysContainer: {
+      flexDirection: "row",
+      marginTop: 10,
+      marginBottom: 10,
+    },
+    weekDayText: {
+      width: "14.28%",
+      textAlign: "center",
+      color: colors.darkHighlight,
+    },
+    daysContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      paddingBottom: 20,
+    },
+    dayContainer: {
+      width: "14.28%",
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 10,
+    },
+    dayWrapper: {
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    editModeDayWrapper: {
+      borderWidth: 2,
+      borderColor: colors.black,
+      borderStyle: "dotted",
+      borderRadius: 25,
+      width: 43,
+      height: 43,
+    },
+    dayText: {
+      color: colors.black,
+    },
+    greyDayText: {
+      color: "grey",
+    },
+    periodDayCircle: {
+      backgroundColor: colors.darkHighlight,
+      borderWidth: 2,
+      borderColor: colors.darkestHighlight,
+      borderRadius: 25,
+      width: 43,
+      height: 43,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    periodDayText: {
+      color: colors.white,
+    },
+    specialDayCircle: {
+      backgroundColor: colors.blue,
+      borderWidth: 2,
+      borderColor: "#1A74AD", //dark blue?
+      borderRadius: 25,
+      width: 43,
+      height: 43,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    specialDayText: {
+      fontWeight: "bold",
+      color: colors.black,
+    },
+    logPeriodButton: {
+      alignSelf: "center",
+      backgroundColor: colors.white,
+      borderColor: colors.darkHighlight,
+      borderWidth: 2,
+      borderRadius: 25,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      width: "50%",
+    },
+    logPeriodButtonText: {
+      textAlign: "center",
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    cannotLogPeriodText: {
+      marginTop: 10,
+      fontSize: 12,
+      color: "grey",
+      textAlign: "center",
+    },
+  });
 
   return (
     <ThemedView style={styles.container}>
@@ -291,137 +451,3 @@ export function CalendarComponent({
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  footer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    paddingTop: 10,
-    paddingBottom: 10,
-    gap: 10,
-  },
-  container: {
-    padding: 10,
-  },
-  calendarContainer: {
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    padding: 10,
-    // iOS shadow properties
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    // Android elevation
-    elevation: 5,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
-  headerTitle: {
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
-  monthText: {
-    fontSize: 18,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  yearText: {
-    fontSize: 18,
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  weekDaysContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  weekDayText: {
-    width: "14.28%",
-    textAlign: "center",
-    color: colors.darkPink,
-  },
-  daysContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingBottom: 20,
-  },
-  dayContainer: {
-    width: "14.28%",
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-  },
-  dayWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  editModeDayWrapper: {
-    borderWidth: 2,
-    borderColor: colors.black,
-    borderStyle: "dotted",
-    borderRadius: 25,
-    width: 43,
-    height: 43,
-  },
-  dayText: {
-    color: colors.black,
-  },
-  greyDayText: {
-    color: "grey",
-  },
-  periodDayCircle: {
-    backgroundColor: colors.darkPink,
-    borderWidth: 2,
-    borderColor: colors.darkestPink,
-    borderRadius: 25,
-    width: 43,
-    height: 43,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  periodDayText: {
-    color: colors.white,
-  },
-  specialDayCircle: {
-    backgroundColor: colors.blue,
-    borderWidth: 2,
-    borderColor: "#1A74AD", //dark blue?
-    borderRadius: 25,
-    width: 43,
-    height: 43,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  specialDayText: {
-    fontWeight: "bold",
-    color: colors.black,
-  },
-  logPeriodButton: {
-    alignSelf: "center",
-    backgroundColor: colors.white,
-    borderColor: colors.darkPink,
-    borderWidth: 2,
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: "50%",
-  },
-  logPeriodButtonText: {
-    textAlign: "center",
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  cannotLogPeriodText: {
-    marginTop: 10,
-    fontSize: 12,
-    color: "grey",
-    textAlign: "center",
-  },
-});

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
-import { colors } from "./StyleSheet";
+import { colors } from "./StyleSheet"; // Will not update with theme
 
 const LoadingScreen = () => {
   return (
