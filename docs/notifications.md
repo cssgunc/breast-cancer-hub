@@ -22,6 +22,4 @@ The icon displayed on the notification is currently set to the BCH ribbon, in `a
     },
 ```
 
-The app must also set up a channel for notifications. in `registerNotifications`. Currently it's only set up for Android.
-
-It should prompt the user to grant it notification permissions if it doesn't already have them.
+The app must also set up a channel for notifications and request permissions in `registerNotifications`. It should prompt the user to grant it notification permissions if it doesn't already have them.
