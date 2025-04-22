@@ -19,7 +19,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "org.breastcancerhub.breastselfexam"
     },
     "web": {
       "bundler": "metro",
@@ -42,6 +43,7 @@
       "eas": {
         "projectId": "e205e506-b786-4d68-897e-8fb4c3cc6142"
       }
-    }
+    },
+    "owner": "cssg"
   }
 }
