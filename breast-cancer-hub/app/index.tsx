@@ -19,6 +19,9 @@ import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/ExternalLink";
+import CheckupWidget from "@/components/CheckupWidget";
+import CycleHistoryPage from "@/app/cycleHistory";
+import CycleLog from "@/components/CycleLog";
 import { useColors } from "@/components/ColorContext";
 
 type Noti = {
@@ -50,7 +53,7 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [name, setName] = useState<string | undefined>("");
   
   useEffect(() => {
-    if (props.isMenstruating === undefined) {
+        if (props.isMenstruating === undefined) {
       getSetting("schedulingType").then((s) => {
         setIsMenstruating(s == "period");
       });
@@ -177,6 +180,17 @@ export default function HomeScreen(props: HomeScreenProps) {
       color: colors.darkHighlight,
       fontWeight: "bold",
     },
+    pastExamsWidgetTitleLine: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 30,
+    marginTop: 30,
+  },
+  pastExamsWidgetTitleText: {
+    fontSize: 20,
+    color: colors.black,
+    fontWeight: "bold",
+  },
     pastExamsText: {
       marginTop: 20,
       marginBottom: 40,
@@ -317,7 +331,7 @@ export default function HomeScreen(props: HomeScreenProps) {
       </View>
 
       {/* Content */}
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
         {/* Main Content with padding */}
         <View style={styles.mainContent}>
           {/* Alerts Introduction Line */}
@@ -394,12 +408,47 @@ export default function HomeScreen(props: HomeScreenProps) {
 
           />
 
-          {/* View Past Examinations */}
-          <TouchableOpacity>
-            <ThemedText style={styles.pastExamsText}>
-              View your past examinations here
+          {/* Checkup History Homepage Widget, dates must be ISO format */}
+          <View style={styles.pastExamsWidgetTitleLine}>
+            <Ionicons
+              name="list-outline"
+              size={20}
+              color={colors.darkHighlight}
+              style={styles.icon}
+            />
+            <ThemedText style={styles.pastExamsWidgetTitleText}>
+              {"Recent Checkups"}
             </ThemedText>
-          </TouchableOpacity>
+          </View>
+          <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10}}>
+            <CycleLog limit={4} isMenstruating={isMenstruating} />
+            <TouchableOpacity
+              onPress={() => router.push("/cycleHistory")}
+              style={{
+                alignItems: "center",
+              }}>
+              <ThemedText style={styles.pastExamsText}>
+                View your past examinations here
+              </ThemedText>
+            </TouchableOpacity>
+          </View>
+          {/* { isMenstruating ?
+            (
+              <CheckupWidget
+                isMenstruating={isMenstruating}
+                startDate="2025-03-04T00:00:00Z"
+                endDate="2025-03-10T00:00:00Z"
+                completedDate="2025-03-17T00:00:00Z"
+              />
+            ) : (
+              <CheckupWidget
+                isMenstruating={isMenstruating}
+                completedDate="2025-03-17T00:00:00Z"
+              />
+            )
+
+          } */}
+
 
           {/* Debug */}
           <TouchableOpacity
@@ -550,4 +599,3 @@ export default function HomeScreen(props: HomeScreenProps) {
     </ThemedView>
   );
 }
-
