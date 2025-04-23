@@ -20,6 +20,8 @@ import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { colors, globalStyles } from "@/components/StyleSheet";
 import { ExternalLink } from "@/components/ExternalLink";
+import { Dimensions } from "react-native";
+const { width: screenWidth } = Dimensions.get("window");
 
 type Noti = {
   id: number;
@@ -85,7 +87,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Logo and Home */}
           <View style={styles.logoHomeContainer}>
             <Image
-              source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
+              source={require("../assets/images/bch_logo_with_bch_wings_cancer_hubs_720.png")}
               style={styles.logo}
             />
           </View>
@@ -359,18 +361,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: "100%",
-    paddingHorizontal: 20,
+    paddingHorizontal:20,
     justifyContent: "space-between",
   },
   logoHomeContainer: {
-    padding:10,
     flexDirection: "row",
     alignItems: "center",
   },
   logo: {
-    width: 120,
-    height: 45,
-    marginRight: 10,
+    width: screenWidth * 0.3, 
+    height: screenWidth * 0.3, 
+    resizeMode: 'contain', 
   },
   homeText: {
     fontSize: 24,
