@@ -21,8 +21,9 @@ import { saveSetting } from "@/hooks/useSettings";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
-  const totalSteps = 7; 
+  const totalSteps = 8; 
   const scrollViewRef = useRef<ScrollView>(null);
+  const [telemetryEnabled, setTelemetryEnabled] = useState(false);
 
   const {colors, globalStyles, setDarkMode} = useColors();
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
@@ -36,12 +37,14 @@ export default function OnboardingScreen() {
 
   //TODO: Upon pressing back or next, scroll to top of screen
   const handleNext = () => {
+    saveSetting("useTelemetry", telemetryEnabled);
     if (step < totalSteps - 1) {
       setStep(step + 1);
     }
   };
 
   const handleBack = () => {
+    saveSetting("useTelemetry", telemetryEnabled)
     if (step > 0) {
       setStep(step - 1);
     }
@@ -169,7 +172,7 @@ export default function OnboardingScreen() {
       marginRight: 30
     },
     linkText: {
-      color: colors.blue
+      color: colors.blue,
     },
     selectLanguages: {
       marginTop: 30,
@@ -199,7 +202,30 @@ export default function OnboardingScreen() {
       marginBottom: 15,
       fontSize: 20,
       color: colors.darkHighlight,
-    }
+    },
+    toggleContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 10,
+      paddingVertical: 10,
+      backgroundColor: colors.white,
+      borderColor: colors.mediumGray,
+      borderWidth: 1,
+      borderRadius: 30,
+      marginTop: 20,
+
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    optionText: {
+      fontSize: 14,
+      fontWeight: "600",
+      color: colors.darkGray,
+    },
   });
 
   return (
@@ -375,6 +401,43 @@ export default function OnboardingScreen() {
         )}
 
         {step === 4 && (
+          // Step 4 (NEW): Telemetry consent page (placeholder text)
+          <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={styles.background}>
+              <ThemedView style={styles.titleContainer}>
+                <ThemedText style={globalStyles.titleText}>
+                  Telemetry & Data
+                </ThemedText>
+                <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.highlightedTitleText]}>
+                  Collection
+                </ThemedText>
+              </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
+              <ThemedText style={styles.paragraphText}>
+                {/* Placeholder content — adapt as needed */}
+                We would like to collect limited, anonymous usage data to help
+                us improve this app and provide a better experience. Your data
+                will remain private, and you can opt out at any time.
+              </ThemedText>
+              <View style={styles.toggleContainer}>
+                <ThemedText style={styles.optionText}>
+                  {telemetryEnabled ? "Currently Opted In" : "Currently Opted Out"}
+                </ThemedText>
+                <Switch
+                  trackColor={{ false: "#767577", true: colors.lightHighlight }}
+                  thumbColor={telemetryEnabled ? colors.white : "#f4f3f4"}
+                  ios_backgroundColor={colors.darkGray}
+                  onValueChange={() => setTelemetryEnabled(!telemetryEnabled)}
+                  value={telemetryEnabled}
+                />
+              </View>
+              <StepIndicators totalSteps={totalSteps} currentStep={step} />
+              <LearnMoreTextContainer />
+            </ThemedView>
+          </ThemedView>
+        )}
+
+        {step === 5 && (
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
@@ -396,7 +459,7 @@ export default function OnboardingScreen() {
             </ThemedView>
         )}
 
-        {step === 5 && (
+        {step === 6 && (
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
@@ -429,7 +492,7 @@ export default function OnboardingScreen() {
             </ThemedView>
         )}
         
-        {step === 6 && (
+        {step === 7 && (
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,16 +11,23 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { saveSetting } from "@/hooks/useSettings";
+import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
   const {colors} = useColors();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
+  const [id, setId] = useState({ userId: ""});
+
+  useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
+    }, []);
 
   const handleSaveChanges = () => {
-    saveSetting("schedulingType", { day: examDay }).then(() =>
+    saveSetting(`${id.userId}_schedulingType` as keyof SettingsMap, { day: examDay }).then(() =>
       router.push("/")
     );
     // TODO: Save the examDay to your data store or state management

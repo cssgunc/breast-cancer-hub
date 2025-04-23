@@ -13,7 +13,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../hooks/useSettings";
+import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/ColorContext";
@@ -67,10 +67,14 @@ export default function HomeScreen() {
   //   console.log(examTypeF);
   // }
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
-    
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
+      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
       setExamTypeF(schedulingType === "period");
       const storedLanguageCode = await getSetting("locale");
       console.log(storedLanguageCode);
