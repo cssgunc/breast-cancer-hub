@@ -16,7 +16,7 @@ import { CalendarComponent } from "@/components/Calendar"; // Ensure this path i
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
-import { getSetting } from "@/hooks/useSettings";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/ExternalLink";
 import CheckupWidget from "@/components/CheckupWidget";
@@ -51,20 +51,27 @@ export default function HomeScreen(props: HomeScreenProps) {
   const [notifications, setNotifications] = useState<Noti[]>([]);
 
   const [name, setName] = useState<string | undefined>("");
-  
-  useEffect(() => {
-        if (props.isMenstruating === undefined) {
-      getSetting("schedulingType").then((s) => {
-        setIsMenstruating(s == "period");
-      });
-    }
-    if (props.name === undefined) {
-      getSetting("name").then((value) => {
-        setName(value);
-      });
-    }
-  }, []);
 
+  const [id, setId] = useState({ userId: ""});
+
+  useEffect(() => {
+  const init = async () => {
+    const userId = await getSetting("userId");
+    setId({ userId });
+
+    if (props.isMenstruating === undefined) {
+      const s = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
+      setIsMenstruating(s === "period");
+    }
+
+    if (props.name === undefined) {
+      const value = await getSetting("name");
+      setName(value);
+    }
+  };
+
+  init();
+}, []);
   if (name === undefined || isMenstruating === undefined) {
     return LoadingScreen();
   }
@@ -399,6 +406,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Calendar Component */}
           <CalendarComponent
             isMenstruating={isMenstruating}
+            userId={id.userId}
             updateCheckupDay={() => {
               const ts = getCheckupDay();
               if (ts) {
