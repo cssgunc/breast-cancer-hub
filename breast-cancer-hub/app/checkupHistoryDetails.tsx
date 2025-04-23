@@ -15,43 +15,43 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/ColorContext";
 
-const info_f = [
-  { id: 0, text: "Swelling of part or all of a breast." },
-  {
-    id: 1,
-    text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
-  },
-  { id: 2, text: "Breast or nipple pain." },
-  { id: 3, text: "Nipple retraction (turning inward)" },
-  {
-    id: 4,
-    text: "Redness, scaliness, or thickening of the nipples or breast skin",
-  },
-  { id: 5, text: "Nipple discharge (other than breast milk)" },
-];
-
-const info_m = [
-  { id: 0, text: "A painless lump or thickening in your breast tissue." },
-  {
-    id: 1,
-    text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
-  },
-  {
-    id: 2,
-    text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-  },
-  { id: 3, text: "Discharge from your nipple." },
-];
-
-export default function HomeScreen() {
+export default function HomeScreen({ date }: { date: string }) {
   const router = useRouter();
   const {colors, globalStyles} = useColors();
   // const [symptomData, setSymptomData] = useState<number[]>([]);
-  const [examDate, setExamDate] = useState("");
+  const [examDate, setExamDate] = useState(date);
+  const { symptoms, fetchSymptoms } = useCheckupStorage(); 
 
+  const info_f = [
+    { id: 0, text: "Swelling of part or all of a breast." },
+    {
+      id: 1,
+      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
+    },
+    { id: 2, text: "Breast or nipple pain." },
+    { id: 3, text: "Nipple retraction (turning inward)" },
+    {
+      id: 4,
+      text: "Redness, scaliness, or thickening of the nipples or breast skin",
+    },
+    { id: 5, text: "Nipple discharge (other than breast milk)" },
+  ];
 
+  const info_m = [
+    { id: 0, text: "A painless lump or thickening in your breast tissue." },
+    {
+      id: 1,
+      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
+    },
+    {
+      id: 2,
+      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
+    },
+    { id: 3, text: "Discharge from your nipple." },
+  ];
 
   const [isSelected, setSelection] = useState([
     false,
@@ -93,10 +93,13 @@ export default function HomeScreen() {
       //   setExamDate(history.date);
       //   i.e. date = "2025-03-05T14:48:00.000Z" as an iso string
       // }
-      setExamDate("2025-03-05T14:48:00.000Z");
-      const symptomList = examTypeF ? info_f : info_m;
-      const n = symptomList.length;
-      const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
+      // setExamDate("2025-03-05T14:48:00.000Z");
+      if (examDate) {
+        fetchSymptoms(date);
+      }
+      // const symptomList = examTypeF ? info_f : info_m;
+      // const n = symptomList.length;
+      // const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
       setSelection(symptoms);
     };
 
@@ -113,86 +116,6 @@ export default function HomeScreen() {
     });
   };
 
-  const styles = StyleSheet.create({
-    iconWrapper: {
-      backgroundColor: colors.lightHighlight,
-      borderRadius: 30,
-      padding: 8,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    titleText: {
-      fontSize: 24,
-      fontWeight: "bold",
-      color: colors.black,
-    },
-    highlightedTitleText: {
-      fontSize: 32,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-      marginBottom: 15,
-      paddingTop: 10,
-    },
-    subtitleText: {
-      fontSize: 24,
-      fontWeight: "bold",
-      color: colors.black,
-      marginTop: 20,
-      marginBottom: 10,
-    },
-    checkBoxContainer: {
-      flexDirection: "column",
-      marginBottom: 20,
-      alignContent: "center",
-      alignItems: "flex-end",
-      marginTop: 5,
-    },
-    listContainer: {
-      backgroundColor: "transparent",
-      width: 315,
-    },
-    listItemContainer: {
-      flexDirection: "row",
-      columnGap: 20,
-      textAlign: "left",
-      justifyContent: "space-between",
-      alignItems: "center",
-      paddingHorizontal: 20,
-      paddingVertical: 10,
-      backgroundColor: "transparent",
-    },
-    instructionTextBold: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-    },
-    instructionText: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: colors.black,
-      maxWidth: "80%",
-    },
-    infoSourceText: {
-      fontSize: 12,
-      color: colors.lightGray,
-      marginTop: 20,
-      fontStyle: "italic",
-    },
-    learnMoreText: {
-      fontSize: 12,
-      color: colors.blue,
-      fontWeight: "bold",
-    },
-    learnMoreTextContainer: {
-      alignItems: "center",
-    },
-    buttonNext: {
-      backgroundColor: colors.darkHighlight,
-      borderColor: colors.darkHighlight,
-    },
-  });
-  
-
   if (isLoading == true) {
     return (
       <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
@@ -201,11 +124,11 @@ export default function HomeScreen() {
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={styles.highlightedTitleText}>
+          <ThemedText style={globalStyles.titleTextDarkHighlight}>
             Checkup History
           </ThemedText>
 
-          <ThemedText style={styles.titleText}>{formatDate(examDate)}</ThemedText>
+          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
 
@@ -233,7 +156,7 @@ export default function HomeScreen() {
                 <ThemedText style={globalStyles.buttonTextBack}>Back to Home</ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[globalStyles.buttonNext, styles.buttonNext]}
+                style={globalStyles.buttonNext}
                 onPress={() =>
                   router.push({
                     pathname: "/selfExamNextSteps",
@@ -252,16 +175,16 @@ export default function HomeScreen() {
     );
   } else {
     return (
-      <ThemedView style={globalStyles.container}>
+      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={styles.highlightedTitleText}>
+          <ThemedText style={globalStyles.titleTextDarkHighlight}>
             Checkup History
           </ThemedText>
-          <ThemedText style={styles.titleText}>{formatDate(examDate)}</ThemedText>
+          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
 
@@ -326,7 +249,7 @@ export default function HomeScreen() {
                 </ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[globalStyles.buttonNext, styles.buttonNext]}
+                style={globalStyles.buttonNext}
                 onPress={() =>
                   router.push({
                     pathname: "/selfExamNextSteps",
@@ -347,3 +270,61 @@ export default function HomeScreen() {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  iconWrapper: {
+    backgroundColor: "#EFCEE6",
+    borderRadius: 30,
+    padding: 8,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  subtitleText: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#000000",
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  checkBoxContainer: {
+    flexDirection: "column",
+    marginBottom: 20,
+    alignContent: "center",
+    alignItems: "flex-end",
+    marginTop: 5,
+  },
+  listContainer: {
+    backgroundColor: "transparent",
+    width: 315,
+  },
+  listItemContainer: {
+    flexDirection: "row",
+    columnGap: 20,
+    textAlign: "left",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    backgroundColor: "transparent",
+  },
+  instructionText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
+    maxWidth: "80%",
+  },
+  infoSourceText: {
+    fontSize: 12,
+    color: "#999999",
+    marginTop: 20,
+    fontStyle: "italic",
+  },
+  learnMoreText: {
+    fontSize: 12,
+    color: "#68C4FF",
+    fontWeight: "bold",
+  },
+  learnMoreTextContainer: {
+    alignItems: "center",
+  },
+});

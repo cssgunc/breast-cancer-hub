@@ -15,6 +15,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
 import { store } from "expo-router/build/global-state/router-store";
@@ -86,7 +87,7 @@ export default function HomeScreen() {
     getType();
   }, []);
 
-  const styles = StyleSheet.create({
+   const styles = StyleSheet.create({
     titleTextDarkHighlight: {
       marginBottom: 15,
       paddingTop: 10,
@@ -118,7 +119,13 @@ export default function HomeScreen() {
     
   });
 
-  return (
+  const { saveCheckup } = useCheckupStorage();
+  const saveSymptoms = async () => {
+    // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
+    await saveCheckup(isSelected);
+  };
+
+    return (
     <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
@@ -202,7 +209,8 @@ export default function HomeScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.buttonNext}
-                onPress={() =>
+                onPress={() =>{
+                  saveSymptoms();
                   router.push({
                     pathname: "/selfExamNextSteps",
                     params: {
@@ -210,7 +218,7 @@ export default function HomeScreen() {
                         .map((value) => (value ? 1 : 0))
                         .toString(),
                     },
-                  })
+                  })}
                 }
               >
                 <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
