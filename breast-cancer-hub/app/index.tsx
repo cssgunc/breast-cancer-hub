@@ -381,6 +381,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Calendar Component */}
           <CalendarComponent
             isMenstruating={isMenstruating}
+            userId={id.userId}
             updateCheckupDay={() => {
               const ts = getCheckupDay();
               if (ts) {

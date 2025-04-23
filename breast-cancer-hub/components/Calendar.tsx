@@ -5,7 +5,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import {
   addPeriod,
-  GLOBAL_PERIOD_DATA,
   initPeriods,
   isCheckupDay,
   isPeriodDay,
@@ -29,11 +28,13 @@ type CalendarItem = {
 interface CalendarComponentProps {
   isMenstruating: boolean;
   updateCheckupDay: () => void;
+  userId: string;
 }
 
 export function CalendarComponent({
   isMenstruating,
   updateCheckupDay,
+  userId,
 }: CalendarComponentProps) {
   const {colors} = useColors();
 
@@ -55,17 +56,12 @@ export function CalendarComponent({
     });
   };
 
-  const [id, setId] = useState({ userId: ""});
-
   useEffect(() => {
     const init = async () => {
-      const userId = await getSetting("userId");
-      setId({ userId });
-
       const type = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
 
       console.log(type);
-      if (type !== "period") {
+      if (type !== "period" && type != null) {
         setPeriodDay((type as { day: number }).day);
       }
     };

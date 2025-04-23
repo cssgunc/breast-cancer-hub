@@ -4,7 +4,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
-import { GLOBAL_PERIOD_DATA, initPeriods } from "@/hooks/usePeriodData";
+import { initPeriods } from "@/hooks/usePeriodData"
 import { useColors } from "@/components/ColorContext";
 
 export default function MenstruationSelectionScreen() {

@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
+import { getSetting } from "./useSettings";
 
 export const OrderedMonthNames: MonthName[] = [
   "January",
@@ -64,22 +65,19 @@ export type PeriodTimestamp = {
 
 const periodTimetampsKey = "periodTimestamps";
 
-let PERIODS_FETCHED = false;
-
 export async function initPeriods(): Promise<boolean> {
-  if (PERIODS_FETCHED) return false;
   let res;
+  let userId = await getSetting("userId");
   if (Platform.OS === "web") {
-    res = await AsyncStorage.getItem(periodTimetampsKey);
+    res = await AsyncStorage.getItem(`${userId}_periodTimetampsKey`);
   } else {
-    res = await SecureStore.getItemAsync(periodTimetampsKey);
+    res = await SecureStore.getItemAsync(`${userId}_periodTimetampsKey`);
   }
   if (res) {
     GLOBAL_PERIOD_DATA = JSON.parse(res);
     return true;
   }
   GLOBAL_PERIOD_DATA = [];
-  PERIODS_FETCHED = true;
   return false;
 }
 
@@ -126,14 +124,15 @@ export function removePeriod(p: Date) {
 }
 
 export async function savePeriods() {
+  let userId = await getSetting("userId");
   if (Platform.OS === "web") {
     await AsyncStorage.setItem(
-      periodTimetampsKey,
+      `${userId}_periodTimetampsKey`,
       JSON.stringify(GLOBAL_PERIOD_DATA)
     );
   } else {
     await SecureStore.setItemAsync(
-      periodTimetampsKey,
+      `${userId}_periodTimetampsKey`,
       JSON.stringify(GLOBAL_PERIOD_DATA)
     );
   }
@@ -164,4 +163,4 @@ export function getCheckupDay(): PeriodTimestamp | undefined {
   return GLOBAL_PERIOD_DATA[GLOBAL_PERIOD_DATA.length - 1];
 }
 
-export let GLOBAL_PERIOD_DATA: PeriodTimestamp[] = [];
+let GLOBAL_PERIOD_DATA: PeriodTimestamp[] = [];
