@@ -6,14 +6,14 @@ import { colors } from "./StyleSheet";
 
 interface CheckupWidgetMenstruateProps {
     isMenstruating: boolean;
-    startDate: string;
-    endDate: string;
-    completedDate: string;
+    // startDate: string;
+    // endDate: string;
+    date: string;
 }
 
 interface CheckupWidgetNoMenstruateProps {
     isMenstruating: boolean;
-    completedDate: string;
+    date: string;
 }
 
 export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruateProps | CheckupWidgetNoMenstruateProps) {
@@ -23,16 +23,19 @@ export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruat
     // const dateEnd = new Date(endDate);
     // const dateComplete = new Date(completedDate);
 
-    var startDate : Date = new Date(0);
-    var endDate : Date = new Date(0);
-    var length;
+    // var startDate : Date = new Date(0);
+    // var endDate : Date = new Date(0);
+    // var length;
 
-    if (checkupWidgetProps.isMenstruating) {
-        startDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).startDate);
-        endDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).endDate);
-        length = length = Math.ceil((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24))*-1;
-    }
-    const completedDate = new Date(checkupWidgetProps.completedDate);
+    // if (checkupWidgetProps.isMenstruating) {
+    //     startDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).startDate);
+    //     endDate = new Date((checkupWidgetProps as CheckupWidgetMenstruateProps).endDate);
+    //     length = length = Math.ceil((startDate.getTime() - endDate.getTime()) / (1000 * 60 * 60 * 24))*-1;
+    // }
+
+    // the date prop should be formatted as YYYY-MM-DD, NOT AS ISO string
+    const date = checkupWidgetProps.date;
+    const completedDate = new Date(checkupWidgetProps.date);
 
     console.log(checkupWidgetProps.isMenstruating);
 
@@ -40,14 +43,14 @@ export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruat
         <ThemedView>
             {checkupWidgetProps.isMenstruating ? (
                 <ThemedView style={[styles.card]}>
-                    
-                    <ThemedText style={styles.periodText}>
+
+                    {/* <ThemedText style={styles.periodText}>
                         {formatDate(startDate)} - {formatDate(endDate)} ({length} days)
-                    </ThemedText>
+                    </ThemedText> */}
                     <ThemedText style={styles.completedText}>Checkup completed: {formatDate(completedDate)}</ThemedText>
                     <TouchableOpacity
                         // will eventually push to symptom checklist for specific date 
-                        onPress={() => router.push(`/selfExamChecklist`)}>
+                        onPress={() => router.push({ pathname: "/checkupHistoryDetails", params: { date } })}>
                         <ThemedText style={styles.pastExamsText}>View checkup details</ThemedText>
                     </TouchableOpacity>
                 </ThemedView>
@@ -59,7 +62,7 @@ export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruat
                     </ThemedText>
                     <TouchableOpacity
                         // will eventually push to symptom checklist for specific date 
-                        onPress={() => router.push(`/selfExamChecklist`)}>
+                        onPress={() => router.push({ pathname: "/checkupHistoryDetails", params: { date } })}>
                         <ThemedText style={styles.pastExamsText}>View checkup details</ThemedText>
                     </TouchableOpacity>
                 </ThemedView>

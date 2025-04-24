@@ -7,7 +7,8 @@ export const useCheckupStorage = () => {
 
   // Save a new checkup (add to the array)
   const saveCheckup = async (selectedSymptoms: boolean[]) => {
-    const checkupDay = new Date().toISOString().split("T")[0];
+    // const checkupDay = new Date().toISOString().split("T")[0];
+    const checkupDay = new Date().toISOString();
 
     // Get all stored checkups
     const storedCheckupsString = await SecureStore.getItemAsync("checkups");
@@ -15,13 +16,19 @@ export const useCheckupStorage = () => {
       ? JSON.parse(storedCheckupsString)
       : [];
 
-    const newCheckup = {
-      date: checkupDay,
-      symptoms: selectedSymptoms,
-    };
+    const existingIndex = storedCheckups.findIndex(
+      (c: { date: string; }) => c.date === checkupDay
+    );
 
-    storedCheckups.push(newCheckup);
+    if (existingIndex !== -1) {
+      // Update the existing checkup instead of adding a duplicate
+      storedCheckups[existingIndex].symptoms = selectedSymptoms;
+    } else {
+      // New checkup
+      storedCheckups.push({ date: checkupDay, symptoms: selectedSymptoms });
+    }
 
+    console.log("Stored checkups:", storedCheckups);
     await SecureStore.setItemAsync("checkups", JSON.stringify(storedCheckups));
 
     setSymptoms(selectedSymptoms);
@@ -30,6 +37,7 @@ export const useCheckupStorage = () => {
   // Fetch symptoms for a specific checkup date
   const fetchSymptoms = async (date: string) => {
     // const checkupDate = date.toISOString().split("T")[0];
+    // const checkupDate = date.toISOString();
     // assume date passed in is already in format
     const checkupDate = date;
 
@@ -57,11 +65,17 @@ export const useCheckupStorage = () => {
       : [];
 
     if (storedCheckups) {
-      storedCheckups = JSON.parse(storedCheckups); 
       setAllCheckups(storedCheckups);
     } else {
       setAllCheckups([]); // No checkups stored yet
     }
+  };
+
+  const clearCheckups = async () => {
+    await SecureStore.deleteItemAsync("checkups");
+    setAllCheckups([]); // Clear the state as well
+    setSymptoms([]); // Clear the symptoms state
+    console.log("Checkups cleared");
   };
 
   return {
@@ -70,5 +84,6 @@ export const useCheckupStorage = () => {
     saveCheckup,
     fetchSymptoms,
     fetchAllCheckups,
+    clearCheckups,
   };
 };

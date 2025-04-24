@@ -52,6 +52,7 @@ export default function HomeScreen() {
     false,
     false,
   ]);
+
   const toggleCheckbox = (index: number, value: boolean) => {
     const newSelection = [...isSelected];
     newSelection[index] = value;
@@ -120,9 +121,11 @@ export default function HomeScreen() {
   });
 
   const { saveCheckup } = useCheckupStorage();
+
   const saveSymptoms = async () => {
     // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
     await saveCheckup(isSelected);
+    console.log("symptoms saved");
   };
 
     return (

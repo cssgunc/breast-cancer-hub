@@ -10,7 +10,7 @@ import {
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams, useFocusEffect } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "../hooks/useSettings";
@@ -18,12 +18,13 @@ import { LearnMoreTextContainer } from "../components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/ColorContext";
 
-export default function HomeScreen({ date }: { date: string }) {
+export default function HomeScreen() {
   const router = useRouter();
   const {colors, globalStyles} = useColors();
   // const [symptomData, setSymptomData] = useState<number[]>([]);
-  const [examDate, setExamDate] = useState(date);
   const { symptoms, fetchSymptoms } = useCheckupStorage(); 
+  const { date } = useLocalSearchParams<{ date?: string }>();
+  const [examDate, setExamDate] = useState(date);
 
   const info_f = [
     { id: 0, text: "Swelling of part or all of a breast." },
@@ -83,29 +84,17 @@ export default function HomeScreen({ date }: { date: string }) {
       setExamTypeF(schedulingType === "period");
       setIsLoading(false);
     };
-
-    const fetchHistory = async () => {
-      // const history = await getExaminationData(date);
-      // above should get exam data for specific date from local storage
-      // if (history) {
-      //   setSymptomData(history.symptoms);
-      //   i.e. symptoms = [true, true, false, false, false, true]
-      //   setExamDate(history.date);
-      //   i.e. date = "2025-03-05T14:48:00.000Z" as an iso string
-      // }
-      // setExamDate("2025-03-05T14:48:00.000Z");
-      if (examDate) {
-        fetchSymptoms(date);
-      }
-      // const symptomList = examTypeF ? info_f : info_m;
-      // const n = symptomList.length;
-      // const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
-      setSelection(symptoms);
-    };
-
     getType();
-    fetchHistory();
+
   }, []);
+
+  useEffect(() => { 
+      fetchSymptoms(date!);
+      console.log(symptoms, "symptoms from fetchSymptoms"); 
+      setSelection(symptoms);
+  }
+  , [examDate]);
+
 
   const formatDate = (isoString: string) => {
     const date = new Date(isoString);
@@ -128,7 +117,7 @@ export default function HomeScreen({ date }: { date: string }) {
             Checkup History
           </ThemedText>
 
-          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
+          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate!)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
 
@@ -184,7 +173,7 @@ export default function HomeScreen({ date }: { date: string }) {
           <ThemedText style={globalStyles.titleTextDarkHighlight}>
             Checkup History
           </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
+          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate!)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
 
