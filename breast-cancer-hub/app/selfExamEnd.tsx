@@ -13,19 +13,25 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../hooks/useSettings";
+import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const {colors, globalStyles} = useColors();
 
   const [isLoading, setIsLoading] = useState(true);
   const [checkText, setCheckText] = useState("");
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
+      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
       if (schedulingType == "period") {
         setCheckText("Check yourself a week after your period starts.");
       } else {
@@ -36,13 +42,51 @@ export default function HomeScreen() {
 
     getType();
   }, []);
+    
+  const styles = StyleSheet.create({
+    headerWhite: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      backgroundColor: colors.white,
+    },
+    whiteOverlay: {
+      flexDirection: "column",
+      alignItems: "center",
+      flex: 1,
+    },
+    titleTextDarkHighlight: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    
+    buttonBackNextContainer: {
+      flexDirection: "column",
+      rowGap: 20,
+      alignItems: "center",
+    },
+    buttonBack: {
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      width: "60%",
+    },
+    buttonNext: {
+      paddingVertical: 10,
+      paddingHorizontal: 40,
+      width: "60%",
+    },
+    buttonTextBack: {
+      fontSize: 14,
+    },
+  });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
 
       <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
-        <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
+        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
           You're All Set!
         </ThemedText>
         <ThemedView style={globalStyles.grayLine} />
@@ -55,7 +99,7 @@ export default function HomeScreen() {
               minWidth: "200px",
               minHeight: "200px",
               borderRadius: "50%",
-              backgroundColor: colors.darkPink,
+              backgroundColor: colors.darkHighlight,
               alignContent: "center",
               alignItems: "center",
             }}
@@ -115,41 +159,3 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  headerWhite: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    backgroundColor: colors.white,
-  },
-  whiteOverlay: {
-    flexDirection: "column",
-    alignItems: "center",
-    flex: 1,
-  },
-  titleTextDarkPink: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  
-  buttonBackNextContainer: {
-    flexDirection: "column",
-    rowGap: 20,
-    alignItems: "center",
-  },
-  buttonBack: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: "60%",
-  },
-  buttonNext: {
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    width: "60%",
-  },
-  buttonTextBack: {
-    fontSize: 14,
-  },
-});

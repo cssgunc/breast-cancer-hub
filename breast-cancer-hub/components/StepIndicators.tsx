@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
-import { colors } from "./StyleSheet";
+import { useColors } from "@/components/ColorContext";
 
 interface StepIndicatorsProps {
   totalSteps: number;
@@ -9,6 +9,20 @@ interface StepIndicatorsProps {
 }
 
 const StepIndicators: React.FC<StepIndicatorsProps> = ({ totalSteps, currentStep }) => {
+    const {colors} = useColors();
+
+    const styles = StyleSheet.create({
+      indicatorContainer: {
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        marginVertical: 10,
+      },
+      indicator: {
+        marginHorizontal: 5,
+      },
+    });
+
     return (
       <View style={styles.indicatorContainer}>
         {Array.from({ length: totalSteps }).map((_, index) => {
@@ -19,7 +33,7 @@ const StepIndicators: React.FC<StepIndicatorsProps> = ({ totalSteps, currentStep
               key={index}
               name={iconName}
               size={24}
-              color={colors.darkPink}
+              color={colors.darkHighlight}
               style={styles.indicator}
             />
           );
@@ -27,17 +41,5 @@ const StepIndicators: React.FC<StepIndicatorsProps> = ({ totalSteps, currentStep
       </View>
     );
   };
-
-const styles = StyleSheet.create({
-  indicatorContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 10,
-  },
-  indicator: {
-    marginHorizontal: 5,
-  },
-});
 
 export default StepIndicators;

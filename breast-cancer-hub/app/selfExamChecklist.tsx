@@ -13,41 +13,38 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../hooks/useSettings";
+import { getSetting, SettingsMap } from "../hooks/useSettings";
 import { LearnMoreTextContainer } from "../components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
+import { useCheckupStorage } from "@/hooks/useCheckupStorage";
+import { useColors } from "@/components/ColorContext";
+import { useTranslation } from "react-i18next";
+import { store } from "expo-router/build/global-state/router-store";
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { t, i18n } = useTranslation();
+
+  const {colors, globalStyles} = useColors();
 
   const info_f = [
-    { id: 0, text: "Swelling of part or all of a breast." },
-    {
-      id: 1,
-      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
-    },
-    { id: 2, text: "Breast or nipple pain." },
-    { id: 3, text: "Nipple retraction (turning inward)" },
-    {
-      id: 4,
-      text: "Redness, scaliness, or thickening of the nipples or breast skin",
-    },
-    { id: 5, text: "Nipple discharge (other than breast milk)" },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
+    { id: 4, key: "SIGNS_SYMPTOMS_5_F" },
+    { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
+    { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
   const info_m = [
-    { id: 0, text: "A painless lump or thickening in your breast tissue." },
-    {
-      id: 1,
-      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
-    },
-    {
-      id: 2,
-      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-    },
-    { id: 3, text: "Discharge from your nipple." },
+    { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
+    { id: 1, key: "SIGNS_SYMPTOMS_2_M" },
+    { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
+    { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
+    { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
   ];
 
   const [isSelected, setSelection] = useState([
+    false,
     false,
     false,
     false,
@@ -70,140 +67,133 @@ export default function HomeScreen() {
   //   console.log(examTypeF);
   // }
 
+  const [id, setId] = useState({ userId: ""});
+
   useEffect(() => {
+    getSetting("userId").then((userId) => {
+      setId({ userId});
+    })
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
+      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
       setExamTypeF(schedulingType === "period");
+      const storedLanguageCode = await getSetting("locale");
+      console.log(storedLanguageCode);
+      if (storedLanguageCode && i18n.language !== storedLanguageCode) {
+        await i18n.changeLanguage(storedLanguageCode);
+      }
       setIsLoading(false);
     };
 
     getType();
   }, []);
 
-  if (isLoading == true) {
+   const styles = StyleSheet.create({
+    titleTextDarkHighlight: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    checkBoxContainer: {
+      flexDirection: "column",
+      justifyContent: "center"
+    },
+  
+    listTitleTextExam: {
+      marginBottom: 10,
+    },
+    listContainer: {
+      backgroundColor: "transparent",
+      marginHorizontal: 0,
+    },
+    listItemContainer: {
+      justifyContent: "space-between",
+      backgroundColor: "transparent",
+    },
+    
+    instructionText: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.black,
+      maxWidth: "80%",
+      lineHeight: 20,
+    },
+    
+  });
+
+  const { saveCheckup } = useCheckupStorage();
+  const saveSymptoms = async () => {
+    // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
+    await saveCheckup(isSelected);
+  };
+
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+      {/* Header Container */}
+      <AccountSettingsHeaderComponent />
 
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
-            Log Your Symptoms
-          </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
+      {/* Page Title */}
+      <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
+        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
+          Log Your Symptoms
+        </ThemedText>
+        <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
 
-          <ThemedView style={globalStyles.grayLine} />
+        <ThemedView style={globalStyles.grayLine} />
 
-          {/* Debug button */}
-          {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
+        {/* Debug button */}
+        {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
           <ThemedText style={styles.buttonTextBack}>log</ThemedText>
         </TouchableOpacity> */}
-        </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
-              What did you notice?
-            </ThemedText>
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => router.push("/selfExam")}
-              >
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonNext}
-                onPress={() =>
-                  router.push({
-                    pathname: "/selfExamNextSteps",
-                    params: {
-                      symptoms: isSelected.map((value) => (value ? 1 : 0)),
-                    },
-                  })
-                }
-              >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
       </ThemedView>
-    );
-  } else {
-    return (
-      <ThemedView style={globalStyles.bodyContainerDarkPink}>
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
-
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkPink, styles.titleTextDarkPink]}>
-            Log Your Symptoms
-          </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
-
-          <ThemedView style={globalStyles.grayLine} />
-
-          {/* Debug button */}
-          {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
-            <ThemedText style={styles.buttonTextBack}>log</ThemedText>
-          </TouchableOpacity> */}
-        </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
+      
+      <ThemedView style={globalStyles.bodyContainerWhite}>
+        <ScrollView contentContainerStyle={[globalStyles.scrollContent, {paddingTop: 0}]}>
+          <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
             {/* Info Section */}
-            <ThemedText style={globalStyles.listTitleTextExam}>
+            <ThemedText style={[globalStyles.listTitleTextExam, styles.listTitleTextExam]}>
               What did you notice?
             </ThemedText>
 
-            <ThemedView style={styles.elevatedBox}>
-              {examTypeF ? (
-                <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                  {info_f.map((item) => (
-                    <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
-                      <ThemedText style={styles.instructionText}>
-                        {item.text}
-                      </ThemedText>
-                      <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          value={isSelected[item.id]}
-                          onValueChange={(value) => {
-                            toggleCheckbox(item.id, value);
-                          }}
-                        />
-                      </View>
-                    </ThemedView>
-                  ))}
-                </ThemedView>
-              ) : (
-                <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
-                  {info_m.map((item: { id: number; text: string }) => (
-                    <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
-                      <ThemedText style={styles.instructionText}>
-                        {item.text}
-                      </ThemedText>
-                      <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          key={item.id}
-                          value={isSelected[item.id]}
-                          onValueChange={(value) => {
-                            toggleCheckbox(item.id, value);
-                          }}
-                        />
-                      </View>
-                    </ThemedView>
-                  ))}
-                </ThemedView>
-              )}
-            </ThemedView>
+            {!isLoading && (<ThemedView style={[globalStyles.elevatedBox, {paddingVertical: 0}]}>
+                {examTypeF ? (
+                  <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                    {info_f.map((item: { id: number; key: string }) => (
+                      <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                        <ThemedText style={styles.instructionText}>
+                          {t(item.key)}
+                        </ThemedText>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            value={isSelected[item.id]}
+                            onValueChange={(value) => {
+                              toggleCheckbox(item.id, value);
+                            }}
+                          />
+                        </View>
+                      </ThemedView>
+                    ))}
+                  </ThemedView>
+                ) : (
+                  <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                    {info_m.map((item: { id: number; key: string }) => (
+                      <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                        <ThemedText style={styles.instructionText}>
+                          {t(item.key)}
+                        </ThemedText>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            key={item.id}
+                            value={isSelected[item.id]}
+                            onValueChange={(value) => {
+                              toggleCheckbox(item.id, value);
+                            }}
+                          />
+                        </View>
+                      </ThemedView>
+                    ))}
+                  </ThemedView>
+                )}
+              </ThemedView>
+            )}
 
             <LearnMoreTextContainer />
 
@@ -211,7 +201,7 @@ export default function HomeScreen() {
             <ThemedView style={globalStyles.buttonBackNextContainer}>
               <TouchableOpacity
                 style={globalStyles.buttonBack}
-                onPress={() => router.push("./selfExam")}
+                onPress={() => router.replace("./selfExam")}
               >
                 <ThemedText style={globalStyles.buttonTextBack}>
                   Back to Exam
@@ -219,7 +209,8 @@ export default function HomeScreen() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.buttonNext}
-                onPress={() =>
+                onPress={() =>{
+                  saveSymptoms();
                   router.push({
                     pathname: "/selfExamNextSteps",
                     params: {
@@ -227,7 +218,7 @@ export default function HomeScreen() {
                         .map((value) => (value ? 1 : 0))
                         .toString(),
                     },
-                  })
+                  })}
                 }
               >
                 <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
@@ -236,46 +227,7 @@ export default function HomeScreen() {
           </ThemedView>
         </ScrollView>
       </ThemedView>
-    );
-  }
+      
+    </ThemedView>
+  );
 }
-
-const styles = StyleSheet.create({
-  titleTextDarkPink: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  elevatedBox: {
-    backgroundColor: colors.backgroundLightGray,
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  checkBoxContainer: {
-    flexDirection: "column",
-    marginBottom: 20,
-    alignContent: "center",
-    marginTop: 5,
-    alignItems: "flex-end",
-  },
-  listContainer: {
-    backgroundColor: "transparent",
-    width: 315,
-  },
-  listItemContainer: {
-    justifyContent: "space-between",
-    backgroundColor: "transparent",
-  },
-  
-  instructionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.black,
-    maxWidth: "80%",
-  },
-  
-});

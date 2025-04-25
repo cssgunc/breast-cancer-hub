@@ -19,6 +19,9 @@ export type SettingsMap = {
   "usePushNotifications": boolean,
   "useInAppNotifications": boolean,
   "useDarkTheme" : boolean,
+  "avatar" : boolean,
+
+  "onboarding" : boolean,
 }
 
 export type SettingKeys = keyof SettingsMap;
@@ -89,7 +92,9 @@ export function generateDefaultSettings(){
     useTelemetry: false,
     useDarkTheme: false,
     usePushNotifications: false,
-    useInAppNotifications: false
+    useInAppNotifications: false,
+    onboarding: false,
+    avatar: false,
   }
   return def
 }
