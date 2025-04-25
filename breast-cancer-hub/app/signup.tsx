@@ -156,6 +156,7 @@ export default function Signup() {
               placeholderTextColor="gray"
               value={email}
               onChangeText={setEmail}
+              autoCapitalize="none"
             />
             <MaterialIcons
               name="mail"
@@ -172,6 +173,7 @@ export default function Signup() {
               value={password}
               onChangeText={setPassword}
               secureTextEntry
+              autoCapitalize="none"
             />
             <MaterialIcons
               name="lock"
@@ -187,6 +189,7 @@ export default function Signup() {
               placeholderTextColor="gray"
               onChangeText={setConfirmPassword}
               secureTextEntry
+              autoCapitalize="none"
             />
             <MaterialIcons
               name="lock"
@@ -207,6 +210,7 @@ export default function Signup() {
               placeholderTextColor="gray"
               value={name}
               onChangeText={setName}
+              autoCapitalize="none"
             />
             <MaterialIcons
               name="person"

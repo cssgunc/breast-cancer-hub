@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
                 placeholderTextColor="gray"
                 value={email}
                 onChangeText={setEmail}
+                autoCapitalize="none"
               />
               <MaterialIcons
                 style={globalStyles.loginIcon}
@@ -129,6 +130,7 @@ const styles = StyleSheet.create({
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry
+                autoCapitalize="none"
               />
               <MaterialIcons
                 style={globalStyles.loginIcon}
