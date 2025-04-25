@@ -19,6 +19,7 @@ import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/ExternalLink";
+import { Dimensions } from "react-native";
 import CheckupWidget from "@/components/CheckupWidget";
 import CycleHistoryPage from "@/app/cycleHistory";
 import CycleLog from "@/components/CycleLog";
@@ -34,6 +35,8 @@ export type HomeScreenProps = Partial<{
   name: string;
   isMenstruating: boolean;
 }>;
+
+const { width: screenWidth } = Dimensions.get("window");
 
 export default function HomeScreen(props: HomeScreenProps) {
   const router = useRouter();
@@ -92,7 +95,7 @@ export default function HomeScreen(props: HomeScreenProps) {
       backgroundColor: "white",
       borderBottomLeftRadius: 20,
       borderBottomRightRadius: 20,
-      paddingTop: 40,
+      paddingTop: 20,
       paddingBottom: 20,
       flexDirection: "column",
       alignItems: "flex-start",
@@ -108,17 +111,16 @@ export default function HomeScreen(props: HomeScreenProps) {
       alignItems: "center",
       width: "100%",
       paddingHorizontal: 20,
-      justifyContent: "space-around",
+      justifyContent: "space-between",
     },
     logoHomeContainer: {
-      padding:10,
       flexDirection: "row",
       alignItems: "center",
     },
     logo: {
-      width: 120,
-      height: 45,
-      marginRight: 10,
+      width: screenWidth * 0.3, 
+      height: screenWidth * 0.3, 
+      resizeMode: 'contain',
     },
     homeText: {
       fontSize: 24,
@@ -133,16 +135,17 @@ export default function HomeScreen(props: HomeScreenProps) {
       paddingHorizontal: 20,
     },
     greetingText: {
-      fontSize: 29,
+      fontSize: 26,
       fontWeight: "bold",
       color: colors.black,
       lineHeight: 30,
       
     },
     nameText: {
-      fontSize: 29,
+      fontSize: 26,
       fontWeight: "bold",
       color: colors.darkHighlight,
+      lineHeight: 30,
     },
     profileIconContainer: {
       backgroundColor: colors.darkHighlight,
@@ -329,7 +332,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Logo and Home */}
           <View style={styles.logoHomeContainer}>
             <Image
-              source={require("../assets/images/BCH-Logo-Stacked-CMYK.png")}
+              source={require("../assets/images/bch_logo_with_bch_wings_cancer_hubs_720.png")}
               style={styles.logo}
             />
           </View>
