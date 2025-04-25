@@ -17,7 +17,5 @@ export default function Index() {
     })();
   }, [router]);
 
-  return (
-    LoadingScreen()
-  );
+  return LoadingScreen();
 }
