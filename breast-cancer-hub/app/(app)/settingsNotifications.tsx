@@ -15,13 +15,17 @@ import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
 import { push } from "expo-router/build/global-state/routing";
-import { colors } from "@/components/StyleSheet";
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
+import { useColors } from "@/components/ColorContext";
 
 export default function NotificationsScreen() {
   const router = useRouter();
+  const {colors} = useColors();
+  
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+  const TIME_FORMAT_OPTIONS : {hour: "2-digit" | "numeric" | undefined, minute: "2-digit" | "numeric" | undefined}
+   = {hour: "2-digit", minute: "2-digit"};
 
   // State for checkboxes
   const [pushNotifications, setPushNotifications] = useState(true);
@@ -40,6 +44,10 @@ export default function NotificationsScreen() {
     { id: number; time: string; enabled: boolean }[]
   >([]);
 
+  const fixTempLocaleToUS = (locale: string) => {
+    return (locale === "temp") ? 'en-us' : locale;
+  }
+
   async function saveSettingsToBackend() {
     console.log((timeEntries as { id: number, time: string, enabled: boolean }[])
     .map((val) => {return [person.userId, val.time, val.enabled];}))
@@ -51,7 +59,7 @@ export default function NotificationsScreen() {
         'x-user-email' : person.email,
         },
         body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications, notification_times: timeEntries})
-      });
+      }).then((res) => {console.log(res.status);});
   }
 
   // Fetching information from local storage for API call
@@ -60,10 +68,10 @@ export default function NotificationsScreen() {
         getSetting("email").then((email) => 
           getSetting("token").then((token) => 
             getSetting("userId").then((userId) => {
-          setPerson({ name,email,token, userId});
-        })
-      )
-      )
+              setPerson({ name,email,token, userId});
+            })
+          )
+        )
       );
     }, []);
   
@@ -71,43 +79,62 @@ export default function NotificationsScreen() {
   
   // Making an API call to read user settings.
   useEffect(() => {
-      if (person.token == "") {
-        return
-      } else {
-        fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-          method: "GET", 
-          headers: {
-            "x-session-token": person.token,
-            'x-user-email' : person.email,
-            }
+    getSetting("useInAppNotifications").then( (inapp) => {
+      getSetting("usePushNotifications").then( (push) => {
+        getSetting("notificationTimes").then( (times) => {
+          getSetting("locale").then( (loc) => {
+            // console.log("inapp:" + inapp);
+            // console.log("push:" + push);
+            // console.log("locale:" + fixTempLocaleToUS(loc));
+            // console.log("times:");
+            // times.forEach((entry) => console.log(entry))
+            setInAppNotifications(inapp);
+            setPushNotifications(push);
+            setLocale(fixTempLocaleToUS(locale));
+            setTimeEntries(times);
           })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            setInAppNotifications(data.settings.use_in_app_notifications);
-            setPushNotifications(data.settings.use_push_notifications);
-            setLocale(data.settings.locale);
-          })
-          .catch(error => console.error(error));
+        })
+      })
+    })
+      // if (person.token == "") {
+      //   return
+      // } else {
+      //   fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
+      //     method: "GET", 
+      //     headers: {
+      //       "x-session-token": person.token,
+      //       'x-user-email' : person.email,
+      //       }
+      //     })
+      //     .then(response => response.json())
+      //     .then(data => {
+      //       console.log(data);
+      //       setInAppNotifications(data.settings.use_in_app_notifications);
+      //       setPushNotifications(data.settings.use_push_notifications);
+      //       setLocale(fixTempLocaleToUS(data.settings.locale));
+      //     })
+      //     .catch(error => console.error(error));
+
+      //     getSetting("notificationTimes").then(val => console.log("local entries:" + val));
         
-          fetch(`${BASE_URL}/settings_notifications` + "?user_id=" + person.userId, {
-            method: "GET", 
-            headers: {
-              "x-session-token": person.token,
-              'x-user-email' : person.email,
-              }
-            })
-            .then(response => response.json())
-            .then(data => {
-              console.log(data);
-              // Convert retrieved times to local format
-              for (let i = 0; i < data.time_entries.length; i++) {
-                let timearr : any[] = data.time_entries[i].time.split(":");
-                data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale)
-              }
-              setTimeEntries(data.time_entries);
-            })
-      }
+      //     fetch(`${BASE_URL}/settings_notifications` + "?user_id=" + person.userId, {
+      //       method: "GET", 
+      //       headers: {
+      //         "x-session-token": person.token,
+      //         'x-user-email' : person.email,
+      //         }
+      //       })
+      //       .then(response => response.json())
+      //       .then(data => {
+      //         console.log(data);
+      //         // Convert retrieved times to local format
+      //         for (let i = 0; i < data.time_entries.length; i++) {
+      //           let timearr : any[] = data.time_entries[i].time.split(":");
+      //           data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale, TIME_FORMAT_OPTIONS)
+      //         }
+      //         setTimeEntries(data.time_entries);
+      //       })
+      // }
     }, [person.token]);
     
   // Save notification preferences to local storage
@@ -119,6 +146,7 @@ export default function NotificationsScreen() {
 
     await saveSetting("usePushNotifications", pushNotifications);
     await saveSetting("useInAppNotifications", inAppNotifications);
+    await saveSetting("notificationTimes", timeEntries);
     
     await saveSettingsToBackend();
     
@@ -131,10 +159,25 @@ export default function NotificationsScreen() {
     console.log(locale);
     const newEntry = {
       id: Date.now(),
-      time: newDate.toLocaleTimeString(locale),
+      time: newDate.toLocaleTimeString(locale, TIME_FORMAT_OPTIONS),
       enabled: true,
     };
-    setTimeEntries([newEntry, ...timeEntries]);
+
+    // If an entry already exists with the same hour/minute, don't allow creating the duplicate
+    let overlap : boolean = false;
+    for (let i = 0; i < timeEntries.length; i++) {
+      if (newEntry.time == timeEntries[i].time) {
+        overlap = true;
+        break;
+      }
+    }
+
+    if (overlap) {
+      alert("Time already exists!")
+    } else {
+      setTimeEntries([newEntry, ...timeEntries]);
+    }
+    
   };
 
   // Function to remove a time entry
@@ -150,6 +193,213 @@ export default function NotificationsScreen() {
       )
     );
   };
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.backgroundLightGray, // Background color of the page
+    },
+    headerContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingTop: 50,
+      paddingHorizontal: 20,
+      marginBottom: 20,
+    },
+    backButton: {
+      backgroundColor: colors.darkHighlight,
+      width: 40,
+      height: 40,
+      borderRadius: 20, // Makes it circular
+      alignItems: "center",
+      justifyContent: "center",
+      marginRight: 10,
+    },
+    headerTitle: {
+      fontSize: 36,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+      lineHeight: 35,
+      marginTop: 20,
+      marginHorizontal: 10,
+      marginBottom: 10,
+    },
+    contentContainer: {
+      alignItems: "center",
+      paddingBottom: 50,
+    },
+    mainContainer: {
+      width: "90%",
+      backgroundColor: colors.white,
+      borderRadius: 20,
+      padding: 40,
+      // Shadow
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      elevation: 5,
+    },
+    sectionHeaderText: {
+      fontSize: 20,
+      color: colors.black,
+      fontWeight: "bold",
+      marginBottom: 10,
+    },
+    sectionSubText1: {
+      fontSize: 16,
+      fontWeight: "500",
+      color: colors.black,
+      marginBottom: 15,
+    },
+    sectionSubText2: {
+      fontSize: 16,
+      fontWeight: "500",
+      color: colors.black,
+    },
+    optionBox: {
+      backgroundColor: colors.backgroundLightGray,
+      borderRadius: 10,
+      padding: 15,
+      marginBottom: 15,
+    },
+    optionHeader: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    checkboxContainer: {
+      marginRight: 10,
+    },
+    optionTitle: {
+      fontSize: 16,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    optionDescription: {
+      fontSize: 15,
+      color: colors.mediumGray,
+      marginTop: 10,
+      lineHeight: 20,
+    },
+    divider: {
+      height: 4,
+      backgroundColor: colors.lightHighlight,
+      width: "100%",
+      alignSelf: "center",
+      marginVertical: 30,
+    },
+    selectTimesText: {
+      color: colors.black,
+      fontSize: 16,
+      fontStyle: "italic",
+      fontWeight: "200",
+      marginBottom: 20,
+    },
+    timeEntryBox: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: colors.backgroundLightGray,
+      borderRadius: 10,
+      padding: 15,
+      marginBottom: 10,
+    },
+    timeEntryLeft: {
+      flex: 1,
+    },
+    timeRow: {
+      flexDirection: "row",
+      alignItems: "baseline",
+    },
+    timeText: {
+      fontSize: 15,
+      color: colors.black,
+      marginRight: 5,
+    },
+    periodText: {
+      fontSize: 15,
+      color: colors.black,
+    },
+    alarmText: {
+      fontSize: 12,
+      color: colors.mediumGray,
+      marginTop: 5,
+    },
+    timeEntryRight: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    addTimeButton: {
+      flexDirection: "row",
+      alignItems: "center",
+      alignSelf: "center",
+      backgroundColor: colors.backgroundLightGray,
+      borderRadius: 25,
+      borderWidth: 1,
+      borderColor: colors.darkHighlight,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      marginTop: 10,
+    },
+    addTimeText: {
+      fontSize: 16,
+      color: colors.darkHighlight,
+      marginLeft: 10,
+    },
+    saveButton: {
+      backgroundColor: colors.darkHighlight,
+      borderRadius: 30,
+      paddingVertical: 15,
+      alignItems: "center",
+      marginTop: 50,
+    },
+    saveButtonText: {
+      fontSize: 20,
+      color: colors.white,
+      fontWeight: "bold",
+    },
+
+    // Modal styles
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    modalContainer: {
+      backgroundColor: colors.white,
+      width: "80%",
+      borderRadius: 20,
+      padding: 20,
+      alignItems: "center",
+    },
+    closeButton: {
+      alignSelf: "flex-end",
+    },
+    modalTitle: {
+      fontSize: 20,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+      marginBottom: 20,
+    },
+    modalButton: {
+      backgroundColor: colors.darkHighlight,
+      borderColor: colors.grayHomePageLearnMoreButton,
+      borderWidth: 1,
+      borderRadius: 50,
+      paddingVertical: 15,
+      paddingHorizontal: 20,
+      marginBottom: 10,
+      marginHorizontal: 10,
+      width: 'auto',
+      alignItems: "center",
+    },
+    modalButtonText: {
+      color: colors.white,
+      fontSize: 16,
+      fontWeight: "bold",
+      textAlign: "center",
+    },
+  });
 
   return (
     <ThemedView style={styles.container}>
@@ -177,18 +427,17 @@ export default function NotificationsScreen() {
           </ThemedText>
 
           {/* Push Notifications Option */}
-          <View style={styles.optionBox}>
+          <TouchableOpacity style={styles.optionBox} onPress={() => setPushNotifications(!pushNotifications)}>
             <View style={styles.optionHeader}>
-              <TouchableOpacity
-                onPress={() => setPushNotifications(!pushNotifications)}
+              <View
                 style={styles.checkboxContainer}
               >
                 {pushNotifications ? (
-                  <Ionicons name="checkbox" size={24} color={colors.darkPink} />
+                  <Ionicons name="checkbox" size={24} color={colors.darkHighlight} />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color={colors.darkPink} />
+                  <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
-              </TouchableOpacity>
+              </View>
               <ThemedText style={styles.optionTitle}>
                 Push Notifications
               </ThemedText>
@@ -198,21 +447,20 @@ export default function NotificationsScreen() {
               screen.{"\n"}
               It will be visible to anyone.
             </ThemedText>
-          </View>
+          </TouchableOpacity>
 
           {/* In-App Notifications Option */}
-          <View style={styles.optionBox}>
+          <TouchableOpacity style={styles.optionBox} onPress={() => setInAppNotifications(!inAppNotifications)}>
             <View style={styles.optionHeader}>
-              <TouchableOpacity
-                onPress={() => setInAppNotifications(!inAppNotifications)}
+              <View
                 style={styles.checkboxContainer}
               >
                 {inAppNotifications ? (
-                  <Ionicons name="checkbox" size={24} color={colors.darkPink} />
+                  <Ionicons name="checkbox" size={24} color={colors.darkHighlight} />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color={colors.darkPink} />
+                  <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
-              </TouchableOpacity>
+              </View>
               <ThemedText style={styles.optionTitle}>
                 Notification While in App
               </ThemedText>
@@ -220,7 +468,7 @@ export default function NotificationsScreen() {
             <ThemedText style={styles.optionDescription}>
               The app will display a notification when you open it.
             </ThemedText>
-          </View>
+          </TouchableOpacity>
 
           {/* Divider */}
           <View style={styles.divider} />
@@ -245,7 +493,7 @@ export default function NotificationsScreen() {
                 <Switch
                   value={entry.enabled}
                   onValueChange={() => toggleTimeEntry(entry.id)}
-                  trackColor={{ false: colors.backgroundGray, true: colors.darkPink }}
+                  trackColor={{ false: colors.backgroundGray, true: colors.darkHighlight }}
                   thumbColor={colors.white}
                 />
                 <TouchableOpacity onPress={() => {
@@ -260,13 +508,13 @@ export default function NotificationsScreen() {
 
           {/* Add Time Button */}
           <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
-            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
+            <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
 
           {/* Debug Add Time Button */}
           <TouchableOpacity style={styles.addTimeButton} onPress={() => addTimeEntry(new Date())}>
-            <Ionicons name="add-circle" size={24} color={colors.darkPink} />
+            <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
             <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
           </TouchableOpacity>
 
@@ -281,8 +529,8 @@ export default function NotificationsScreen() {
           testID="dateTimePicker"
           value={date}
           mode="time"
-          positiveButton={{label: 'Add', textColor: colors.darkPink}}
-          negativeButton={{label: 'Cancel', textColor: colors.darkPink}}
+          positiveButton={{label: 'Add', textColor: colors.darkHighlight}}
+          negativeButton={{label: 'Cancel', textColor: colors.darkHighlight}}
           onChange={(event, selectedDate) => {
             if (event.type == 'set' && selectedDate) {
               setDate(selectedDate);
@@ -325,210 +573,3 @@ export default function NotificationsScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.backgroundLightGray, // Background color of the page
-  },
-  headerContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    marginBottom: 20,
-  },
-  backButton: {
-    backgroundColor: colors.darkPink,
-    width: 40,
-    height: 40,
-    borderRadius: 20, // Makes it circular
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-  },
-  headerTitle: {
-    fontSize: 36,
-    color: colors.darkPink,
-    fontWeight: "bold",
-    lineHeight: 35,
-    marginTop: 20,
-    marginHorizontal: 10,
-    marginBottom: 10,
-  },
-  contentContainer: {
-    alignItems: "center",
-    paddingBottom: 50,
-  },
-  mainContainer: {
-    width: "90%",
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    padding: 40,
-    // Shadow
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  sectionHeaderText: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: "bold",
-    marginBottom: 10,
-  },
-  sectionSubText1: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: colors.black,
-    marginBottom: 15,
-  },
-  sectionSubText2: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: colors.black,
-  },
-  optionBox: {
-    backgroundColor: colors.backgroundLightGray,
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 15,
-  },
-  optionHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  checkboxContainer: {
-    marginRight: 10,
-  },
-  optionTitle: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.darkPink,
-  },
-  optionDescription: {
-    fontSize: 15,
-    color: colors.mediumGray,
-    marginTop: 10,
-    lineHeight: 20,
-  },
-  divider: {
-    height: 4,
-    backgroundColor: colors.lightPink,
-    width: "100%",
-    alignSelf: "center",
-    marginVertical: 30,
-  },
-  selectTimesText: {
-    color: colors.black,
-    fontSize: 16,
-    fontStyle: "italic",
-    fontWeight: "200",
-    marginBottom: 20,
-  },
-  timeEntryBox: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colors.backgroundLightGray,
-    borderRadius: 10,
-    padding: 15,
-    marginBottom: 10,
-  },
-  timeEntryLeft: {
-    flex: 1,
-  },
-  timeRow: {
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
-  timeText: {
-    fontSize: 15,
-    color: colors.black,
-    marginRight: 5,
-  },
-  periodText: {
-    fontSize: 15,
-    color: colors.black,
-  },
-  alarmText: {
-    fontSize: 12,
-    color: colors.mediumGray,
-    marginTop: 5,
-  },
-  timeEntryRight: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  addTimeButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    alignSelf: "center",
-    backgroundColor: colors.backgroundLightGray,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: colors.darkPink,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    marginTop: 10,
-  },
-  addTimeText: {
-    fontSize: 16,
-    color: colors.darkPink,
-    marginLeft: 10,
-  },
-  saveButton: {
-    backgroundColor: colors.darkPink,
-    borderRadius: 30,
-    paddingVertical: 15,
-    alignItems: "center",
-    marginTop: 50,
-  },
-  saveButtonText: {
-    fontSize: 20,
-    color: colors.white,
-    fontWeight: "bold",
-  },
-
-  // Modal styles
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  modalContainer: {
-    backgroundColor: colors.white,
-    width: "80%",
-    borderRadius: 20,
-    padding: 20,
-    alignItems: "center",
-  },
-  closeButton: {
-    alignSelf: "flex-end",
-  },
-  modalTitle: {
-    fontSize: 20,
-    color: colors.darkPink,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  modalButton: {
-    backgroundColor: colors.darkPink,
-    borderColor: colors.grayHomePageLearnMoreButton,
-    borderWidth: 1,
-    borderRadius: 50,
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    marginBottom: 10,
-    marginHorizontal: 10,
-    width: 'auto',
-    alignItems: "center",
-  },
-  modalButtonText: {
-    color: colors.white,
-    fontSize: 16,
-    fontWeight: "bold",
-    textAlign: "center",
-  },
-});

@@ -5,21 +5,28 @@ import {
   View,
   Text,
   TouchableOpacity,
+  Switch,
+  Image
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { colors, globalStyles } from "@/components/StyleSheet";
 import StepIndicators from "@/components/StepIndicators";
 import { ExternalLink } from "@/components/ExternalLink";
 import { router } from "expo-router";
 import { SelectLanguage } from "@/components/SelectLanguage";
+import { useColors } from "@/components/ColorContext";
+import { saveSetting } from "@/hooks/useSettings";
 
 export default function OnboardingScreen() {
   const [step, setStep] = useState(0);
-  const totalSteps = 5; 
+  const totalSteps = 8; 
   const scrollViewRef = useRef<ScrollView>(null);
+  const [telemetryEnabled, setTelemetryEnabled] = useState(false);
+
+  const {colors, globalStyles, setDarkMode} = useColors();
+  const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
 
   //scrolls to top whenever the step changes
   useEffect(() => {
@@ -30,19 +37,199 @@ export default function OnboardingScreen() {
 
   //TODO: Upon pressing back or next, scroll to top of screen
   const handleNext = () => {
+    saveSetting("useTelemetry", telemetryEnabled);
     if (step < totalSteps - 1) {
       setStep(step + 1);
     }
   };
 
   const handleBack = () => {
+    saveSetting("useTelemetry", telemetryEnabled)
     if (step > 0) {
       setStep(step - 1);
     }
   };
 
+  const avatarPress = async (avatarType: boolean) => {
+    try {
+      saveSetting("avatar", avatarType);
+      console.log("Saved avatar presentation");
+    }
+    catch (e) {
+      console.error(e);
+    }
+  }
+
+  const styles = StyleSheet.create({
+    stepOneNextContainer: {
+      justifyContent: "flex-end",
+    },
+    scrollContent: {
+      flexGrow: 1,
+      paddingTop: 10,
+      paddingHorizontal: 10,
+      paddingBottom: 20, 
+      backgroundColor: "white",
+      borderTopLeftRadius: 17,
+      borderTopRightRadius: 17,
+      marginTop: 10,
+    },
+    background: {
+      padding: 10,
+    },
+    titleContainer: {
+      flexDirection: "column",
+      alignItems: "flex-start",
+    },
+    highlightedTitleText: {
+      marginBottom: 15,
+      paddingTop: 10,
+    },
+    paragraphTextTitle: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginTop: 10,
+    },
+    paragraphText: {
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 10,
+      lineHeight: 24,
+    },
+    statContainer: {
+      backgroundColor: "#F9F9F9",
+      padding: 10,
+      borderLeftWidth: 4,
+      borderColor: colors.darkHighlight,
+      marginVertical: 15,
+    },
+    statTextBold: {
+      fontSize: 20,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    statText: {
+      fontSize: 16,
+      color: colors.black,
+      marginBottom: 10,
+    },
+  
+    noticeTitle: {
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+      marginVertical: 10,
+    },
+    noticeText: {
+      fontSize: 16,
+      color: colors.black,
+      lineHeight: 24,
+    },
+    noticeText2: {
+      fontSize: 15,
+      color: colors.darkGray,
+      lineHeight: 24,
+      fontStyle: "italic",
+      marginTop: 20,
+    },
+    highlightText: {
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    boldText: {
+      fontWeight: "bold",
+      fontStyle: "italic",
+    },
+    infoText: {
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 10,
+      lineHeight: 24,
+    },
+    infoBoldText: {
+      fontWeight: "bold",
+      fontSize: 16,
+      color: colors.black,
+      marginVertical: 15,
+      lineHeight: 24,
+      marginTop: 20,
+    },
+    quotesContainer: {
+      marginVertical: 20,
+    },
+    quoteText: {
+      fontSize: 16,
+      fontStyle: "italic",
+      color: colors.darkHighlight,
+      textAlign: "center",
+      marginBottom: 10,
+    },
+    buttonStepZeroContainer: {
+      flexDirection: "row", 
+      justifyContent: "flex-end", 
+      width: "100%", 
+      paddingHorizontal: 10, 
+      marginRight: 30
+    },
+    linkText: {
+      color: colors.blue,
+    },
+    selectLanguages: {
+      marginTop: 30,
+      marginBottom: 30,
+    },
+    darkMode: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 30,
+      marginTop: 30,
+      marginBottom: 30,
+      fontSize: 24,
+      fontWeight: "bold",
+      color: colors.darkHighlight,
+    },
+    image: {
+      width: 300,
+      height: 300,
+    },
+    avatar: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "center",
+      gap: 50,
+      marginTop: 15,
+      marginBottom: 15,
+      fontSize: 20,
+      color: colors.darkHighlight,
+    },
+    toggleContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingHorizontal: 10,
+      paddingVertical: 10,
+      backgroundColor: colors.white,
+      borderColor: colors.mediumGray,
+      borderWidth: 1,
+      borderRadius: 30,
+      marginTop: 20,
+
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.05,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    optionText: {
+      fontSize: 14,
+      fontWeight: "600",
+      color: colors.darkGray,
+    },
+  });
+
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkPink}>
+    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       <AccountSettingsHeaderComponent />
       <ScrollView 
       ref={scrollViewRef}
@@ -55,7 +242,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.titleText}>
                   Understanding
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkPink,
+                <ThemedText style={[globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText]}>
                   Breast Cancer
                 </ThemedText>
@@ -98,7 +285,7 @@ export default function OnboardingScreen() {
             </ThemedText>
             <ThemedText
               style={[
-                globalStyles.titleTextDarkPink,
+                globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText,
               ]}
             >
@@ -153,7 +340,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.titleText}>
                   Breast Cancer
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkPink,
+                <ThemedText style={[globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText]}>
                   Screening & Techniques
                 </ThemedText>
@@ -183,7 +370,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.titleText}>
                   Additional Resources &
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkPink,
+                <ThemedText style={[globalStyles.titleTextDarkHighlight,
                 styles.highlightedTitleText]}>
                   Contact Information
                 </ThemedText>
@@ -213,14 +400,51 @@ export default function OnboardingScreen() {
           </ThemedView>
         )}
 
-        {step === 4 &&(
+        {step === 4 && (
+          // Step 4 (NEW): Telemetry consent page (placeholder text)
+          <ThemedView style={globalStyles.whiteOverlay}>
+            <ThemedView style={styles.background}>
+              <ThemedView style={styles.titleContainer}>
+                <ThemedText style={globalStyles.titleText}>
+                  Telemetry & Data
+                </ThemedText>
+                <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.highlightedTitleText]}>
+                  Collection
+                </ThemedText>
+              </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
+              <ThemedText style={styles.paragraphText}>
+                {/* Placeholder content — adapt as needed */}
+                We would like to collect limited, anonymous usage data to help
+                us improve this app and provide a better experience. Your data
+                will remain private, and you can opt out at any time.
+              </ThemedText>
+              <View style={styles.toggleContainer}>
+                <ThemedText style={styles.optionText}>
+                  {telemetryEnabled ? "Currently Opted In" : "Currently Opted Out"}
+                </ThemedText>
+                <Switch
+                  trackColor={{ false: "#767577", true: colors.lightHighlight }}
+                  thumbColor={telemetryEnabled ? colors.white : "#f4f3f4"}
+                  ios_backgroundColor={colors.darkGray}
+                  onValueChange={() => setTelemetryEnabled(!telemetryEnabled)}
+                  value={telemetryEnabled}
+                />
+              </View>
+              <StepIndicators totalSteps={totalSteps} currentStep={step} />
+              <LearnMoreTextContainer />
+            </ThemedView>
+          </ThemedView>
+        )}
+
+        {step === 5 && (
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
                   <ThemedText style={globalStyles.titleText}>
                     Change Your
                   </ThemedText>
-                  <ThemedText style={[globalStyles.titleTextDarkPink,
+                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
                   styles.highlightedTitleText]}>
                     Self-Examination Language
                    </ThemedText>
@@ -231,6 +455,80 @@ export default function OnboardingScreen() {
                 </ThemedView>
                 <StepIndicators totalSteps={totalSteps} currentStep={step} />
                 <LearnMoreTextContainer />
+              </ThemedView>
+            </ThemedView>
+        )}
+
+        {step === 6 && (
+            <ThemedView style={globalStyles.whiteOverlay}>
+              <ThemedView style={styles.background}>
+                <ThemedView style={styles.titleContainer}>
+                  <ThemedText style={globalStyles.titleText}>
+                    Choose Your
+                  </ThemedText>
+                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
+                    styles.highlightedTitleText]}>
+                    Color Theme
+                  </ThemedText>
+                  </ThemedView>
+                  <ThemedView style={globalStyles.grayLine} />
+                  <ThemedText style={styles.darkMode}>
+                    Pink
+                    <Switch
+                      trackColor={{ false: "#767577", true: colors.lightHighlight }}
+                      thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
+                      ios_backgroundColor={ colors.darkGray }
+                      onValueChange={() => {
+                        setDarkMode(!IsDarkThemeEnabled);
+                        setIsDarkThemeEnabled(!IsDarkThemeEnabled);
+                      }}
+                      value={IsDarkThemeEnabled}
+                    />
+                    Indigo
+                  </ThemedText>
+                  <StepIndicators totalSteps={totalSteps} currentStep={step} />
+                  <LearnMoreTextContainer />
+                </ThemedView>
+            </ThemedView>
+        )}
+        
+        {step === 7 && (
+            <ThemedView style={globalStyles.whiteOverlay}>
+              <ThemedView style={styles.background}>
+                <ThemedView style={styles.titleContainer}>
+                  <ThemedText style={globalStyles.titleText}>
+                    Choose Your
+                  </ThemedText>
+                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
+                    styles.highlightedTitleText]}>
+                    Self Examination Avatar
+                  </ThemedText>
+                </ThemedView>
+              <ThemedView style={globalStyles.grayLine} />
+              <ThemedView style={styles.avatar}>
+                <TouchableOpacity onPress={() => avatarPress(false)}>
+                  <Image
+                    source={require("../assets/images/FEMALE ART 1.jpg")}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => avatarPress(true)}>
+                  <Image
+                    source={require("../assets/images/MALE ART 1.jpg")}
+                    style={styles.image}
+                  />
+                </TouchableOpacity>
+              </ThemedView>
+              <ThemedView style={styles.avatar}>
+                <ThemedText style={styles.avatar}>
+                  Female Avatar
+                </ThemedText>
+                <ThemedText style={styles.avatar}>
+                  Male Avatar
+                </ThemedText>
+              </ThemedView>
+              <StepIndicators totalSteps={totalSteps} currentStep={step} />
+              <LearnMoreTextContainer />
               </ThemedView>
             </ThemedView>
         )}
@@ -273,123 +571,3 @@ export default function OnboardingScreen() {
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  stepOneNextContainer: {
-    justifyContent: "flex-end",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    paddingBottom: 20, 
-    backgroundColor: "white",
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    marginTop: 10,
-  },
-  background: {
-    padding: 10,
-  },
-  titleContainer: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  highlightedTitleText: {
-    marginBottom: 15,
-    paddingTop: 10,
-  },
-  paragraphTextTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  paragraphText: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 10,
-    lineHeight: 24,
-  },
-  statContainer: {
-    backgroundColor: "#F9F9F9",
-    padding: 10,
-    borderLeftWidth: 4,
-    borderColor: colors.darkPink,
-    marginVertical: 15,
-  },
-  statTextBold: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.darkPink,
-  },
-  statText: {
-    fontSize: 16,
-    color: colors.black,
-    marginBottom: 10,
-  },
-
-  noticeTitle: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: colors.darkPink,
-    marginVertical: 10,
-  },
-  noticeText: {
-    fontSize: 16,
-    color: colors.black,
-    lineHeight: 24,
-  },
-  noticeText2: {
-    fontSize: 15,
-    color: colors.darkGray,
-    lineHeight: 24,
-    fontStyle: "italic",
-    marginTop: 20,
-  },
-  highlightText: {
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  boldText: {
-    fontWeight: "bold",
-    fontStyle: "italic",
-  },
-  infoText: {
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 10,
-    lineHeight: 24,
-  },
-  infoBoldText: {
-    fontWeight: "bold",
-    fontSize: 16,
-    color: colors.black,
-    marginVertical: 15,
-    lineHeight: 24,
-    marginTop: 20,
-  },
-  quotesContainer: {
-    marginVertical: 20,
-  },
-  quoteText: {
-    fontSize: 16,
-    fontStyle: "italic",
-    color: colors.darkPink,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  buttonStepZeroContainer: {
-    flexDirection: "row", 
-    justifyContent: "flex-end", 
-    width: "100%", 
-    paddingHorizontal: 10, 
-    marginRight: 30
-  },
-  linkText: {
-    color: colors.blue
-  },
-  selectLanguages: {
-    marginTop: 30,
-    marginBottom: 30,
-  }
-});

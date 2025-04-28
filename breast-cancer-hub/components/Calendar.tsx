@@ -5,7 +5,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import {
   addPeriod,
-  GLOBAL_PERIOD_DATA,
   initPeriods,
   isCheckupDay,
   isPeriodDay,
@@ -14,8 +13,9 @@ import {
   PeriodTimestamp,
   removePeriod,
 } from "@/hooks/usePeriodData";
-import { getSetting } from "@/hooks/useSettings";
-import { colors } from "./StyleSheet";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { useColors } from "@/components/ColorContext";
+
 
 type CalendarItem = {
   p: Date;
@@ -28,12 +28,16 @@ type CalendarItem = {
 interface CalendarComponentProps {
   isMenstruating: boolean;
   updateCheckupDay: () => void;
+  userId: string;
 }
 
 export function CalendarComponent({
   isMenstruating,
   updateCheckupDay,
+  userId,
 }: CalendarComponentProps) {
+  const {colors} = useColors();
+
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
   const [periodDay, setPeriodDay] = useState<number>(28);
@@ -53,11 +57,15 @@ export function CalendarComponent({
   };
 
   useEffect(() => {
-    getSetting("schedulingType").then((type) => {
-      if (type != "period") {
-        setPeriodDay(type.day);
+    const init = async () => {
+      const type = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
+
+      console.log(type);
+      if (type !== "period" && type != null) {
+        setPeriodDay((type as { day: number }).day);
       }
-    });
+    };
+    init();
   }, []);
 
   useEffect(() => {
@@ -206,6 +214,140 @@ export function CalendarComponent({
     setSeed(Math.random());
   };
 
+  const styles = StyleSheet.create({
+    footer: {
+      flexDirection: "row",
+      justifyContent: "flex-end",
+      paddingTop: 10,
+      paddingBottom: 10,
+      gap: 10,
+    },
+    container: {
+      padding: 10,
+    },
+    calendarContainer: {
+      backgroundColor: colors.white,
+      borderRadius: 15,
+      padding: 10,
+      // iOS shadow properties
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      // Android elevation
+      elevation: 5,
+    },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      paddingTop: 10,
+      paddingBottom: 20,
+    },
+    headerTitle: {
+      flexDirection: "row",
+      alignItems: "baseline",
+    },
+    monthText: {
+      fontSize: 18,
+      color: colors.black,
+      fontWeight: "bold",
+    },
+    yearText: {
+      fontSize: 18,
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    weekDaysContainer: {
+      flexDirection: "row",
+      marginTop: 10,
+      marginBottom: 10,
+    },
+    weekDayText: {
+      width: "14.28%",
+      textAlign: "center",
+      color: colors.darkHighlight,
+    },
+    daysContainer: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      paddingBottom: 20,
+    },
+    dayContainer: {
+      width: "14.28%",
+      height: 50,
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 10,
+    },
+    dayWrapper: {
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    editModeDayWrapper: {
+      borderWidth: 2,
+      borderColor: colors.black,
+      borderStyle: "dotted",
+      borderRadius: 25,
+      width: 43,
+      height: 43,
+    },
+    dayText: {
+      color: colors.black,
+    },
+    greyDayText: {
+      color: "grey",
+    },
+    periodDayCircle: {
+      backgroundColor: colors.darkHighlight,
+      borderWidth: 2,
+      borderColor: colors.darkestHighlight,
+      borderRadius: 25,
+      width: 43,
+      height: 43,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    periodDayText: {
+      color: colors.white,
+    },
+    specialDayCircle: {
+      backgroundColor: colors.blue,
+      borderWidth: 2,
+      borderColor: "#1A74AD", //dark blue?
+      borderRadius: 25,
+      width: 43,
+      height: 43,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    specialDayText: {
+      fontWeight: "bold",
+      color: colors.black,
+    },
+    logPeriodButton: {
+      alignSelf: "center",
+      backgroundColor: colors.white,
+      borderColor: colors.darkHighlight,
+      borderWidth: 2,
+      borderRadius: 25,
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      width: "50%",
+    },
+    logPeriodButtonText: {
+      textAlign: "center",
+      color: colors.darkHighlight,
+      fontWeight: "bold",
+    },
+    cannotLogPeriodText: {
+      marginTop: 10,
+      fontSize: 12,
+      color: "grey",
+      textAlign: "center",
+    },
+  });
+
   return (
     <ThemedView style={styles.container}>
       {/* Calendar Container with Rounded Corners and Shadow */}
@@ -314,137 +456,3 @@ export function CalendarComponent({
     </ThemedView>
   );
 }
-
-const styles = StyleSheet.create({
-  footer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    paddingTop: 10,
-    paddingBottom: 10,
-    gap: 10,
-  },
-  container: {
-    padding: 10,
-  },
-  calendarContainer: {
-    backgroundColor: colors.white,
-    borderRadius: 15,
-    padding: 10,
-    // iOS shadow properties
-    shadowColor: colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    // Android elevation
-    elevation: 5,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingTop: 10,
-    paddingBottom: 20,
-  },
-  headerTitle: {
-    flexDirection: "row",
-    alignItems: "baseline",
-  },
-  monthText: {
-    fontSize: 18,
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  yearText: {
-    fontSize: 18,
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  weekDaysContainer: {
-    flexDirection: "row",
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  weekDayText: {
-    width: "14.28%",
-    textAlign: "center",
-    color: colors.darkPink,
-  },
-  daysContainer: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    paddingBottom: 20,
-  },
-  dayContainer: {
-    width: "14.28%",
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-  },
-  dayWrapper: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  editModeDayWrapper: {
-    borderWidth: 2,
-    borderColor: colors.black,
-    borderStyle: "dotted",
-    borderRadius: 25,
-    width: 43,
-    height: 43,
-  },
-  dayText: {
-    color: colors.black,
-  },
-  greyDayText: {
-    color: "grey",
-  },
-  periodDayCircle: {
-    backgroundColor: colors.darkPink,
-    borderWidth: 2,
-    borderColor: colors.darkestPink,
-    borderRadius: 25,
-    width: 43,
-    height: 43,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  periodDayText: {
-    color: colors.white,
-  },
-  specialDayCircle: {
-    backgroundColor: colors.blue,
-    borderWidth: 2,
-    borderColor: "#1A74AD", //dark blue?
-    borderRadius: 25,
-    width: 43,
-    height: 43,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  specialDayText: {
-    fontWeight: "bold",
-    color: colors.black,
-  },
-  logPeriodButton: {
-    alignSelf: "center",
-    backgroundColor: colors.white,
-    borderColor: colors.darkPink,
-    borderWidth: 2,
-    borderRadius: 25,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: "50%",
-  },
-  logPeriodButtonText: {
-    textAlign: "center",
-    color: colors.darkPink,
-    fontWeight: "bold",
-  },
-  cannotLogPeriodText: {
-    marginTop: 10,
-    fontSize: 12,
-    color: "grey",
-    textAlign: "center",
-  },
-});
