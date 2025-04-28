@@ -6,6 +6,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  ScrollView,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -13,43 +14,69 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
+import { CalendarComponent } from "@/components/Calendar";
 
-export default function CustomizeExamDateScreen() {
+import { router } from "expo-router";
+import { SelectLanguage } from "@/components/SelectLanguage";
+import { getCheckupDay } from "@/hooks/usePeriodData";
+import { NotificationComponent } from "@/components/Notifications";
+import LoadingScreen from "@/components/Loading";
+
+type Noti = {
+  id: number;
+  variant: "default" | "overdue" | undefined;
+  date: Date;
+};
+
+export type CalendarOnboardingProps = Partial<{
+  name: string;
+  isMenstruating: boolean;
+}>;
+
+export default function CalendarOnboardingScreen(
+  props: CalendarOnboardingProps
+) {
   const router = useRouter();
   const { colors } = useColors();
-  const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
-  const [id, setId] = useState({ userId: "" });
 
+  const [id, setId] = useState({ userId: "" });
+  const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
+    undefined
+  );
+  const [examDay, setExamDay] = useState<number>(1);
+  const [notifications, setNotifications] = useState<Noti[]>([]);
+
+  //load the userId
   useEffect(() => {
     getSetting("userId").then((userId) => {
       setId({ userId });
     });
   }, []);
 
+  //once we have userId, load the schedulingType
+  useEffect(() => {
+    if (id.userId && props.isMenstruating === undefined) {
+      getSetting(`${id.userId}_schedulingType` as keyof SettingsMap).then(
+        (s) => {
+          setIsMenstruating(s === "period");
+        }
+      );
+    }
+  }, [id.userId, props.isMenstruating]);
+
+  //save the examDay under its own key
   const handleSaveChanges = () => {
-    saveSetting(`${id.userId}_schedulingType` as keyof SettingsMap, {
+    saveSetting(`${id.userId}_examDay` as keyof SettingsMap, {
       day: examDay,
-    }).then(() => router.push("/"));
-    // TODO: Save the examDay to your data store or state management
-    // Navigate back to the previous page
-  };
-
-  const incrementDay = () => {
-    if (examDay < 28) {
-      setExamDay(examDay + 1);
-    }
-  };
-
-  const decrementDay = () => {
-    if (examDay > 1) {
-      setExamDay(examDay - 1);
-    }
+    }).then(() => {
+      router.push("/");
+    });
   };
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.backgroundLightGray, // Main body background color
+      backgroundColor: colors.backgroundLightGray,
     },
     headerContainer: {
       backgroundColor: colors.white,
@@ -73,7 +100,7 @@ export default function CustomizeExamDateScreen() {
       backgroundColor: colors.darkHighlight,
       width: 40,
       height: 40,
-      borderRadius: 20, // Circular button
+      borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
       marginRight: 10,
@@ -124,7 +151,7 @@ export default function CustomizeExamDateScreen() {
     instructionText: {
       paddingVertical: 25,
       fontSize: 20,
-      color: colors.darkGray, //used to be #4B4B4B, unique color - only slightly off from darkGray
+      color: colors.darkGray,
       fontWeight: "bold",
       textAlign: "center",
     },
@@ -162,7 +189,7 @@ export default function CustomizeExamDateScreen() {
       backgroundColor: colors.mediumHighlight,
       width: 30,
       height: 30,
-      borderRadius: 15, // Circular
+      borderRadius: 15,
       alignItems: "center",
       justifyContent: "center",
     },
@@ -206,81 +233,74 @@ export default function CustomizeExamDateScreen() {
           {/* Title */}
           <View style={styles.titleContainer}>
             <ThemedText style={styles.customizeYourText}>
-              Customize <ThemedText style={styles.yourText}>Your</ThemedText>
+              Select the days{" "}
+              <ThemedText style={styles.yourText}>that</ThemedText>
             </ThemedText>
-            <ThemedText style={styles.examinationText}>Examination</ThemedText>
+            <ThemedText style={styles.examinationText}>
+              you have menstruated
+            </ThemedText>
           </View>
         </View>
       </View>
 
-      {/* Main Body */}
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.bodyContainer}>
-          {/* White Rectangle */}
-          <View style={styles.whiteBox}>
-            <ThemedText style={styles.instructionText}>
-              Choose the day that you would like to perform a monthly self
-              examination
-            </ThemedText>
+      <ScrollView>
+        {/* Main Body */}
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.bodyContainer}>
+            {/* White Rectangle */}
+            <View style={styles.whiteBox}>
+              <ThemedText style={styles.instructionText}>
+                Press the 'Edit Periods' button at the bottom right of the
+                calendar and select the days you have menstruated. This will
+                calculate the date (shown in blue) that you should complete your
+                breast self-examination.
+              </ThemedText>
 
-            <View style={{ height: 20 }} />
+              <View style={{ height: 20 }} />
 
-            <ThemedText style={styles.chooseDayText}>
-              Choose a day from 1-28
-            </ThemedText>
+              {isMenstruating != null && (
+                <CalendarComponent
+                  isMenstruating={isMenstruating}
+                  userId={id.userId}
+                  updateCheckupDay={() => {
+                    const ts = getCheckupDay();
+                    if (ts) {
+                      const date = new Date(ts.year, ts.month, ts.date + 7);
 
-            <View style={{ height: 20 }} />
+                      setNotifications([
+                        {
+                          id: 1,
+                          variant:
+                            new Date().getTime() < date.getTime()
+                              ? "default"
+                              : "overdue",
+                          date,
+                        },
+                      ]);
+                    }
+                  }}
+                />
+              )}
 
-            {/* Highlight Rectangle */}
-            <View style={styles.pinkRectangle}>
-              {/* Display Exam Day */}
-              <ThemedText style={styles.dayDisplay}>{examDay}</ThemedText>
+              <View style={{ height: 10 }} />
 
-              {/* Up and Down Buttons */}
-              <View style={styles.chevronContainer}>
-                <TouchableOpacity
-                  onPress={incrementDay}
-                  style={styles.chevronButton}
-                >
-                  <View style={styles.chevronCircle}>
-                    <Ionicons
-                      name="chevron-up"
-                      size={20}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={decrementDay}
-                  style={styles.chevronButton}
-                >
-                  <View style={styles.chevronCircle}>
-                    <Ionicons
-                      name="chevron-down"
-                      size={20}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
-              </View>
+              <ThemedText style={styles.changeAnytimeText}>
+                This can be changed at any time
+              </ThemedText>
             </View>
 
-            <View style={{ height: 10 }} />
-
-            <ThemedText style={styles.changeAnytimeText}>
-              This can be changed at any time
-            </ThemedText>
+            {/* Save Changes Button */}
+            <TouchableOpacity
+              style={styles.saveButton}
+              onPress={handleSaveChanges}
+            >
+              <ThemedText style={styles.saveButtonText}>
+                Save Changes
+              </ThemedText>
+            </TouchableOpacity>
           </View>
-
-          {/* Save Changes Button */}
-          <TouchableOpacity
-            style={styles.saveButton}
-            onPress={handleSaveChanges}
-          >
-            <ThemedText style={styles.saveButtonText}>Save Changes</ThemedText>
-          </TouchableOpacity>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </ScrollView>
     </ThemedView>
   );
 }

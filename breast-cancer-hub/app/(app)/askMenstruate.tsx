@@ -4,22 +4,22 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
-import { initPeriods } from "@/hooks/usePeriodData"
+import { initPeriods } from "@/hooks/usePeriodData";
 import { useColors } from "@/components/ColorContext";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
   const [selectedOption, setSelectedOption] = useState<
     null | "menstruate" | "notMenstruate"
   >(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [id, setId] = useState({ userId: ""});
+  const [id, setId] = useState({ userId: "" });
 
   useEffect(() => {
     getSetting("userId").then((userId) => {
-      setId({ userId});
-    })
+      setId({ userId });
+    });
   }, []);
 
   const handleSaveChanges = () => {
@@ -32,8 +32,11 @@ export default function MenstruationSelectionScreen() {
         return;
       }
       if (selectedOption == "menstruate") {
-        saveSetting(`${id.userId}_schedulingType` as keyof SettingsMap, "period").then(() => {
-          router.push("/");
+        saveSetting(
+          `${id.userId}_schedulingType` as keyof SettingsMap,
+          "period"
+        ).then(() => {
+          router.push("/calendarOnboarding");
         });
       } else {
         router.push("/CustomizeExamDateScreen");
@@ -91,7 +94,7 @@ export default function MenstruationSelectionScreen() {
     },
     optionButton: {
       //width: "60%", // Made the button smaller
-      alignSelf: 'center',
+      alignSelf: "center",
       paddingLeft: 15,
       paddingRight: 15,
       backgroundColor: colors.backgroundLightGray,
@@ -138,7 +141,6 @@ export default function MenstruationSelectionScreen() {
       fontWeight: "bold",
     },
   });
-  
 
   return (
     <ThemedView style={globalStyles.bodyContainerDarkHighlight}>

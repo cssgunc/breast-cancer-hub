@@ -149,6 +149,16 @@ export default function HomeScreen() {
                     </ThemedText>
                   </TouchableOpacity>
                 </ThemedView>
+                <ThemedView style={styles.singleButtonContainer}>
+                  <TouchableOpacity
+                    style={globalStyles.buttonNext}
+                    onPress={() => {router.dismissAll(); router.replace("/")}}
+                  >
+                    <ThemedText style={globalStyles.buttonTextNext}>
+                      Return home
+                    </ThemedText>
+                  </TouchableOpacity>
+                </ThemedView>
               </ThemedView>
             ) : (
               <ThemedView style={[styles.whiteOverlay, {paddingVertical: 0}]}>
