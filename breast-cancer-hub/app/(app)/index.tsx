@@ -442,7 +442,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10}}>
             <CycleLog limit={4} isMenstruating={isMenstruating} />
             <TouchableOpacity
-              onPress={() => router.push("/cycleHistory")}
+              onPress={() => router.push("../../cycleHistory")}
               style={{
                 alignItems: "center",
               }}>
@@ -509,7 +509,7 @@ export default function HomeScreen(props: HomeScreenProps) {
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <View style={styles.kurlbaumContainer}>
                   <Image
-                    source={require("../assets/images/kurlbaum_logo_transparent.png")}
+                    source={require("../../assets/images/kurlbaum_logo_transparent.png")}
                     style={styles.footerLogo}
                   />
                   <ThemedText style={styles.footerLogoText}>
@@ -522,7 +522,7 @@ export default function HomeScreen(props: HomeScreenProps) {
             <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <Image
-                  source={require("../assets/images/MBCH-LOGO-transparent.png")}
+                  source={require("../../assets/images/MBCH-LOGO-transparent.png")}
                   style={styles.footerLogo}
                 />
               </TouchableOpacity>
@@ -531,7 +531,7 @@ export default function HomeScreen(props: HomeScreenProps) {
             <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <Image
-                  source={require("../assets/images/Sarah-Cannon_transparent.png")}
+                  source={require("../../assets/images/Sarah-Cannon_transparent.png")}
                   style={styles.sarahCannonLogo}
                 />
               </TouchableOpacity>
