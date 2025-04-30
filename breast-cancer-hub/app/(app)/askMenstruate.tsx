@@ -148,7 +148,7 @@ export default function MenstruationSelectionScreen() {
       <View style={styles.logoContainer}>
         <View style={styles.logoCircle}>
           <Image
-            source={require("../assets/images/BCH ribbon.png")}
+            source={require("../../assets/images/BCH ribbon.png")}
             style={styles.logoImage}
           />
         </View>

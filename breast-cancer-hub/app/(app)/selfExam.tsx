@@ -30,27 +30,27 @@ const instructions_f = [
     {
       id: 1,
       key:  "CHECK_IN_MIRROR_F",
-      image: require("../assets/images/FEMALE ART 1.jpg"),
+      image: require("../../assets/images/FEMALE ART 1.jpg"),
     },
     {
       id: 2,
       key: "CHECK_NIPPLES_F",
-      image: require("../assets/images/FEMALE ART 2.jpg"),
+      image: require("../../assets/images/FEMALE ART 2.jpg"),
     },
     {
       id: 3,
       key: "SITTING_STANDING_F",
-      image: require("../assets/images/FEMALE ART 3.jpg"),
+      image: require("../../assets/images/FEMALE ART 3.jpg"),
     },
     {
       id: 4,
       key: "COLLARBONE_F",
-      image: require("../assets/images/FEMALE ART 4.jpg"),
+      image: require("../../assets/images/FEMALE ART 4.jpg"),
     },
     {
       id: 5,
       key: "IN_BED_F",
-      image: require("../assets/images/FEMALE ART 5.png"),
+      image: require("../../assets/images/FEMALE ART 5.png"),
     },
   ];
 
@@ -58,27 +58,27 @@ const instructions_f = [
     {
       id: 1,
       key: "CHECK_IN_MIRROR_M",
-      image: require("../assets/images/MALE ART 1.jpg"),
+      image: require("../../assets/images/MALE ART 1.jpg"),
     },
     {
       id: 2,
       key: "CHECK_NIPPLES_M",
-      image: require("../assets/images/MALE ART 2.jpg"),
+      image: require("../../assets/images/MALE ART 2.jpg"),
     },
     {
       id: 3,
       key: "SITTING_STANDING_M",
-      image: require("../assets/images/MALE ART 3.jpg"),
+      image: require("../../assets/images/MALE ART 3.jpg"),
     },
     {
       id: 4,
       key: "COLLARBONE_M",
-      image: require("../assets/images/MALE ART 4.jpg"),
+      image: require("../../assets/images/MALE ART 4.jpg"),
     },
     {
       id: 5,
       key: "IN_BED_M",
-      image: require("../assets/images/MALE ART 5.png"),
+      image: require("../../assets/images/MALE ART 5.png"),
     },
   ];
 
@@ -89,10 +89,10 @@ export default function HomeScreen() {
   const { t, i18n } = useTranslation();
   
   const [instructions, setInstructions] = useState([
-    { id: 1, key: "", image: require("../assets/images/BCH ribbon.png") },
+    { id: 1, key: "", image: require("../../assets/images/BCH ribbon.png") },
   ]);
 
-  // const [usedInstructions, setUsedInstructions] = useState({id: 1, text: "", image: require('../assets/images/BCH ribbon.png')})
+  // const [usedInstructions, setUsedInstructions] = useState({id: 1, text: "", image: require('../../../../assets/images/BCH ribbon.png')})
 
   const [isLoading, setIsLoading] = useState(true);
 

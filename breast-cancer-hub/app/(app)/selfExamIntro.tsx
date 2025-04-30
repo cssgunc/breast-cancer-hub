@@ -8,8 +8,8 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "../hooks/useSettings";
-import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { getSetting, SettingsMap } from "../../hooks/useSettings";
+import { LearnMoreTextContainer } from "../../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
 

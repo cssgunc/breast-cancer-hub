@@ -13,8 +13,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "../hooks/useSettings";
-import { LearnMoreTextContainer } from "../components/LearnMoreText";
+import { getSetting, SettingsMap } from "../../hooks/useSettings";
+import { LearnMoreTextContainer } from "../../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 
 export default function HomeScreen() {
@@ -113,7 +113,7 @@ export default function HomeScreen() {
               }}
             >
               <Image
-                source={require("../assets/images/BCH App Image 4.png")}
+                source={require("../../assets/images/BCH App Image 4.png")}
                 style={{
                   width: "75%",
                   height: "77.5%",

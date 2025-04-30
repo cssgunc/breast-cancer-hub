@@ -508,13 +508,13 @@ export default function OnboardingScreen() {
               <ThemedView style={styles.avatar}>
                 <TouchableOpacity onPress={() => avatarPress(false)}>
                   <Image
-                    source={require("../assets/images/FEMALE ART 1.jpg")}
+                    source={require("../../assets/images/FEMALE ART 1.jpg")}
                     style={styles.image}
                   />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => avatarPress(true)}>
                   <Image
-                    source={require("../assets/images/MALE ART 1.jpg")}
+                    source={require("../../assets/images/MALE ART 1.jpg")}
                     style={styles.image}
                   />
                 </TouchableOpacity>
