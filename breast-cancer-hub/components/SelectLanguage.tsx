@@ -45,7 +45,7 @@ export function SelectLanguage() {
   const { t, i18n } = useTranslation(); 
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);
-  const { colors } = useColors();
+  const { colors, globalStyles } = useColors();
 
   useEffect(() => {
     const getStoredLanguage = async () => {
@@ -95,31 +95,9 @@ export function SelectLanguage() {
   };
 
   const styles = StyleSheet.create({
-  button: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderRadius: 25,
-    height: 48,
-    backgroundColor: colors.white, // White background
-    paddingHorizontal: 18, // Padding for button content
-    borderWidth: 2,
-    borderColor: "#aaaaaa", // Border color for button
-    marginTop: 20
-  },
-  selectLanguageText: {
-    color: "#666666", // Grey color for 'Select Language'
-    fontSize: 14,
-    fontWeight: "bold",
-  },
   separator: {
-    color: "#cccccc", // Light grey color for separator '|'
+    color: colors.lighterGray,
     marginHorizontal: 0,
-  },
-  language: {
-    color: "#666666", // Black color for the selected language (can change based on theme)
-    fontSize: 16,
-    fontWeight: "bold",
   },
   dropdown: {
     marginTop: 5,
@@ -139,15 +117,15 @@ export function SelectLanguage() {
     <ThemedView>
       {/* Button to open the dropdown */}
       <TouchableOpacity
-        style={styles.button}
+        style={[globalStyles.settingsButton]}
         onPress={() => setIsOpen((value) => !value)}
         activeOpacity={0.8}
       >
-        <ThemedText style={styles.selectLanguageText}>
+        <ThemedText type="default" bold>
           {t("Select Language")}
         </ThemedText>
         <ThemedText style={styles.separator}> | </ThemedText>
-        <ThemedText style={styles.language}>{selectedLanguage}</ThemedText>
+        <ThemedText type="default" bold>{selectedLanguage}</ThemedText>
         <Ionicons
           name={isOpen ? "chevron-down" : "chevron-forward-outline"}
           size={18}

@@ -191,20 +191,12 @@ export default function HomeScreen(props: HomeScreenProps) {
     pastExamsText: {
       marginTop: 20,
       marginBottom: 40,
-      fontSize: 16,
-      color: colors.blue,
       textAlign: "center",
       fontWeight: "bold",
     },
     contactButton: {
       marginTop: 20,
       marginHorizontal: 100,
-      backgroundColor: colors.darkHighlight,
-      borderColor: colors.darkHighlight,
-      borderWidth: 1,
-      borderRadius: 50,
-      paddingVertical: 15,
-      alignItems: "center",
     },
     contactButtonText: {
       color: colors.white,
@@ -214,12 +206,6 @@ export default function HomeScreen(props: HomeScreenProps) {
       marginTop: 10,
       marginBottom: 30,
       marginHorizontal: 20,
-      backgroundColor: colors.white,
-      borderColor: colors.grayHomePageLearnMoreButton,
-      borderWidth: 2,
-      borderRadius: 50,
-      paddingVertical: 15,
-      alignItems: "center",
     },
     learnMoreButtonText: {
       color: colors.darkHighlight,
@@ -282,18 +268,13 @@ export default function HomeScreen(props: HomeScreenProps) {
       padding: 20,
       alignItems: "center",
     },
-    closeButton: {
-      alignSelf: "flex-end",
-    },
     modalTitle: {
-      fontSize: 20,
       color: colors.darkHighlight,
-      fontWeight: "bold",
       marginBottom: 20,
     },
     modalButton: {
       backgroundColor: colors.white,
-      borderColor: colors.grayHomePageLearnMoreButton,
+      borderColor: colors.lighterGray,
       borderWidth: 1,
       borderRadius: 50,
       paddingVertical: 15,
@@ -436,7 +417,7 @@ export default function HomeScreen(props: HomeScreenProps) {
               style={{
                 alignItems: "center",
               }}>
-              <ThemedText style={styles.pastExamsText}>
+              <ThemedText type="link" style={styles.pastExamsText}>
                 View your past examinations here
               </ThemedText>
             </TouchableOpacity>
@@ -447,7 +428,7 @@ export default function HomeScreen(props: HomeScreenProps) {
 
           {/* Contact Buttons */}
           <TouchableOpacity
-            style={styles.contactButton}
+            style={[globalStyles.buttonPrimary, styles.contactButton]}
             onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
           >
             <ThemedText style={styles.contactButtonText}>
@@ -456,7 +437,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={styles.learnMoreButton}
+            style={[globalStyles.buttonSecondary, styles.learnMoreButton]}
             onPress={() => setModalVisible(true)}
           >
             <ThemedText style={styles.learnMoreButtonText}>
@@ -518,13 +499,13 @@ export default function HomeScreen(props: HomeScreenProps) {
               <View style={styles.modalContainer}>
                 {/* Close Button */}
                 <TouchableOpacity
-                  style={styles.closeButton}
+                  style={{alignSelf: "flex-end"}}
                   onPress={() => setModalVisible(false)}
                 >
                   <Ionicons name="close" size={24} color={colors.darkHighlight} />
                 </TouchableOpacity>
                 {/* Modal Title */}
-                <ThemedText style={styles.modalTitle}>Learn More</ThemedText>
+                <ThemedText type="subtitle" style={styles.modalTitle}>Learn More</ThemedText>
 
                 {/* Buttons */}
                 <TouchableOpacity

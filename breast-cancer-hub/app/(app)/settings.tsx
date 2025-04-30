@@ -17,7 +17,7 @@ import { useColors } from "@/components/ColorContext";
 export default function SettingsScreen() {
   const router = useRouter();
 
-  const {colors, setDarkMode} = useColors();
+  const {colors, globalStyles, setDarkMode} = useColors();
 
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
@@ -71,29 +71,6 @@ export default function SettingsScreen() {
 
   const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
 
-  // API call to read user settings from database.
-  // **REPLACED WITH LOCAL STORAGE CALL**
-  // useEffect(() => {
-  //   if (person.token == "") {
-  //     return
-  //   } else {
-  //     fetch(`${BASE_URL}:3000/settings` + "?user_id=" + person.userId, {
-  //       method: "GET", 
-  //       headers: {
-  //         "x-session-token": person.token,
-  //         'x-user-email' : person.email,
-  //         }
-  //       })
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         setIsTelemetryEnabled(data.settings.use_telemetry);
-  //         setIsDarkThemeEnabled(data.settings.use_dark_mode);
-  //         setIsBackupEnabled(data.settings.use_backup_data);
-  //       })
-  //       .catch(error => console.error(error));
-  //   }
-  // }, [person.token]);
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -116,10 +93,6 @@ export default function SettingsScreen() {
       marginRight: 10,
     },
     settingsText: {
-      fontSize: 36,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-      lineHeight: 40,
       margin: 10,
     },
     contentContainer: {
@@ -146,15 +119,6 @@ export default function SettingsScreen() {
     userTextContainer: {
       flex: 1,
     },
-    userNameText: {
-      fontSize: 36,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-    },
-    userEmailText: {
-      fontSize: 15,
-      color: colors.black,
-    },
     profileIconContainer: {
       backgroundColor: colors.mediumHighlight, //Light-ish pink used specifically for 
       width: 60,
@@ -174,9 +138,6 @@ export default function SettingsScreen() {
       marginBottom: 0,
     },
     sectionHeaderText: {
-      fontSize: 20,
-      color: colors.black,
-      fontWeight: "bold",
       marginBottom: 10,
     },
     optionContainer: {
@@ -186,22 +147,11 @@ export default function SettingsScreen() {
       paddingVertical: 10,
     },
     optionText: {
-      fontSize: 15,
-      color: colors.black,
       flex: 0.5,
       flexWrap: "wrap",
     },
     saveButton: {
-      backgroundColor: colors.darkHighlight,
-      borderRadius: 30,
-      paddingVertical: 15,
-      alignItems: "center",
       marginTop: 50,
-    },
-    saveButtonText: {
-      fontSize: 20,
-      color: colors.white,
-      fontWeight: "bold",
     },
   });
   
@@ -218,7 +168,7 @@ export default function SettingsScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Settings Text */}
-        <ThemedText style={styles.settingsText}>Settings</ThemedText>
+        <ThemedText type="title" colored style={styles.settingsText}>Settings</ThemedText>
       </View>
 
       {/* Content */}
@@ -228,8 +178,8 @@ export default function SettingsScreen() {
           {/* User Info */}
           <View style={styles.userInfoContainer}>
             <View style={styles.userTextContainer}>
-              <ThemedText style={styles.userNameText}>{person.name}</ThemedText>
-              <ThemedText style={styles.userEmailText}>
+              <ThemedText type="title" colored>{person.name}</ThemedText>
+              <ThemedText>
                 {person.email}
               </ThemedText>
             </View>
@@ -244,7 +194,7 @@ export default function SettingsScreen() {
 
           {/* General Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText style={styles.sectionHeaderText}>General</ThemedText>
+            <ThemedText type="subtitle" style={styles.sectionHeaderText}>General</ThemedText>
 
             {/* Notification Preferences */}
             <TouchableOpacity
@@ -341,9 +291,9 @@ export default function SettingsScreen() {
           </View>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={() => saveSettings()}>
-            <ThemedText 
-              style={styles.saveButtonText}
+          <TouchableOpacity style={globalStyles.buttonPrimary} onPress={() => saveSettings()}>
+            <ThemedText
+              style={globalStyles.buttonTextPrimary}
               onPress = {() => {saveSettings();}}
             >Save Settings</ThemedText>
           </TouchableOpacity>

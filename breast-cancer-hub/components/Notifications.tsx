@@ -81,14 +81,7 @@ export function NotificationComponent({
       flex: 1,
     },
     headerText: {
-      fontWeight: "bold",
-      fontSize: 16,
-      color: colors.black,
       marginBottom: 5,
-    },
-    bodyText: {
-      fontSize: 14,
-      color: colors.black,
     },
     trashIconContainer: {
       paddingLeft: 10,
@@ -117,8 +110,8 @@ export function NotificationComponent({
         style={styles.textContainer}
         onPress={() => router.push("/selfExamIntro")}
       >
-        <ThemedText style={[styles.headerText, {color: headerTextColor}]}>{headerText}</ThemedText>
-        <ThemedText style={styles.bodyText}>
+        <ThemedText bold style={[styles.headerText, {color: headerTextColor}]}>{headerText}</ThemedText>
+        <ThemedText>
           Complete your self-examination.
         </ThemedText>
       </TouchableOpacity>

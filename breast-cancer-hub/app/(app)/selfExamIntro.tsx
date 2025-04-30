@@ -116,7 +116,7 @@ export default function SelfExamInfo() {
                 <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.buttonNext}
+                style={globalStyles.buttonPrimary}
                 onPress={() => router.push("/selfExam")}
               >
                 <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
@@ -173,7 +173,7 @@ export default function SelfExamInfo() {
                   <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={globalStyles.buttonNext}
+                  style={globalStyles.buttonPrimary}
                   onPress={() => router.push("/selfExam")}
                 >
                   <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>

@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
-  ScrollView,
   StyleSheet,
   View,
-  Text,
   TouchableOpacity,
   Linking,
   Image,
@@ -11,10 +9,8 @@ import {
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "../../hooks/useSettings";
-import { LearnMoreTextContainer } from "../../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 
 export default function HomeScreen() {

@@ -9,7 +9,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
-  const {colors} = useColors();
+  const {colors, globalStyles} = useColors();
 
   const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
 
@@ -48,18 +48,12 @@ export default function ProfileSettingsScreen() {
       marginBottom: "5%",
     },
     backButton: {
-      backgroundColor: colors.darkHighlight,
+      ...globalStyles.buttonPrimary,
       width: 40,
       height: 40,
-      borderRadius: 20, // Circular
-      alignItems: "center",
       justifyContent: "center",
     },
     headerTitle: {
-      fontSize: 36,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-      lineHeight: 40,
       margin:  15,
     },
     mainContainer: {
@@ -87,11 +81,6 @@ export default function ProfileSettingsScreen() {
       alignItems: "flex-start",
       width: "100%",
     },
-    userName: {
-      fontSize: 24,
-      color: colors.black,
-      fontWeight: "bold",
-    },
     divider: {
       height: 4,
       backgroundColor: colors.lightHighlight,
@@ -104,28 +93,11 @@ export default function ProfileSettingsScreen() {
       width: "100%",
       marginBottom: 10,
     },
-    infoLabel: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-    },
-    infoValue: {
-      fontSize: 16,
-      color: colors.black,
-    },
     signOutButton: {
-      backgroundColor: colors.darkHighlight,
-      borderRadius: 30,
-      paddingVertical: 15,
-      alignItems: "center",
+      ...globalStyles.buttonPrimary,
       marginTop: "auto", // Push the button to the bottom
       width: "100%",
-    },
-    signOutButtonText: {
-      fontSize: 20,
-      color: colors.white,
-      fontWeight: "bold",
-    },
+    }
   });  
 
   return (
@@ -140,7 +112,7 @@ export default function ProfileSettingsScreen() {
           <Ionicons name="chevron-back" size={24} color="white" />
         </TouchableOpacity>
         {/* Edit Profile Text */}
-        <ThemedText style={styles.headerTitle}>Edit Profile</ThemedText>
+        <ThemedText type="title" style={styles.headerTitle}>Edit Profile</ThemedText>
       </View>
 
       {/* Main White Rounded Rectangle */}
@@ -154,7 +126,7 @@ export default function ProfileSettingsScreen() {
 
           {/* User Info */}
           <View style={styles.userInfoContainer}>
-            <ThemedText style={styles.userName}>{person.name}</ThemedText>
+            <ThemedText type="subtitle" colored>{person.name}</ThemedText>
           </View>
 
           {/* Divider */}
@@ -162,28 +134,28 @@ export default function ProfileSettingsScreen() {
 
           {/* Username Section */}
           <View style={styles.infoRow}>
-            <ThemedText style={styles.infoLabel}>Username</ThemedText>
-            <ThemedText style={styles.infoValue}>{person.name}</ThemedText>
+            <ThemedText bold>Username</ThemedText>
+            <ThemedText>{person.name}</ThemedText>
           </View>
           <View style={styles.divider} />
 
           {/* Password Section */}
           <View style={styles.infoRow}>
-            <ThemedText style={styles.infoLabel}>Password</ThemedText>
-            <ThemedText style={styles.infoValue}>•••••••</ThemedText>
+            <ThemedText bold>Password</ThemedText>
+            <ThemedText>•••••••</ThemedText>
           </View>
           <View style={styles.divider} />
 
           {/* Email Section */}
           <View style={styles.infoRow}>
-            <ThemedText style={styles.infoLabel}>Email</ThemedText>
-            <ThemedText style={styles.infoValue}>{person.email}</ThemedText>
+            <ThemedText bold>Email</ThemedText>
+            <ThemedText>{person.email}</ThemedText>
           </View>
         </ScrollView>
 
         {/* Sign Out Button */}
         <TouchableOpacity style={styles.signOutButton} onPress={() => logout()}>
-          <ThemedText style={styles.signOutButtonText}>Sign Out</ThemedText>
+          <ThemedText style={globalStyles.buttonTextPrimary}>Sign Out</ThemedText>
         </TouchableOpacity>
       </View>
     </ThemedView>

@@ -443,7 +443,7 @@ export function CalendarComponent({
                 onPress={() => setIsEditing(true)}
                 style={{ display: "flex", flexDirection: "row", gap: 10 }}
               >
-                <ThemedText>Edit Periods</ThemedText>
+                <ThemedText type="caption">Edit Periods</ThemedText>
                 <Ionicons name="create-outline" size={24} color={colors.black} />
               </TouchableOpacity>
             )}

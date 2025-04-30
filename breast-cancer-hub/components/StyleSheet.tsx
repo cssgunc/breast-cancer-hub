@@ -6,6 +6,21 @@ import { StyleSheet } from "react-native";
 import { ColorTheme } from "./ColorContext";
 
 export const makeGlobalStyles = (colors: ColorTheme) => {
+  const baseStyles = {
+    // Buttons
+    baseButton: {
+      paddingVertical: 15,
+      paddingHorizontal: 40,
+      borderRadius: 30,
+      borderWidth: 2,
+      alignItems: "center" as const,
+    },
+    baseButtonText: {
+      fontSize: 18,
+      textAlign: "center" as const,
+    }
+  }
+
   return StyleSheet.create({
   // Containers and formatting
   header: {
@@ -108,37 +123,44 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
     color: colors.lightGray
   },
 
-  // Buttons
-  baseButton: {
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    borderWidth: 2,
-  },
-
   // Back/Next Buttons
   buttonBackNextContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
   },
-  buttonBack: {
-    backgroundColor: colors.white,
-    borderColor: colors.lighterGray,
-  },
-  buttonNext: {
+  buttonPrimary: { // Next
+    ...baseStyles.baseButton,
+    
     backgroundColor: colors.darkHighlight,
     borderColor: colors.darkHighlight,
   },
-  buttonTextBack: {
-    color: colors.darkHighlight,
-    fontSize: 18,
-    textAlign: "center",
+  buttonSecondary: { // Back
+    ...baseStyles.baseButton,
+   
+    backgroundColor: colors.white,
+    borderColor: colors.lighterGray,
   },
-  buttonTextNext: {
+  buttonTextSecondary: {
+    ...baseStyles.baseButtonText,
+    color: colors.darkHighlight,
+  },
+  buttonTextPrimary: {
+    ...baseStyles.baseButtonText,
     color: colors.white,
-    fontSize: 18,
-    textAlign: "center",
+  },
+
+  // Onboarding buttons
+  settingsButton: {
+     ...baseStyles.baseButton,
+    backgroundColor: colors.white,
+    borderColor: colors.lighterGray,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    height: 48,
+    paddingHorizontal: 18,
+    marginTop: 30,
+    marginBottom: 30,
   },
 
   // LOGIN/SIGNUP

@@ -101,11 +101,7 @@ export default function HomeScreen() {
     },
     
     instructionText: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: colors.black,
       maxWidth: "80%",
-      lineHeight: 20,
     },
     
   });
@@ -144,7 +140,7 @@ export default function HomeScreen() {
                   <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
                     {info_f.map((item: { id: number; key: string }) => (
                       <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
-                        <ThemedText style={styles.instructionText}>
+                        <ThemedText bold style={styles.instructionText}>
                           {t(item.key)}
                         </ThemedText>
                         <View style={styles.checkBoxContainer}>
@@ -162,7 +158,7 @@ export default function HomeScreen() {
                   <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
                     {info_m.map((item: { id: number; key: string }) => (
                       <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
-                        <ThemedText style={styles.instructionText}>
+                        <ThemedText bold style={styles.instructionText}>
                           {t(item.key)}
                         </ThemedText>
                         <View style={styles.checkBoxContainer}>
@@ -194,7 +190,7 @@ export default function HomeScreen() {
                 </ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.buttonNext}
+                style={globalStyles.buttonPrimary}
                 onPress={() =>{
                   saveSymptoms();
                   router.push({

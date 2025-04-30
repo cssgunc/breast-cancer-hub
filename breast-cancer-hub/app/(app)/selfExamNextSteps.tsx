@@ -128,7 +128,7 @@ export default function HomeScreen() {
                 <ThemedView style={styles.singleButtonContainer}>
                   {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
                   <TouchableOpacity
-                    style={globalStyles.buttonNext}
+                    style={globalStyles.buttonPrimary}
                     onPress={() =>
                       Linking.openURL(
                         "https://www.breastcancerhub.org/new-page-3"
@@ -142,7 +142,7 @@ export default function HomeScreen() {
                 </ThemedView>
                 <ThemedView style={styles.singleButtonContainer}>
                   <TouchableOpacity
-                    style={globalStyles.buttonNext}
+                    style={globalStyles.buttonPrimary}
                     onPress={() => {router.dismissAll(); router.replace("/")}}
                   >
                     <ThemedText style={globalStyles.buttonTextNext}>
@@ -171,7 +171,7 @@ export default function HomeScreen() {
 
                 <ThemedView style={styles.singleButtonContainer}>
                   <TouchableOpacity
-                    style={globalStyles.buttonNext}
+                    style={globalStyles.buttonPrimary}
                     onPress={() => {router.dismissAll(); router.replace("/")}}
                   >
                     <ThemedText style={globalStyles.buttonTextNext}>

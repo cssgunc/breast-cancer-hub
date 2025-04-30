@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -16,11 +16,7 @@ import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 import { CalendarComponent } from "@/components/Calendar";
 
-import { router } from "expo-router";
-import { SelectLanguage } from "@/components/SelectLanguage";
 import { getCheckupDay } from "@/hooks/usePeriodData";
-import { NotificationComponent } from "@/components/Notifications";
-import LoadingScreen from "@/components/Loading";
 
 type Noti = {
   id: number;

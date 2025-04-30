@@ -24,8 +24,6 @@ export interface ColorTheme {
   backgroundGray: string,
   backgroundLightGray: string,
 
-  grayHomePageLearnMoreButton: string,
-
   blue: string,
   green: string,
 

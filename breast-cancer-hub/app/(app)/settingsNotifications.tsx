@@ -20,7 +20,7 @@ import { useColors } from "@/components/ColorContext";
 
 export default function NotificationsScreen() {
   const router = useRouter();
-  const {colors} = useColors();
+  const {colors, globalStyles} = useColors();
   
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
   const TIME_FORMAT_OPTIONS : {hour: "2-digit" | "numeric" | undefined, minute: "2-digit" | "numeric" | undefined}
@@ -82,11 +82,6 @@ export default function NotificationsScreen() {
       getSetting("usePushNotifications").then( (push) => {
         getSetting("notificationTimes").then( (times) => {
           getSetting("locale").then( (loc) => {
-            // console.log("inapp:" + inapp);
-            // console.log("push:" + push);
-            // console.log("locale:" + fixTempLocaleToUS(loc));
-            // console.log("times:");
-            // times.forEach((entry) => console.log(entry))
             setInAppNotifications(inapp);
             setPushNotifications(push);
             setLocale(fixTempLocaleToUS(locale));
@@ -95,45 +90,6 @@ export default function NotificationsScreen() {
         })
       })
     })
-      // if (person.token == "") {
-      //   return
-      // } else {
-      //   fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-      //     method: "GET", 
-      //     headers: {
-      //       "x-session-token": person.token,
-      //       'x-user-email' : person.email,
-      //       }
-      //     })
-      //     .then(response => response.json())
-      //     .then(data => {
-      //       console.log(data);
-      //       setInAppNotifications(data.settings.use_in_app_notifications);
-      //       setPushNotifications(data.settings.use_push_notifications);
-      //       setLocale(fixTempLocaleToUS(data.settings.locale));
-      //     })
-      //     .catch(error => console.error(error));
-
-      //     getSetting("notificationTimes").then(val => console.log("local entries:" + val));
-        
-      //     fetch(`${BASE_URL}/settings_notifications` + "?user_id=" + person.userId, {
-      //       method: "GET", 
-      //       headers: {
-      //         "x-session-token": person.token,
-      //         'x-user-email' : person.email,
-      //         }
-      //       })
-      //       .then(response => response.json())
-      //       .then(data => {
-      //         console.log(data);
-      //         // Convert retrieved times to local format
-      //         for (let i = 0; i < data.time_entries.length; i++) {
-      //           let timearr : any[] = data.time_entries[i].time.split(":");
-      //           data.time_entries[i].time = (new Date(0, 0, 0, Number(timearr[0]), Number(timearr[1]))).toLocaleTimeString(locale, TIME_FORMAT_OPTIONS)
-      //         }
-      //         setTimeEntries(data.time_entries);
-      //       })
-      // }
     }, [person.token]);
     
   // Save notification preferences to local storage
@@ -215,10 +171,6 @@ export default function NotificationsScreen() {
       marginRight: 10,
     },
     headerTitle: {
-      fontSize: 36,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-      lineHeight: 35,
       marginTop: 20,
       marginHorizontal: 10,
       marginBottom: 10,
@@ -269,16 +221,8 @@ export default function NotificationsScreen() {
     checkboxContainer: {
       marginRight: 10,
     },
-    optionTitle: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-    },
     optionDescription: {
-      fontSize: 15,
-      color: colors.mediumGray,
       marginTop: 10,
-      lineHeight: 20,
     },
     divider: {
       height: 4,
@@ -288,10 +232,6 @@ export default function NotificationsScreen() {
       marginVertical: 30,
     },
     selectTimesText: {
-      color: colors.black,
-      fontSize: 16,
-      fontStyle: "italic",
-      fontWeight: "200",
       marginBottom: 20,
     },
     timeEntryBox: {
@@ -344,19 +284,6 @@ export default function NotificationsScreen() {
       color: colors.darkHighlight,
       marginLeft: 10,
     },
-    saveButton: {
-      backgroundColor: colors.darkHighlight,
-      borderRadius: 30,
-      paddingVertical: 15,
-      alignItems: "center",
-      marginTop: 50,
-    },
-    saveButtonText: {
-      fontSize: 20,
-      color: colors.white,
-      fontWeight: "bold",
-    },
-
     // Modal styles
     modalOverlay: {
       flex: 1,
@@ -375,22 +302,14 @@ export default function NotificationsScreen() {
       alignSelf: "flex-end",
     },
     modalTitle: {
-      fontSize: 20,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
       marginBottom: 20,
     },
     modalButton: {
-      backgroundColor: colors.darkHighlight,
-      borderColor: colors.grayHomePageLearnMoreButton,
-      borderWidth: 1,
-      borderRadius: 50,
-      paddingVertical: 15,
+      ...globalStyles.buttonPrimary,
       paddingHorizontal: 20,
       marginBottom: 10,
       marginHorizontal: 10,
       width: 'auto',
-      alignItems: "center",
     },
     modalButtonText: {
       color: colors.white,
@@ -412,7 +331,7 @@ export default function NotificationsScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Notifications Text */}
-        <ThemedText style={styles.headerTitle}>Notifications</ThemedText>
+        <ThemedText type="title" colored style={styles.headerTitle}>Notifications</ThemedText>
       </View>
 
       {/* Content */}
@@ -437,11 +356,11 @@ export default function NotificationsScreen() {
                   <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
               </View>
-              <ThemedText style={styles.optionTitle}>
+              <ThemedText colored bold>
                 Push Notifications
               </ThemedText>
             </View>
-            <ThemedText style={styles.optionDescription}>
+            <ThemedText type="caption" style={styles.optionDescription}>
               This device will receive notifications that will be from any
               screen.{"\n"}
               It will be visible to anyone.
@@ -460,11 +379,11 @@ export default function NotificationsScreen() {
                   <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
                 )}
               </View>
-              <ThemedText style={styles.optionTitle}>
+              <ThemedText colored bold>
                 Notification While in App
               </ThemedText>
             </View>
-            <ThemedText style={styles.optionDescription}>
+            <ThemedText type="caption" style={styles.optionDescription}>
               The app will display a notification when you open it.
             </ThemedText>
           </TouchableOpacity>
@@ -477,7 +396,7 @@ export default function NotificationsScreen() {
           <ThemedText style={styles.sectionSubText2}>
             When would you like to be notified?
           </ThemedText>
-          <ThemedText style={styles.selectTimesText}>Select times</ThemedText>
+          <ThemedText type="caption" italic style={styles.selectTimesText}>Select times</ThemedText>
 
           {/* Time Entries */}
           {timeEntries.map((entry) => (
@@ -512,8 +431,8 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={styles.saveButton} onPress={saveNotificationSettings}>
-            <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
+          <TouchableOpacity style={globalStyles.buttonPrimary} onPress={saveNotificationSettings}>
+            <ThemedText style={globalStyles.buttonTextPrimary}>Save Settings</ThemedText>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -547,7 +466,7 @@ export default function NotificationsScreen() {
             <TouchableWithoutFeedback>
 
               <View style={styles.modalContainer}>
-                <ThemedText style={styles.modalTitle}>Delete Alarm?</ThemedText>
+                <ThemedText type="subtitle" colored style={styles.modalTitle}>Delete Alarm?</ThemedText>
                 <View style={{flexDirection: 'row', width: 'auto'}}>
                   <TouchableOpacity style={styles.modalButton} onPress={() => setDeleteModalVisible(false)}>
                     <ThemedText style={styles.modalButtonText}>Cancel</ThemedText>

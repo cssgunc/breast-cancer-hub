@@ -130,7 +130,7 @@ export default function HomeScreen({ date }: { date: string }) {
                 <ThemedText style={globalStyles.buttonTextBack}>Back to Home</ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.buttonNext}
+                style={globalStyles.buttonPrimary}
                 onPress={() =>
                   router.push({
                     pathname: "/selfExamNextSteps",
@@ -218,7 +218,7 @@ export default function HomeScreen({ date }: { date: string }) {
                 </ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
-                style={globalStyles.buttonNext}
+                style={globalStyles.buttonPrimary}
                 onPress={() =>
                   router.push({
                     pathname: "/selfExamNextSteps",

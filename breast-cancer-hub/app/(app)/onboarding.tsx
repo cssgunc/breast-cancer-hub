@@ -84,83 +84,35 @@ export default function OnboardingScreen() {
       paddingTop: 10,
     },
     paragraphTextTitle: {
-      fontSize: 20,
-      fontWeight: "bold",
       marginTop: 10,
     },
-    paragraphText: {
-      fontSize: 16,
-      color: colors.black,
-      marginVertical: 10,
-      lineHeight: 24,
-    },
     statContainer: {
-      backgroundColor: "#F9F9F9",
+      backgroundColor: colors.backgroundLightGray,
       padding: 10,
       borderLeftWidth: 4,
       borderColor: colors.darkHighlight,
       marginVertical: 15,
     },
-    statTextBold: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-    },
     statText: {
-      fontSize: 16,
-      color: colors.black,
       marginBottom: 10,
     },
-  
     noticeTitle: {
-      fontSize: 24,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
       marginVertical: 10,
-    },
-    noticeText: {
-      fontSize: 16,
-      color: colors.black,
-      lineHeight: 24,
     },
     noticeText2: {
-      fontSize: 15,
-      color: colors.darkGray,
-      lineHeight: 24,
-      fontStyle: "italic",
       marginTop: 20,
     },
-    highlightText: {
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-    },
-    boldText: {
-      fontWeight: "bold",
-      fontStyle: "italic",
-    },
     infoText: {
-      fontSize: 16,
-      color: colors.black,
       marginVertical: 10,
-      lineHeight: 24,
     },
     infoBoldText: {
-      fontWeight: "bold",
-      fontSize: 16,
-      color: colors.black,
       marginVertical: 15,
-      lineHeight: 24,
       marginTop: 20,
     },
     quotesContainer: {
       marginVertical: 20,
-    },
-    quoteText: {
-      fontSize: 16,
-      fontStyle: "italic",
-      color: colors.darkHighlight,
-      textAlign: "center",
-      marginBottom: 10,
+      alignItems: "center",
+      gap: 10,
     },
     buttonStepZeroContainer: {
       flexDirection: "row", 
@@ -168,24 +120,6 @@ export default function OnboardingScreen() {
       width: "100%", 
       paddingHorizontal: 10, 
       marginRight: 30
-    },
-    linkText: {
-      color: colors.blue,
-    },
-    selectLanguages: {
-      marginTop: 30,
-      marginBottom: 30,
-    },
-    darkMode: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "center",
-      gap: 30,
-      marginTop: 30,
-      marginBottom: 30,
-      fontSize: 24,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
     },
     image: {
       width: 300,
@@ -198,31 +132,6 @@ export default function OnboardingScreen() {
       gap: 50,
       marginTop: 15,
       marginBottom: 15,
-      fontSize: 20,
-      color: colors.darkHighlight,
-    },
-    toggleContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      paddingHorizontal: 10,
-      paddingVertical: 10,
-      backgroundColor: colors.white,
-      borderColor: colors.mediumGray,
-      borderWidth: 1,
-      borderRadius: 30,
-      marginTop: 20,
-
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.05,
-      shadowRadius: 4,
-      elevation: 2,
-    },
-    optionText: {
-      fontSize: 14,
-      fontWeight: "600",
-      color: colors.darkGray,
     },
   });
 
@@ -246,10 +155,10 @@ export default function OnboardingScreen() {
                 </ThemedText>
               </ThemedView>
               <ThemedView style={globalStyles.grayLine} />
-              <ThemedText style={styles.paragraphTextTitle}>
+              <ThemedText type= "subtitle" style={styles.paragraphTextTitle}>
                 What is Breast Cancer?
               </ThemedText>
-              <ThemedText style={styles.paragraphText}>
+              <ThemedText>
                 Cancer: the development of abnormal cells that divide uncontrollably
                 and possess the ability to infiltrate and demolish normal body tissue.
                 {"\n\n"}In the body, there are trillions of cells that grow and divide to
@@ -259,11 +168,11 @@ export default function OnboardingScreen() {
                 occur in both women and men, but is far more prevalent in women.
               </ThemedText>
               <ThemedView style={styles.statContainer}>
-                <ThemedText style={styles.statTextBold}>2nd</ThemedText>
+                <ThemedText type="subtitle" colored>2nd</ThemedText>
                 <ThemedText style={styles.statText}>
                   most common cancer in women
                 </ThemedText>
-                <ThemedText style={styles.statTextBold}>1 out of 8</ThemedText>
+                <ThemedText type="subtitle" colored>1 out of 8</ThemedText>
                 <ThemedText style={styles.statText}>
                   women will develop invasive breast cancer over the course of her
                   lifetime
@@ -290,20 +199,20 @@ export default function OnboardingScreen() {
               A Self-Exam
             </ThemedText>
             <ThemedView style={globalStyles.grayLine} />
-            <ThemedText style={styles.noticeTitle}>Notice:</ThemedText>
-            <ThemedText style={styles.noticeText}>
+            <ThemedText type="subtitle" style={styles.noticeTitle} colored>Notice:</ThemedText>
+            <ThemedText>
               A self-exam is not a substitute for annual breast cancer screenings.
-              <Text style={styles.boldText}> Mammograms are essential.</Text>
+              <ThemedText italic bold> Mammograms are essential.</ThemedText>
             </ThemedText>
-            <ThemedText style={styles.noticeText2}>
+            <ThemedText italic style={styles.noticeText2}>
               The most recent American Cancer Society guidelines recommend women
-              ages <Text style={styles.highlightText}>40 to 44</Text> should consider
+              ages <ThemedText colored bold>40 to 44</ThemedText> should consider
               annual breast cancer screenings with mammograms. Women ages{" "}
-              <Text style={styles.highlightText}>45 to 54</Text> should get mammograms
-              every year. Women <Text style={styles.highlightText}>55 and older</Text>{" "}
+              <ThemedText colored bold>45 to 54</ThemedText> should get mammograms
+              every year. Women <ThemedText colored bold>55 and older</ThemedText>{" "}
               should switch to mammograms every 2 years or can continue yearly screening.
             </ThemedText>
-            <ThemedText style={styles.infoBoldText}>
+            <ThemedText bold style={styles.infoBoldText}>
               Dr. Lopa’s self-exams are effective precautionary and preventative measures
               for detecting symptoms of breast cancer.
             </ThemedText>
@@ -314,14 +223,14 @@ export default function OnboardingScreen() {
             </ThemedText>
             <ThemedView style={globalStyles.grayLine} />
             <ThemedView style={styles.quotesContainer}>
-              <ThemedText style={styles.quoteText}>
+              <ThemedText italic colored>
                 “The difference is, this could save your life.”
               </ThemedText>
-              <ThemedText style={styles.quoteText}>
+              <ThemedText italic colored>
                 “Mammograms are important, self-exams are how you are going to find
                 cancer early and save your life.”
               </ThemedText>
-              <ThemedText style={styles.quoteText}>
+              <ThemedText italic colored>
                 “Early detection is the key.”
               </ThemedText>
             </ThemedView>
@@ -344,15 +253,15 @@ export default function OnboardingScreen() {
                 </ThemedText>
               </ThemedView>
               <ThemedView style={globalStyles.grayLine} />
-              <ThemedText style={styles.paragraphText}>
+              <ThemedText>
                 Breast cancer originates in one or both breasts. Early detection through regular screening is essential because it enables treatment at a stage when the cancer is most manageable, often resulting in less aggressive interventions and improved survival rates.
                 {"\n\n"}
                 Screening Methods:
-                {"\n\n"}• <ThemedText style={styles.boldText}>Breast Self-Examination:</ThemedText> It is advisable to begin self-exams between the ages of 17 and 18. Becoming familiar with the normal appearance and feel of your breast tissue can help you identify any changes or abnormalities promptly.
-                {"\n\n"}• <ThemedText style={styles.boldText}>Clinical Breast Examination:</ThemedText> This involves a physical examination of the breasts performed by a qualified healthcare provider.
-                {"\n\n"}• <ThemedText style={styles.boldText}>Mammography:</ThemedText> Women aged 40 and older should undergo annual mammograms. However, it is important to note that mammograms may miss approximately 50% of cancers in women with dense breast tissue.
-                {"\n\n"}• <ThemedText style={styles.boldText}>Advanced Imaging for Dense Breasts:</ThemedText> For women with dense breasts, additional screening methods such as 3-D mammography (tomosynthesis), breast MRI, breast ultrasound, or molecular breast imaging (MBI) may be recommended.
-                {"\n\n"}• <ThemedText style={styles.boldText}>High-Risk Individuals:</ThemedText> Those identified as having a high risk for breast cancer should consider initiating screening earlier and undergoing more frequent evaluations.
+                {"\n\n"}• <ThemedText italic bold>Breast Self-Examination:</ThemedText> It is advisable to begin self-exams between the ages of 17 and 18. Becoming familiar with the normal appearance and feel of your breast tissue can help you identify any changes or abnormalities promptly.
+                {"\n\n"}• <ThemedText italic bold>Clinical Breast Examination:</ThemedText> This involves a physical examination of the breasts performed by a qualified healthcare provider.
+                {"\n\n"}• <ThemedText italic bold>Mammography:</ThemedText> Women aged 40 and older should undergo annual mammograms. However, it is important to note that mammograms may miss approximately 50% of cancers in women with dense breast tissue.
+                {"\n\n"}• <ThemedText italic bold>Advanced Imaging for Dense Breasts:</ThemedText> For women with dense breasts, additional screening methods such as 3-D mammography (tomosynthesis), breast MRI, breast ultrasound, or molecular breast imaging (MBI) may be recommended.
+                {"\n\n"}• <ThemedText italic bold>High-Risk Individuals:</ThemedText> Those identified as having a high risk for breast cancer should consider initiating screening earlier and undergoing more frequent evaluations.
               </ThemedText>
               <StepIndicators totalSteps={totalSteps} currentStep={step} />
               <LearnMoreTextContainer />
@@ -374,20 +283,20 @@ export default function OnboardingScreen() {
                 </ThemedText>
               </ThemedView>
               <ThemedView style={globalStyles.grayLine} />
-              <ThemedText style={styles.paragraphText}>
+              <ThemedText>
                 If you experience any symptoms or require further testing, please consult your healthcare provider promptly.
                 {"\n\n"}For additional support, you can download the "One-stop Lifesaving Early Detection Cards" for other prevalent cancers by visiting:
                 {"\n"}
                 <ExternalLink href="https://www.breastcancerhub.org/educational-cards" asChild>
                   <TouchableOpacity>
-                    <ThemedText style={styles.linkText}>https://www.breastcancerhub.org/educational-cards</ThemedText>
+                    <ThemedText type="link">https://www.breastcancerhub.org/educational-cards</ThemedText>
                   </TouchableOpacity>
                 </ExternalLink>
                 {"\n\n"}To learn more about our grassroots, sustainable solutions that are saving lives globally, please visit:
                 {"\n"}
                 <ExternalLink href="https://www.breastcancerhub.org" asChild>
                   <TouchableOpacity>
-                    <ThemedText style={styles.linkText}>https://www.breastcancerhub.org</ThemedText>
+                    <ThemedText type="link">https://www.breastcancerhub.org</ThemedText>
                   </TouchableOpacity>
                 </ExternalLink>
                 {"\n\n"}If you have any questions, please contact Dr. Lopamudra Das Roy, Founder-President of Breast Cancer Hub, at lopa@breastcancerhub.org.
@@ -410,14 +319,14 @@ export default function OnboardingScreen() {
                 </ThemedText>
               </ThemedView>
               <ThemedView style={globalStyles.grayLine} />
-              <ThemedText style={styles.paragraphText}>
+              <ThemedText>
                 {/* Placeholder content — adapt as needed */}
                 We would like to collect limited, anonymous usage data to help
                 us improve this app and provide a better experience. Your data
                 will remain private, and you can opt out at any time.
               </ThemedText>
-              <View style={styles.toggleContainer}>
-                <ThemedText style={styles.optionText}>
+              <View style={globalStyles.settingsButton}>
+                <ThemedText type="default" bold>
                   {telemetryEnabled ? "Currently Opted In" : "Currently Opted Out"}
                 </ThemedText>
                 <Switch
@@ -447,9 +356,7 @@ export default function OnboardingScreen() {
                    </ThemedText>
                 </ThemedView>
                 <ThemedView style={globalStyles.grayLine} />
-                <ThemedView style={styles.selectLanguages}>
-                  <SelectLanguage></SelectLanguage>
-                </ThemedView>
+                <SelectLanguage></SelectLanguage>
                 <StepIndicators totalSteps={totalSteps} currentStep={step} />
                 <LearnMoreTextContainer />
               </ThemedView>
@@ -469,9 +376,11 @@ export default function OnboardingScreen() {
                   </ThemedText>
                   </ThemedView>
                   <ThemedView style={globalStyles.grayLine} />
-                  <ThemedText style={styles.darkMode}>
+                  <View style={globalStyles.settingsButton}>
+                  <ThemedText type="default" bold colored>
                     Pink
-                    <Switch
+                  </ThemedText>
+                  <Switch
                       trackColor={{ false: "#767577", true: colors.lightHighlight }}
                       thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
                       ios_backgroundColor={ colors.darkGray }
@@ -481,8 +390,9 @@ export default function OnboardingScreen() {
                       }}
                       value={IsDarkThemeEnabled}
                     />
-                    Indigo
-                  </ThemedText>
+                    <ThemedText type="default" bold colored>Indigo</ThemedText>
+                  </View>
+                  
                   <StepIndicators totalSteps={totalSteps} currentStep={step} />
                   <LearnMoreTextContainer />
                 </ThemedView>
@@ -508,22 +418,21 @@ export default function OnboardingScreen() {
                     source={require("../../assets/images/FEMALE ART 1.jpg")}
                     style={styles.image}
                   />
+                  <ThemedText type="subtitle" colored style={{textAlign: "center"}}>
+                  Female Avatar
+                </ThemedText>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => avatarPress(true)}>
                   <Image
                     source={require("../../assets/images/MALE ART 1.jpg")}
                     style={styles.image}
                   />
+                  <ThemedText type="subtitle" colored style={{textAlign: "center"}}>
+                    Male Avatar
+                  </ThemedText>
                 </TouchableOpacity>
               </ThemedView>
-              <ThemedView style={styles.avatar}>
-                <ThemedText style={styles.avatar}>
-                  Female Avatar
-                </ThemedText>
-                <ThemedText style={styles.avatar}>
-                  Male Avatar
-                </ThemedText>
-              </ThemedView>
+
               <StepIndicators totalSteps={totalSteps} currentStep={step} />
               <LearnMoreTextContainer />
               </ThemedView>
@@ -535,8 +444,8 @@ export default function OnboardingScreen() {
         {/*conditional for when step = 0 (makes it so the next button stays to the right when the back button isn't present)*/}
         {step === 0 ? (
           <ThemedView style={styles.buttonStepZeroContainer}>
-            <TouchableOpacity style={globalStyles.buttonNext} onPress={handleNext}>
-              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+            <TouchableOpacity style={globalStyles.buttonPrimary} onPress={handleNext}>
+              <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
             </TouchableOpacity>
           </ThemedView>
         ) : (
@@ -544,19 +453,19 @@ export default function OnboardingScreen() {
             
             <ThemedView>
             {step > 0 && (
-              <TouchableOpacity style={globalStyles.buttonBack} onPress={handleBack}>
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+              <TouchableOpacity style={globalStyles.buttonSecondary} onPress={handleBack}>
+                <ThemedText style={globalStyles.buttonTextSecondary}>Back</ThemedText>
               </TouchableOpacity>
             )}
             </ThemedView>
             <ThemedView>
                 {step < totalSteps - 1 ? (
-              <TouchableOpacity style={globalStyles.buttonNext} onPress={handleNext}>
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+              <TouchableOpacity style={globalStyles.buttonPrimary} onPress={handleNext}>
+                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity style={globalStyles.buttonNext} onPress={() => {router.dismiss(1); router.push("/askMenstruate")}}>
-                <ThemedText style={globalStyles.buttonTextNext}>Finish</ThemedText>
+              <TouchableOpacity style={globalStyles.buttonPrimary} onPress={() => {router.dismiss(1); router.push("/askMenstruate")}}>
+                <ThemedText style={globalStyles.buttonTextPrimary}>Finish</ThemedText>
               </TouchableOpacity>
             )}
             </ThemedView>

@@ -158,9 +158,6 @@ export default function HomeScreen() {
       flex: 1,
     },
     instructionText: {
-      color: colors.black,
-      fontSize: 16,
-      fontWeight: "bold",
       paddingTop: 10,
       textAlign: "center",
     },
@@ -206,16 +203,16 @@ export default function HomeScreen() {
             ></Image>
           </ThemedView>
 
-          <ThemedText style={styles.instructionText}>
+          <ThemedText bold style={styles.instructionText}>
             {t(instructions[0].key)}
           </ThemedText>
 
           <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
-            <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
-              <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+            <TouchableOpacity style={[globalStyles.buttonSecondary, styles.buttonBack]} onPress={back}>
+              <ThemedText style={globalStyles.buttonTextSecondary}>Back</ThemedText>
             </TouchableOpacity>
-            <TouchableOpacity style={[globalStyles.buttonNext, styles.buttonNext]} onPress={next}>
-              <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+            <TouchableOpacity style={[globalStyles.buttonPrimary, styles.buttonNext]} onPress={next}>
+              <ThemedText>Next</ThemedText>
             </TouchableOpacity>
           </ThemedView>
         </ThemedView>
@@ -240,9 +237,9 @@ export default function HomeScreen() {
           </ThemedView>
           {/* Text container */}
           <ThemedView style={styles.textContainer}>
-            <Text style={styles.instructionText}>
+            <ThemedText bold style={styles.instructionText}>
               {t(instructions[mapStepToIndex(currentStep)].key)}
-            </Text>
+            </ThemedText>
           </ThemedView>
 
           <ThemedView style={{flexDirection: 'column', alignContent: 'flex-end', marginTop: 'auto'}}>
@@ -250,11 +247,11 @@ export default function HomeScreen() {
             <StepIndicators totalSteps={6} currentStep={currentStep}/>
 
             <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonContainer]}>
-              <TouchableOpacity style={[globalStyles.buttonBack, styles.buttonBack]} onPress={back}>
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+              <TouchableOpacity style={[globalStyles.buttonSecondary, styles.buttonBack]} onPress={back}>
+                <ThemedText style={globalStyles.buttonTextSecondary}>Back</ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity style={[globalStyles.buttonNext, styles.buttonNext]} onPress={next}>
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+              <TouchableOpacity style={[globalStyles.buttonPrimary, styles.buttonNext]} onPress={next}>
+                <ThemedText  style={globalStyles.buttonTextPrimary}>Next</ThemedText>
               </TouchableOpacity>
             </ThemedView>
 

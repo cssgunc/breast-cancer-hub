@@ -1,14 +1,12 @@
 import { View, Text, Image, StyleSheet, ActivityIndicator } from "react-native";
-import { useColors } from "./ColorContext";
 
 const LoadingScreen = () => {
-  const { colors } = useColors();
 
   // Styles for the LoadingScreen
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.white,
+      backgroundColor: "white",
       justifyContent: "center",
       alignItems: "center",
     },
