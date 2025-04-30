@@ -1,9 +1,7 @@
 import {
-  Animated,
   StyleSheet,
   ScrollView,
   TextInput,
-  Alert,
   TouchableOpacity,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
@@ -139,12 +137,6 @@ const styles = StyleSheet.create({
                 color="gray"
               />
             </ThemedView>
-            <TouchableOpacity
-              style={styles.forgotPassword}
-              onPress={() => router.push("/")}
-            >
-              <ThemedText style={globalStyles.loginLink}>Forgot your password?</ThemedText>
-            </TouchableOpacity>
             <TouchableOpacity style={globalStyles.loginButton} onPress={handleSubmit}>
               <ThemedText
                 style={globalStyles.loginButtonText}

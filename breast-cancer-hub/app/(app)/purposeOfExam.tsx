@@ -1,16 +1,12 @@
-import React from "react";
 import {
   ScrollView,
   StyleSheet,
-  View,
   Text,
   TouchableOpacity,
-  Linking,
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";

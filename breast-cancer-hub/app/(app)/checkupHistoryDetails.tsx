@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
   View,
-  Text,
   TouchableOpacity,
-  Linking,
 } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "../../hooks/useSettings";
 import { LearnMoreTextContainer } from "../../components/LearnMoreText";
@@ -21,7 +18,6 @@ import { useColors } from "@/components/ColorContext";
 export default function HomeScreen({ date }: { date: string }) {
   const router = useRouter();
   const {colors, globalStyles} = useColors();
-  // const [symptomData, setSymptomData] = useState<number[]>([]);
   const [examDate, setExamDate] = useState(date);
   const { symptoms, fetchSymptoms } = useCheckupStorage(); 
 
@@ -66,11 +62,6 @@ export default function HomeScreen({ date }: { date: string }) {
 
   const [examTypeF, setExamTypeF] = useState(true);
 
-  // const logSelection = () => {
-  //   console.log(isSelected);
-  //   console.log(examTypeF);
-  // }
-
   const [id, setId] = useState({ userId: ""});
 
   useEffect(() => {
@@ -85,21 +76,9 @@ export default function HomeScreen({ date }: { date: string }) {
     };
 
     const fetchHistory = async () => {
-      // const history = await getExaminationData(date);
-      // above should get exam data for specific date from local storage
-      // if (history) {
-      //   setSymptomData(history.symptoms);
-      //   i.e. symptoms = [true, true, false, false, false, true]
-      //   setExamDate(history.date);
-      //   i.e. date = "2025-03-05T14:48:00.000Z" as an iso string
-      // }
-      // setExamDate("2025-03-05T14:48:00.000Z");
       if (examDate) {
         fetchSymptoms(date);
       }
-      // const symptomList = examTypeF ? info_f : info_m;
-      // const n = symptomList.length;
-      // const symptoms = Array.from({ length: n }, (_, i) => i % 2 === 0);
       setSelection(symptoms);
     };
 
@@ -131,11 +110,6 @@ export default function HomeScreen({ date }: { date: string }) {
           <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
-
-          {/* Debug button */}
-          {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
-          <ThemedText style={styles.buttonTextBack}>log</ThemedText>
-        </TouchableOpacity> */}
         </ThemedView>
 
         <ScrollView contentContainerStyle={globalStyles.scrollContent}>
@@ -187,11 +161,6 @@ export default function HomeScreen({ date }: { date: string }) {
           <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
-
-          {/* Debug button */}
-          {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
-            <ThemedText style={styles.buttonTextBack}>log</ThemedText>
-          </TouchableOpacity> */}
         </ThemedView>
 
         <ScrollView contentContainerStyle={globalStyles.scrollContent}>

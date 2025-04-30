@@ -1,19 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   ScrollView,
   StyleSheet,
-  View,
-  Text,
   TouchableOpacity,
   Linking,
 } from "react-native";
-import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting } from "../../hooks/useSettings";
 import { LearnMoreTextContainer } from "../../components/LearnMoreText";
 import { useColors } from "@/components/ColorContext";
 
@@ -102,11 +98,6 @@ export default function HomeScreen() {
         <ThemedText style={styles.subtitleText}>Recommended actions</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
-
-        {/* Debug button */}
-        {/* <TouchableOpacity style={styles.buttonBack} onPress={() => logSelection()}>
-          <ThemedText style={styles.buttonTextBack}>log</ThemedText>
-        </TouchableOpacity> */}
       </ThemedView>
       
       <ThemedView style={globalStyles.bodyContainerWhite}>

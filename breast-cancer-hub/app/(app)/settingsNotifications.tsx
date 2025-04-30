@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -14,7 +14,6 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
-import { push } from "expo-router/build/global-state/routing";
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import { useColors } from "@/components/ColorContext";
@@ -510,12 +509,6 @@ export default function NotificationsScreen() {
           <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
             <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
-          </TouchableOpacity>
-
-          {/* Debug Add Time Button */}
-          <TouchableOpacity style={styles.addTimeButton} onPress={() => addTimeEntry(new Date())}>
-            <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
-            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
           </TouchableOpacity>
 
           {/* Save Settings Button */}

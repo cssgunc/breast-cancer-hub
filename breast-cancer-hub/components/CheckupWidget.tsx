@@ -18,10 +18,6 @@ interface CheckupWidgetNoMenstruateProps {
 
 export default function CheckupWidget(checkupWidgetProps: CheckupWidgetMenstruateProps | CheckupWidgetNoMenstruateProps) {
     const formatDate = (date: Date) => date.toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" });
-    // date objects for props
-    // const dateStart = new Date(startDate);
-    // const dateEnd = new Date(endDate);
-    // const dateComplete = new Date(completedDate);
 
     var startDate : Date = new Date(0);
     var endDate : Date = new Date(0);

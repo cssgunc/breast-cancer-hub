@@ -454,22 +454,6 @@ export default function HomeScreen(props: HomeScreenProps) {
               </ThemedText>
             </TouchableOpacity>
           </View>
-          {/* { isMenstruating ?
-            (
-              <CheckupWidget
-                isMenstruating={isMenstruating}
-                startDate="2025-03-04T00:00:00Z"
-                endDate="2025-03-10T00:00:00Z"
-                completedDate="2025-03-17T00:00:00Z"
-              />
-            ) : (
-              <CheckupWidget
-                isMenstruating={isMenstruating}
-                completedDate="2025-03-17T00:00:00Z"
-              />
-            )
-
-          } */}
 
           {/* Spacer */}
           <View style={{ height: 20 }} />

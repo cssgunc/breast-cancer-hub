@@ -28,14 +28,12 @@ export default function OnboardingScreen() {
   const {colors, globalStyles, setDarkMode} = useColors();
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
 
-  //scrolls to top whenever the step changes
   useEffect(() => {
     if (scrollViewRef.current) {
       scrollViewRef.current.scrollTo({ y: 0, animated: true });
     }
   }, [step]);
 
-  //TODO: Upon pressing back or next, scroll to top of screen
   const handleNext = () => {
     saveSetting("useTelemetry", telemetryEnabled);
     if (step < totalSteps - 1) {
@@ -401,7 +399,6 @@ export default function OnboardingScreen() {
         )}
 
         {step === 4 && (
-          // Step 4 (NEW): Telemetry consent page (placeholder text)
           <ThemedView style={globalStyles.whiteOverlay}>
             <ThemedView style={styles.background}>
               <ThemedView style={styles.titleContainer}>

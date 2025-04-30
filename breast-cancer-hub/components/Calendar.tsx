@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
@@ -10,7 +10,6 @@ import {
   isPeriodDay,
   OrderedMonthNames,
   OrderedWeekdayNames,
-  PeriodTimestamp,
   removePeriod,
 } from "@/hooks/usePeriodData";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";

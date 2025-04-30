@@ -8,10 +8,9 @@ import {
 } from "react-native";
 import { ThemedView } from "@/components/ThemedView";
 import { useState } from "react";
-import { Link } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
-import { BACKEND_URL, saveSetting } from "@/hooks/useSettings";
+import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/ColorContext";
 
 export default function Signup() {
@@ -88,7 +87,6 @@ export default function Signup() {
         saveSetting("userId", responseData.userId);
         router.push("/login");
 
-        //setErrorMessage(responseData.message);
       })
       .catch((error) => {
         console.log(error.message);

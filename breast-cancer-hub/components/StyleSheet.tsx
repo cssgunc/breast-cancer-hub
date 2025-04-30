@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 
+//#region COLORS
 const white = "#FFFFFF";
 const black = "#000000";
 
@@ -28,6 +29,7 @@ const darkestPink = "#A1145B";
 const darkPink = "#E93C92";
 const mediumPink = "#F5C4DC"; // Used only in some circular icons in settings and CustomizeExamDateScreen
 const lightPink = "#EFCEE6";
+//#endregion
 
 export function setGlobalDarkThemeEnabled(enabled: boolean) {
   isDarkThemeEnabled = enabled;

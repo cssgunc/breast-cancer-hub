@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -7,11 +6,8 @@ import {
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getSetting } from "@/hooks/useSettings";
-import { saveSetting } from "@/hooks/useSettings";
-import { push } from "expo-router/build/global-state/routing";
 import { useColors } from "@/components/ColorContext";
 import { SelectLanguage } from "@/components/SelectLanguage";
 
@@ -19,22 +15,6 @@ export default function LanguageScreen() {
   const router = useRouter();
 
   const {colors} = useColors();
-
-  // const [language, setLanguage] = useState("English");
-
-  // useEffect(() => {
-    
-  // }, [])
-  
-  // const saveSettings = async () => {
-  // //saves language selection locally
-  //   try {
-  //       console.log(language);
-  //       await saveSetting("locale", language);
-  //   } catch (error) {
-  //       console.error("Error saving language:", error);
-  //   }
-  // }
 
   const styles = StyleSheet.create({
     container: {
@@ -136,10 +116,6 @@ export default function LanguageScreen() {
           <ThemedText style={styles.sectionHeaderText}>Change the language for your self-examination</ThemedText>
             <View style={styles.divider} />
           <SelectLanguage></SelectLanguage>
-          {/* Save Settings Button */}
-          {/* <TouchableOpacity style={styles.saveButton} onPress={saveSettings}>
-            <ThemedText style={styles.saveButtonText}>Save Settings</ThemedText>
-          </TouchableOpacity> */}
         </View>
       </ScrollView>
     </ThemedView>

@@ -1,5 +1,4 @@
-import React from "react";
-import { StyleSheet, Pressable } from "react-native";
+import { Pressable } from "react-native";
 import { Link } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useColors } from "@/components/ColorContext";

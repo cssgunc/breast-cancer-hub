@@ -22,7 +22,6 @@ export function AccountSettingsHeaderComponent() {
     <ThemedView style={globalStyles.header}>
       <TouchableOpacity
         style={styles.iconWrapper}
-        // onPress={() => router.push('/account')}
       >
         <MaterialIcons name="person" size={28} color={colors.darkHighlight} />
       </TouchableOpacity>

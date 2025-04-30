@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -30,8 +30,6 @@ export default function CustomizeExamDateScreen() {
     saveSetting(`${id.userId}_schedulingType` as keyof SettingsMap, {
       day: examDay,
     }).then(() => router.push("/"));
-    // TODO: Save the examDay to your data store or state management
-    // Navigate back to the previous page
   };
 
   const incrementDay = () => {

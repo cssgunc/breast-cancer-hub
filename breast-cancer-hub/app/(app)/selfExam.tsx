@@ -3,28 +3,20 @@ import {
   TouchableOpacity,
   Image,
   Text,
-  Dimensions,
   ScrollView,
-  ImageSourcePropType,
   useWindowDimensions,
   ScaledSize,
 } from "react-native";
 
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import StepIndicators from "@/components/StepIndicators";
 import { useColors } from "@/components/ColorContext";
 import { useTranslation } from "react-i18next";
-
-interface instruction {
-  id: number,
-  key: string,
-  image: any,
-}
 
 const instructions_f = [
     {
@@ -86,13 +78,11 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const {colors, globalStyles} = useColors();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   
   const [instructions, setInstructions] = useState([
     { id: 1, key: "", image: require("../../assets/images/BCH ribbon.png") },
   ]);
-
-  // const [usedInstructions, setUsedInstructions] = useState({id: 1, text: "", image: require('../../../../assets/images/BCH ribbon.png')})
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -120,18 +110,6 @@ export default function HomeScreen() {
     };
 
     getType();
-
-    // const handleResize = () => {
-    //   setImageSize(
-    //     Math.round((Math.min(window.innerWidth, window.innerHeight) * 1) / 3)
-    //   );
-    // };
-
-    // window.addEventListener("resize", handleResize);
-
-    // return () => {
-    //   window.removeEventListener("resize", handleResize);
-    // };
   }, []);
 
   const next = () => {

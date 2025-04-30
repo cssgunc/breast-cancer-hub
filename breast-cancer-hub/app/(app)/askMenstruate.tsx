@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
-import { initPeriods } from "@/hooks/usePeriodData";
 import { useColors } from "@/components/ColorContext";
 
 export default function MenstruationSelectionScreen() {
@@ -24,9 +23,6 @@ export default function MenstruationSelectionScreen() {
 
   const handleSaveChanges = () => {
     if (selectedOption) {
-      // TODO: Save the selection to your data store or state management
-      // Navigate to index.tsx
-      //router.back();
       if (!id.userId) {
         setErrorMessage("User ID not available");
         return;
