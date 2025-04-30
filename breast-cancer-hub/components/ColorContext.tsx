@@ -1,8 +1,12 @@
+/** This component allows any child component to access the correct colors and global styles.
+ * It will automatically update the view according to the dark mode setting.
+ */
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { lightColors, darkColors, globalStylesLight, globalStylesDark } from './StyleSheet';
+import { makeGlobalStyles } from './StyleSheet';
+import { sharedColors, darkColors, lightColors } from '@/constants/ThemeTokens';
 import { getSetting, saveSetting } from '@/hooks/useSettings';
 
-interface Theme {
+export interface ColorTheme {
   white: string,
   black: string,
 
@@ -24,10 +28,17 @@ interface Theme {
 
   blue: string,
   green: string,
+
+  text: string,
+  background: string,
+  tint: string,
+  icon: string,
+  tabIconDefault: string,
+  tabIconSelected: string,
 }
 
 const ColorContext = createContext<{
-  colors: Theme,
+  colors: ColorTheme,
   globalStyles: any,
   setDarkMode: (enabled: boolean) => void,
 } | null>(null);
@@ -46,8 +57,11 @@ export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setDarkModeState(enabled);
   };
 
-  const colors = darkMode ? darkColors : lightColors;
-  const globalStyles = darkMode ? globalStylesDark : globalStylesLight;
+const colors = {
+  ...sharedColors,
+  ...(darkMode ? darkColors : lightColors),
+};
+  const globalStyles = makeGlobalStyles(colors);
 
   return (
     <ColorContext.Provider value={{ colors, globalStyles, setDarkMode }}>

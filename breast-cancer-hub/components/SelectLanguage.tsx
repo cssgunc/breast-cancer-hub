@@ -3,17 +3,14 @@ import { useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
-  useColorScheme,
   I18nManager,
 } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { Colors } from "@/constants/Colors";
 import { useTranslation } from "react-i18next";
-import { colors } from "./StyleSheet"; // Will not update with theme
 import { useEffect } from "react";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
-import { locale } from "expo-localization";
+import { useColors } from "./ColorContext";
 
 export const languageMap: Record<string, string> = {
   English: "en-US",
@@ -48,7 +45,7 @@ export function SelectLanguage() {
   const { t, i18n } = useTranslation(); 
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);
-  const theme = useColorScheme() ?? "light";
+  const { colors } = useColors();
 
   useEffect(() => {
     const getStoredLanguage = async () => {
@@ -97,46 +94,7 @@ export function SelectLanguage() {
     }
   };
 
-  return (
-    <ThemedView>
-      {/* Button to open the dropdown */}
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => setIsOpen((value) => !value)}
-        activeOpacity={0.8}
-      >
-        <ThemedText style={styles.selectLanguageText}>
-          {t("Select Language")}
-        </ThemedText>
-        <ThemedText style={styles.separator}> | </ThemedText>
-        <ThemedText style={styles.language}>{selectedLanguage}</ThemedText>
-        <Ionicons
-          name={isOpen ? "chevron-down" : "chevron-forward-outline"}
-          size={18}
-          color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
-        />
-      </TouchableOpacity>
-
-      {/* Dropdown content */}
-      {isOpen && (
-        <ThemedView style={styles.dropdown}>
-          {languages.map((language) => (
-            <TouchableOpacity
-              key={language}
-              style={styles.languageOption}
-              onPress={() => toggleLanguage(language)}
-            >
-              <ThemedText>{t(`${language}`) || language}</ThemedText>
-            </TouchableOpacity>
-          ))}
-        </ThemedView>
-      )}
-    </ThemedView>
-  );
-}
-
-// TODO: Make these colors match the Figma/style sheet
-const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
   button: {
     flexDirection: "row",
     alignItems: "center",
@@ -176,3 +134,41 @@ const styles = StyleSheet.create({
     borderBottomColor: "#eeeeee",
   },
 });
+
+  return (
+    <ThemedView>
+      {/* Button to open the dropdown */}
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => setIsOpen((value) => !value)}
+        activeOpacity={0.8}
+      >
+        <ThemedText style={styles.selectLanguageText}>
+          {t("Select Language")}
+        </ThemedText>
+        <ThemedText style={styles.separator}> | </ThemedText>
+        <ThemedText style={styles.language}>{selectedLanguage}</ThemedText>
+        <Ionicons
+          name={isOpen ? "chevron-down" : "chevron-forward-outline"}
+          size={18}
+          color={colors.icon}
+        />
+      </TouchableOpacity>
+
+      {/* Dropdown content */}
+      {isOpen && (
+        <ThemedView style={styles.dropdown}>
+          {languages.map((language) => (
+            <TouchableOpacity
+              key={language}
+              style={styles.languageOption}
+              onPress={() => toggleLanguage(language)}
+            >
+              <ThemedText>{t(`${language}`) || language}</ThemedText>
+            </TouchableOpacity>
+          ))}
+        </ThemedView>
+      )}
+    </ThemedView>
+  );
+}

@@ -122,11 +122,6 @@ export default function HomeScreen(props: HomeScreenProps) {
       height: screenWidth * 0.3, 
       resizeMode: 'contain',
     },
-    homeText: {
-      fontSize: 24,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-    },
     greetingContainer: {
       flexDirection: "row",
       alignItems: "baseline",
@@ -154,9 +149,6 @@ export default function HomeScreen(props: HomeScreenProps) {
       borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
-    },
-    contentContainer: {
-      paddingTop: 20,
     },
     mainContent: {
       paddingTop:40,
@@ -195,11 +187,6 @@ export default function HomeScreen(props: HomeScreenProps) {
     alignItems: "center",
     marginBottom: 30,
     marginTop: 30,
-  },
-  pastExamsWidgetTitleText: {
-    fontSize: 20,
-    color: colors.black,
-    fontWeight: "bold",
   },
     pastExamsText: {
       marginTop: 20,
@@ -438,7 +425,7 @@ export default function HomeScreen(props: HomeScreenProps) {
               color={colors.darkHighlight}
               style={styles.icon}
             />
-            <ThemedText style={styles.pastExamsWidgetTitleText}>
+            <ThemedText style={globalStyles.mediumBoldText}>
               {"Recent Checkups"}
             </ThemedText>
           </View>
