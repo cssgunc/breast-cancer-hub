@@ -41,7 +41,7 @@ export const languageMap: Record<string, string> = {
 
 const languages = Object.keys(languageMap);
 
-export function SelectLanguage() {
+export default function SelectLanguage() {
   const { t, i18n } = useTranslation(); 
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);

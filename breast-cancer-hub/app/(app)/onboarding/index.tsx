@@ -15,7 +15,7 @@ import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import StepIndicators from "@/components/StepIndicators";
 import { ExternalLink } from "@/components/navigation/ExternalLink";
 import { router } from "expo-router";
-import { SelectLanguage } from "@/app/(app)/settings/(components)/SelectLanguage";
+import SelectLanguage from "@/app/(app)/settings/(components)/SelectLanguage";
 import { useColors } from "@/components/style/ColorContext";
 import { saveSetting } from "@/hooks/useSettings";
 
@@ -51,7 +51,6 @@ export default function OnboardingScreen() {
   const avatarPress = async (avatarType: boolean) => {
     try {
       saveSetting("avatar", avatarType);
-      console.log("Saved avatar presentation");
     }
     catch (e) {
       console.error(e);

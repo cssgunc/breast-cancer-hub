@@ -9,7 +9,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useColors } from "@/components/style/ColorContext";
-import { SelectLanguage } from "@/app/(app)/settings/(components)/SelectLanguage";
+import SelectLanguage from "@/app/(app)/settings/(components)/SelectLanguage";
 
 export default function LanguageScreen() {
   const router = useRouter();

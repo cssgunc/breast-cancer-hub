@@ -2,6 +2,7 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import * as Localization from "expo-localization";
 import { I18nManager } from "react-native";
+import RNLanguageDetector from "@os-team/i18next-react-native-language-detector";
 import translationEn from "./locales/en-US/translations.json";
 import translationEs from "./locales/es-ES/translations.json";
 import translationAs from "./locales/as-IN/translations.json";
@@ -59,21 +60,24 @@ const initI18n = async () => {
       I18nManager.forceRTL(isRTL);
     }
 
-    await i18n.use(initReactI18next).init({
-      resources,
-      lng: selectedLanguage,
-      fallbackLng: {
-        "en-*": ["en-US", "en"],
-        "es-*": ["es-ES", "es", "en-US"],
-        default: ["en-US"],
-      },
-      interpolation: {
-        escapeValue: false,
-      },
-      react: {
-        useSuspense: false,
-      },
-    });
+    await i18n
+      .use(RNLanguageDetector)
+      .use(initReactI18next)
+      .init({
+        resources,
+        lng: selectedLanguage,
+        fallbackLng: {
+          "en-*": ["en-US", "en"],
+          "es-*": ["es-ES", "es", "en-US"],
+          default: ["en-US"],
+        },
+        interpolation: {
+          escapeValue: false,
+        },
+        react: {
+          useSuspense: false,
+        },
+      });
 
     // Save the selected language
     if (!savedLanguage) {
