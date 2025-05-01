@@ -1,0 +1,43 @@
+import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
+import { router, Slot, useSegments } from "expo-router";
+import NavigationFooter from "./(components)/NavigationFooter";
+import AccountSettingsHeaderComponent from "../settings/(components)/AccountSettingsHeader";
+import { ONBOARDING_STEPS, onboardingStyles } from ".";
+import { ThemedView } from "@/components/style/ThemedView";
+import { useColors } from "@/components/style/ColorContext";
+import { useEffect, useRef } from "react";
+export default function OnboardingLayout() {
+  const { colors, globalStyles } = useColors();
+  const scrollViewRef = useRef<ScrollView>(null);
+  const segments = useSegments();
+
+  useEffect(() => {
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({ y: 0, animated: true });
+    }
+  }, [segments.join("/")]);
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <AccountSettingsHeaderComponent />
+      <ScrollView
+        ref={scrollViewRef}
+        contentContainerStyle={onboardingStyles.scrollContent}
+      >
+        <ThemedView style={globalStyles.whiteOverlay}>
+          <ThemedView style={onboardingStyles.background}>
+            <Slot />
+          </ThemedView>
+        </ThemedView>
+      </ScrollView>
+
+      <NavigationFooter
+        finishRoute="/chooseMenstruationStatus"
+        stepRoutes={ONBOARDING_STEPS}
+      />
+    </SafeAreaView>
+  );
+}
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+});
