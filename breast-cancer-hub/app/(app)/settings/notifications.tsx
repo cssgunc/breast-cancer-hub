@@ -8,15 +8,15 @@ import {
   TouchableWithoutFeedback,
   Modal,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
 
 import RNDateTimePicker from '@react-native-community/datetimepicker';
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 export default function NotificationsScreen() {
   const router = useRouter();

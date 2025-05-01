@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import {
   addPeriod,
@@ -13,7 +13,7 @@ import {
   removePeriod,
 } from "@/hooks/usePeriodData";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 
 type CalendarItem = {

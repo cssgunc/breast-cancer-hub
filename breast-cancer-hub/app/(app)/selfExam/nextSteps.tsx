@@ -5,13 +5,13 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { LearnMoreTextContainer } from "../../components/LearnMoreText";
-import { useColors } from "@/components/ColorContext";
+import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import { LearnMoreTextContainer } from "@/components/LearnMoreText";
+import { useColors } from "@/components/style/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();

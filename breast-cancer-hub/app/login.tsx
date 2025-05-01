@@ -4,17 +4,16 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
-
-export default function HomeScreen() {
+export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();

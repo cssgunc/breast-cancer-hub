@@ -6,17 +6,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import CheckBox from "expo-checkbox";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "../../hooks/useSettings";
-import { LearnMoreTextContainer } from "../../components/LearnMoreText";
+import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import { getSetting, SettingsMap } from "@/hooks/useSettings"
+import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 
-export default function HomeScreen() {
+export default function Checklist() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
@@ -194,7 +194,7 @@ export default function HomeScreen() {
                 onPress={() =>{
                   saveSymptoms();
                   router.push({
-                    pathname: "/selfExamNextSteps",
+                    pathname: "/selfExam/nextSteps",
                     params: {
                       symptoms: isSelected
                         .map((value) => (value ? 1 : 0))

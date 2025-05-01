@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { saveSetting, getSetting } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();

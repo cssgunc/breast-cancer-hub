@@ -6,12 +6,12 @@ import {
   Linking,
   Image,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "../../hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { useColors } from "@/components/style/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -109,7 +109,7 @@ export default function HomeScreen() {
               }}
             >
               <Image
-                source={require("../../assets/images/BCH App Image 4.png")}
+                source={require("@/assets/images/BCH App Image 4.png")}
                 style={{
                   width: "75%",
                   height: "77.5%",

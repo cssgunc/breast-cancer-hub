@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 interface NotificationComponentProps {
   variant?: "default" | "overdue";
@@ -108,7 +108,7 @@ export function NotificationComponent({
       {/* Right Side with Header and Body */}
       <TouchableOpacity
         style={styles.textContainer}
-        onPress={() => router.push("/selfExamIntro")}
+        onPress={() => router.push("/selfExam/intro")}
       >
         <ThemedText bold style={[styles.headerText, {color: headerTextColor}]}>{headerText}</ThemedText>
         <ThemedText>

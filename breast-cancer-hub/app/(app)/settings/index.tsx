@@ -6,13 +6,13 @@ import {
   Switch,
   ScrollView,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -199,7 +199,7 @@ export default function SettingsScreen() {
             {/* Notification Preferences */}
             <TouchableOpacity
               style={styles.optionContainer}
-              onPress={() => router.push("./settingsNotifications")}
+              onPress={() => router.push("/settings/notifications")}
             >
               <ThemedText style={styles.optionText}>
                 Notification Preferences
@@ -210,7 +210,7 @@ export default function SettingsScreen() {
             {/* Change Self Examination Language */}
             <TouchableOpacity 
               style={styles.optionContainer} 
-              onPress={() => router.push("./settingsLanguage")}
+              onPress={() => router.push("/settings/language")}
             >
               <ThemedText style={styles.optionText}>
                 Change Self Examination Language
@@ -255,7 +255,7 @@ export default function SettingsScreen() {
             {/* Edit Profile */}
             <TouchableOpacity
               style={styles.optionContainer}
-              onPress={() => router.push("./settingsProfile")}
+              onPress={() => router.push("/settings/profile")}
             >
               <ThemedText style={styles.optionText}>Edit Profile</ThemedText>
               <Ionicons name="chevron-forward" size={20} color={colors.black} />
@@ -280,7 +280,7 @@ export default function SettingsScreen() {
             <TouchableOpacity
               style={styles.optionContainer}
               onPress={() => {
-                router.push("/askMenstruate");
+                router.push("/onboarding/askMenstruate");
               }}
             >
               <ThemedText style={styles.optionText}>

@@ -8,13 +8,13 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
-import { CalendarComponent } from "@/components/Calendar";
+import { useColors } from "@/components/style/ColorContext";
+import { CalendarComponent } from "@/app/(app)/home/(components)/Calendar";
 
 import { getCheckupDay } from "@/hooks/usePeriodData";
 

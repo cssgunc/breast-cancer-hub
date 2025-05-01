@@ -1,7 +1,6 @@
 import { Slot, Redirect, Stack } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
-import { ColorProvider } from "@/components/ColorContext";
 
 export default function Protection() {
   const [session, setSession] = useState("");

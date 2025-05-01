@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { ColorProvider } from "@/components/ColorContext";
+import { ColorProvider } from "@/components/style/ColorContext";
 export default function TabLayout() {
   return (
     <ColorProvider>

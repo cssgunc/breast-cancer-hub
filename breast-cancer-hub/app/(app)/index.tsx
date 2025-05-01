@@ -10,7 +10,7 @@ export default function Index() {
     (async () => {
       const userId = await getSetting("userId");
       if (userId) {
-        router.replace("../home");
+        router.replace("/home");
       } else {
         router.replace("/login");
       }

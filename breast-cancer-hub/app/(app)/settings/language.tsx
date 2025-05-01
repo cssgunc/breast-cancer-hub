@@ -4,12 +4,12 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useColors } from "@/components/ColorContext";
-import { SelectLanguage } from "@/components/SelectLanguage";
+import { useColors } from "@/components/style/ColorContext";
+import { SelectLanguage } from "@/app/(app)/settings/(components)/SelectLanguage";
 
 export default function LanguageScreen() {
   const router = useRouter();

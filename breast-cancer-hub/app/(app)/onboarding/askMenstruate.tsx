@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
@@ -32,10 +32,10 @@ export default function MenstruationSelectionScreen() {
           `${id.userId}_schedulingType` as keyof SettingsMap,
           "period"
         ).then(() => {
-          router.push("/calendarOnboarding");
+          router.push("/onboarding/calendarOnboarding");
         });
       } else {
-        router.push("/CustomizeExamDateScreen");
+        router.push("/onboarding/CustomizeExamDateScreen");
       }
     } else {
       setErrorMessage("Please choose an option to continue");
@@ -144,7 +144,7 @@ export default function MenstruationSelectionScreen() {
       <View style={styles.logoContainer}>
         <View style={styles.logoCircle}>
           <Image
-            source={require("../../assets/images/BCH ribbon.png")}
+            source={require("@/assets/images/BCH ribbon.png")}
             style={styles.logoImage}
           />
         </View>

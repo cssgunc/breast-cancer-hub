@@ -9,21 +9,19 @@ import {
   TouchableWithoutFeedback,
   Image,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
-import { NotificationComponent } from "@/components/Notifications"; // Ensure this path is correct
-import { CalendarComponent } from "@/components/Calendar"; // Ensure this path is correct
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { NotificationComponent } from "@/app/(app)/home/(components)/Notifications"; // Ensure this path is correct
+import { CalendarComponent } from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
-import { ExternalLink } from "@/components/ExternalLink";
+import { ExternalLink } from "@/components/navigation/ExternalLink";
 import { Dimensions } from "react-native";
-import CheckupWidget from "@/components/CheckupWidget";
-import CycleHistoryPage from "@/app/cycleHistory";
-import CycleLog from "@/components/CycleLog";
-import { useColors } from "@/components/ColorContext";
+import CycleLog from "./(components)/CycleLogWidget";
+import { useColors } from "@/components/style/ColorContext";
 
 type Noti = {
   id: number;
@@ -31,14 +29,14 @@ type Noti = {
   date: Date;
 };
 
-export type HomeScreenProps = Partial<{
+export type HomePageProps = Partial<{
   name: string;
   isMenstruating: boolean;
 }>;
 
 const { width: screenWidth } = Dimensions.get("window");
 
-export default function HomeScreen(props: HomeScreenProps) {
+export default function HomePage(props: HomePageProps) {
   const router = useRouter();
 
   const {colors, globalStyles} = useColors();
@@ -300,7 +298,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           {/* Logo and Home */}
           <View style={styles.logoHomeContainer}>
             <Image
-              source={require("../assets/images/bch_logo_with_bch_wings_cancer_hubs_720.png")}
+              source={require("@/assets/images/bch_logo_with_bch_wings_cancer_hubs_720.png")}
               style={styles.logo}
             />
           </View>
@@ -413,7 +411,7 @@ export default function HomeScreen(props: HomeScreenProps) {
           <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10}}>
             <CycleLog limit={4} isMenstruating={isMenstruating} />
             <TouchableOpacity
-              onPress={() => router.push("/cycleHistory")}
+              onPress={() => router.push("/checkupHistory")}
               style={{
                 alignItems: "center",
               }}>
@@ -454,7 +452,7 @@ export default function HomeScreen(props: HomeScreenProps) {
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <View style={styles.kurlbaumContainer}>
                   <Image
-                    source={require("../assets/images/kurlbaum_logo_transparent.png")}
+                    source={require("@/assets/images/kurlbaum_logo_transparent.png")}
                     style={styles.footerLogo}
                   />
                   <ThemedText style={styles.footerLogoText}>
@@ -467,7 +465,7 @@ export default function HomeScreen(props: HomeScreenProps) {
             <ExternalLink href="https://malebreastcancerhappens.org/" asChild>
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <Image
-                  source={require("../assets/images/MBCH-LOGO-transparent.png")}
+                  source={require("@/assets/images/MBCH-LOGO-transparent.png")}
                   style={styles.footerLogo}
                 />
               </TouchableOpacity>
@@ -476,7 +474,7 @@ export default function HomeScreen(props: HomeScreenProps) {
             <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <Image
-                  source={require("../assets/images/Sarah-Cannon_transparent.png")}
+                  source={require("@/assets/images/Sarah-Cannon_transparent.png")}
                   style={styles.sarahCannonLogo}
                 />
               </TouchableOpacity>

@@ -1,8 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { StyleSheet, TouchableOpacity } from "react-native";
-import { ThemedView } from "./ThemedView";
-import { useColors } from "@/components/ColorContext";
+import { ThemedView } from "../../../../components/style/ThemedView";
+import { useColors } from "@/components/style/ColorContext";
 
 export function AccountSettingsHeaderComponent() {
   const {colors, globalStyles} = useColors();

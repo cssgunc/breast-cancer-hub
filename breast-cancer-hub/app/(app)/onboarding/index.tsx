@@ -8,15 +8,15 @@ import {
   Switch,
   Image
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
-import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import StepIndicators from "@/components/StepIndicators";
-import { ExternalLink } from "@/components/ExternalLink";
+import { ExternalLink } from "@/components/navigation/ExternalLink";
 import { router } from "expo-router";
-import { SelectLanguage } from "@/components/SelectLanguage";
-import { useColors } from "@/components/ColorContext";
+import { SelectLanguage } from "@/app/(app)/settings/(components)/SelectLanguage";
+import { useColors } from "@/components/style/ColorContext";
 import { saveSetting } from "@/hooks/useSettings";
 
 export default function OnboardingScreen() {
@@ -415,7 +415,7 @@ export default function OnboardingScreen() {
               <ThemedView style={styles.avatar}>
                 <TouchableOpacity onPress={() => avatarPress(false)}>
                   <Image
-                    source={require("../../assets/images/FEMALE ART 1.jpg")}
+                    source={require("@/assets/images/FEMALE ART 1.jpg")}
                     style={styles.image}
                   />
                   <ThemedText type="subtitle" colored style={{textAlign: "center"}}>
@@ -424,7 +424,7 @@ export default function OnboardingScreen() {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => avatarPress(true)}>
                   <Image
-                    source={require("../../assets/images/MALE ART 1.jpg")}
+                    source={require("@/assets/images/MALE ART 1.jpg")}
                     style={styles.image}
                   />
                   <ThemedText type="subtitle" colored style={{textAlign: "center"}}>
@@ -464,7 +464,7 @@ export default function OnboardingScreen() {
                 <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
               </TouchableOpacity>
             ) : (
-              <TouchableOpacity style={globalStyles.buttonPrimary} onPress={() => {router.dismiss(1); router.push("/askMenstruate")}}>
+              <TouchableOpacity style={globalStyles.buttonPrimary} onPress={() => {router.dismiss(1); router.push("/onboarding/askMenstruate")}}>
                 <ThemedText style={globalStyles.buttonTextPrimary}>Finish</ThemedText>
               </TouchableOpacity>
             )}

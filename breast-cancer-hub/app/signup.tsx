@@ -6,14 +6,14 @@ import {
   ScrollView,
   TextInput,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedView } from "@/components/style/ThemedView";
 import { useState } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
-export default function Signup() {
+export default function SignupPage() {
   const {colors, globalStyles} = useColors();
 
   const [email, setEmail] = useState("");

@@ -8,41 +8,41 @@ import {
   ScaledSize,
 } from "react-native";
 
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/components/AccountSettingsHeader";
+import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import StepIndicators from "@/components/StepIndicators";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 
 const instructions_f = [
     {
       id: 1,
       key:  "CHECK_IN_MIRROR_F",
-      image: require("../../assets/images/FEMALE ART 1.jpg"),
+      image: require("@/assets/images/FEMALE ART 1.jpg"),
     },
     {
       id: 2,
       key: "CHECK_NIPPLES_F",
-      image: require("../../assets/images/FEMALE ART 2.jpg"),
+      image: require("@/assets/images/FEMALE ART 2.jpg"),
     },
     {
       id: 3,
       key: "SITTING_STANDING_F",
-      image: require("../../assets/images/FEMALE ART 3.jpg"),
+      image: require("@/assets/images/FEMALE ART 3.jpg"),
     },
     {
       id: 4,
       key: "COLLARBONE_F",
-      image: require("../../assets/images/FEMALE ART 4.jpg"),
+      image: require("@/assets/images/FEMALE ART 4.jpg"),
     },
     {
       id: 5,
       key: "IN_BED_F",
-      image: require("../../assets/images/FEMALE ART 5.png"),
+      image: require("@/assets/images/FEMALE ART 5.png"),
     },
   ];
 
@@ -50,27 +50,27 @@ const instructions_f = [
     {
       id: 1,
       key: "CHECK_IN_MIRROR_M",
-      image: require("../../assets/images/MALE ART 1.jpg"),
+      image: require("@/assets/images/MALE ART 1.jpg"),
     },
     {
       id: 2,
       key: "CHECK_NIPPLES_M",
-      image: require("../../assets/images/MALE ART 2.jpg"),
+      image: require("@/assets/images/MALE ART 2.jpg"),
     },
     {
       id: 3,
       key: "SITTING_STANDING_M",
-      image: require("../../assets/images/MALE ART 3.jpg"),
+      image: require("@/assets/images/MALE ART 3.jpg"),
     },
     {
       id: 4,
       key: "COLLARBONE_M",
-      image: require("../../assets/images/MALE ART 4.jpg"),
+      image: require("@/assets/images/MALE ART 4.jpg"),
     },
     {
       id: 5,
       key: "IN_BED_M",
-      image: require("../../assets/images/MALE ART 5.png"),
+      image: require("@/assets/images/MALE ART 5.png"),
     },
   ];
 
@@ -81,7 +81,7 @@ export default function HomeScreen() {
   const { t } = useTranslation();
   
   const [instructions, setInstructions] = useState([
-    { id: 1, key: "", image: require("../../assets/images/BCH ribbon.png") },
+    { id: 1, key: "", image: require("@/assets/images/BCH ribbon.png") },
   ]);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -114,7 +114,7 @@ export default function HomeScreen() {
 
   const next = () => {
     if (currentStep == 5) {
-      router.replace("./selfExamChecklist");
+      router.replace("/selfExam/checklist");
     } else {
       // advance step
       setCurrentStep(currentStep + 1);

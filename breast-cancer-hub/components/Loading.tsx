@@ -36,7 +36,7 @@ const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <Image
-        source={require("../assets/images/BCH ribbon.png")}
+        source={require("@/assets/images/BCH ribbon.png")}
         style={styles.logo}
       />
 

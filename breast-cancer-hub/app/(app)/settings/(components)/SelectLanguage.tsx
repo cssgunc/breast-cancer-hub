@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   I18nManager,
 } from "react-native";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
-import { useColors } from "./ColorContext";
+import { useColors } from "../../../../components/style/ColorContext";
 
 export const languageMap: Record<string, string> = {
   English: "en-US",
