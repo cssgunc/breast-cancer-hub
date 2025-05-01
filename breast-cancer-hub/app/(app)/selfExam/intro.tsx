@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
@@ -17,7 +13,7 @@ import LoadingScreen from "@/components/Loading";
 export default function SelfExamInfo() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const info_f = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
@@ -42,33 +38,35 @@ export default function SelfExamInfo() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [id, setId] = useState({ userId: ""});
+  const [id, setId] = useState({ userId: "" });
 
   useEffect(() => {
     getSetting("userId").then((userId) => {
-      setId({ userId});
-    })
+      setId({ userId });
+    });
     const getType = async () => {
-      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
+      const schedulingType = await getSetting(
+        `${id.userId}_schedulingType` as keyof SettingsMap
+      );
       const isF = schedulingType === "period";
-  
+
       const selectedInfo = isF ? info_f : info_m;
       const translatedInfo = selectedInfo.map((item) => ({
         id: item.id,
         key: t(item.key),
       }));
-  
+
       setInfo(translatedInfo);
       setIsLoading(false);
     };
-  
+
     getType();
   }, [t]);
 
   const styles = StyleSheet.create({
     titleTextDarkHighlight: {
       paddingTop: 10,
-    }
+    },
   });
 
   if (isLoading == true) {
@@ -80,57 +78,74 @@ export default function SelfExamInfo() {
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-        <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
-          <ThemedText type="title" colored style={ styles.titleTextDarkHighlight}>
+        <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
+          <ThemedText
+            type="title"
+            colored
+            style={styles.titleTextDarkHighlight}
+          >
             Before You Begin
           </ThemedText>
           <ThemedText type="heading">Things to Look For</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
         </ThemedView>
-        
+
         <ThemedView style={globalStyles.bodyContainerWhite}>
           <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-            <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
+            <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
               {/* Info Section */}
-              <ThemedText type="heading">
-                Signs and Symptoms
-              </ThemedText>
-              <ThemedView style={[globalStyles.listContainer, {paddingVertical: 10}]}>
+              <ThemedText type="heading">Signs and Symptoms</ThemedText>
+              <ThemedView
+                style={[globalStyles.listContainer, { paddingVertical: 10 }]}
+              >
                 {info.map((item: { id: number; key: string }) => (
-                  <ThemedView key={item.id} style={globalStyles.listItemContainer}>
+                  <ThemedView
+                    key={item.id}
+                    style={globalStyles.listItemContainer}
+                  >
                     <ThemedText type="heading" colored>
                       {item.id + 1 + "."}
                     </ThemedText>
-                    <ThemedText type="caption">
-                      {t(item.key)}
-                    </ThemedText>
+                    <ThemedText type="caption">{t(item.key)}</ThemedText>
                   </ThemedView>
                 ))}
               </ThemedView>
 
+              <ThemedText>
+                A Painless or Painful Breast Lump or Breast Changes Needs
+                Medical Attention. Most of the time, breast lumps are not Cancer
+                and are called Benign. Still, it is important to have them
+                checked—better Safe than Sorry. Please follow up as recommended
+                by your healthcare provider.
+              </ThemedText>
               <LearnMoreTextContainer />
 
               {/* Navigation Buttons */}
               <ThemedView style={globalStyles.buttonBackNextContainer}>
                 <TouchableOpacity
                   style={globalStyles.buttonSecondary}
-                  onPress={() => {router.dismissAll(); router.replace("/")}}
+                  onPress={() => {
+                    router.dismissAll();
+                    router.replace("/");
+                  }}
                 >
-                  <ThemedText style={globalStyles.buttonTextSecondary}>Back</ThemedText>
+                  <ThemedText style={globalStyles.buttonTextSecondary}>
+                    Back
+                  </ThemedText>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={globalStyles.buttonPrimary}
                   onPress={() => router.push("/selfExam")}
                 >
-                  <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
+                  <ThemedText style={globalStyles.buttonTextPrimary}>
+                    Next
+                  </ThemedText>
                 </TouchableOpacity>
               </ThemedView>
-              
             </ThemedView>
           </ScrollView>
         </ThemedView>
-        
       </ThemedView>
     );
   }

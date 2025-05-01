@@ -17,7 +17,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const handleSubmit = () => {
     if (!email.includes("@") || email.length === 0) {
@@ -45,7 +45,7 @@ export default function LoginPage() {
               await saveSetting("onboarding", true);
               router.push("/onboarding");
             } else if (onboarding === true) {
-              router.push("/")
+              router.push("/");
             }
           } catch (error) {
             console.error(error);
@@ -60,27 +60,26 @@ export default function LoginPage() {
       });
   };
 
-  
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: colors.white,
-  },
-  scrollViewContainer: {
-    flexGrow: 1,
-  },
+  const styles = StyleSheet.create({
+    scrollView: {
+      backgroundColor: colors.white,
+    },
+    scrollViewContainer: {
+      flexGrow: 1,
+    },
 
-  noAccount: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingVertical: 10,
-    color: colors.mediumGray,
-  },
-  noAccountText: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-});
+    noAccount: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "center",
+      paddingVertical: 10,
+      color: colors.mediumGray,
+    },
+    noAccountText: {
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+  });
 
   return (
     <ScrollView
@@ -90,10 +89,14 @@ const styles = StyleSheet.create({
       <ThemedView style={globalStyles.loginBodyContainer}>
         <ThemedView style={globalStyles.loginPopText}>
           <ThemedView style={globalStyles.loginTopText}>
-            <ThemedText type="heading" colored>WELCOME</ThemedText>
-            <ThemedText type="title">Log in to The</ThemedText>
-            <ThemedText type="title" colored>Breast Cancer Hub</ThemedText>
-            <ThemedText type="title">self-exam App!</ThemedText>
+            <ThemedText type="heading" colored>
+              WELCOME
+            </ThemedText>
+            <ThemedText type="title">Log in to the</ThemedText>
+            <ThemedText type="title" colored>
+              Breast Cancer Hub
+            </ThemedText>
+            <ThemedText type="title">Self-Exam App!</ThemedText>
           </ThemedView>
           <ThemedView style={globalStyles.loginInputsContainer}>
             <ThemedView style={globalStyles.loginEmailInputContainer}>
@@ -130,10 +133,11 @@ const styles = StyleSheet.create({
                 color="gray"
               />
             </ThemedView>
-            <TouchableOpacity style={globalStyles.loginButton} onPress={handleSubmit}>
-              <ThemedText
-                style={globalStyles.loginButtonText}
-              >
+            <TouchableOpacity
+              style={globalStyles.loginButton}
+              onPress={handleSubmit}
+            >
+              <ThemedText style={globalStyles.loginButtonText}>
                 Log In
               </ThemedText>
             </TouchableOpacity>
@@ -142,7 +146,9 @@ const styles = StyleSheet.create({
                 Don't have an account?{" "}
               </ThemedText>
               <TouchableOpacity onPress={() => router.push("/signup")}>
-                <ThemedText style={globalStyles.loginLink}>Create one here</ThemedText>
+                <ThemedText style={globalStyles.loginLink}>
+                  Create one here
+                </ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>

@@ -9,13 +9,13 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
 
-export default function HomeScreen() {
+export default function NextStepsScreen() {
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   // NOT TYPE SAFE
   const { symptoms } = useLocalSearchParams();
@@ -53,7 +53,7 @@ export default function HomeScreen() {
       marginBottom: 15,
       paddingTop: 10,
     },
-    
+
     checkBoxContainer: {
       flexDirection: "column",
       marginBottom: 20,
@@ -63,13 +63,6 @@ export default function HomeScreen() {
     instructionTextBold: {
       fontSize: 20,
       fontWeight: "bold",
-      color: colors.darkHighlight,
-      textAlign: "center",
-    },
-    instructionTextBoldBlack: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: colors.black,
       textAlign: "center",
     },
     instructionText: {
@@ -91,7 +84,6 @@ export default function HomeScreen() {
 
       {/* Page Title */}
       <ThemedView style={styles.whiteOverlay}>
-
         <ThemedText type="title" colored style={styles.titleText}>
           Based On Your Symptoms
         </ThemedText>
@@ -99,26 +91,37 @@ export default function HomeScreen() {
 
         <ThemedView style={globalStyles.grayLine} />
       </ThemedView>
-      
+
       <ThemedView style={globalStyles.bodyContainerWhite}>
         <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={[styles.whiteOverlay, {paddingVertical: 0}]}>
+          <ThemedView style={[styles.whiteOverlay, { paddingVertical: 0 }]}>
             {/* Info Section */}
             {getHasSymptoms(symptoms as string) ? (
               <ThemedView style={styles.whiteOverlay}>
                 <ThemedView style={styles.noticeContainer}>
-                  <MaterialIcons name="error" size={28} color={colors.darkHighlight} />
-                  <ThemedText style={styles.instructionTextBoldBlack}>
+                  <MaterialIcons
+                    name="error"
+                    size={28}
+                    color={colors.darkHighlight}
+                  />
+                  <ThemedText bold style={styles.instructionTextBold}>
                     Notice!
                   </ThemedText>
                 </ThemedView>
 
                 <ThemedView style={globalStyles.elevatedBox}>
-                  <ThemedText style={styles.instructionTextBold}>
-                    A visit to your doctor is recommended based on our assessment.
+                  <ThemedText colored style={styles.instructionTextBold}>
+                    A visit to your doctor is recommended based on your
+                    assessment.
                   </ThemedText>
-                  <ThemedText style={styles.instructionTextBoldBlack}>
-                    But don't worry, most lumps are not cancerous!
+                  <ThemedText bold style={styles.instructionTextBold}>
+                    But please do not stress. Most of the time, Breast lumps or
+                    Breast changes are not Cancer. However, reporting any
+                    abnormalities or changes to your healthcare provider is
+                    essential.
+                  </ThemedText>
+                  <ThemedText bold style={styles.instructionTextBold} italic>
+                    Early detection improves treatment outcomes and saves lives.
                   </ThemedText>
                 </ThemedView>
 
@@ -143,7 +146,10 @@ export default function HomeScreen() {
                 <ThemedView style={styles.singleButtonContainer}>
                   <TouchableOpacity
                     style={globalStyles.buttonPrimary}
-                    onPress={() => {router.dismissAll(); router.replace("/")}}
+                    onPress={() => {
+                      router.dismissAll();
+                      router.replace("/");
+                    }}
                   >
                     <ThemedText style={globalStyles.buttonTextPrimary}>
                       Return Home
@@ -152,18 +158,22 @@ export default function HomeScreen() {
                 </ThemedView>
               </ThemedView>
             ) : (
-              <ThemedView style={[styles.whiteOverlay, {paddingVertical: 0}]}>
+              <ThemedView style={[styles.whiteOverlay, { paddingVertical: 0 }]}>
                 <ThemedView style={styles.noticeContainer}>
-                  <MaterialIcons name="check-circle" size={28} color={colors.green} />
-                  <ThemedText style={styles.instructionTextBoldBlack}>
+                  <MaterialIcons
+                    name="check-circle"
+                    size={28}
+                    color={colors.green}
+                  />
+                  <ThemedText style={styles.instructionTextBold}>
                     You're all good!
                   </ThemedText>
                 </ThemedView>
 
                 <ThemedView style={globalStyles.elevatedBox}>
-                  <ThemedText style={styles.instructionTextBoldBlack}>
-                    Please continue to perform your next self-examination next
-                    month.
+                  <ThemedText style={styles.instructionTextBold}>
+                    Please continue to perform your Breast Self-Examination
+                    every month.
                   </ThemedText>
                 </ThemedView>
 
@@ -172,7 +182,10 @@ export default function HomeScreen() {
                 <ThemedView style={styles.singleButtonContainer}>
                   <TouchableOpacity
                     style={globalStyles.buttonPrimary}
-                    onPress={() => {router.dismissAll(); router.replace("/")}}
+                    onPress={() => {
+                      router.dismissAll();
+                      router.replace("/");
+                    }}
                   >
                     <ThemedText style={globalStyles.buttonTextPrimary}>
                       Return Home

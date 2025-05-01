@@ -426,6 +426,17 @@ export default function HomePage(props: HomePageProps) {
                   Learn More
                 </ThemedText>
 
+                <ThemedText type="caption" italic>
+                  BCH stands against All Types of Cancer via
+                </ThemedText>
+                <ThemedText
+                  type="caption"
+                  italic
+                  bold
+                  style={{ marginBottom: 16 }}
+                >
+                  BCH Wings-Cancer Hubs
+                </ThemedText>
                 {/* Buttons */}
                 <TouchableOpacity
                   style={styles.modalButton}

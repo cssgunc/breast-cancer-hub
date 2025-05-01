@@ -9,25 +9,27 @@ import {
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 
 export default function HomeScreen() {
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const [isLoading, setIsLoading] = useState(true);
   const [checkText, setCheckText] = useState("");
 
-  const [id, setId] = useState({ userId: ""});
+  const [id, setId] = useState({ userId: "" });
 
   useEffect(() => {
     getSetting("userId").then((userId) => {
-      setId({ userId});
-    })
+      setId({ userId });
+    });
     const getType = async () => {
-      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
+      const schedulingType = await getSetting(
+        `${id.userId}_schedulingType` as keyof SettingsMap
+      );
       if (schedulingType == "period") {
         setCheckText("Check yourself a week after your period starts.");
       } else {
@@ -38,7 +40,7 @@ export default function HomeScreen() {
 
     getType();
   }, []);
-    
+
   const styles = StyleSheet.create({
     headerWhite: {
       flexDirection: "row",
@@ -56,7 +58,7 @@ export default function HomeScreen() {
       marginBottom: 15,
       paddingTop: 10,
     },
-    
+
     buttonBackNextContainer: {
       flexDirection: "column",
       rowGap: 20,
@@ -122,21 +124,28 @@ export default function HomeScreen() {
         </View>
 
         <ThemedView style={styles.headerWhite}>
-          <ThemedText type="heading">
-            Navigate to your calendar now.
-          </ThemedText>
+          <ThemedText type="heading">Navigate to your calendar now.</ThemedText>
         </ThemedView>
 
         <ThemedView>
-          <ThemedText style={globalStyles.smallItalicText}>{checkText}</ThemedText>
+          <ThemedText style={globalStyles.smallItalicText}>
+            {checkText}
+          </ThemedText>
         </ThemedView>
 
-        <ThemedView style={[globalStyles.buttonBackNextContainer, styles.buttonBackNextContainer]}>
+        <ThemedView
+          style={[
+            globalStyles.buttonBackNextContainer,
+            styles.buttonBackNextContainer,
+          ]}
+        >
           <TouchableOpacity
             style={[globalStyles.buttonNext, styles.buttonNext]}
             onPress={() => router.push("/")}
           >
-            <ThemedText style={[globalStyles.buttonTextNext]}>Let's Go!</ThemedText>
+            <ThemedText style={[globalStyles.buttonTextNext]}>
+              Let's Go!
+            </ThemedText>
           </TouchableOpacity>
           <TouchableOpacity
             style={[globalStyles.buttonBack, styles.buttonBack]}
@@ -146,7 +155,9 @@ export default function HomeScreen() {
               )
             }
           >
-            <ThemedText style={[globalStyles.buttonTextBack, styles.buttonTextBack]}>
+            <ThemedText
+              style={[globalStyles.buttonTextBack, styles.buttonTextBack]}
+            >
               Explore Early Detection for Other Cancers
             </ThemedText>
           </TouchableOpacity>

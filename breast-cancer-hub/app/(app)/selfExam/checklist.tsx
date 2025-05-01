@@ -1,16 +1,11 @@
 import { useEffect, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "@/hooks/useSettings"
+import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/style/ColorContext";
@@ -20,7 +15,7 @@ export default function Checklist() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const info_f = [
     { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
@@ -58,14 +53,16 @@ export default function Checklist() {
 
   const [examTypeF, setExamTypeF] = useState(true);
 
-  const [id, setId] = useState({ userId: ""});
+  const [id, setId] = useState({ userId: "" });
 
   useEffect(() => {
     getSetting("userId").then((userId) => {
-      setId({ userId});
-    })
+      setId({ userId });
+    });
     const getType = async () => {
-      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
+      const schedulingType = await getSetting(
+        `${id.userId}_schedulingType` as keyof SettingsMap
+      );
       setExamTypeF(schedulingType === "period");
       const storedLanguageCode = await getSetting("locale");
       console.log(storedLanguageCode);
@@ -78,16 +75,16 @@ export default function Checklist() {
     getType();
   }, []);
 
-   const styles = StyleSheet.create({
+  const styles = StyleSheet.create({
     titleTextDarkHighlight: {
       marginBottom: 15,
       paddingTop: 10,
     },
     checkBoxContainer: {
       flexDirection: "column",
-      justifyContent: "center"
+      justifyContent: "center",
     },
-  
+
     listTitleTextExam: {
       marginBottom: 10,
     },
@@ -99,11 +96,10 @@ export default function Checklist() {
       justifyContent: "space-between",
       backgroundColor: "transparent",
     },
-    
+
     instructionText: {
       maxWidth: "80%",
     },
-    
   });
 
   const { saveCheckup } = useCheckupStorage();
@@ -112,13 +108,13 @@ export default function Checklist() {
     await saveCheckup(isSelected);
   };
 
-    return (
+  return (
     <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
-      <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
+      <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
         <ThemedText type="title" colored style={styles.titleTextDarkHighlight}>
           Log Your Symptoms
         </ThemedText>
@@ -126,20 +122,37 @@ export default function Checklist() {
 
         <ThemedView style={globalStyles.grayLine} />
       </ThemedView>
-      
-      <ThemedView style={globalStyles.bodyContainerWhite}>
-        <ScrollView contentContainerStyle={[globalStyles.scrollContent, {paddingTop: 0}]}>
-          <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
-            {/* Info Section */}
-            <ThemedText type="heading">
-              What did you notice?
-            </ThemedText>
 
-            {!isLoading && (<ThemedView style={[globalStyles.elevatedBox, {paddingVertical: 0, marginVertical: 10}]}>
+      <ThemedView style={globalStyles.bodyContainerWhite}>
+        <ScrollView
+          contentContainerStyle={[
+            globalStyles.scrollContent,
+            { paddingTop: 0 },
+          ]}
+        >
+          <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
+            {/* Info Section */}
+            <ThemedText type="heading">What did you notice?</ThemedText>
+
+            {!isLoading && (
+              <ThemedView
+                style={[
+                  globalStyles.elevatedBox,
+                  { paddingVertical: 0, marginVertical: 10 },
+                ]}
+              >
                 {examTypeF ? (
-                  <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                  <ThemedView
+                    style={[globalStyles.listContainer, styles.listContainer]}
+                  >
                     {info_f.map((item: { id: number; key: string }) => (
-                      <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                      <ThemedView
+                        key={item.id}
+                        style={[
+                          globalStyles.listItemContainer,
+                          styles.listItemContainer,
+                        ]}
+                      >
                         <ThemedText bold style={styles.instructionText}>
                           {t(item.key)}
                         </ThemedText>
@@ -155,9 +168,17 @@ export default function Checklist() {
                     ))}
                   </ThemedView>
                 ) : (
-                  <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
+                  <ThemedView
+                    style={[globalStyles.listContainer, styles.listContainer]}
+                  >
                     {info_m.map((item: { id: number; key: string }) => (
-                      <ThemedView key={item.id} style={[globalStyles.listItemContainer, styles.listItemContainer]}>
+                      <ThemedView
+                        key={item.id}
+                        style={[
+                          globalStyles.listItemContainer,
+                          styles.listItemContainer,
+                        ]}
+                      >
                         <ThemedText bold style={styles.instructionText}>
                           {t(item.key)}
                         </ThemedText>
@@ -191,7 +212,7 @@ export default function Checklist() {
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.buttonPrimary}
-                onPress={() =>{
+                onPress={() => {
                   saveSymptoms();
                   router.push({
                     pathname: "/selfExam/nextSteps",
@@ -200,16 +221,17 @@ export default function Checklist() {
                         .map((value) => (value ? 1 : 0))
                         .toString(),
                     },
-                  })}
-                }
+                  });
+                }}
               >
-                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
+                <ThemedText style={globalStyles.buttonTextPrimary}>
+                  Next
+                </ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>
         </ScrollView>
       </ThemedView>
-      
     </ThemedView>
   );
 }

@@ -15,7 +15,7 @@ import { useColors } from "@/components/style/ColorContext";
 import { ThemedText } from "@/components/style/ThemedText";
 
 export default function SignupPage() {
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,8 +25,10 @@ export default function SignupPage() {
   const [name, setName] = useState(""); // New state for name input
   const [errorMessage, setErrorMessage] = useState<undefined | string>();
   const router = useRouter();
+
+  const telemetryDefined = false;
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
-  
+
   const handleSubmit = () => {
     if (pending) return;
 
@@ -87,7 +89,6 @@ export default function SignupPage() {
         saveSetting("name", name);
         saveSetting("userId", responseData.userId);
         router.push("/login");
-
       })
       .catch((error) => {
         console.log(error.message);
@@ -120,16 +121,19 @@ export default function SignupPage() {
       paddingTop: 15,
     },
   });
-  
 
   return (
     <ThemedView style={globalStyles.loginBodyContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={globalStyles.loginTopText}>
-          <ThemedText type="heading" colored>WELCOME</ThemedText>
-          <ThemedText type="title">Register in to The</ThemedText>
-          <ThemedText type="title" colored>Breast Cancer Hub</ThemedText>
-          <ThemedText type="title">self-exam App!</ThemedText>
+          <ThemedText type="heading" colored>
+            WELCOME
+          </ThemedText>
+          <ThemedText type="title">Register for the</ThemedText>
+          <ThemedText type="title" colored>
+            Breast Cancer Hub
+          </ThemedText>
+          <ThemedText type="title">Self-Exam App!</ThemedText>
         </View>
         <View style={globalStyles.loginInputsContainer}>
           <View style={[globalStyles.loginEmailInputContainer]}>
@@ -215,14 +219,16 @@ export default function SignupPage() {
               <Text style={globalStyles.loginLink}>Log in here</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.infoContainer}>
-           <ThemedText type="caption" italic>
-              Information is collected for Dr. Lopa's team
-            </ThemedText>
-            <TouchableOpacity onPress={() => router.push("/")}>
-              <Text style={globalStyles.loginLink}>Learn more here</Text>
-            </TouchableOpacity>
-          </View>
+          {telemetryDefined && (
+            <View style={styles.infoContainer}>
+              <ThemedText type="caption" italic>
+                Information is collected for Dr. Lopa's team
+              </ThemedText>
+              <TouchableOpacity onPress={() => router.push("/")}>
+                <Text style={globalStyles.loginLink}>Learn more here</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
       </ScrollView>
     </ThemedView>

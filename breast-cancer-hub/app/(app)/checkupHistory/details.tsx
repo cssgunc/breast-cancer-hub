@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-} from "react-native";
+import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import { AccountSettingsHeaderComponent } from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
@@ -17,9 +12,9 @@ import { useColors } from "@/components/style/ColorContext";
 
 export default function HomeScreen({ date }: { date: string }) {
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
   const [examDate, setExamDate] = useState(date);
-  const { symptoms, fetchSymptoms } = useCheckupStorage(); 
+  const { symptoms, fetchSymptoms } = useCheckupStorage();
 
   const info_f = [
     { id: 0, text: "Swelling of part or all of a breast." },
@@ -62,14 +57,16 @@ export default function HomeScreen({ date }: { date: string }) {
 
   const [examTypeF, setExamTypeF] = useState(true);
 
-  const [id, setId] = useState({ userId: ""});
+  const [id, setId] = useState({ userId: "" });
 
   useEffect(() => {
     getSetting("userId").then((userId) => {
-      setId({ userId});
-      })
+      setId({ userId });
+    });
     const getType = async () => {
-      const schedulingType = await getSetting(`${id.userId}_schedulingType` as keyof SettingsMap);
+      const schedulingType = await getSetting(
+        `${id.userId}_schedulingType` as keyof SettingsMap
+      );
       // const schedulingType = "period";
       setExamTypeF(schedulingType === "period");
       setIsLoading(false);
@@ -115,9 +112,7 @@ export default function HomeScreen({ date }: { date: string }) {
         <ScrollView contentContainerStyle={globalStyles.scrollContent}>
           <ThemedView style={globalStyles.whiteOverlay}>
             {/* Info Section */}
-            <ThemedText style={styles.subtitleText}>
-              Symptoms Logged
-            </ThemedText>
+            <ThemedText style={styles.subtitleText}>Symptoms Logged</ThemedText>
 
             <LearnMoreTextContainer />
 
@@ -127,7 +122,9 @@ export default function HomeScreen({ date }: { date: string }) {
                 style={globalStyles.buttonBack}
                 onPress={() => router.push("/")}
               >
-                <ThemedText style={globalStyles.buttonTextBack}>Back to Home</ThemedText>
+                <ThemedText style={globalStyles.buttonTextBack}>
+                  Back to Home
+                </ThemedText>
               </TouchableOpacity>
               <TouchableOpacity
                 style={globalStyles.buttonPrimary}
@@ -140,7 +137,9 @@ export default function HomeScreen({ date }: { date: string }) {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
+                <ThemedText style={globalStyles.buttonTextPrimary}>
+                  Next
+                </ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>
@@ -166,9 +165,7 @@ export default function HomeScreen({ date }: { date: string }) {
         <ScrollView contentContainerStyle={globalStyles.scrollContent}>
           <ThemedView style={globalStyles.whiteOverlay}>
             {/* Info Section */}
-            <ThemedText style={styles.subtitleText}>
-              Symptoms Logged
-            </ThemedText>
+            <ThemedText style={styles.subtitleText}>Symptoms Logged</ThemedText>
 
             <ThemedView style={globalStyles.elevatedBox}>
               {examTypeF ? (
@@ -179,9 +176,7 @@ export default function HomeScreen({ date }: { date: string }) {
                         {item.text}
                       </ThemedText>
                       <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          value={isSelected[item.id]} disabled
-                        />
+                        <CheckBox value={isSelected[item.id]} disabled />
                       </View>
                     </ThemedView>
                   ))}
@@ -196,7 +191,8 @@ export default function HomeScreen({ date }: { date: string }) {
                       <View style={styles.checkBoxContainer}>
                         <CheckBox
                           key={item.id}
-                          value={isSelected[item.id]} disabled
+                          value={isSelected[item.id]}
+                          disabled
                         />
                       </View>
                     </ThemedView>
@@ -230,7 +226,9 @@ export default function HomeScreen({ date }: { date: string }) {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
+                <ThemedText style={globalStyles.buttonTextPrimary}>
+                  Next
+                </ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>

@@ -17,58 +17,66 @@ import { useColors } from "@/components/style/ColorContext";
 export default function SettingsScreen() {
   const router = useRouter();
 
-  const {colors, globalStyles, setDarkMode} = useColors();
+  const { colors, globalStyles, setDarkMode } = useColors();
 
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
-  
+
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 
   function saveSettings() {
     fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-      method: "PUT", 
+      method: "PUT",
       headers: {
-        "Content-Type" : "application/json",
+        "Content-Type": "application/json",
         "x-session-token": person.token,
-        'x-user-email' : person.email,
-        },
-        body: JSON.stringify({use_telemetry: isTelemetryEnabled, use_dark_mode: IsDarkThemeEnabled, use_backup_data: isBackupEnabled, user_id: person.userId})
-      });
+        "x-user-email": person.email,
+      },
+      body: JSON.stringify({
+        use_telemetry: isTelemetryEnabled,
+        use_dark_mode: IsDarkThemeEnabled,
+        use_backup_data: isBackupEnabled,
+        user_id: person.userId,
+      }),
+    });
     setDarkMode(IsDarkThemeEnabled);
     saveSetting("useTelemetry", isTelemetryEnabled).then(() => {
       saveSetting("useDarkTheme", IsDarkThemeEnabled).then(() => {
         saveSetting("useBackupData", isBackupEnabled);
-      })
+      });
     });
-    
   }
-  
+
   // Pulling information from local storage
   useEffect(() => {
     getSetting("name").then((name) =>
-      getSetting("email").then((email) => 
-        getSetting("token").then((token) => 
+      getSetting("email").then((email) =>
+        getSetting("token").then((token) =>
           getSetting("userId").then((userId) => {
-        setPerson({ name,email,token, userId});
-      })
-    )
-    )
+            setPerson({ name, email, token, userId });
+          })
+        )
+      )
     );
 
     getSetting("useDarkTheme").then((dark) =>
-      getSetting("useTelemetry").then((telemetry) => 
+      getSetting("useTelemetry").then((telemetry) =>
         getSetting("useBackupData").then((backup) => {
           setIsTelemetryEnabled(telemetry);
           setIsDarkThemeEnabled(dark);
           setIsBackupEnabled(backup);
-        }
-        )
+        })
       )
     );
   }, []);
 
-  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
+  const [person, setPerson] = useState({
+    name: "",
+    email: "",
+    token: "",
+    userId: "",
+  });
 
   const styles = StyleSheet.create({
     container: {
@@ -116,7 +124,7 @@ export default function SettingsScreen() {
       flex: 1,
     },
     profileIconContainer: {
-      backgroundColor: colors.mediumHighlight, //Light-ish pink used specifically for 
+      backgroundColor: colors.mediumHighlight, //Light-ish pink used specifically for
       width: 60,
       height: 60,
       borderRadius: 30, // Circular
@@ -144,17 +152,15 @@ export default function SettingsScreen() {
       justifyContent: "space-between",
     },
     optionText: {
-      flex: 0.90,
+      flex: 0.9,
       flexWrap: "wrap",
     },
-    optionPressable: {
-    },
+    optionPressable: {},
     saveButton: {
       marginTop: 50,
     },
   });
-  
-  
+
   return (
     <ThemedView style={styles.container}>
       {/* Header */}
@@ -167,7 +173,9 @@ export default function SettingsScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Settings Text */}
-        <ThemedText type="title" colored>Settings</ThemedText>
+        <ThemedText type="title" colored>
+          Settings
+        </ThemedText>
       </View>
 
       {/* Content */}
@@ -177,10 +185,10 @@ export default function SettingsScreen() {
           {/* User Info */}
           <View style={styles.userInfoContainer}>
             <View style={styles.userTextContainer}>
-              <ThemedText type="title" colored>{person.name}</ThemedText>
-              <ThemedText>
-                {person.email}
+              <ThemedText type="title" colored>
+                {person.name}
               </ThemedText>
+              <ThemedText>{person.email}</ThemedText>
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
@@ -193,7 +201,9 @@ export default function SettingsScreen() {
 
           {/* General Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText type="heading" style={styles.sectionHeaderText}>General</ThemedText>
+            <ThemedText type="heading" style={styles.sectionHeaderText}>
+              General
+            </ThemedText>
 
             {/* Notification Preferences */}
             <TouchableOpacity
@@ -203,18 +213,28 @@ export default function SettingsScreen() {
               <ThemedText style={styles.optionText}>
                 Notification Preferences
               </ThemedText>
-              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons
+                style={styles.optionPressable}
+                name="chevron-forward"
+                size={20}
+                color={colors.black}
+              />
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
-            <TouchableOpacity 
-              style={styles.optionContainer} 
+            <TouchableOpacity
+              style={styles.optionContainer}
               onPress={() => router.push("/settings/language")}
             >
               <ThemedText style={styles.optionText}>
                 Change Self Exam Language
               </ThemedText>
-              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons
+                style={styles.optionPressable}
+                name="chevron-forward"
+                size={20}
+                color={colors.black}
+              />
             </TouchableOpacity>
 
             {/* Telemetry */}
@@ -247,9 +267,7 @@ export default function SettingsScreen() {
 
           {/* Account Settings Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText type="heading">
-              Account Settings
-            </ThemedText>
+            <ThemedText type="heading">Account Settings</ThemedText>
 
             {/* Edit Profile */}
             <TouchableOpacity
@@ -257,7 +275,12 @@ export default function SettingsScreen() {
               onPress={() => router.push("/settings/profile")}
             >
               <ThemedText style={styles.optionText}>Edit Profile</ThemedText>
-              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons
+                style={styles.optionPressable}
+                name="chevron-forward"
+                size={20}
+                color={colors.black}
+              />
             </TouchableOpacity>
 
             {/* Dark Mode */}
@@ -266,7 +289,7 @@ export default function SettingsScreen() {
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
-                ios_backgroundColor={ colors.darkGray }
+                ios_backgroundColor={colors.darkGray}
                 onValueChange={() => {
                   setDarkMode(!IsDarkThemeEnabled);
                   setIsDarkThemeEnabled(!IsDarkThemeEnabled);
@@ -279,26 +302,37 @@ export default function SettingsScreen() {
             <TouchableOpacity
               style={styles.optionContainer}
               onPress={() => {
-                router.push("/onboarding/askMenstruate");
+                router.push("./onboarding/askMenstruate");
               }}
             >
               <ThemedText style={styles.optionText}>
                 Change Date or Scheduling Type
               </ThemedText>
-              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons
+                style={styles.optionPressable}
+                name="chevron-forward"
+                size={20}
+                color={colors.black}
+              />
             </TouchableOpacity>
           </View>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={globalStyles.buttonPrimary} onPress={() => saveSettings()}>
+          <TouchableOpacity
+            style={globalStyles.buttonPrimary}
+            onPress={() => saveSettings()}
+          >
             <ThemedText
               style={globalStyles.buttonTextPrimary}
-              onPress = {() => {saveSettings();}}
-            >Save Settings</ThemedText>
+              onPress={() => {
+                saveSettings();
+              }}
+            >
+              Save Settings
+            </ThemedText>
           </TouchableOpacity>
         </View>
       </ScrollView>
     </ThemedView>
   );
 }
-
