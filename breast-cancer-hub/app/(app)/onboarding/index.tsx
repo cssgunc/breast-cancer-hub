@@ -20,7 +20,7 @@ export default function OnboardingScreen() {
 }
 
 export const onboardingStyles = StyleSheet.create({
-  bodyContainer: { flexDirection: "column", gap: 24 },
+  bodyContainer: { flexDirection: "column", gap: 24, flex: 1 },
   stepOneNextContainer: {
     justifyContent: "flex-end",
   },
@@ -35,6 +35,7 @@ export const onboardingStyles = StyleSheet.create({
     marginTop: 10,
   },
   background: {
+    flex: 1,
     padding: 10,
   },
   titleContainer: {

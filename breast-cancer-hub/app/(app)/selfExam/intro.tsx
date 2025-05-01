@@ -78,21 +78,26 @@ export default function SelfExamInfo() {
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-        <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
-          <ThemedText
-            type="title"
-            colored
-            style={styles.titleTextDarkHighlight}
-          >
-            Before You Begin
-          </ThemedText>
-          <ThemedText type="heading">Things to Look For</ThemedText>
-
-          <ThemedView style={globalStyles.grayLine} />
-        </ThemedView>
 
         <ThemedView style={globalStyles.bodyContainerWhite}>
-          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+          <ScrollView
+            style={{ flex: 1, height: "100%" }}
+            contentContainerStyle={globalStyles.scrollContent}
+          >
+            <ThemedView
+              style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}
+            >
+              <ThemedText
+                type="title"
+                colored
+                style={styles.titleTextDarkHighlight}
+              >
+                Before You Begin
+              </ThemedText>
+              <ThemedText type="heading">Things to Look For</ThemedText>
+
+              <ThemedView style={globalStyles.grayLine} />
+            </ThemedView>
             <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
               {/* Info Section */}
               <ThemedText type="heading">Signs and Symptoms</ThemedText>

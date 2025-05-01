@@ -90,7 +90,7 @@ export function generateDefaultSettings(){
     locale: 'en-US',
     useBackupData: false,
     useTelemetry: false,
-    useDarkTheme: false,
+    useDarkTheme: true,
     usePushNotifications: false,
     useInAppNotifications: false,
     onboarding: false,

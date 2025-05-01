@@ -1,48 +1,51 @@
 /** This component allows any child component to access the correct colors and global styles.
  * It will automatically update the view according to the dark mode setting.
  */
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { makeGlobalStyles } from './StyleSheet';
-import { sharedColors, darkColors, lightColors } from '@/constants/ThemeTokens';
-import { getSetting, saveSetting } from '@/hooks/useSettings';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { makeGlobalStyles } from "./StyleSheet";
+import { sharedColors, darkColors, lightColors } from "@/constants/ThemeTokens";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export interface ColorTheme {
-  white: string,
-  black: string,
+  white: string;
+  black: string;
 
-  darkestHighlight: string,
-  darkHighlight: string,
-  mediumHighlight: string,
-  lightHighlight: string,
+  darkestHighlight: string;
+  darkHighlight: string;
+  mediumHighlight: string;
+  lightHighlight: string;
 
-  darkGray: string,
-  mediumGray: string,
-  lightGray: string,
-  lighterGray: string,
-  lightestGray: string,
+  darkGray: string;
+  mediumGray: string;
+  lightGray: string;
+  lighterGray: string;
+  lightestGray: string;
 
-  backgroundGray: string,
-  backgroundLightGray: string,
+  backgroundGray: string;
+  backgroundLightGray: string;
 
-  blue: string,
-  green: string,
+  blue: string;
+  green: string;
 
-  text: string,
-  background: string,
-  tint: string,
-  icon: string,
-  tabIconDefault: string,
-  tabIconSelected: string,
+  text: string;
+  background: string;
+  tint: string;
+  icon: string;
+  tabIconDefault: string;
+  tabIconSelected: string;
 }
 
 const ColorContext = createContext<{
-  colors: ColorTheme,
-  globalStyles: any,
-  setDarkMode: (enabled: boolean) => void,
+  colors: ColorTheme;
+  globalStyles: any;
+  setDarkMode: (enabled: boolean) => void;
+  darkMode: boolean;
 } | null>(null);
 
-export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [darkMode, setDarkModeState] = useState(false);
+export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const [darkMode, setDarkModeState] = useState(true);
 
   useEffect(() => {
     getSetting("useDarkTheme").then((value) => {
@@ -55,14 +58,16 @@ export const ColorProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setDarkModeState(enabled);
   };
 
-const colors = {
-  ...sharedColors,
-  ...(darkMode ? darkColors : lightColors),
-};
+  const colors = {
+    ...sharedColors,
+    ...(darkMode ? darkColors : lightColors),
+  };
   const globalStyles = makeGlobalStyles(colors);
 
   return (
-    <ColorContext.Provider value={{ colors, globalStyles, setDarkMode }}>
+    <ColorContext.Provider
+      value={{ colors, globalStyles, setDarkMode, darkMode }}
+    >
       {children}
     </ColorContext.Provider>
   );
@@ -70,6 +75,6 @@ const colors = {
 
 export function useColors() {
   const ctx = useContext(ColorContext);
-  if (!ctx) throw new Error('useColors must be used within a ColorProvider');
+  if (!ctx) throw new Error("useColors must be used within a ColorProvider");
   return ctx;
 }
