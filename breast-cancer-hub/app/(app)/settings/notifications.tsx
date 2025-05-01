@@ -466,7 +466,7 @@ export default function NotificationsScreen() {
             <TouchableWithoutFeedback>
 
               <View style={styles.modalContainer}>
-                <ThemedText type="subtitle" colored style={styles.modalTitle}>Delete Alarm?</ThemedText>
+                <ThemedText type="heading" colored style={styles.modalTitle}>Delete Alarm?</ThemedText>
                 <View style={{flexDirection: 'row', width: 'auto'}}>
                   <TouchableOpacity style={styles.modalButton} onPress={() => setDeleteModalVisible(false)}>
                     <ThemedText style={styles.modalButtonText}>Cancel</ThemedText>

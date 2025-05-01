@@ -126,7 +126,7 @@ export default function ProfileSettingsScreen() {
 
           {/* User Info */}
           <View style={styles.userInfoContainer}>
-            <ThemedText type="subtitle" colored>{person.name}</ThemedText>
+            <ThemedText type="heading" colored>{person.name}</ThemedText>
           </View>
 
           {/* Divider */}

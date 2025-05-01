@@ -221,9 +221,6 @@ export function CalendarComponent({
       paddingBottom: 10,
       gap: 10,
     },
-    container: {
-      padding: 10,
-    },
     calendarContainer: {
       backgroundColor: colors.white,
       borderRadius: 15,
@@ -348,7 +345,7 @@ export function CalendarComponent({
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView>
       {/* Calendar Container with Rounded Corners and Shadow */}
       <View style={styles.calendarContainer}>
         {/* Header */}

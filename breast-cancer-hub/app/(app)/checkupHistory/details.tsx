@@ -103,11 +103,11 @@ export default function HomeScreen({ date }: { date: string }) {
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={globalStyles.titleTextDarkHighlight}>
+          <ThemedText type="title" colored>
             Checkup History
           </ThemedText>
 
-          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
+          <ThemedText type="heading">{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
         </ThemedView>
@@ -140,7 +140,7 @@ export default function HomeScreen({ date }: { date: string }) {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>
@@ -155,10 +155,10 @@ export default function HomeScreen({ date }: { date: string }) {
 
         {/* Page Title */}
         <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={globalStyles.titleTextDarkHighlight}>
+          <ThemedText type="title" colored>
             Checkup History
           </ThemedText>
-          <ThemedText style={globalStyles.listTitleTextExam}>{formatDate(examDate)}</ThemedText>
+          <ThemedText type="heading">{formatDate(examDate)}</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
         </ThemedView>
@@ -230,7 +230,7 @@ export default function HomeScreen({ date }: { date: string }) {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>

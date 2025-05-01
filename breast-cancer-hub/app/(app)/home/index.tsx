@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
-import { NotificationComponent } from "@/app/(app)/home/(components)/Notifications"; // Ensure this path is correct
+import { NotificationComponent } from "@/app/(app)/home/(components)/Notification"; // Ensure this path is correct
 import { CalendarComponent } from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
@@ -19,7 +19,6 @@ import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/navigation/ExternalLink";
-import { Dimensions } from "react-native";
 import CycleLog from "./(components)/CycleLogWidget";
 import { useColors } from "@/components/style/ColorContext";
 
@@ -33,8 +32,6 @@ export type HomePageProps = Partial<{
   name: string;
   isMenstruating: boolean;
 }>;
-
-const { width: screenWidth } = Dimensions.get("window");
 
 export default function HomePage(props: HomePageProps) {
   const router = useRouter();
@@ -95,6 +92,7 @@ export default function HomePage(props: HomePageProps) {
       borderBottomRightRadius: 20,
       paddingTop: 20,
       paddingBottom: 20,
+      paddingHorizontal: 20,
       flexDirection: "column",
       alignItems: "flex-start",
       zIndex: 1, // Ensure header stays above other content
@@ -103,42 +101,20 @@ export default function HomePage(props: HomePageProps) {
       shadowOpacity: 0.5,
       shadowRadius: 5,
       elevation: 5,
+      height: "20%",
     },
-    headerTopRow: {
+    logoProfileContainer: {
+      flex: 1,
       flexDirection: "row",
       alignItems: "center",
-      width: "100%",
-      paddingHorizontal: 20,
       justifyContent: "space-between",
-    },
-    logoHomeContainer: {
-      flexDirection: "row",
-      alignItems: "center",
+      width: "100%",
+      height: "100%",
     },
     logo: {
-      width: screenWidth * 0.3, 
-      height: screenWidth * 0.3, 
-      resizeMode: 'contain',
-    },
-    greetingContainer: {
-      flexDirection: "row",
-      alignItems: "baseline",
-      paddingTop: 10,
-      paddingBottom: 10,
-      paddingHorizontal: 20,
-    },
-    greetingText: {
-      fontSize: 26,
-      fontWeight: "bold",
-      color: colors.black,
-      lineHeight: 30,
-      
-    },
-    nameText: {
-      fontSize: 26,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-      lineHeight: 30,
+      height: "100%",
+      width: 150,
+      flexShrink: 1,
     },
     profileIconContainer: {
       backgroundColor: colors.darkHighlight,
@@ -148,68 +124,32 @@ export default function HomePage(props: HomePageProps) {
       alignItems: "center",
       justifyContent: "center",
     },
-    mainContent: {
-      paddingTop:40,
-      paddingHorizontal: 20,
+    greetingContainer: {
+      flex: 0,
+      flexWrap: "wrap",
+      flexDirection: "row",
+      width: "100%",
+      paddingTop: 10,
     },
-    introLine: {
+    sectionTitle: {
       flexDirection: "row",
       alignItems: "center",
-      marginBottom: 30, 
+      marginVertical: 20,
     },
     icon: {
+      fontSize: 20,
+      color: colors.darkHighlight,
       marginRight: 10,
     },
-    introText: {
-      fontSize: 20,
-      color: colors.black,
-      fontWeight: "bold",
-    },
-    noAlertsText: {
-      fontSize: 14,
-      color: "grey",
-      textAlign: "center",
-    },
-    calendarIntroText: {
-      fontSize: 20,
-      color: colors.black,
-      fontWeight: "bold",
-    },
-    customizeText: {
-      textAlign: "center",
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-    },
-    pastExamsWidgetTitleLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 30,
-    marginTop: 30,
-  },
     pastExamsText: {
       marginTop: 20,
       marginBottom: 40,
-      textAlign: "center",
-      fontWeight: "bold",
     },
-    contactButton: {
-      marginTop: 20,
-      marginHorizontal: 100,
+    contactButtons: {
+      width: "100%",
+      flexDirection: "column",
+      gap: 10,
     },
-    contactButtonText: {
-      color: colors.white,
-      fontWeight: "bold",
-    },
-    learnMoreButton: {
-      marginTop: 10,
-      marginBottom: 30,
-      marginHorizontal: 20,
-    },
-    learnMoreButtonText: {
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-    },
-
     // Footer with logos
     footerContainer: {
       backgroundColor: colors.darkHighlight,
@@ -267,25 +207,13 @@ export default function HomePage(props: HomePageProps) {
       alignItems: "center",
     },
     modalTitle: {
-      color: colors.darkHighlight,
       marginBottom: 20,
     },
     modalButton: {
-      backgroundColor: colors.white,
-      borderColor: colors.lighterGray,
-      borderWidth: 1,
-      borderRadius: 50,
-      paddingVertical: 15,
+      ...globalStyles.buttonSecondary,
       paddingHorizontal: 20,
       marginBottom: 10,
       width: "100%",
-      alignItems: "center",
-    },
-    modalButtonText: {
-      color: colors.blue,
-      fontSize: 16,
-      fontWeight: "bold",
-      textAlign: "center",
     },
   });
 
@@ -294,14 +222,12 @@ export default function HomePage(props: HomePageProps) {
       {/* Header */}
       <View style={styles.headerContainer}>
         {/* Top Row: Logo and Profile Icon */}
-        <View style={styles.headerTopRow}>
-          {/* Logo and Home */}
-          <View style={styles.logoHomeContainer}>
-            <Image
-              source={require("@/assets/images/bch_logo_with_bch_wings_cancer_hubs_720.png")}
-              style={styles.logo}
-            />
-          </View>
+        <View style={styles.logoProfileContainer}>
+          <Image
+            source={require("@/assets/images/bch_logo_with_bch_wings_cancer_hubs_720.png")}
+            style={styles.logo}
+            resizeMode="contain"
+          />
           {/* Profile Icon */}
           <TouchableOpacity
             style={styles.profileIconContainer}
@@ -312,32 +238,26 @@ export default function HomePage(props: HomePageProps) {
         </View>
         {/* Greeting */}
         <View style={styles.greetingContainer}>
-          <ThemedText style={styles.greetingText}>Good Morning, </ThemedText>
-          <ThemedText style={styles.nameText}>{name}!</ThemedText>
+          <ThemedText type="title" style={{fontSize: 26}}>Good Morning, </ThemedText>
+          <ThemedText type="title" style={{fontSize: 26}} colored>{name}!</ThemedText>
         </View>
       </View>
 
       {/* Content */}
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
         {/* Main Content with padding */}
-        <View style={styles.mainContent}>
-          {/* Alerts Introduction Line */}
-          <View style={styles.introLine}>
+        <View style={{paddingVertical: 10, paddingHorizontal: 15}}>
+          {/* Alerts Section */}
+          <View style={styles.sectionTitle}>
             <Ionicons
               name="notifications-outline"
-              size={20}
-              color={colors.darkHighlight}
               style={styles.icon}
             />
-            <ThemedText style={styles.introText}>Alerts</ThemedText>
+            <ThemedText type="heading">Alerts</ThemedText>
           </View>
-
-          {/* Spacing */}
-          <View style={{ height: 40 }} />
-
           {/* Notifications or No Alerts Message */}
           {notifications.length === 0 ? (
-            <ThemedText style={styles.noAlertsText}>
+            <ThemedText type="caption">
               There are no new alerts
             </ThemedText>
           ) : (
@@ -348,29 +268,19 @@ export default function HomePage(props: HomePageProps) {
                   date={notification.date}
                   onDismiss={() => removeNotification(notification.id)}
                 />
-                <View style={{ height: 15 }} />
               </React.Fragment>
             ))
           )}
-
-          {/* Spacing between sections */}
-          <View style={{ height: 40 }} />
-
-          {/* Calendar Introduction Line */}
-          <View style={styles.introLine}>
+          {/* Calendar Section */}
+          <View style={styles.sectionTitle}>
             <Ionicons
               name="calendar-outline"
-              size={20}
-              color={colors.darkHighlight}
               style={styles.icon}
             />
-            <ThemedText style={styles.calendarIntroText}>
+            <ThemedText type="heading">
               View your calendar
             </ThemedText>
           </View>
-
-          {/* Spacing */}
-          <View style={{ height: 10 }} />
 
           {/* Calendar Component */}
           <CalendarComponent
@@ -397,18 +307,16 @@ export default function HomePage(props: HomePageProps) {
           />
 
           {/* Checkup History Homepage Widget, dates must be ISO format */}
-          <View style={styles.pastExamsWidgetTitleLine}>
+          <View style={styles.sectionTitle}>
             <Ionicons
               name="list-outline"
-              size={20}
-              color={colors.darkHighlight}
               style={styles.icon}
             />
-            <ThemedText style={globalStyles.mediumBoldText}>
+            <ThemedText type="heading">
               {"Recent Checkups"}
             </ThemedText>
           </View>
-          <View style={{ flex: 1, paddingLeft: 10, paddingRight: 10}}>
+          <View style={{ flex: 1}}>
             <CycleLog limit={4} isMenstruating={isMenstruating} />
             <TouchableOpacity
               onPress={() => router.push("/checkupHistory")}
@@ -421,27 +329,27 @@ export default function HomePage(props: HomePageProps) {
             </TouchableOpacity>
           </View>
 
-          {/* Spacer */}
-          <View style={{ height: 20 }} />
-
           {/* Contact Buttons */}
-          <TouchableOpacity
-            style={[globalStyles.buttonPrimary, styles.contactButton]}
+          <View style={styles.contactButtons}>
+            <TouchableOpacity
+            style={globalStyles.buttonPrimary}
             onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
           >
-            <ThemedText style={styles.contactButtonText}>
+            <ThemedText style={globalStyles.buttonTextPrimary}>
               Contact Dr. Lopa
             </ThemedText>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[globalStyles.buttonSecondary, styles.learnMoreButton]}
+            style={globalStyles.buttonSecondary}
             onPress={() => setModalVisible(true)}
           >
-            <ThemedText style={styles.learnMoreButtonText}>
+            <ThemedText style={globalStyles.buttonTextSecondary}>
               Learn More about Breast Cancer
             </ThemedText>
           </TouchableOpacity>
+          </View>
+          
         </View>
 
         {/* footer with logos */}
@@ -503,7 +411,7 @@ export default function HomePage(props: HomePageProps) {
                   <Ionicons name="close" size={24} color={colors.darkHighlight} />
                 </TouchableOpacity>
                 {/* Modal Title */}
-                <ThemedText type="subtitle" style={styles.modalTitle}>Learn More</ThemedText>
+                <ThemedText type="heading" colored style={styles.modalTitle}>Learn More</ThemedText>
 
                 {/* Buttons */}
                 <TouchableOpacity
@@ -514,7 +422,7 @@ export default function HomePage(props: HomePageProps) {
                     )
                   }
                 >
-                  <ThemedText style={styles.modalButtonText}>
+                  <ThemedText type="link">
                     Learn More about Breast Cancer
                   </ThemedText>
                 </TouchableOpacity>
@@ -523,7 +431,7 @@ export default function HomePage(props: HomePageProps) {
                   style={styles.modalButton}
                   onPress={() => openLink("https://www.breastcancerhub.org/")}
                 >
-                  <ThemedText style={styles.modalButtonText}>
+                  <ThemedText type="link">
                     Learn More About Breast Cancer Hub
                   </ThemedText>
                 </TouchableOpacity>
@@ -536,7 +444,7 @@ export default function HomePage(props: HomePageProps) {
                     )
                   }
                 >
-                  <ThemedText style={styles.modalButtonText}>
+                  <ThemedText type="link">
                     Learn More About Other Cancers and its Symptoms
                   </ThemedText>
                 </TouchableOpacity>

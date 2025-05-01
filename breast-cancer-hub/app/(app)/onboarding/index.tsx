@@ -146,16 +146,16 @@ export default function OnboardingScreen() {
           <ThemedView style={globalStyles.whiteOverlay}>
             <ThemedView style={styles.background}>
               <ThemedView style={styles.titleContainer}>
-                <ThemedText style={globalStyles.titleText}>
+                <ThemedText type="title">
                   Understanding
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkHighlight,
-                styles.highlightedTitleText]}>
+                <ThemedText type="title" colored style={
+                styles.highlightedTitleText}>
                   Breast Cancer
                 </ThemedText>
               </ThemedView>
               <ThemedView style={globalStyles.grayLine} />
-              <ThemedText type= "subtitle" style={styles.paragraphTextTitle}>
+              <ThemedText type= "heading" style={styles.paragraphTextTitle}>
                 What is Breast Cancer?
               </ThemedText>
               <ThemedText>
@@ -168,11 +168,11 @@ export default function OnboardingScreen() {
                 occur in both women and men, but is far more prevalent in women.
               </ThemedText>
               <ThemedView style={styles.statContainer}>
-                <ThemedText type="subtitle" colored>2nd</ThemedText>
+                <ThemedText type="heading" colored>2nd</ThemedText>
                 <ThemedText style={styles.statText}>
                   most common cancer in women
                 </ThemedText>
-                <ThemedText type="subtitle" colored>1 out of 8</ThemedText>
+                <ThemedText type="heading" colored>1 out of 8</ThemedText>
                 <ThemedText style={styles.statText}>
                   women will develop invasive breast cancer over the course of her
                   lifetime
@@ -187,19 +187,14 @@ export default function OnboardingScreen() {
         {step === 1 && (
           //purpose of a self-exam section
           <ThemedView style={globalStyles.whiteOverlay}>
-            <ThemedText style={globalStyles.titleText}>
+            <ThemedText type="title">
               The Purpose of
             </ThemedText>
-            <ThemedText
-              style={[
-                globalStyles.titleTextDarkHighlight,
-                styles.highlightedTitleText,
-              ]}
-            >
+            <ThemedText type="title" colored style={styles.highlightedTitleText}>
               A Self-Exam
             </ThemedText>
             <ThemedView style={globalStyles.grayLine} />
-            <ThemedText type="subtitle" style={styles.noticeTitle} colored>Notice:</ThemedText>
+            <ThemedText type="heading" style={styles.noticeTitle} colored>Notice:</ThemedText>
             <ThemedText>
               A self-exam is not a substitute for annual breast cancer screenings.
               <ThemedText italic bold> Mammograms are essential.</ThemedText>
@@ -244,11 +239,10 @@ export default function OnboardingScreen() {
           <ThemedView style={globalStyles.whiteOverlay}>
             <ThemedView style={styles.background}>
               <ThemedView style={styles.titleContainer}>
-                <ThemedText style={globalStyles.titleText}>
+                <ThemedText type="title">
                   Breast Cancer
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkHighlight,
-                styles.highlightedTitleText]}>
+                <ThemedText style={styles.highlightedTitleText}>
                   Screening & Techniques
                 </ThemedText>
               </ThemedView>
@@ -274,11 +268,10 @@ export default function OnboardingScreen() {
           <ThemedView style={globalStyles.whiteOverlay}>
             <ThemedView style={styles.background}>
               <ThemedView style={styles.titleContainer}>
-                <ThemedText style={globalStyles.titleText}>
+                <ThemedText type="title">
                   Additional Resources &
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkHighlight,
-                styles.highlightedTitleText]}>
+                <ThemedText style={styles.highlightedTitleText}>
                   Contact Information
                 </ThemedText>
               </ThemedView>
@@ -311,10 +304,10 @@ export default function OnboardingScreen() {
           <ThemedView style={globalStyles.whiteOverlay}>
             <ThemedView style={styles.background}>
               <ThemedView style={styles.titleContainer}>
-                <ThemedText style={globalStyles.titleText}>
+                <ThemedText type="title">
                   Telemetry & Data
                 </ThemedText>
-                <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.highlightedTitleText]}>
+                <ThemedText style={styles.highlightedTitleText}>
                   Collection
                 </ThemedText>
               </ThemedView>
@@ -347,11 +340,11 @@ export default function OnboardingScreen() {
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
-                  <ThemedText style={globalStyles.titleText}>
+                  <ThemedText type="title">
                     Change Your
                   </ThemedText>
-                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
-                  styles.highlightedTitleText]}>
+                  <ThemedText type="title" colored style={
+                  styles.highlightedTitleText}>
                     Self-Examination Language
                    </ThemedText>
                 </ThemedView>
@@ -367,11 +360,10 @@ export default function OnboardingScreen() {
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
-                  <ThemedText style={globalStyles.titleText}>
+                  <ThemedText type="title">
                     Choose Your
                   </ThemedText>
-                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
-                    styles.highlightedTitleText]}>
+                  <ThemedText type="title" colored style={styles.highlightedTitleText}>
                     Color Theme
                   </ThemedText>
                   </ThemedView>
@@ -403,11 +395,10 @@ export default function OnboardingScreen() {
             <ThemedView style={globalStyles.whiteOverlay}>
               <ThemedView style={styles.background}>
                 <ThemedView style={styles.titleContainer}>
-                  <ThemedText style={globalStyles.titleText}>
+                  <ThemedText type="title">
                     Choose Your
                   </ThemedText>
-                  <ThemedText style={[globalStyles.titleTextDarkHighlight,
-                    styles.highlightedTitleText]}>
+                  <ThemedText type="title" colored style={styles.highlightedTitleText}>
                     Self Examination Avatar
                   </ThemedText>
                 </ThemedView>
@@ -418,7 +409,7 @@ export default function OnboardingScreen() {
                     source={require("@/assets/images/FEMALE ART 1.jpg")}
                     style={styles.image}
                   />
-                  <ThemedText type="subtitle" colored style={{textAlign: "center"}}>
+                  <ThemedText type="heading" colored style={{textAlign: "center"}}>
                   Female Avatar
                 </ThemedText>
                 </TouchableOpacity>
@@ -427,7 +418,7 @@ export default function OnboardingScreen() {
                     source={require("@/assets/images/MALE ART 1.jpg")}
                     style={styles.image}
                   />
-                  <ThemedText type="subtitle" colored style={{textAlign: "center"}}>
+                  <ThemedText type="heading" colored style={{textAlign: "center"}}>
                     Male Avatar
                   </ThemedText>
                 </TouchableOpacity>

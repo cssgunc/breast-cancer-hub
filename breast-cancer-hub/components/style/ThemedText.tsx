@@ -5,7 +5,7 @@ import { Text, type TextProps, StyleSheet } from "react-native";
 import { useColors } from "./ColorContext";
 
 export type ThemedTextProps = TextProps & {
-  type?: "default" | "title" | "subtitle" | "caption" | "link";
+  type?: "default" | "title" | "heading" | "caption" | "link";
   colored?: boolean
   bold?: boolean
   italic?: boolean
@@ -31,7 +31,7 @@ export function ThemedText({
     lineHeight: 32,
     fontWeight: "bold",
   },
-  subtitle: {
+  heading: {
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -53,7 +53,7 @@ export function ThemedText({
         { color },
         type === "default" ? styles.default : undefined,
         type === "title" ? styles.title : undefined,
-        type === "subtitle" ? styles.subtitle : undefined,
+        type === "heading" ? styles.heading : undefined,
         type === "caption" ? styles.caption : undefined,
         type === "link" ? styles.link : undefined,
         style,

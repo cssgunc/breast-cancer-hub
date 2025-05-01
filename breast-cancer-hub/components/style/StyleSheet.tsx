@@ -10,14 +10,15 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
     // Buttons
     baseButton: {
       paddingVertical: 15,
-      paddingHorizontal: 40,
-      borderRadius: 30,
+      paddingHorizontal: 20,
+      borderRadius: 50,
       borderWidth: 2,
       alignItems: "center" as const,
     },
     baseButtonText: {
       fontSize: 18,
       textAlign: "center" as const,
+      fontWeight: "bold" as const,
     }
   }
 
@@ -74,6 +75,7 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
     flexDirection: "row",
     columnGap: 20,
     textAlign: "left",
+    textAlignVertical: "bottom",
     paddingHorizontal: 20,
     marginVertical: 5,
     paddingVertical: 5,
@@ -92,29 +94,6 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
   },
 
   // Text
-  titleText: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: colors.black,
-    lineHeight: 32,
-  },
-  titleTextDarkHighlight: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: colors.darkHighlight,
-    lineHeight: 32,
-  },
-
-  listTitleTextExam: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: colors.black,
-  },
-  mediumBoldText: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.black,
-  },
   // Font size 16 is common for body text, but most pages have many variations on margins, styles, color, etc.
   // Similar to text used in the Learn More container.
   smallItalicText: {
@@ -178,27 +157,6 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  loginTitleWelcomeText: {//COMMON
-    color: colors.darkHighlight,
-    fontWeight: "bold",
-    textTransform: "uppercase",
-    fontSize: 20,
-    marginBottom: 3,
-  },
-  loginTitleText: {//COMMON
-    color: colors.darkGray,
-    fontWeight: "bold",
-    textAlign: "center",
-    fontSize: 35,
-    marginTop: 3,
-    lineHeight: 40,
-  },
-  loginTitleGrayText: {//COMMON
-    color: colors.darkGray,
-  },
-  loginTitleHighlightText: {//COMMON
-    color: colors.darkHighlight,
   },
   loginInputsContainer: {//COMMON
     width: "100%",

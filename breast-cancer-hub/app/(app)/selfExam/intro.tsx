@@ -12,6 +12,7 @@ import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
+import LoadingScreen from "@/components/Loading";
 
 export default function SelfExamInfo() {
   const router = useRouter();
@@ -65,67 +66,13 @@ export default function SelfExamInfo() {
   }, [t]);
 
   const styles = StyleSheet.create({
-    titleText: {
-      fontSize: 24,
-    },
     titleTextDarkHighlight: {
       paddingTop: 10,
-    },
-    instructionTextBold: {
-      fontSize: 20,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-    },
-    instructionText: {
-      fontSize: 16,
-      color: colors.mediumGray,
-    },
+    }
   });
 
   if (isLoading == true) {
-    return (
-      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
-
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
-            Before You Begin
-          </ThemedText>
-          <ThemedText style={styles.titleText}>Things to Look For</ThemedText>
-
-          <ThemedView style={globalStyles.grayLine} />
-        </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={[globalStyles.listTitleTextExam, {paddingBottom: 5}]}>
-              Signs and Symptoms
-            </ThemedText>
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => {router.dismissAll(); router.replace("/")}}
-              >
-                <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonPrimary}
-                onPress={() => router.push("/selfExam")}
-              >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
-      </ThemedView>
-    );
+    return LoadingScreen();
   } else {
     return (
       <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
@@ -134,10 +81,10 @@ export default function SelfExamInfo() {
 
         {/* Page Title */}
         <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
-          <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
+          <ThemedText type="title" colored style={ styles.titleTextDarkHighlight}>
             Before You Begin
           </ThemedText>
-          <ThemedText style={[globalStyles.titleText, styles.titleText]}>Things to Look For</ThemedText>
+          <ThemedText type="heading">Things to Look For</ThemedText>
 
           <ThemedView style={globalStyles.grayLine} />
         </ThemedView>
@@ -146,16 +93,16 @@ export default function SelfExamInfo() {
           <ScrollView contentContainerStyle={globalStyles.scrollContent}>
             <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
               {/* Info Section */}
-              <ThemedText style={[globalStyles.listTitleTextExam, {paddingBottom: 5}]}>
+              <ThemedText type="heading">
                 Signs and Symptoms
               </ThemedText>
               <ThemedView style={[globalStyles.listContainer, {paddingVertical: 10}]}>
                 {info.map((item: { id: number; key: string }) => (
                   <ThemedView key={item.id} style={globalStyles.listItemContainer}>
-                    <ThemedText style={styles.instructionTextBold}>
+                    <ThemedText type="heading" colored>
                       {item.id + 1 + "."}
                     </ThemedText>
-                    <ThemedText style={styles.instructionText}>
+                    <ThemedText type="caption">
                       {t(item.key)}
                     </ThemedText>
                   </ThemedView>
@@ -167,16 +114,16 @@ export default function SelfExamInfo() {
               {/* Navigation Buttons */}
               <ThemedView style={globalStyles.buttonBackNextContainer}>
                 <TouchableOpacity
-                  style={globalStyles.buttonBack}
+                  style={globalStyles.buttonSecondary}
                   onPress={() => {router.dismissAll(); router.replace("/")}}
                 >
-                  <ThemedText style={globalStyles.buttonTextBack}>Back</ThemedText>
+                  <ThemedText style={globalStyles.buttonTextSecondary}>Back</ThemedText>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={globalStyles.buttonPrimary}
                   onPress={() => router.push("/selfExam")}
                 >
-                  <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                  <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
                 </TouchableOpacity>
               </ThemedView>
               

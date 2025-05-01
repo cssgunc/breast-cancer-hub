@@ -12,6 +12,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import { ThemedText } from "@/components/style/ThemedText";
 
 export default function SignupPage() {
   const {colors, globalStyles} = useColors();
@@ -100,13 +101,6 @@ export default function SignupPage() {
       alignItems: "center",
       paddingBottom: 20,
     },
-    userInfoLabel: {
-      fontWeight: "bold",
-      fontSize: 20,
-      marginVertical: 10,
-      alignSelf: "center",
-      paddingLeft: 15,
-    },
     errorLabel: {
       marginVertical: 10,
       alignSelf: "center",
@@ -121,18 +115,9 @@ export default function SignupPage() {
       alignItems: "center",
       marginTop: 20,
     },
-    hasAccountText: {
-      fontSize: 15,
-      color: colors.mediumGray,
-    },
     infoContainer: {
       alignItems: "center",
       paddingTop: 15,
-    },
-    info: {
-      fontStyle: "italic",
-      fontSize: 15,
-      color: colors.mediumGray,
     },
   });
   
@@ -141,10 +126,10 @@ export default function SignupPage() {
     <ThemedView style={globalStyles.loginBodyContainer}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={globalStyles.loginTopText}>
-          <Text style={globalStyles.loginTitleWelcomeText}>WELCOME</Text>
-          <Text style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>Register in to The</Text>
-          <Text style={[globalStyles.loginTitleText, globalStyles.loginTitleHighlightText]}>Breast Cancer Hub</Text>
-          <Text style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>self-exam App!</Text>
+          <ThemedText type="heading" colored>WELCOME</ThemedText>
+          <ThemedText type="title">Register in to The</ThemedText>
+          <ThemedText type="title" colored>Breast Cancer Hub</ThemedText>
+          <ThemedText type="title">self-exam App!</ThemedText>
         </View>
         <View style={globalStyles.loginInputsContainer}>
           <View style={[globalStyles.loginEmailInputContainer]}>
@@ -200,7 +185,7 @@ export default function SignupPage() {
             {" "}
             {"Error: " + errorMessage}{" "}
           </Text>
-          <Text style={styles.userInfoLabel}>User Information</Text>
+          <ThemedText type="heading">User Information</ThemedText>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
               style={globalStyles.loginPasswordInput}
@@ -225,15 +210,15 @@ export default function SignupPage() {
             <Text style={globalStyles.loginButtonText}>Sign Up</Text>
           </TouchableOpacity>
           <View style={styles.hasAccount}>
-            <Text style={styles.hasAccountText}>Already have an account? </Text>
+            <ThemedText type="caption">Already have an account? </ThemedText>
             <TouchableOpacity onPress={() => router.push("/login")}>
               <Text style={globalStyles.loginLink}>Log in here</Text>
             </TouchableOpacity>
           </View>
           <View style={styles.infoContainer}>
-            <Text style={styles.info}>
+           <ThemedText type="caption" italic>
               Information is collected for Dr. Lopa's team
-            </Text>
+            </ThemedText>
             <TouchableOpacity onPress={() => router.push("/")}>
               <Text style={globalStyles.loginLink}>Learn more here</Text>
             </TouchableOpacity>

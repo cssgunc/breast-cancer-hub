@@ -119,10 +119,10 @@ export default function Checklist() {
 
       {/* Page Title */}
       <ThemedView style={[globalStyles.whiteOverlay, {paddingBottom: 0}]}>
-        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
+        <ThemedText type="title" colored style={styles.titleTextDarkHighlight}>
           Log Your Symptoms
         </ThemedText>
-        <ThemedText style={globalStyles.listTitleTextExam}>Check All That Apply</ThemedText>
+        <ThemedText type="heading">Check All That Apply</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
       </ThemedView>
@@ -131,11 +131,11 @@ export default function Checklist() {
         <ScrollView contentContainerStyle={[globalStyles.scrollContent, {paddingTop: 0}]}>
           <ThemedView style={[globalStyles.whiteOverlay, {paddingTop: 0}]}>
             {/* Info Section */}
-            <ThemedText style={[globalStyles.listTitleTextExam, styles.listTitleTextExam]}>
+            <ThemedText type="heading">
               What did you notice?
             </ThemedText>
 
-            {!isLoading && (<ThemedView style={[globalStyles.elevatedBox, {paddingVertical: 0}]}>
+            {!isLoading && (<ThemedView style={[globalStyles.elevatedBox, {paddingVertical: 0, marginVertical: 10}]}>
                 {examTypeF ? (
                   <ThemedView style={[globalStyles.listContainer, styles.listContainer]}>
                     {info_f.map((item: { id: number; key: string }) => (
@@ -182,10 +182,10 @@ export default function Checklist() {
             {/* Navigation Buttons */}
             <ThemedView style={globalStyles.buttonBackNextContainer}>
               <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => router.replace("./selfExam")}
+                style={globalStyles.buttonSecondary}
+                onPress={() => router.replace("/selfExam")}
               >
-                <ThemedText style={globalStyles.buttonTextBack}>
+                <ThemedText style={globalStyles.buttonTextSecondary}>
                   Back to Exam
                 </ThemedText>
               </TouchableOpacity>
@@ -203,7 +203,7 @@ export default function Checklist() {
                   })}
                 }
               >
-                <ThemedText style={globalStyles.buttonTextNext}>Next</ThemedText>
+                <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
               </TouchableOpacity>
             </ThemedView>
           </ThemedView>

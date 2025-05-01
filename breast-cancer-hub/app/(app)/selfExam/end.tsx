@@ -82,7 +82,7 @@ export default function HomeScreen() {
       <AccountSettingsHeaderComponent />
 
       <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
-        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleTextDarkHighlight]}>
+        <ThemedText type="title" colored style={styles.titleTextDarkHighlight}>
           You're All Set!
         </ThemedText>
         <ThemedView style={globalStyles.grayLine} />
@@ -122,7 +122,7 @@ export default function HomeScreen() {
         </View>
 
         <ThemedView style={styles.headerWhite}>
-          <ThemedText style={globalStyles.mediumBoldText}>
+          <ThemedText type="heading">
             Navigate to your calendar now.
           </ThemedText>
         </ThemedView>

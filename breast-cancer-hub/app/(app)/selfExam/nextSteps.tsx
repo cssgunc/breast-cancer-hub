@@ -92,7 +92,7 @@ export default function HomeScreen() {
       {/* Page Title */}
       <ThemedView style={styles.whiteOverlay}>
 
-        <ThemedText style={[globalStyles.titleTextDarkHighlight, styles.titleText]}>
+        <ThemedText type="title" colored style={styles.titleText}>
           Based On Your Symptoms
         </ThemedText>
         <ThemedText style={styles.subtitleText}>Recommended actions</ThemedText>
@@ -135,7 +135,7 @@ export default function HomeScreen() {
                       )
                     }
                   >
-                    <ThemedText style={globalStyles.buttonTextNext}>
+                    <ThemedText style={globalStyles.buttonTextPrimary}>
                       Schedule an appointment
                     </ThemedText>
                   </TouchableOpacity>
@@ -145,8 +145,8 @@ export default function HomeScreen() {
                     style={globalStyles.buttonPrimary}
                     onPress={() => {router.dismissAll(); router.replace("/")}}
                   >
-                    <ThemedText style={globalStyles.buttonTextNext}>
-                      Return home
+                    <ThemedText style={globalStyles.buttonTextPrimary}>
+                      Return Home
                     </ThemedText>
                   </TouchableOpacity>
                 </ThemedView>
@@ -174,8 +174,8 @@ export default function HomeScreen() {
                     style={globalStyles.buttonPrimary}
                     onPress={() => {router.dismissAll(); router.replace("/")}}
                   >
-                    <ThemedText style={globalStyles.buttonTextNext}>
-                      Return home
+                    <ThemedText style={globalStyles.buttonTextPrimary}>
+                      Return Home
                     </ThemedText>
                   </TouchableOpacity>
                 </ThemedView>

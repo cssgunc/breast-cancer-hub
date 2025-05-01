@@ -70,12 +70,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  forgotPassword: {
-    alignSelf: "flex-end",
-    paddingRight: 20,
-    marginTop: 5,
-  },
-
   noAccount: {
     flexDirection: "row",
     alignItems: "center",
@@ -97,10 +91,10 @@ const styles = StyleSheet.create({
       <ThemedView style={globalStyles.loginBodyContainer}>
         <ThemedView style={globalStyles.loginPopText}>
           <ThemedView style={globalStyles.loginTopText}>
-            <ThemedText style={globalStyles.titleWelcomeText}>WELCOME</ThemedText>
-            <ThemedText style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>Log in to The</ThemedText>
-            <ThemedText style={[globalStyles.loginTitleText, globalStyles.loginTitleHighlightText]}>Breast Cancer Hub</ThemedText>
-            <ThemedText style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>self-exam App!</ThemedText>
+            <ThemedText type="heading" colored>WELCOME</ThemedText>
+            <ThemedText type="title">Log in to The</ThemedText>
+            <ThemedText type="title" colored>Breast Cancer Hub</ThemedText>
+            <ThemedText type="title">self-exam App!</ThemedText>
           </ThemedView>
           <ThemedView style={globalStyles.loginInputsContainer}>
             <ThemedView style={globalStyles.loginEmailInputContainer}>
@@ -128,6 +122,7 @@ const styles = StyleSheet.create({
                 onChangeText={setPassword}
                 secureTextEntry
                 autoCapitalize="none"
+                onSubmitEditing={handleSubmit}
               />
               <MaterialIcons
                 style={globalStyles.loginIcon}

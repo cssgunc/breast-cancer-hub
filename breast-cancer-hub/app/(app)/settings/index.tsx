@@ -25,7 +25,6 @@ export default function SettingsScreen() {
   
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 
-  // API call to update user settings once "save settings" button is clicked
   function saveSettings() {
     fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
       method: "PUT", 
@@ -77,11 +76,10 @@ export default function SettingsScreen() {
       backgroundColor: colors.backgroundLightGray, // Background color of the page
     },
     headerContainer: {
+      height: "10%",
       flexDirection: "row",
       alignItems: "center",
-      paddingTop: "15%", 
-      paddingHorizontal: "5%",
-      marginBottom: "8%",
+      paddingHorizontal: 20,
     },
     backButton: {
       backgroundColor: colors.darkHighlight,
@@ -92,14 +90,12 @@ export default function SettingsScreen() {
       justifyContent: "center",
       marginRight: 10,
     },
-    settingsText: {
-      margin: 10,
-    },
     contentContainer: {
       alignItems: "center",
       paddingBottom: 50,
     },
     mainContainer: {
+      marginTop: 10,
       width: "90%",
       backgroundColor: colors.white,
       borderRadius: 20,
@@ -135,6 +131,8 @@ export default function SettingsScreen() {
       marginVertical: 30,
     },
     sectionContainer: {
+      flexDirection: "column",
+      gap: 5,
       marginBottom: 0,
     },
     sectionHeaderText: {
@@ -144,11 +142,12 @@ export default function SettingsScreen() {
       flexDirection: "row",
       alignItems: "center",
       justifyContent: "space-between",
-      paddingVertical: 10,
     },
     optionText: {
-      flex: 0.5,
+      flex: 0.90,
       flexWrap: "wrap",
+    },
+    optionPressable: {
     },
     saveButton: {
       marginTop: 50,
@@ -168,7 +167,7 @@ export default function SettingsScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Settings Text */}
-        <ThemedText type="title" colored style={styles.settingsText}>Settings</ThemedText>
+        <ThemedText type="title" colored>Settings</ThemedText>
       </View>
 
       {/* Content */}
@@ -194,7 +193,7 @@ export default function SettingsScreen() {
 
           {/* General Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText type="subtitle" style={styles.sectionHeaderText}>General</ThemedText>
+            <ThemedText type="heading" style={styles.sectionHeaderText}>General</ThemedText>
 
             {/* Notification Preferences */}
             <TouchableOpacity
@@ -204,7 +203,7 @@ export default function SettingsScreen() {
               <ThemedText style={styles.optionText}>
                 Notification Preferences
               </ThemedText>
-              <Ionicons name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
 
             {/* Change Self Examination Language */}
@@ -213,9 +212,9 @@ export default function SettingsScreen() {
               onPress={() => router.push("/settings/language")}
             >
               <ThemedText style={styles.optionText}>
-                Change Self Examination Language
+                Change Self Exam Language
               </ThemedText>
-              <Ionicons name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
 
             {/* Telemetry */}
@@ -248,7 +247,7 @@ export default function SettingsScreen() {
 
           {/* Account Settings Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText style={styles.sectionHeaderText}>
+            <ThemedText type="heading">
               Account Settings
             </ThemedText>
 
@@ -258,7 +257,7 @@ export default function SettingsScreen() {
               onPress={() => router.push("/settings/profile")}
             >
               <ThemedText style={styles.optionText}>Edit Profile</ThemedText>
-              <Ionicons name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
 
             {/* Dark Mode */}
@@ -286,7 +285,7 @@ export default function SettingsScreen() {
               <ThemedText style={styles.optionText}>
                 Change Date or Scheduling Type
               </ThemedText>
-              <Ionicons name="chevron-forward" size={20} color={colors.black} />
+              <Ionicons style={styles.optionPressable} name="chevron-forward" size={20} color={colors.black} />
             </TouchableOpacity>
           </View>
 
