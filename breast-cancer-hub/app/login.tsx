@@ -1,22 +1,19 @@
 import {
-  Animated,
   StyleSheet,
   ScrollView,
   TextInput,
-  Alert,
   TouchableOpacity,
 } from "react-native";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/style/ThemedView";
+import { ThemedText } from "@/components/style/ThemedText";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
-import { useColors } from "@/components/ColorContext";
+import { useColors } from "@/components/style/ColorContext";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
-
-export default function HomeScreen() {
+export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -73,12 +70,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  forgotPassword: {
-    alignSelf: "flex-end",
-    paddingRight: 20,
-    marginTop: 5,
-  },
-
   noAccount: {
     flexDirection: "row",
     alignItems: "center",
@@ -100,10 +91,10 @@ const styles = StyleSheet.create({
       <ThemedView style={globalStyles.loginBodyContainer}>
         <ThemedView style={globalStyles.loginPopText}>
           <ThemedView style={globalStyles.loginTopText}>
-            <ThemedText style={globalStyles.titleWelcomeText}>WELCOME</ThemedText>
-            <ThemedText style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>Log in to The</ThemedText>
-            <ThemedText style={[globalStyles.loginTitleText, globalStyles.loginTitleHighlightText]}>Breast Cancer Hub</ThemedText>
-            <ThemedText style={[globalStyles.loginTitleText, globalStyles.loginTitleGrayText]}>self-exam App!</ThemedText>
+            <ThemedText type="heading" colored>WELCOME</ThemedText>
+            <ThemedText type="title">Log in to The</ThemedText>
+            <ThemedText type="title" colored>Breast Cancer Hub</ThemedText>
+            <ThemedText type="title">self-exam App!</ThemedText>
           </ThemedView>
           <ThemedView style={globalStyles.loginInputsContainer}>
             <ThemedView style={globalStyles.loginEmailInputContainer}>
@@ -131,6 +122,7 @@ const styles = StyleSheet.create({
                 onChangeText={setPassword}
                 secureTextEntry
                 autoCapitalize="none"
+                onSubmitEditing={handleSubmit}
               />
               <MaterialIcons
                 style={globalStyles.loginIcon}
@@ -139,12 +131,6 @@ const styles = StyleSheet.create({
                 color="gray"
               />
             </ThemedView>
-            <TouchableOpacity
-              style={styles.forgotPassword}
-              onPress={() => router.push("/")}
-            >
-              <ThemedText style={globalStyles.loginLink}>Forgot your password?</ThemedText>
-            </TouchableOpacity>
             <TouchableOpacity style={globalStyles.loginButton} onPress={handleSubmit}>
               <ThemedText
                 style={globalStyles.loginButtonText}

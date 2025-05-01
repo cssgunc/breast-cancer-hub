@@ -1,71 +1,75 @@
-## Standard components
+## BCH Reusable Components
 
 ### AccountSettingsHeaderComponent
+
 This is the pink/purple section that is seen above most pages which includes:
+
 1. A person icon (for the account page)
 2. A settings icon (for the settings page)
 
 Use it only on pages that the figma indicates.
 
 ### CalendarComponent
+
 Displays an interactive calendar for tracking menstrual cycles. It allows users to navigate between months, view period and special days, and toggle an editing mode to log or remove period days, updating the checkup day accordingly.
 
-### Collapsible
-Displays a section with a title that can be expanded or collapsed to show or hide its content.
-- Initially, only the title and right arrow (> icon) appear.
-- When clicked, it expands to show the content with a downward arrow (v icon).
-- Clicking again collapses it.
-
 ### ExternalLink
-Can be used throughout the app for *external links* without extra setup.\
+
+Can be used throughout the app for _external links_ without extra setup.\
 Example Usage:\
+
 ```
 <ExternalLink href="https://example.com">
     Click me to open an external website
 </ExternalLink>
 ```
+
 On web: Opens https://example.com in a new tab.\
 On mobile: Opens https://example.com inside an in-app browser instead of the system browser.
 
 More info on ExternalLink is provided belo in the Links section.
 
-### HelloWave
-An animated component that makes a waving hand emoji (👋) oscillate back and forth.
-
 ### LearnMoreTextContainer
+
 Displays a source attribution message and a "Learn more" link that directs users to an external website about breast cancer when tapped.
 
 ### LoadingScreen
-This is used as a loading screen while the app is preparing data or resources. 
+
+This is used as a loading screen while the app is preparing data or resources.
 
 ### NotificationComponent
+
 Displays a message with a date and an option to dismiss the notification.\
 It has two types of notifications: a general reminder and an overdue notification.
 
-### ParallaxScrollView
-When used, the content beneath it moves dynamically with the scrolling of the page. 
-
 ### SelectLanguage
-Allows users to choose a language from a dropdown menu. It features a toggle button that expands a list of language options, updating the selected language when a user makes a choice. 
+
+Allows users to choose a language from a dropdown menu. It features a toggle button that expands a list of language options, updating the selected language when a user makes a choice.
 
 ### ThemedText
+
 Simplifies handling different text styles and colors. It ensures that your text components are consistent with the app’s color scheme.\
 Example Usage:\
+
 ```
 <ThemedText style={styles.highlightedTitleText}>
   Based On Your Symptoms
 </ThemedText>
 ```
+
 Use this component instead of the React Native `<Text>` tag.
 
 ### ThemedView
+
 Applies dynamic theming for background colors based on the current light or dark mode theme. Acts as a container, similar to a `<div>`.
+
 ```
 <ThemedView lightColor="#FFFFFF" darkColor="#333333" style={{ padding: 20 }}>
   <Text>Hello, World!</Text>
 </ThemedView>
 ```
-Use this component instead of the React Native `<View>` tag. 
+
+Use this component instead of the React Native `<View>` tag.
 
 ## Icons
 
@@ -124,7 +128,7 @@ For internal linking use the expo router.
 Example:
 
 ```
-import { useRouter } from "expo-router"; 
+import { useRouter } from "expo-router";
 
 {/* Navigate to Home Page */}
 <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>

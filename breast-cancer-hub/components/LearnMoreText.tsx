@@ -1,7 +1,7 @@
 import { TouchableOpacity, Linking, StyleSheet } from "react-native";
-import { ThemedText } from "./ThemedText";
-import { ThemedView } from "./ThemedView";
-import { useColors } from "@/components/ColorContext";
+import { ThemedText } from "./style/ThemedText";
+import { ThemedView } from "./style/ThemedView";
+import { useColors } from "@/components/style/ColorContext";
 
 export function LearnMoreTextContainer() {
   const {colors, globalStyles} = useColors();
