@@ -35,7 +35,6 @@ export default function LoginPage() {
       .then((response) => response.json())
       .then(async (data) => {
         if (data.message) {
-          alert("Login successful");
           saveSetting("email", data.email);
           saveSetting("token", data.sessionToken);
           saveSetting("name", data.name);

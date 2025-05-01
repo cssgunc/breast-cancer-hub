@@ -11,8 +11,8 @@ import {
 } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
-import { NotificationComponent } from "@/app/(app)/home/(components)/Notification"; // Ensure this path is correct
-import { CalendarComponent } from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
+import NotificationComponent from "@/app/(app)/home/(components)/Notification"; // Ensure this path is correct
+import CalendarComponent from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
@@ -36,7 +36,7 @@ export type HomePageProps = Partial<{
 export default function HomePage(props: HomePageProps) {
   const router = useRouter();
 
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
     undefined
@@ -45,31 +45,36 @@ export default function HomePage(props: HomePageProps) {
   // State for modal visibility
   const [modalVisible, setModalVisible] = useState(false);
 
+  // State for checkup history feature flag
+  const [checkupHistoryEnabled, setCheckupHistoryEnabled] = useState(false);
+
   // State for notifications
   const [notifications, setNotifications] = useState<Noti[]>([]);
 
   const [name, setName] = useState<string | undefined>("");
 
-  const [id, setId] = useState({ userId: ""});
+  const [id, setId] = useState({ userId: "" });
 
   useEffect(() => {
-  const init = async () => {
-    const userId = await getSetting("userId");
-    setId({ userId });
+    const init = async () => {
+      const userId = await getSetting("userId");
+      setId({ userId });
 
-    if (props.isMenstruating === undefined) {
-      const s = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
-      setIsMenstruating(s === "period");
-    }
+      if (props.isMenstruating === undefined) {
+        const s = await getSetting(
+          `${userId}_schedulingType` as keyof SettingsMap
+        );
+        setIsMenstruating(s === "period");
+      }
 
-    if (props.name === undefined) {
-      const value = await getSetting("name");
-      setName(value);
-    }
-  };
+      if (props.name === undefined) {
+        const value = await getSetting("name");
+        setName(value);
+      }
+    };
 
-  init();
-}, []);
+    init();
+  }, []);
   if (name === undefined || isMenstruating === undefined) {
     return LoadingScreen();
   }
@@ -238,28 +243,31 @@ export default function HomePage(props: HomePageProps) {
         </View>
         {/* Greeting */}
         <View style={styles.greetingContainer}>
-          <ThemedText type="title" style={{fontSize: 26}}>Good Morning, </ThemedText>
-          <ThemedText type="title" style={{fontSize: 26}} colored>{name}!</ThemedText>
+          <ThemedText type="title" style={{ fontSize: 26 }}>
+            Good Morning,{" "}
+          </ThemedText>
+          <ThemedText type="title" style={{ fontSize: 26 }} colored>
+            {name}!
+          </ThemedText>
         </View>
       </View>
 
       {/* Content */}
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false} nestedScrollEnabled={true}>
+      <ScrollView
+        contentContainerStyle={{ flexGrow: 1 }}
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+      >
         {/* Main Content with padding */}
-        <View style={{paddingVertical: 10, paddingHorizontal: 15}}>
+        <View style={{ paddingVertical: 10, paddingHorizontal: 15 }}>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
-            <Ionicons
-              name="notifications-outline"
-              style={styles.icon}
-            />
+            <Ionicons name="notifications-outline" style={styles.icon} />
             <ThemedText type="heading">Alerts</ThemedText>
           </View>
           {/* Notifications or No Alerts Message */}
           {notifications.length === 0 ? (
-            <ThemedText type="caption">
-              There are no new alerts
-            </ThemedText>
+            <ThemedText type="caption">There are no new alerts</ThemedText>
           ) : (
             notifications.map((notification) => (
               <React.Fragment key={notification.id}>
@@ -273,13 +281,8 @@ export default function HomePage(props: HomePageProps) {
           )}
           {/* Calendar Section */}
           <View style={styles.sectionTitle}>
-            <Ionicons
-              name="calendar-outline"
-              style={styles.icon}
-            />
-            <ThemedText type="heading">
-              View your calendar
-            </ThemedText>
+            <Ionicons name="calendar-outline" style={styles.icon} />
+            <ThemedText type="heading">View your calendar</ThemedText>
           </View>
 
           {/* Calendar Component */}
@@ -303,60 +306,62 @@ export default function HomePage(props: HomePageProps) {
                 ]);
               }
             }}
-
           />
 
           {/* Checkup History Homepage Widget, dates must be ISO format */}
-          <View style={styles.sectionTitle}>
-            <Ionicons
-              name="list-outline"
-              style={styles.icon}
-            />
-            <ThemedText type="heading">
-              {"Recent Checkups"}
-            </ThemedText>
-          </View>
-          <View style={{ flex: 1}}>
-            <CycleLog limit={4} isMenstruating={isMenstruating} />
-            <TouchableOpacity
-              onPress={() => router.push("/checkupHistory")}
-              style={{
-                alignItems: "center",
-              }}>
-              <ThemedText type="link" style={styles.pastExamsText}>
-                View your past examinations here
-              </ThemedText>
-            </TouchableOpacity>
-          </View>
+          {checkupHistoryEnabled && (
+            <>
+              <View style={styles.sectionTitle}>
+                <Ionicons name="list-outline" style={styles.icon} />
+                <ThemedText type="heading">{"Recent Checkups"}</ThemedText>
+              </View>
+              <View style={{ flex: 1 }}>
+                <CycleLog limit={4} isMenstruating={isMenstruating} />
+                <TouchableOpacity
+                  onPress={() => router.push("/checkupHistory")}
+                  style={{
+                    alignItems: "center",
+                  }}
+                >
+                  <ThemedText type="link" style={styles.pastExamsText}>
+                    View your past examinations here
+                  </ThemedText>
+                </TouchableOpacity>
+              </View>
+            </>
+          )}
 
           {/* Contact Buttons */}
           <View style={styles.contactButtons}>
             <TouchableOpacity
-            style={globalStyles.buttonPrimary}
-            onPress={() => openLink("https://www.breastcancerhub.org/new-page-3")}
-          >
-            <ThemedText style={globalStyles.buttonTextPrimary}>
-              Contact Dr. Lopa
-            </ThemedText>
-          </TouchableOpacity>
+              style={globalStyles.buttonPrimary}
+              onPress={() =>
+                openLink("https://www.breastcancerhub.org/new-page-3")
+              }
+            >
+              <ThemedText style={globalStyles.buttonTextPrimary}>
+                Contact Dr. Lopa
+              </ThemedText>
+            </TouchableOpacity>
 
-          <TouchableOpacity
-            style={globalStyles.buttonSecondary}
-            onPress={() => setModalVisible(true)}
-          >
-            <ThemedText style={globalStyles.buttonTextSecondary}>
-              Learn More about Breast Cancer
-            </ThemedText>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={globalStyles.buttonSecondary}
+              onPress={() => setModalVisible(true)}
+            >
+              <ThemedText style={globalStyles.buttonTextSecondary}>
+                Learn More about Breast Cancer
+              </ThemedText>
+            </TouchableOpacity>
           </View>
-          
         </View>
 
         {/* footer with logos */}
         <View style={styles.footerContainer}>
           <View style={styles.logosRow}>
-        
-            <ExternalLink href="https://www.facebook.com/KurlbaumIllustration/" asChild>
+            <ExternalLink
+              href="https://www.facebook.com/KurlbaumIllustration/"
+              asChild
+            >
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <View style={styles.kurlbaumContainer}>
                   <Image
@@ -379,7 +384,10 @@ export default function HomePage(props: HomePageProps) {
               </TouchableOpacity>
             </ExternalLink>
 
-            <ExternalLink href="https://www.hcamidwest.com/about-us/about-sarah-cannon" asChild>
+            <ExternalLink
+              href="https://www.hcamidwest.com/about-us/about-sarah-cannon"
+              asChild
+            >
               <TouchableOpacity style={styles.footerLogoContainer}>
                 <Image
                   source={require("@/assets/images/Sarah-Cannon_transparent.png")}
@@ -389,7 +397,6 @@ export default function HomePage(props: HomePageProps) {
             </ExternalLink>
           </View>
         </View>
-
       </ScrollView>
 
       {/* Modal for Learn More */}
@@ -405,13 +412,19 @@ export default function HomePage(props: HomePageProps) {
               <View style={styles.modalContainer}>
                 {/* Close Button */}
                 <TouchableOpacity
-                  style={{alignSelf: "flex-end"}}
+                  style={{ alignSelf: "flex-end" }}
                   onPress={() => setModalVisible(false)}
                 >
-                  <Ionicons name="close" size={24} color={colors.darkHighlight} />
+                  <Ionicons
+                    name="close"
+                    size={24}
+                    color={colors.darkHighlight}
+                  />
                 </TouchableOpacity>
                 {/* Modal Title */}
-                <ThemedText type="heading" colored style={styles.modalTitle}>Learn More</ThemedText>
+                <ThemedText type="heading" colored style={styles.modalTitle}>
+                  Learn More
+                </ThemedText>
 
                 {/* Buttons */}
                 <TouchableOpacity

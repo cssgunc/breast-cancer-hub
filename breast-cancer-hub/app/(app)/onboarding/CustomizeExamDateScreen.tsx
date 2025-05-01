@@ -6,6 +6,7 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
+  TextInput,
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
@@ -232,7 +233,25 @@ export default function CustomizeExamDateScreen() {
             {/* Highlight Rectangle */}
             <View style={styles.pinkRectangle}>
               {/* Display Exam Day */}
-              <ThemedText style={styles.dayDisplay}>{examDay}</ThemedText>
+              <TextInput
+                value={examDay.toString()}
+                style={styles.dayDisplay}
+                onChangeText={(text) => {
+                  const num = parseInt(text, 10);
+                  if (!isNaN(num)) {
+                    if (num >= 1 && num <= 28) {
+                      setExamDay(num);
+                    } else if (num > 28) {
+                      setExamDay(28);
+                    } else if (num < 1) {
+                      setExamDay(1);
+                    }
+                  }
+                }}
+                maxLength={2}
+                textAlign="center"
+                selectTextOnFocus
+              />
 
               {/* Up and Down Buttons */}
               <View style={styles.chevronContainer}>

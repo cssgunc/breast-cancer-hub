@@ -71,9 +71,6 @@ export default function CheckupWidget(
       ) * -1;
   }
   const completedDate = new Date(checkupWidgetProps.completedDate);
-
-  console.log(checkupWidgetProps.isMenstruating);
-
   return (
     <ThemedView>
       {checkupWidgetProps.isMenstruating ? (

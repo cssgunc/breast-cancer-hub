@@ -12,12 +12,12 @@ interface NotificationComponentProps {
   onDismiss: () => void;
 }
 
-export function NotificationComponent({
+export default function NotificationComponent({
   variant = "default",
   date,
   onDismiss,
 }: NotificationComponentProps) {
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
@@ -89,7 +89,7 @@ export function NotificationComponent({
       alignItems: "center",
       justifyContent: "center",
     },
-  });  
+  });
 
   return (
     <ThemedView
@@ -110,10 +110,13 @@ export function NotificationComponent({
         style={styles.textContainer}
         onPress={() => router.push("/selfExam/intro")}
       >
-        <ThemedText bold style={[styles.headerText, {color: headerTextColor}]}>{headerText}</ThemedText>
-        <ThemedText>
-          Complete your self-examination.
+        <ThemedText
+          bold
+          style={[styles.headerText, { color: headerTextColor }]}
+        >
+          {headerText}
         </ThemedText>
+        <ThemedText>Complete your self-examination.</ThemedText>
       </TouchableOpacity>
       {/* Trash Icon */}
       <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>

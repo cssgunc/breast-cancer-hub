@@ -30,7 +30,7 @@ interface CalendarComponentProps {
   userId: string;
 }
 
-export function CalendarComponent({
+export default function CalendarComponent({
   isMenstruating,
   updateCheckupDay,
   userId,
@@ -58,8 +58,6 @@ export function CalendarComponent({
   useEffect(() => {
     const init = async () => {
       const type = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
-
-      console.log(type);
       if (type !== "period" && type != null) {
         setPeriodDay((type as { day: number }).day);
       }

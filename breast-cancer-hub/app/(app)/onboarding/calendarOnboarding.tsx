@@ -14,7 +14,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
-import { CalendarComponent } from "@/app/(app)/home/(components)/Calendar";
+import CalendarComponent from "@/app/(app)/home/(components)/Calendar";
 
 import { getCheckupDay } from "@/hooks/usePeriodData";
 
