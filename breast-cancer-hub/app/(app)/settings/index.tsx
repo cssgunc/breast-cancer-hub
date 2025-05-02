@@ -186,7 +186,7 @@ export default function SettingsScreen() {
               onPress={() => router.push("/settings/notifications")}
             >
               <ThemedText style={styles.optionText}>
-                Notification Preferences
+                Change Notification Preferences
               </ThemedText>
               <Ionicons
                 style={styles.optionPressable}
@@ -202,7 +202,7 @@ export default function SettingsScreen() {
               onPress={() => router.push("/settings/language")}
             >
               <ThemedText style={styles.optionText}>
-                Breast Self Exam Language
+                Change Breast Self Exam Language
               </ThemedText>
               <Ionicons
                 style={styles.optionPressable}
@@ -211,6 +211,23 @@ export default function SettingsScreen() {
                 color={colors.black}
               />
             </TouchableOpacity>
+
+            {/* Dark Mode */}
+            <View style={styles.optionContainer}>
+              <ThemedText style={styles.optionText}>
+                Switch Color Scheme
+              </ThemedText>
+              <Switch
+                trackColor={{ false: "#767577", true: colors.lightHighlight }}
+                thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
+                ios_backgroundColor={colors.darkGray}
+                onValueChange={() => {
+                  setDarkMode(!IsDarkThemeEnabled);
+                  setIsDarkThemeEnabled(!IsDarkThemeEnabled);
+                }}
+                value={IsDarkThemeEnabled}
+              />
+            </View>
 
             {/* Telemetry */}
             {/* <View style={styles.optionContainer}>
@@ -252,10 +269,12 @@ export default function SettingsScreen() {
 
           {/* Account Settings Section */}
           <View style={styles.sectionContainer}>
-            <ThemedText type="heading">Account Settings</ThemedText>
+            <ThemedText type="heading" style={styles.sectionHeaderText}>
+              Account Settings
+            </ThemedText>
 
             {/* Edit Profile */}
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.optionContainer}
               onPress={() => router.push("/settings/profile")}
             >
@@ -268,24 +287,7 @@ export default function SettingsScreen() {
                 size={20}
                 color={colors.black}
               />
-            </TouchableOpacity>
-
-            {/* Dark Mode */}
-            <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>
-                Switch Color Scheme
-              </ThemedText>
-              <Switch
-                trackColor={{ false: "#767577", true: colors.lightHighlight }}
-                thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
-                ios_backgroundColor={colors.darkGray}
-                onValueChange={() => {
-                  setDarkMode(!IsDarkThemeEnabled);
-                  setIsDarkThemeEnabled(!IsDarkThemeEnabled);
-                }}
-                value={IsDarkThemeEnabled}
-              />
-            </View>
+            </TouchableOpacity> */}
 
             {/* Change Date or Scheduling Type */}
             <TouchableOpacity
@@ -304,17 +306,23 @@ export default function SettingsScreen() {
                 color={colors.black}
               />
             </TouchableOpacity>
-          </View>
 
-          {/* Repeat onboarding */}
-          <TouchableOpacity
-            style={globalStyles.buttonPrimary}
-            onPress={() => router.push("/onboarding")}
-          >
-            <ThemedText style={globalStyles.buttonTextPrimary}>
-              Repeat Intro/Setup
-            </ThemedText>
-          </TouchableOpacity>
+            {/* Repeat onboarding */}
+            <TouchableOpacity
+              style={styles.optionContainer}
+              onPress={() => router.push("/onboarding")}
+            >
+              <ThemedText style={styles.optionText}>
+                Repeat Introduction/Setup Sequence
+              </ThemedText>
+              <Ionicons
+                style={styles.optionPressable}
+                name="chevron-forward"
+                size={20}
+                color={colors.black}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </ThemedView>

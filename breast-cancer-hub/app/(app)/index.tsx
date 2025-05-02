@@ -12,7 +12,7 @@ export default function Index() {
       if (userId) {
         router.replace("/home");
       } else {
-        router.replace("/login");
+        router.replace("/welcome");
       }
     })();
   }, [router]);

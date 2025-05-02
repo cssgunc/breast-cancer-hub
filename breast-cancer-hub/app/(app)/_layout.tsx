@@ -5,12 +5,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Protection() {
   const [session, setSession] = useState("");
+  const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     getSetting("token").then((token) => {
       setSession(token || "");
-      setIsLoading(false);
+      getSetting("userId").then((userId) => {
+        setUserId(userId || "");
+        setIsLoading(false);
+      });
     });
   }, []);
 
@@ -20,8 +24,8 @@ export default function Protection() {
   }
 
   // After loading, if no session token, redirect to login
-  if (session === "") {
-    return <Redirect href="/login" />;
+  if (session === "" && userId != "local") {
+    return <Redirect href="/welcome" />;
   }
 
   // If we have a session token, render the protected content

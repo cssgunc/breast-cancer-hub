@@ -68,7 +68,7 @@ export async function getSetting<T extends SettingKeys>(
     storageKey = key;
   } else {
     // user-scoped → prefix with current userId
-    const userId = (await _rawGet("userId")) || "";
+    const userId = JSON.parse((await _rawGet("userId")) || "");
     storageKey = `user:${userId}:${key}`;
   }
 
@@ -88,7 +88,7 @@ export async function saveSetting<T extends SettingKeys>(
   if (GLOBAL_KEYS.includes(key)) {
     storageKey = key;
   } else {
-    const userId = (await _rawGet("userId")) || "";
+    const userId = JSON.parse((await _rawGet("userId")) || "");
     storageKey = `user:${userId}:${key}`;
     // if (await getSetting("useBackupData")) {
     //   backupSettings(userId, key, value);
@@ -154,7 +154,7 @@ export function generateDefaultSettings() {
     useTelemetry: false,
     useDarkTheme: true,
     usePushNotifications: false,
-    useInAppNotifications: false,
+    useInAppNotifications: true,
     onboarding: false,
     avatar: false,
   };

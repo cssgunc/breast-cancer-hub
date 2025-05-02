@@ -13,7 +13,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import NotificationComponent from "@/app/(app)/home/(components)/Notification"; // Ensure this path is correct
 import CalendarComponent from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
@@ -115,7 +115,7 @@ export default function HomePage(props: HomePageProps) {
       flexShrink: 1,
     },
     profileIconContainer: {
-      backgroundColor: colors.darkHighlight,
+      backgroundColor: colors.white,
       width: 40,
       height: 40,
       borderRadius: 20,
@@ -231,7 +231,11 @@ export default function HomePage(props: HomePageProps) {
             style={styles.profileIconContainer}
             onPress={() => router.push("/settings")}
           >
-            <Ionicons name="person" size={24} color={colors.white} />
+            <MaterialIcons
+              name="settings"
+              size={28}
+              color={colors.darkHighlight}
+            />
           </TouchableOpacity>
         </View>
         {/* Greeting */}
