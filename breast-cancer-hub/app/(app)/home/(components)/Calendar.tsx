@@ -4,23 +4,22 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import {
-  addPeriod,
   initPeriods,
+  usePeriodData,
   isCheckupDay,
   isPeriodDay,
   OrderedMonthNames,
   OrderedWeekdayNames,
-  removePeriod,
 } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 
 type CalendarItem = {
-  p: Date;
-  date: number;
+  date: Date;
+  day: number;
   inCurrentMonth: boolean;
   isPeriodDay: boolean;
-  isSpecialDay: boolean;
+  isCheckupDay: boolean;
 };
 
 interface CalendarComponentProps {
@@ -37,14 +36,14 @@ export default function CalendarComponent({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
   const [periodDay, setPeriodDay] = useState<number>(28);
-  const [_seed, setSeed] = useState(0);
+
+  const { timestamps, cycles, addPeriod, removePeriod } = usePeriodData();
 
   // Full refresh function
   const refreshCalendar = () => {
     setCurrentDate(new Date());
     setIsEditing(false);
     setPeriodDay(28);
-    setSeed(Math.random());
     initPeriods().then((original) => {
       if (original) {
         updateCheckupDay();
@@ -52,6 +51,7 @@ export default function CalendarComponent({
     });
   };
 
+  // If not menstruating, display checkup date
   useEffect(() => {
     const init = async () => {
       const type = await getSetting("schedulingType");
@@ -62,22 +62,12 @@ export default function CalendarComponent({
     init();
   }, []);
 
-  useEffect(() => {
-    initPeriods().then((original) => {
-      if (original) {
-        updateCheckupDay();
-        setSeed(Math.random());
-      }
-    });
-  }, []);
-
   // Handle menstruation status changes
   useEffect(() => {
     if (isMenstruating) {
       refreshCalendar();
     } else {
       setIsEditing(false);
-      setSeed(Math.random());
     }
   }, [isMenstruating]);
 
@@ -150,13 +140,13 @@ export default function CalendarComponent({
       const p = new Date(prevMonth.getTime());
       p.setDate(daysInPrevMonth - i);
       calendarDays.push({
-        p,
-        date: daysInPrevMonth - i,
+        date: p,
+        day: daysInPrevMonth - i,
         inCurrentMonth: false,
         isPeriodDay: isMenstruating && isPeriodDay(p),
-        isSpecialDay: isMenstruating
+        isCheckupDay: isMenstruating
           ? isCheckupDay(p)
-          : startingDay - 1 === periodDay,
+          : daysInPrevMonth - i === periodDay,
       });
     }
 
@@ -167,11 +157,11 @@ export default function CalendarComponent({
       const p = new Date(currMonth.getTime());
       p.setDate(i);
       calendarDays.push({
-        p,
-        date: i,
+        date: p,
+        day: i,
         inCurrentMonth: true,
         isPeriodDay: isMenstruating && isPeriodDay(p),
-        isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
+        isCheckupDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }
 
@@ -183,11 +173,11 @@ export default function CalendarComponent({
       const p = new Date(nextMonth.getTime());
       p.setDate(i);
       calendarDays.push({
-        p,
-        date: i,
+        date: p,
+        day: i,
         inCurrentMonth: false,
         isPeriodDay: isMenstruating && isPeriodDay(p),
-        isSpecialDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
+        isCheckupDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
       });
     }
 
@@ -197,15 +187,14 @@ export default function CalendarComponent({
   const calendarDays = generateCalendar();
 
   const handleDayPress = (day: CalendarItem) => {
-    if (!isEditing || !day.inCurrentMonth) return;
-
+    if (!isEditing) return;
+    console.log(day);
     if (day.isPeriodDay) {
-      removePeriod(day.p);
+      removePeriod(day.date);
     } else {
-      addPeriod(day.p);
+      addPeriod(day.date);
     }
     updateCheckupDay();
-    setSeed(Math.random());
   };
 
   const styles = StyleSheet.create({
@@ -391,13 +380,13 @@ export default function CalendarComponent({
               {day.isPeriodDay ? (
                 <View style={styles.periodDayCircle}>
                   <ThemedText style={styles.periodDayText}>
-                    {day.date}
+                    {day.day}
                   </ThemedText>
                 </View>
-              ) : day.isSpecialDay ? (
+              ) : day.isCheckupDay ? (
                 <View style={styles.specialDayCircle}>
                   <ThemedText style={styles.specialDayText}>
-                    {day.date}
+                    {day.day}
                   </ThemedText>
                 </View>
               ) : (
@@ -415,7 +404,7 @@ export default function CalendarComponent({
                       !day.inCurrentMonth && styles.greyDayText,
                     ]}
                   >
-                    {day.date}
+                    {day.day}
                   </ThemedText>
                 </View>
               )}

@@ -48,7 +48,7 @@ export default function NotificationComponent({
     "Nov.",
     "Dec.",
   ];
-  const month = monthNames[date.getMonth()];
+  const month = monthNames[date.getMonth() - 1];
   const day = date.getDate();
 
   const styles = StyleSheet.create({

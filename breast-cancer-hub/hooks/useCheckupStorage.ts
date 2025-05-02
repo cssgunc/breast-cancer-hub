@@ -1,5 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as SecureStore from "expo-secure-store";
+import { getSetting } from "./useSettings";
+
+export type Checkup =
+  | {
+      id: string;
+      source: "fixed";
+      date: string;
+    }
+  | {
+      id: string;
+      source: "cycle";
+      cycleStart: string;
+      date: string;
+    };
+
+export type CompletedCheckups = string[];
 
 export const useCheckupStorage = () => {
   const [symptoms, setSymptoms] = useState<boolean[]>([]); // Store symptoms of a checkup
@@ -57,7 +73,7 @@ export const useCheckupStorage = () => {
       : [];
 
     if (storedCheckups) {
-      storedCheckups = JSON.parse(storedCheckups); 
+      storedCheckups = JSON.parse(storedCheckups);
       setAllCheckups(storedCheckups);
     } else {
       setAllCheckups([]); // No checkups stored yet
