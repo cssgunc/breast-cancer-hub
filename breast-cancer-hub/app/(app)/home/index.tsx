@@ -145,6 +145,7 @@ export default function HomePage(props: HomePageProps) {
       marginBottom: 40,
     },
     contactButtons: {
+      marginTop: 16,
       width: "100%",
       flexDirection: "column",
       gap: 10,
@@ -256,7 +257,7 @@ export default function HomePage(props: HomePageProps) {
         nestedScrollEnabled={true}
       >
         {/* Main Content with padding */}
-        <View style={{ paddingVertical: 10, paddingHorizontal: 15 }}>
+        <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="notifications-outline" style={styles.icon} />

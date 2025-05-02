@@ -113,20 +113,20 @@ export default function NotificationsScreen() {
   }, [person.token]);
 
   // Save notification preferences to local storage
-  const saveNotificationSettings = async () => {
-    if (!pushNotifications && !inAppNotifications) {
-      alert("At least one notification type must be selected.");
-      return;
-    }
+  // const saveNotificationSettings = async () => {
+  //   if (!pushNotifications && !inAppNotifications) {
+  //     alert("At least one notification type must be selected.");
+  //     return;
+  //   }
 
-    await saveSetting("usePushNotifications", pushNotifications);
-    await saveSetting("useInAppNotifications", inAppNotifications);
-    await saveSetting("notificationTimes", timeEntries);
+  //   await saveSetting("usePushNotifications", pushNotifications);
+  //   await saveSetting("useInAppNotifications", inAppNotifications);
+  //   await saveSetting("notificationTimes", timeEntries);
 
-    await saveSettingsToBackend();
+  //   await saveSettingsToBackend();
 
-    alert("Settings saved successfully.");
-  };
+  //   alert("Settings saved successfully.");
+  // };
 
   // Function to add a new time entry
   const addTimeEntry = (newDate: Date) => {
@@ -358,7 +358,39 @@ export default function NotificationsScreen() {
             How would you like to be notified when a self-examination is due?
           </ThemedText>
 
+          {/* In-App Notifications Option */}
+          <TouchableOpacity
+            style={styles.optionBox}
+            onPress={() => setInAppNotifications(!inAppNotifications)}
+            disabled
+          >
+            <View style={styles.optionHeader}>
+              <View style={styles.checkboxContainer}>
+                {inAppNotifications ? (
+                  <Ionicons
+                    name="checkbox"
+                    size={24}
+                    color={colors.lightHighlight}
+                  />
+                ) : (
+                  <Ionicons
+                    name="square-outline"
+                    size={24}
+                    color={colors.darkHighlight}
+                  />
+                )}
+              </View>
+              <ThemedText colored bold>
+                Notification While in App
+              </ThemedText>
+            </View>
+            <ThemedText type="caption" style={styles.optionDescription}>
+              The app will display a notification when you open it.
+            </ThemedText>
+          </TouchableOpacity>
+
           {/* Push Notifications Option */}
+
           <TouchableOpacity
             style={styles.optionBox}
             onPress={() => setPushNotifications(!pushNotifications)}
@@ -387,36 +419,6 @@ export default function NotificationsScreen() {
               This device will receive notifications that will be from any
               screen.{"\n"}
               It will be visible to anyone.
-            </ThemedText>
-          </TouchableOpacity>
-
-          {/* In-App Notifications Option */}
-          <TouchableOpacity
-            style={styles.optionBox}
-            onPress={() => setInAppNotifications(!inAppNotifications)}
-          >
-            <View style={styles.optionHeader}>
-              <View style={styles.checkboxContainer}>
-                {inAppNotifications ? (
-                  <Ionicons
-                    name="checkbox"
-                    size={24}
-                    color={colors.darkHighlight}
-                  />
-                ) : (
-                  <Ionicons
-                    name="square-outline"
-                    size={24}
-                    color={colors.darkHighlight}
-                  />
-                )}
-              </View>
-              <ThemedText colored bold>
-                Notification While in App
-              </ThemedText>
-            </View>
-            <ThemedText type="caption" style={styles.optionDescription}>
-              The app will display a notification when you open it.
             </ThemedText>
           </TouchableOpacity>
 
@@ -477,9 +479,9 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
 
           {/* Save Settings Button */}
-          <ThemedButton onPress={saveNotificationSettings}>
+          {/* <ThemedButton onPress={saveNotificationSettings}>
             Save Settings
-          </ThemedButton>
+          </ThemedButton> */}
         </View>
       </ScrollView>
       {timePickerVisible && (

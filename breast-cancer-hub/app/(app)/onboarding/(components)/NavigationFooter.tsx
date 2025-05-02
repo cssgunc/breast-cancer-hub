@@ -39,7 +39,11 @@ export default function NavigationFooter({
     <ThemedView style={styles.containerStyle}>
       <StepIndicators currentStep={idx} totalSteps={stepRoutes.length} />
       <ThemedView style={globalStyles.buttonBackNextContainer}>
-        {!isFirst && <ThemedButton onPress={() => goBack()}>Back</ThemedButton>}
+        {!isFirst && (
+          <ThemedButton variant="secondary" onPress={() => goBack()}>
+            Back
+          </ThemedButton>
+        )}
         <ThemedButton
           style={{ marginLeft: "auto" }}
           onPress={() => goForward()}
