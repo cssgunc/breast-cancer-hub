@@ -19,3 +19,25 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
+
+# Android build files
+android/
+android/local.properties
+android/.gradle
+android/app/build/
+android/.cxx/
+
+android/.idea/
+android/app/debug.keystore
+
+# iOS build files
+ios/
+ios/Pods/
+ios/Podfile.lock
+
+ios/build/
+ios/DerivedData/
+ios/*.xcworkspace
+ios/**/*.xcuserstate
+
+*.ipa
