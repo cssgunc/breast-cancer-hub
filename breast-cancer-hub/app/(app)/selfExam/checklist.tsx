@@ -114,116 +114,113 @@ export default function Checklist() {
         <ThemedText type="heading">Check All That Apply</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
-      </ThemedView>
 
-      <ThemedView style={globalStyles.bodyContainerWhite}>
-        <ScrollView
-          contentContainerStyle={[
-            globalStyles.scrollContent,
-            { paddingTop: 0 },
+        <ThemedView style={[globalStyles.bodyContainerWhite]}>
+          <ScrollView contentContainerStyle={[globalStyles.scrollContent]}>
+            <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
+              {/* Info Section */}
+              <ThemedText type="heading">What did you notice?</ThemedText>
+
+              {!isLoading && (
+                <ThemedView
+                  style={[
+                    globalStyles.elevatedBox,
+                    { paddingVertical: 0, marginVertical: 10 },
+                  ]}
+                >
+                  {examTypeF ? (
+                    <ThemedView
+                      style={[globalStyles.listContainer, styles.listContainer]}
+                    >
+                      {info_f.map((item: { id: number; key: string }) => (
+                        <ThemedView
+                          key={item.id}
+                          style={[
+                            globalStyles.listItemContainer,
+                            styles.listItemContainer,
+                          ]}
+                        >
+                          <ThemedText bold style={styles.instructionText}>
+                            {t(item.key)}
+                          </ThemedText>
+                          <View style={styles.checkBoxContainer}>
+                            <CheckBox
+                              value={isSelected[item.id]}
+                              onValueChange={(value) => {
+                                toggleCheckbox(item.id, value);
+                              }}
+                            />
+                          </View>
+                        </ThemedView>
+                      ))}
+                    </ThemedView>
+                  ) : (
+                    <ThemedView
+                      style={[globalStyles.listContainer, styles.listContainer]}
+                    >
+                      {info_m.map((item: { id: number; key: string }) => (
+                        <ThemedView
+                          key={item.id}
+                          style={[
+                            globalStyles.listItemContainer,
+                            styles.listItemContainer,
+                          ]}
+                        >
+                          <ThemedText bold style={styles.instructionText}>
+                            {t(item.key)}
+                          </ThemedText>
+                          <View style={styles.checkBoxContainer}>
+                            <CheckBox
+                              key={item.id}
+                              value={isSelected[item.id]}
+                              onValueChange={(value) => {
+                                toggleCheckbox(item.id, value);
+                              }}
+                            />
+                          </View>
+                        </ThemedView>
+                      ))}
+                    </ThemedView>
+                  )}
+                </ThemedView>
+              )}
+
+              <LearnMoreTextContainer />
+            </ThemedView>
+          </ScrollView>
+        </ThemedView>
+        {/* Navigation Buttons */}
+        <ThemedView
+          style={[
+            globalStyles.buttonBackNextContainer,
+            { paddingVertical: 16 },
           ]}
         >
-          <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
-            {/* Info Section */}
-            <ThemedText type="heading">What did you notice?</ThemedText>
-
-            {!isLoading && (
-              <ThemedView
-                style={[
-                  globalStyles.elevatedBox,
-                  { paddingVertical: 0, marginVertical: 10 },
-                ]}
-              >
-                {examTypeF ? (
-                  <ThemedView
-                    style={[globalStyles.listContainer, styles.listContainer]}
-                  >
-                    {info_f.map((item: { id: number; key: string }) => (
-                      <ThemedView
-                        key={item.id}
-                        style={[
-                          globalStyles.listItemContainer,
-                          styles.listItemContainer,
-                        ]}
-                      >
-                        <ThemedText bold style={styles.instructionText}>
-                          {t(item.key)}
-                        </ThemedText>
-                        <View style={styles.checkBoxContainer}>
-                          <CheckBox
-                            value={isSelected[item.id]}
-                            onValueChange={(value) => {
-                              toggleCheckbox(item.id, value);
-                            }}
-                          />
-                        </View>
-                      </ThemedView>
-                    ))}
-                  </ThemedView>
-                ) : (
-                  <ThemedView
-                    style={[globalStyles.listContainer, styles.listContainer]}
-                  >
-                    {info_m.map((item: { id: number; key: string }) => (
-                      <ThemedView
-                        key={item.id}
-                        style={[
-                          globalStyles.listItemContainer,
-                          styles.listItemContainer,
-                        ]}
-                      >
-                        <ThemedText bold style={styles.instructionText}>
-                          {t(item.key)}
-                        </ThemedText>
-                        <View style={styles.checkBoxContainer}>
-                          <CheckBox
-                            key={item.id}
-                            value={isSelected[item.id]}
-                            onValueChange={(value) => {
-                              toggleCheckbox(item.id, value);
-                            }}
-                          />
-                        </View>
-                      </ThemedView>
-                    ))}
-                  </ThemedView>
-                )}
-              </ThemedView>
-            )}
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonSecondary}
-                onPress={() => router.replace("/selfExam")}
-              >
-                <ThemedText style={globalStyles.buttonTextSecondary}>
-                  Back to Exam
-                </ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonPrimary}
-                onPress={() => {
-                  saveSymptoms();
-                  router.push({
-                    pathname: "/selfExam/nextSteps",
-                    params: {
-                      symptoms: isSelected
-                        .map((value) => (value ? 1 : 0))
-                        .toString(),
-                    },
-                  });
-                }}
-              >
-                <ThemedText style={globalStyles.buttonTextPrimary}>
-                  Next
-                </ThemedText>
-              </TouchableOpacity>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
+          <TouchableOpacity
+            style={globalStyles.buttonSecondary}
+            onPress={() => router.replace("/selfExam")}
+          >
+            <ThemedText style={globalStyles.buttonTextSecondary}>
+              Back to Exam
+            </ThemedText>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={globalStyles.buttonPrimary}
+            onPress={() => {
+              saveSymptoms();
+              router.push({
+                pathname: "/selfExam/nextSteps",
+                params: {
+                  symptoms: isSelected
+                    .map((value) => (value ? 1 : 0))
+                    .toString(),
+                },
+              });
+            }}
+          >
+            <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
+          </TouchableOpacity>
+        </ThemedView>
       </ThemedView>
     </ThemedView>
   );

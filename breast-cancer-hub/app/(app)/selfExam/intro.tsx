@@ -71,26 +71,17 @@ export default function SelfExamInfo() {
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-
-        <ThemedView style={globalStyles.bodyContainerWhite}>
-          <ScrollView
-            style={{ flex: 1, height: "100%" }}
-            contentContainerStyle={globalStyles.scrollContent}
+        <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
+          <ThemedText
+            type="title"
+            colored
+            style={styles.titleTextDarkHighlight}
           >
-            <ThemedView
-              style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}
-            >
-              <ThemedText
-                type="title"
-                colored
-                style={styles.titleTextDarkHighlight}
-              >
-                Before You Begin
-              </ThemedText>
-              <ThemedText type="heading">Things to Look For</ThemedText>
-
-              <ThemedView style={globalStyles.grayLine} />
-            </ThemedView>
+            Before You Begin
+          </ThemedText>
+          <ThemedText type="heading">Things to Look For</ThemedText>
+          <ThemedView style={globalStyles.grayLine} />
+          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
             <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
               {/* Info Section */}
               <ThemedText type="heading">Signs and Symptoms</ThemedText>
@@ -118,31 +109,35 @@ export default function SelfExamInfo() {
                 by your healthcare provider.
               </ThemedText>
               <LearnMoreTextContainer />
-
-              {/* Navigation Buttons */}
-              <ThemedView style={globalStyles.buttonBackNextContainer}>
-                <TouchableOpacity
-                  style={globalStyles.buttonSecondary}
-                  onPress={() => {
-                    router.dismissAll();
-                    router.replace("/");
-                  }}
-                >
-                  <ThemedText style={globalStyles.buttonTextSecondary}>
-                    Back
-                  </ThemedText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={globalStyles.buttonPrimary}
-                  onPress={() => router.push("/selfExam")}
-                >
-                  <ThemedText style={globalStyles.buttonTextPrimary}>
-                    Next
-                  </ThemedText>
-                </TouchableOpacity>
-              </ThemedView>
             </ThemedView>
           </ScrollView>
+          {/* Navigation Buttons */}
+          <ThemedView
+            style={[
+              globalStyles.buttonBackNextContainer,
+              { paddingVertical: 16 },
+            ]}
+          >
+            <TouchableOpacity
+              style={globalStyles.buttonSecondary}
+              onPress={() => {
+                router.dismissAll();
+                router.replace("/");
+              }}
+            >
+              <ThemedText style={globalStyles.buttonTextSecondary}>
+                Back
+              </ThemedText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={globalStyles.buttonPrimary}
+              onPress={() => router.push("/selfExam")}
+            >
+              <ThemedText style={globalStyles.buttonTextPrimary}>
+                Next
+              </ThemedText>
+            </TouchableOpacity>
+          </ThemedView>
         </ThemedView>
       </ThemedView>
     );
