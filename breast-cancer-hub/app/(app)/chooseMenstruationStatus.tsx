@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useRouter } from "expo-router";
-import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
+import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 
 export default function MenstruationSelectionScreen() {
@@ -13,25 +13,11 @@ export default function MenstruationSelectionScreen() {
     null | "menstruate" | "notMenstruate"
   >(null);
   const [errorMessage, setErrorMessage] = useState("");
-  const [id, setId] = useState({ userId: "" });
-
-  useEffect(() => {
-    getSetting("userId").then((userId) => {
-      setId({ userId });
-    });
-  }, []);
 
   const handleSaveChanges = () => {
     if (selectedOption) {
-      if (!id.userId) {
-        setErrorMessage("User ID not available");
-        return;
-      }
       if (selectedOption == "menstruate") {
-        saveSetting(
-          `${id.userId}_schedulingType` as keyof SettingsMap,
-          "period"
-        ).then(() => {
+        saveSetting("schedulingType", "period").then(() => {
           router.push("/customizeCalendar");
         });
       } else {

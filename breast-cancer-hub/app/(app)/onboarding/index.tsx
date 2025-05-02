@@ -9,7 +9,7 @@ export const ONBOARDING_STEPS = [
   "/onboarding/purposeOfSelfExam",
   "/onboarding/screeningAndTechniques",
   "/onboarding/additionalInfo",
-  "/onboarding/consentToTelemetry",
+  //"/onboarding/consentToTelemetry",
   "/onboarding/chooseLanguage",
   "/onboarding/chooseColorScheme",
   "/onboarding/chooseAvatar",

@@ -33,9 +33,9 @@ export default function ConsentToTelemetry() {
           trackColor={{ false: "#767577", true: colors.lightHighlight }}
           thumbColor={telemetryEnabled ? colors.white : "#f4f3f4"}
           ios_backgroundColor={colors.darkGray}
-          onValueChange={() => {
-            setTelemetryEnabled(!telemetryEnabled);
-            saveSetting("useTelemetry", telemetryEnabled);
+          onValueChange={(value) => {
+            setTelemetryEnabled(value);
+            saveSetting("useTelemetry", value);
           }}
           value={telemetryEnabled}
         />

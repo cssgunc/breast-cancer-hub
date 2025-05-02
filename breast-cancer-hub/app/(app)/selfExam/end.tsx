@@ -10,7 +10,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 
 export default function HomeScreen() {
@@ -20,16 +20,9 @@ export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [checkText, setCheckText] = useState("");
 
-  const [id, setId] = useState({ userId: "" });
-
   useEffect(() => {
-    getSetting("userId").then((userId) => {
-      setId({ userId });
-    });
     const getType = async () => {
-      const schedulingType = await getSetting(
-        `${id.userId}_schedulingType` as keyof SettingsMap
-      );
+      const schedulingType = await getSetting("schedulingType");
       if (schedulingType == "period") {
         setCheckText("Check yourself a week after your period starts.");
       } else {

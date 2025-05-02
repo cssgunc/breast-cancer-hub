@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
@@ -38,16 +38,9 @@ export default function SelfExamInfo() {
 
   const [isLoading, setIsLoading] = useState(true);
 
-  const [id, setId] = useState({ userId: "" });
-
   useEffect(() => {
-    getSetting("userId").then((userId) => {
-      setId({ userId });
-    });
     const getType = async () => {
-      const schedulingType = await getSetting(
-        `${id.userId}_schedulingType` as keyof SettingsMap
-      );
+      const schedulingType = await getSetting("schedulingType");
       const isF = schedulingType === "period";
 
       const selectedInfo = isF ? info_f : info_m;

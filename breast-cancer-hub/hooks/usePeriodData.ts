@@ -67,9 +67,9 @@ export async function initPeriods(): Promise<boolean> {
   let res;
   let userId = await getSetting("userId");
   if (Platform.OS === "web") {
-    res = await AsyncStorage.getItem(`${userId}_periodTimestampsKey`);
+    res = await AsyncStorage.getItem(`user:${userId}:periodTimestampsKey`);
   } else {
-    res = await SecureStore.getItemAsync(`${userId}_periodTimestampsKey`);
+    res = await SecureStore.getItemAsync(`user:${userId}:periodTimestampsKey`);
   }
   if (res) {
     GLOBAL_PERIOD_DATA = JSON.parse(res);
@@ -125,12 +125,12 @@ export async function savePeriods() {
   let userId = await getSetting("userId");
   if (Platform.OS === "web") {
     await AsyncStorage.setItem(
-      `${userId}_periodTimestampsKey`,
+      `user:${userId}:periodTimestampsKey`,
       JSON.stringify(GLOBAL_PERIOD_DATA)
     );
   } else {
     await SecureStore.setItemAsync(
-      `${userId}_periodTimestampsKey`,
+      `user:${userId}:periodTimestampsKey`,
       JSON.stringify(GLOBAL_PERIOD_DATA)
     );
   }

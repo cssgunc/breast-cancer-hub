@@ -53,16 +53,9 @@ export default function Checklist() {
 
   const [examTypeF, setExamTypeF] = useState(true);
 
-  const [id, setId] = useState({ userId: "" });
-
   useEffect(() => {
-    getSetting("userId").then((userId) => {
-      setId({ userId });
-    });
     const getType = async () => {
-      const schedulingType = await getSetting(
-        `${id.userId}_schedulingType` as keyof SettingsMap
-      );
+      const schedulingType = await getSetting("schedulingType");
       setExamTypeF(schedulingType === "period");
       const storedLanguageCode = await getSetting("locale");
       console.log(storedLanguageCode);

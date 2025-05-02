@@ -23,31 +23,6 @@ export default function SettingsScreen() {
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
 
-  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
-
-  function saveSettings() {
-    fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-session-token": person.token,
-        "x-user-email": person.email,
-      },
-      body: JSON.stringify({
-        use_telemetry: isTelemetryEnabled,
-        use_dark_mode: IsDarkThemeEnabled,
-        use_backup_data: isBackupEnabled,
-        user_id: person.userId,
-      }),
-    });
-    setDarkMode(IsDarkThemeEnabled);
-    saveSetting("useTelemetry", isTelemetryEnabled).then(() => {
-      saveSetting("useDarkTheme", IsDarkThemeEnabled).then(() => {
-        saveSetting("useBackupData", isBackupEnabled);
-      });
-    });
-  }
-
   // Pulling information from local storage
   useEffect(() => {
     getSetting("name").then((name) =>
@@ -227,7 +202,7 @@ export default function SettingsScreen() {
               onPress={() => router.push("/settings/language")}
             >
               <ThemedText style={styles.optionText}>
-                Change Self Exam Language
+                Breast Self Exam Language
               </ThemedText>
               <Ionicons
                 style={styles.optionPressable}
@@ -238,28 +213,38 @@ export default function SettingsScreen() {
             </TouchableOpacity>
 
             {/* Telemetry */}
-            <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>Telemetry</ThemedText>
+            {/* <View style={styles.optionContainer}>
+              <ThemedText style={styles.optionText}>
+                Enable Telemetry
+              </ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={isTelemetryEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={colors.darkGray}
-                onValueChange={() => setIsTelemetryEnabled(!isTelemetryEnabled)}
+                onValueChange={(value) => {
+                  setIsTelemetryEnabled(value);
+                  saveSetting("useTelemetry", value);
+                }}
                 value={isTelemetryEnabled}
               />
-            </View>
+            </View> */}
 
             {/* Backup */}
-            <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>Backup</ThemedText>
+            {/* <View style={styles.optionContainer}>
+              <ThemedText style={styles.optionText}>
+                Backup Settings To Cloud
+              </ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={isBackupEnabled ? colors.white : "#f4f3f4"}
                 ios_backgroundColor={colors.darkGray}
-                onValueChange={() => setIsBackupEnabled(!isBackupEnabled)}
+                onValueChange={(value) => {
+                  setIsBackupEnabled(value);
+                  saveSetting("useBackupData", value);
+                }}
                 value={isBackupEnabled}
               />
-            </View>
+            </View>*/}
           </View>
 
           {/* Divider */}
@@ -274,7 +259,9 @@ export default function SettingsScreen() {
               style={styles.optionContainer}
               onPress={() => router.push("/settings/profile")}
             >
-              <ThemedText style={styles.optionText}>Edit Profile</ThemedText>
+              <ThemedText style={styles.optionText}>
+                View Profile/Log Out
+              </ThemedText>
               <Ionicons
                 style={styles.optionPressable}
                 name="chevron-forward"
@@ -285,7 +272,9 @@ export default function SettingsScreen() {
 
             {/* Dark Mode */}
             <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>Dark Theme</ThemedText>
+              <ThemedText style={styles.optionText}>
+                Switch Color Scheme
+              </ThemedText>
               <Switch
                 trackColor={{ false: "#767577", true: colors.lightHighlight }}
                 thumbColor={IsDarkThemeEnabled ? colors.white : "#f4f3f4"}
@@ -302,11 +291,11 @@ export default function SettingsScreen() {
             <TouchableOpacity
               style={styles.optionContainer}
               onPress={() => {
-                router.push("./onboarding/askMenstruate");
+                router.push("/chooseMenstruationStatus");
               }}
             >
               <ThemedText style={styles.optionText}>
-                Change Date or Scheduling Type
+                Change Menstruation Status/Exam Date
               </ThemedText>
               <Ionicons
                 style={styles.optionPressable}
@@ -317,18 +306,13 @@ export default function SettingsScreen() {
             </TouchableOpacity>
           </View>
 
-          {/* Save Settings Button */}
+          {/* Repeat onboarding */}
           <TouchableOpacity
             style={globalStyles.buttonPrimary}
-            onPress={() => saveSettings()}
+            onPress={() => router.push("/onboarding")}
           >
-            <ThemedText
-              style={globalStyles.buttonTextPrimary}
-              onPress={() => {
-                saveSettings();
-              }}
-            >
-              Save Settings
+            <ThemedText style={globalStyles.buttonTextPrimary}>
+              Repeat Intro/Setup
             </ThemedText>
           </TouchableOpacity>
         </View>

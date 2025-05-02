@@ -16,7 +16,7 @@ import CalendarComponent from "@/app/(app)/home/(components)/Calendar"; // Ensur
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getCheckupDay } from "@/hooks/usePeriodData";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/navigation/ExternalLink";
 import CycleLog from "./(components)/CycleLogWidget";
@@ -53,17 +53,10 @@ export default function HomePage(props: HomePageProps) {
 
   const [name, setName] = useState<string | undefined>("");
 
-  const [id, setId] = useState({ userId: "" });
-
   useEffect(() => {
     const init = async () => {
-      const userId = await getSetting("userId");
-      setId({ userId });
-
       if (props.isMenstruating === undefined) {
-        const s = await getSetting(
-          `${userId}_schedulingType` as keyof SettingsMap
-        );
+        const s = await getSetting("schedulingType");
         setIsMenstruating(s === "period");
       }
 
@@ -288,7 +281,6 @@ export default function HomePage(props: HomePageProps) {
           {/* Calendar Component */}
           <CalendarComponent
             isMenstruating={isMenstruating}
-            userId={id.userId}
             updateCheckupDay={() => {
               const ts = getCheckupDay();
               if (ts) {

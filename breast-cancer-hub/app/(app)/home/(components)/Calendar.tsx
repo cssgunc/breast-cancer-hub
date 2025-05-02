@@ -12,9 +12,8 @@ import {
   OrderedWeekdayNames,
   removePeriod,
 } from "@/hooks/usePeriodData";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
-
 
 type CalendarItem = {
   p: Date;
@@ -27,15 +26,13 @@ type CalendarItem = {
 interface CalendarComponentProps {
   isMenstruating: boolean;
   updateCheckupDay: () => void;
-  userId: string;
 }
 
 export default function CalendarComponent({
   isMenstruating,
   updateCheckupDay,
-  userId,
 }: CalendarComponentProps) {
-  const {colors} = useColors();
+  const { colors } = useColors();
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
@@ -57,7 +54,7 @@ export default function CalendarComponent({
 
   useEffect(() => {
     const init = async () => {
-      const type = await getSetting(`${userId}_schedulingType` as keyof SettingsMap);
+      const type = await getSetting("schedulingType");
       if (type !== "period" && type != null) {
         setPeriodDay((type as { day: number }).day);
       }
@@ -349,7 +346,11 @@ export default function CalendarComponent({
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={goToPreviousMonth}>
-            <Ionicons name="chevron-back-outline" size={24} color={colors.black} />
+            <Ionicons
+              name="chevron-back-outline"
+              size={24}
+              color={colors.black}
+            />
           </TouchableOpacity>
           <View style={styles.headerTitle}>
             <ThemedText style={styles.monthText}>
@@ -439,7 +440,11 @@ export default function CalendarComponent({
                 style={{ display: "flex", flexDirection: "row", gap: 10 }}
               >
                 <ThemedText type="caption">Edit Periods</ThemedText>
-                <Ionicons name="create-outline" size={24} color={colors.black} />
+                <Ionicons
+                  name="create-outline"
+                  size={24}
+                  color={colors.black}
+                />
               </TouchableOpacity>
             )}
           </View>

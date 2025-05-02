@@ -35,34 +35,24 @@ export default function CalendarOnboardingScreen(
   const router = useRouter();
   const { colors } = useColors();
 
-  const [id, setId] = useState({ userId: "" });
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
     undefined
   );
   const [examDay, setExamDay] = useState<number>(1);
   const [notifications, setNotifications] = useState<Noti[]>([]);
 
-  //load the userId
+  //load the schedulingType
   useEffect(() => {
-    getSetting("userId").then((userId) => {
-      setId({ userId });
-    });
-  }, []);
-
-  //once we have userId, load the schedulingType
-  useEffect(() => {
-    if (id.userId && props.isMenstruating === undefined) {
-      getSetting(`${id.userId}_schedulingType` as keyof SettingsMap).then(
-        (s) => {
-          setIsMenstruating(s === "period");
-        }
-      );
+    if (props.isMenstruating === undefined) {
+      getSetting("schedulingType").then((s) => {
+        setIsMenstruating(s === "period");
+      });
     }
-  }, [id.userId, props.isMenstruating]);
+  }, [props.isMenstruating]);
 
   //save the examDay under its own key
   const handleSaveChanges = () => {
-    saveSetting(`${id.userId}_examDay` as keyof SettingsMap, {
+    saveSetting("examDay" as keyof SettingsMap, {
       day: examDay,
     }).then(() => {
       router.push("/");
@@ -257,7 +247,6 @@ export default function CalendarOnboardingScreen(
               {isMenstruating != null && (
                 <CalendarComponent
                   isMenstruating={isMenstruating}
-                  userId={id.userId}
                   updateCheckupDay={() => {
                     const ts = getCheckupDay();
                     if (ts) {

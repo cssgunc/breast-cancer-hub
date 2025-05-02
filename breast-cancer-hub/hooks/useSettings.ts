@@ -1,93 +1,155 @@
-import * as SecureStore from 'expo-secure-store';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
+import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Platform } from "react-native";
+
+const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 
 export type SettingsMap = {
-  "name": string,
-  "email": string,
-  "token": string,
-  "userId": string,
+  name: string;
+  email: string;
+  token: string;
+  userId: string;
 
-  "schedulingType": {day: number} | "period"
+  schedulingType: { day: number } | "period";
 
-  "notificationTimes": {id: number, time: string, enabled: boolean}[], //using expo-notifications trigger format
+  notificationTimes: { id: number; time: string; enabled: boolean }[]; //using expo-notifications trigger format
 
-  "locale": string, //using expo-localization
+  locale: string; //using expo-localization
 
-  "useBackupData": boolean,
-  "useTelemetry": boolean,
-  "usePushNotifications": boolean,
-  "useInAppNotifications": boolean,
-  "useDarkTheme" : boolean,
-  "avatar" : boolean,
+  useBackupData: boolean;
+  useTelemetry: boolean;
+  usePushNotifications: boolean;
+  useInAppNotifications: boolean;
+  useDarkTheme: boolean;
+  avatar: boolean;
 
-  "onboarding" : boolean,
-}
+  onboarding: boolean;
+};
 
 export type SettingKeys = keyof SettingsMap;
 
-const OrderedSettingsKeys : SettingKeys[] = ["name", "email", "token", "userId", "schedulingType", "notificationTimes", "locale", "useBackupData", "useTelemetry", "usePushNotifications", "useInAppNotifications", "useDarkTheme"]
+const GLOBAL_KEYS: SettingKeys[] = ["name", "email", "token", "userId"];
 
-export async function getSetting<T extends SettingKeys>(key: T): Promise<SettingsMap[T]>{
-  let res
-  if (Platform.OS === 'web') {
-    res = await AsyncStorage.getItem(key)
-  }else{
-    res = await SecureStore.getItemAsync(key)
-  }
-  if(res){
-    return JSON.parse(res)
-  }
-  return generateDefaultSettings()[key]
-}
+const USER_SCOPED_KEYS: SettingKeys[] = [
+  "schedulingType",
+  "notificationTimes",
+  "locale",
+  "useBackupData",
+  "useTelemetry",
+  "usePushNotifications",
+  "useInAppNotifications",
+  "useDarkTheme",
+  "avatar",
+  "onboarding",
+];
 
-
-export async function saveSetting<T extends SettingKeys>(key: T, value: SettingsMap[T]) {
-  if (Platform.OS === 'web') {
-    await AsyncStorage.setItem(key, JSON.stringify(value));
-  }else{
-    await SecureStore.setItemAsync(key, JSON.stringify(value));
-  }
-
-}
-
-export async function backupSettings(){
-  if (await getSetting("useBackupData") === true){
-    //TODO: add database specific code to push a backup
+async function _rawGet(key: string): Promise<string | null> {
+  if (Platform.OS === "web") {
+    return AsyncStorage.getItem(key);
+  } else {
+    return SecureStore.getItemAsync(key);
   }
 }
 
-export async function loadBackupSettings(){
-  if (await getSetting("useBackupData") === true){
+async function _rawSet(key: string, value: string) {
+  if (Platform.OS === "web") {
+    await AsyncStorage.setItem(key, value);
+  } else {
+    await SecureStore.setItemAsync(key, value);
+  }
+}
+
+export async function getSetting<T extends SettingKeys>(
+  key: T
+): Promise<SettingsMap[T]> {
+  // pick your storage key
+  let storageKey: string;
+  if (GLOBAL_KEYS.includes(key)) {
+    storageKey = key;
+  } else {
+    // user-scoped → prefix with current userId
+    const userId = (await _rawGet("userId")) || "";
+    storageKey = `user:${userId}:${key}`;
+  }
+
+  const res = await _rawGet(storageKey);
+  if (res != null) {
+    return JSON.parse(res);
+  }
+  // fallback to default
+  return generateDefaultSettings()[key];
+}
+
+export async function saveSetting<T extends SettingKeys>(
+  key: T,
+  value: SettingsMap[T]
+) {
+  let storageKey: string;
+  if (GLOBAL_KEYS.includes(key)) {
+    storageKey = key;
+  } else {
+    const userId = (await _rawGet("userId")) || "";
+    storageKey = `user:${userId}:${key}`;
+    // if (await getSetting("useBackupData")) {
+    //   backupSettings(userId, key, value);
+    // }
+  }
+  await _rawSet(storageKey, JSON.stringify(value));
+}
+
+async function backupSettings(userId: string, key: string, value: any) {
+  fetch(`${BASE_URL}/settings` + "?user_id=" + userId, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      "x-session-token": (await _rawGet("token")) ?? "",
+      "x-user-email": (await _rawGet("email")) ?? "",
+    },
+    body: JSON.stringify({
+      [key]: value,
+    }),
+  });
+}
+
+export async function loadBackupSettings() {
+  if ((await getSetting("useBackupData")) === true) {
     //TODO: add database specific code to load a backup
   }
 }
-//meant to be used in backupSettings()
-export async function generateSettingsJson(){
-  //bit of a hacky solution for now
-  const settings : any = generateDefaultSettings()
 
-  for(const key of OrderedSettingsKeys){
-    const value = await getSetting(key)
-    if(value!=null){ //if we saved the setting override the default
-      settings[key] = value
+export async function generateSettingsJson() {
+  //bit of a hacky solution for now
+  const settings: any = generateDefaultSettings();
+
+  for (const key of GLOBAL_KEYS) {
+    const value = await getSetting(key);
+    if (value != null) {
+      //if we saved the setting override the default
+      settings[key] = value;
+    }
+  }
+  for (const key of USER_SCOPED_KEYS) {
+    const value = await getSetting(key);
+    if (value != null) {
+      //if we saved the setting override the default
+      settings[key] = value;
     }
   }
 
-  return JSON.stringify(settings)
+  return JSON.stringify(settings);
 }
 
-export function generateDefaultSettings(){
+export function generateDefaultSettings() {
   const def: SettingsMap = {
-    name: '',
-    email: '',
-    token: '',
-    userId: '',
+    name: "",
+    email: "",
+    token: "",
+    userId: "",
     schedulingType: {
-      day: 0
+      day: 0,
     },
     notificationTimes: [],
-    locale: 'en-US',
+    locale: "en-US",
     useBackupData: false,
     useTelemetry: false,
     useDarkTheme: true,
@@ -95,9 +157,6 @@ export function generateDefaultSettings(){
     useInAppNotifications: false,
     onboarding: false,
     avatar: false,
-  }
-  return def
+  };
+  return def;
 }
-
-
-export const BACKEND_URL = "https://three-clubs-sin.loca.lt"
