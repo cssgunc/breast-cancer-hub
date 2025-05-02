@@ -6,23 +6,6 @@ import { StyleSheet } from "react-native";
 import { ColorTheme } from "./ColorContext";
 
 export const makeGlobalStyles = (colors: ColorTheme) => {
-  const baseStyles = {
-    // Buttons
-    baseButton: {
-      minWidth: 128,
-      paddingVertical: 12,
-      paddingHorizontal: 24,
-      borderRadius: 50,
-      borderWidth: 2,
-      alignItems: "center" as const,
-    },
-    baseButtonText: {
-      fontSize: 16,
-      textAlign: "center" as const,
-      fontWeight: "bold" as const,
-    },
-  };
-
   return StyleSheet.create({
     // Containers and formatting
     header: {
@@ -49,9 +32,9 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       gap: 8,
     },
 
+    // Content within a scrollable list or card
     scrollContent: {
       flexGrow: 1,
-      paddingTop: 10,
     },
 
     whiteOverlay: {
@@ -84,9 +67,9 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       paddingVertical: 5,
     },
 
-    elevatedBox: {
+    elevatedCard: {
       backgroundColor: colors.backgroundLightGray,
-      borderRadius: 10,
+      borderRadius: 16,
       padding: 20,
       marginBottom: 15,
       shadowColor: colors.black,
@@ -105,38 +88,22 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       color: colors.lightGray,
     },
 
-    // Back/Next Buttons
     buttonBackNextContainer: {
       flexDirection: "row",
       justifyContent: "space-between",
       marginTop: 20,
     },
-    buttonPrimary: {
-      // Next
-      ...baseStyles.baseButton,
-
-      backgroundColor: colors.darkHighlight,
-      borderColor: colors.darkHighlight,
-    },
-    buttonSecondary: {
-      // Back
-      ...baseStyles.baseButton,
-
-      backgroundColor: colors.white,
-      borderColor: colors.lighterGray,
-    },
-    buttonTextSecondary: {
-      ...baseStyles.baseButtonText,
-      color: colors.darkHighlight,
-    },
-    buttonTextPrimary: {
-      ...baseStyles.baseButtonText,
-      color: colors.white,
-    },
 
     // Onboarding buttons
     settingsButton: {
-      ...baseStyles.baseButton,
+      //Copied from base button
+      minWidth: 128,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 50,
+      borderWidth: 2,
+      alignItems: "center",
+      //New
       backgroundColor: colors.white,
       borderColor: colors.lighterGray,
       flexDirection: "row",
@@ -211,19 +178,8 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
     },
     loginButton: {
       //COMMON
-      backgroundColor: colors.darkHighlight,
-      height: 60,
       width: "80%",
-      borderRadius: 40,
-      justifyContent: "center",
       marginTop: 20,
-    },
-    loginButtonText: {
-      //COMMON
-      color: "white",
-      fontWeight: "bold",
-      textAlign: "center",
-      fontSize: 18,
     },
     loginLink: {
       //COMMON

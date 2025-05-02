@@ -9,6 +9,7 @@ import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/style/ColorContext";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function HomeScreen({ date }: { date: string }) {
   const router = useRouter();
@@ -111,16 +112,13 @@ export default function HomeScreen({ date }: { date: string }) {
 
             {/* Navigation Buttons */}
             <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
+              <ThemedButton
+                variant="secondary"
                 onPress={() => router.push("/")}
               >
-                <ThemedText style={globalStyles.buttonTextBack}>
-                  Back to Home
-                </ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonPrimary}
+                Back to Home{" "}
+              </ThemedButton>
+              <ThemedButton
                 onPress={() =>
                   router.push({
                     pathname: "/selfExam/nextSteps",
@@ -130,10 +128,8 @@ export default function HomeScreen({ date }: { date: string }) {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextPrimary}>
-                  Next
-                </ThemedText>
-              </TouchableOpacity>
+                Next
+              </ThemedButton>
             </ThemedView>
           </ThemedView>
         </ScrollView>
@@ -160,7 +156,7 @@ export default function HomeScreen({ date }: { date: string }) {
             {/* Info Section */}
             <ThemedText style={styles.subtitleText}>Symptoms Logged</ThemedText>
 
-            <ThemedView style={globalStyles.elevatedBox}>
+            <ThemedView style={globalStyles.elevatedCard}>
               {examTypeF ? (
                 <ThemedView style={styles.listContainer}>
                   {info_f.map((item) => (
@@ -206,8 +202,7 @@ export default function HomeScreen({ date }: { date: string }) {
                   Back to Home
                 </ThemedText>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={globalStyles.buttonPrimary}
+              <ThemedButton
                 onPress={() =>
                   router.push({
                     pathname: "/selfExam/nextSteps",
@@ -219,10 +214,8 @@ export default function HomeScreen({ date }: { date: string }) {
                   })
                 }
               >
-                <ThemedText style={globalStyles.buttonTextPrimary}>
-                  Next
-                </ThemedText>
-              </TouchableOpacity>
+                Next
+              </ThemedButton>
             </ThemedView>
           </ThemedView>
         </ScrollView>

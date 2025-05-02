@@ -9,6 +9,7 @@ import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "@/components/Loading";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function SelfExamInfo() {
   const router = useRouter();
@@ -118,25 +119,18 @@ export default function SelfExamInfo() {
               { paddingVertical: 16 },
             ]}
           >
-            <TouchableOpacity
-              style={globalStyles.buttonSecondary}
+            <ThemedButton
+              variant="secondary"
               onPress={() => {
                 router.dismissAll();
                 router.replace("/");
               }}
             >
-              <ThemedText style={globalStyles.buttonTextSecondary}>
-                Back
-              </ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={globalStyles.buttonPrimary}
-              onPress={() => router.push("/selfExam")}
-            >
-              <ThemedText style={globalStyles.buttonTextPrimary}>
-                Next
-              </ThemedText>
-            </TouchableOpacity>
+              Back
+            </ThemedButton>
+            <ThemedButton onPress={() => router.push("/selfExam")}>
+              Next
+            </ThemedButton>
           </ThemedView>
         </ThemedView>
       </ThemedView>

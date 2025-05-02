@@ -16,6 +16,7 @@ import { useState, useEffect } from "react";
 import StepIndicators from "@/components/StepIndicators";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
+import ThemedButton from "@/components/ThemedButton";
 
 const instructions_f = [
   {
@@ -208,20 +209,16 @@ export default function HomeScreen() {
               styles.buttonContainer,
             ]}
           >
-            <TouchableOpacity
-              style={[globalStyles.buttonSecondary, styles.buttonBack]}
+            <ThemedButton
+              variant="secondary"
+              style={styles.buttonBack}
               onPress={back}
             >
-              <ThemedText style={globalStyles.buttonTextSecondary}>
-                Back
-              </ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[globalStyles.buttonPrimary, styles.buttonNext]}
-              onPress={next}
-            >
-              <ThemedText>Next</ThemedText>
-            </TouchableOpacity>
+              Back
+            </ThemedButton>
+            <ThemedButton style={styles.buttonNext} onPress={next}>
+              Next
+            </ThemedButton>
           </ThemedView>
         </ThemedView>
       </ThemedView>
@@ -264,22 +261,16 @@ export default function HomeScreen() {
                 styles.buttonContainer,
               ]}
             >
-              <TouchableOpacity
-                style={[globalStyles.buttonSecondary, styles.buttonBack]}
+              <ThemedButton
+                variant="secondary"
+                style={styles.buttonBack}
                 onPress={back}
               >
-                <ThemedText style={globalStyles.buttonTextSecondary}>
-                  Back
-                </ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[globalStyles.buttonPrimary, styles.buttonNext]}
-                onPress={next}
-              >
-                <ThemedText style={globalStyles.buttonTextPrimary}>
-                  Next
-                </ThemedText>
-              </TouchableOpacity>
+                Back
+              </ThemedButton>
+              <ThemedButton style={styles.buttonNext} onPress={next}>
+                Next
+              </ThemedButton>
             </ThemedView>
           </ThemedView>
         </ThemedView>

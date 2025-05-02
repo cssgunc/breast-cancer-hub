@@ -12,6 +12,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function NextStepsScreen() {
   const router = useRouter();
@@ -109,7 +110,7 @@ export default function NextStepsScreen() {
                   </ThemedText>
                 </ThemedView>
 
-                <ThemedView style={globalStyles.elevatedBox}>
+                <ThemedView style={globalStyles.elevatedCard}>
                   <ThemedText colored style={styles.instructionTextBold}>
                     A visit to your doctor is recommended based on your
                     assessment.
@@ -130,31 +131,25 @@ export default function NextStepsScreen() {
                 {/* Navigation Buttons */}
                 <ThemedView style={styles.singleButtonContainer}>
                   {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
-                  <TouchableOpacity
-                    style={globalStyles.buttonPrimary}
+                  <ThemedButton
                     onPress={() =>
                       Linking.openURL(
                         "https://www.breastcancerhub.org/new-page-3"
                       )
                     }
                   >
-                    <ThemedText style={globalStyles.buttonTextPrimary}>
-                      Schedule an appointment
-                    </ThemedText>
-                  </TouchableOpacity>
+                    Contact BCH
+                  </ThemedButton>
                 </ThemedView>
                 <ThemedView style={styles.singleButtonContainer}>
-                  <TouchableOpacity
-                    style={globalStyles.buttonPrimary}
+                  <ThemedButton
                     onPress={() => {
                       router.dismissAll();
                       router.replace("/");
                     }}
                   >
-                    <ThemedText style={globalStyles.buttonTextPrimary}>
-                      Return Home
-                    </ThemedText>
-                  </TouchableOpacity>
+                    Return Home
+                  </ThemedButton>
                 </ThemedView>
               </ThemedView>
             ) : (
@@ -170,7 +165,7 @@ export default function NextStepsScreen() {
                   </ThemedText>
                 </ThemedView>
 
-                <ThemedView style={globalStyles.elevatedBox}>
+                <ThemedView style={globalStyles.elevatedCard}>
                   <ThemedText style={styles.instructionTextBold}>
                     Please continue to perform your Breast Self-Examination
                     every month.
@@ -180,17 +175,14 @@ export default function NextStepsScreen() {
                 <LearnMoreTextContainer />
 
                 <ThemedView style={styles.singleButtonContainer}>
-                  <TouchableOpacity
-                    style={globalStyles.buttonPrimary}
+                  <ThemedButton
                     onPress={() => {
                       router.dismissAll();
                       router.replace("/");
                     }}
                   >
-                    <ThemedText style={globalStyles.buttonTextPrimary}>
-                      Return Home
-                    </ThemedText>
-                  </TouchableOpacity>
+                    Return Home
+                  </ThemedButton>
                 </ThemedView>
               </ThemedView>
             )}

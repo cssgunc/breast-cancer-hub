@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import { ThemedText } from "@/components/style/ThemedText";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function SignupPage() {
   const { colors, globalStyles } = useColors();
@@ -205,13 +206,13 @@ export default function SignupPage() {
               style={globalStyles.loginIcon}
             />
           </View>
-          <TouchableOpacity
+          <ThemedButton
             style={globalStyles.loginButton}
             onPress={handleSubmit}
             disabled={pending}
           >
-            <Text style={globalStyles.loginButtonText}>Sign Up</Text>
-          </TouchableOpacity>
+            Sign Up
+          </ThemedButton>
           <View style={styles.hasAccount}>
             <ThemedText type="caption">Already have an account? </ThemedText>
             <TouchableOpacity onPress={() => router.push("/login")}>

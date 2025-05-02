@@ -10,6 +10,7 @@ import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function Checklist() {
   const router = useRouter();
@@ -124,7 +125,7 @@ export default function Checklist() {
               {!isLoading && (
                 <ThemedView
                   style={[
-                    globalStyles.elevatedBox,
+                    globalStyles.elevatedCard,
                     { paddingVertical: 0, marginVertical: 10 },
                   ]}
                 >
@@ -196,16 +197,13 @@ export default function Checklist() {
             { paddingVertical: 16 },
           ]}
         >
-          <TouchableOpacity
-            style={globalStyles.buttonSecondary}
+          <ThemedButton
+            variant="secondary"
             onPress={() => router.replace("/selfExam")}
           >
-            <ThemedText style={globalStyles.buttonTextSecondary}>
-              Back to Exam
-            </ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={globalStyles.buttonPrimary}
+            Back to Exam
+          </ThemedButton>
+          <ThemedButton
             onPress={() => {
               saveSymptoms();
               router.push({
@@ -218,8 +216,8 @@ export default function Checklist() {
               });
             }}
           >
-            <ThemedText style={globalStyles.buttonTextPrimary}>Next</ThemedText>
-          </TouchableOpacity>
+            Next
+          </ThemedButton>
         </ThemedView>
       </ThemedView>
     </ThemedView>

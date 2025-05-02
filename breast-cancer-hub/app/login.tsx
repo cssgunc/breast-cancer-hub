@@ -11,6 +11,7 @@ import { useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import ThemedButton from "@/components/ThemedButton";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 export default function LoginPage() {
@@ -133,14 +134,12 @@ export default function LoginPage() {
                 color="gray"
               />
             </ThemedView>
-            <TouchableOpacity
+            <ThemedButton
               style={globalStyles.loginButton}
               onPress={handleSubmit}
             >
-              <ThemedText style={globalStyles.loginButtonText}>
-                Log In
-              </ThemedText>
-            </TouchableOpacity>
+              Log In
+            </ThemedButton>
             <ThemedView style={styles.noAccount}>
               <ThemedText style={styles.noAccountText}>
                 Don't have an account?{" "}
