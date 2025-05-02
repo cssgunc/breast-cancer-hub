@@ -69,7 +69,7 @@ export default function HomePage(props: HomePageProps) {
     init();
   }, []);
   if (name === undefined || isMenstruating === undefined) {
-    return LoadingScreen();
+    return <LoadingScreen />;
   }
 
   // Function to open links

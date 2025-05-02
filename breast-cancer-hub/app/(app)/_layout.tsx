@@ -21,7 +21,7 @@ export default function Protection() {
 
   // Don't render anything while still loading
   if (isLoading) {
-    return LoadingScreen();
+    return <LoadingScreen />;
   }
 
   // After loading, if no session token, redirect to login

@@ -63,7 +63,7 @@ export default function SelfExamInfo() {
   });
 
   if (isLoading == true) {
-    return LoadingScreen();
+    return <LoadingScreen />;
   } else {
     return (
       <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
