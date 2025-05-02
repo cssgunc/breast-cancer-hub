@@ -70,7 +70,7 @@ export async function getSetting<T extends SettingKeys>(
     // user-scoped → prefix with current userId
     const rawUserId = await _rawGet("userId");
     const userId = rawUserId ? JSON.parse(rawUserId) : "";
-    storageKey = `user:${userId}:${key}`;
+    storageKey = `user_${userId}_${key}`;
   }
 
   const res = await _rawGet(storageKey);
@@ -90,7 +90,7 @@ export async function saveSetting<T extends SettingKeys>(
     storageKey = key;
   } else {
     const userId = JSON.parse((await _rawGet("userId")) || "");
-    storageKey = `user:${userId}:${key}`;
+    storageKey = `user_${userId}_${key}`;
     // if (await getSetting("useBackupData")) {
     //   backupSettings(userId, key, value);
     // }

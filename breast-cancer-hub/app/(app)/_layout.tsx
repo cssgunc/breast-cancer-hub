@@ -1,9 +1,11 @@
 import { Slot, Redirect, Stack } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View } from "react-native";
+import LoadingScreen from "@/components/Loading";
 
 export default function Protection() {
+  console.log("layout of protected routes initialized");
   const [session, setSession] = useState("");
   const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -20,7 +22,7 @@ export default function Protection() {
 
   // Don't render anything while still loading
   if (isLoading) {
-    return null;
+    return LoadingScreen();
   }
 
   // After loading, if no session token, redirect to login
@@ -30,11 +32,8 @@ export default function Protection() {
 
   // If we have a session token, render the protected content
   return (
-    <SafeAreaView
-      style={{ flex: 1 }}
-      edges={["top", "left", "right", "bottom"]}
-    >
+    <View style={{ flex: 1 }}>
       <Slot />
-    </SafeAreaView>
+    </View>
   );
 }

@@ -1,5 +1,5 @@
-import { SafeAreaView, ScrollView, StyleSheet } from "react-native";
-import { router, Slot, useSegments } from "expo-router";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { Slot, useSegments } from "expo-router";
 import NavigationFooter from "./(components)/NavigationFooter";
 import AccountSettingsHeaderComponent from "../settings/(components)/AccountSettingsHeader";
 import { ONBOARDING_STEPS, onboardingStyles } from ".";
@@ -18,7 +18,7 @@ export default function OnboardingLayout() {
   }, [segments.join("/")]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <AccountSettingsHeaderComponent />
       <ScrollView
         ref={scrollViewRef}
@@ -35,7 +35,7 @@ export default function OnboardingLayout() {
         finishRoute="/chooseMenstruationStatus"
         stepRoutes={ONBOARDING_STEPS}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 const styles = StyleSheet.create({

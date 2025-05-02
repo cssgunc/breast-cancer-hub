@@ -1,9 +1,18 @@
 import { Stack } from "expo-router";
 import { ColorProvider } from "@/components/style/ColorContext";
-export default function TabLayout() {
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+export default function RootLayout() {
+  console.log("root layout rendered");
   return (
-    <ColorProvider>
-      <Stack screenOptions={{ headerShown: false }}></Stack>
-    </ColorProvider>
+    <SafeAreaProvider>
+      <SafeAreaView
+        style={{ flex: 1 }}
+        edges={["left", "right", "top", "bottom"]}
+      >
+        <ColorProvider>
+          <Stack screenOptions={{ headerShown: false }}></Stack>
+        </ColorProvider>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }

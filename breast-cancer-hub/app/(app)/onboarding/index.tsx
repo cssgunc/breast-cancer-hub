@@ -1,8 +1,5 @@
-import { useRef, useEffect } from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { ThemedView } from "@/components/style/ThemedView";
-import { useColors } from "@/components/style/ColorContext";
-import { RelativePathString, router } from "expo-router";
+import { StyleSheet } from "react-native";
+import { Redirect, RelativePathString } from "expo-router";
 
 export const ONBOARDING_STEPS = [
   "/onboarding/breastCancerIntro",
@@ -16,7 +13,7 @@ export const ONBOARDING_STEPS = [
 ];
 
 export default function OnboardingScreen() {
-  return router.replace(ONBOARDING_STEPS[0] as RelativePathString);
+  return <Redirect href={ONBOARDING_STEPS[0] as RelativePathString} />;
 }
 
 export const onboardingStyles = StyleSheet.create({
