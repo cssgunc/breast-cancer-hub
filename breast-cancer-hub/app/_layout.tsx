@@ -1,17 +1,26 @@
 import { Stack } from "expo-router";
-import { ColorProvider } from "@/components/style/ColorContext";
+import { ColorProvider, useColors } from "@/components/style/ColorContext";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 export default function RootLayout() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView
-        style={{ flex: 1 }}
-        edges={["left", "right", "top", "bottom"]}
-      >
-        <ColorProvider>
+      <ColorProvider>
+        <ThemedSafeArea>
           <Stack screenOptions={{ headerShown: false }}></Stack>
-        </ColorProvider>
-      </SafeAreaView>
+        </ThemedSafeArea>
+      </ColorProvider>
     </SafeAreaProvider>
+  );
+}
+
+function ThemedSafeArea({ children }: { children: React.ReactNode }) {
+  const { colors } = useColors();
+  return (
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: colors.darkHighlight }}
+      edges={["top", "left", "right", "bottom"]}
+    >
+      {children}
+    </SafeAreaView>
   );
 }
