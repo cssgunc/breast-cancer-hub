@@ -1,10 +1,6 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useState } from "react";
-import {
-  StyleSheet,
-  TouchableOpacity,
-  I18nManager,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, I18nManager } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useTranslation } from "react-i18next";
@@ -42,7 +38,7 @@ export const languageMap: Record<string, string> = {
 const languages = Object.keys(languageMap);
 
 export default function SelectLanguage() {
-  const { t, i18n } = useTranslation(); 
+  const { t, i18n } = useTranslation();
   const [selectedLanguage, setSelectedLanguage] = useState("English");
   const [isOpen, setIsOpen] = useState(false);
   const { colors, globalStyles } = useColors();
@@ -64,7 +60,7 @@ export default function SelectLanguage() {
         console.error("Error loading stored language:", error);
       }
     };
-  
+
     getStoredLanguage();
   }, []);
 
@@ -95,23 +91,23 @@ export default function SelectLanguage() {
   };
 
   const styles = StyleSheet.create({
-  separator: {
-    color: colors.lighterGray,
-    marginHorizontal: 0,
-  },
-  dropdown: {
-    marginTop: 5,
-    borderWidth: 2,
-    borderColor: "#cccccc",
-    borderRadius: 25,
-    backgroundColor: colors.white, // Background for dropdown
-  },
-  languageOption: {
-    padding: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#eeeeee",
-  },
-});
+    separator: {
+      color: colors.lighterGray,
+      marginHorizontal: 0,
+    },
+    dropdown: {
+      marginTop: 5,
+      borderWidth: 2,
+      borderColor: "#cccccc",
+      borderRadius: 25,
+      backgroundColor: colors.white, // Background for dropdown
+    },
+    languageOption: {
+      padding: 12,
+      borderBottomWidth: 1,
+      borderBottomColor: "#eeeeee",
+    },
+  });
 
   return (
     <ThemedView>
@@ -125,7 +121,9 @@ export default function SelectLanguage() {
           {t("Select Language")}
         </ThemedText>
         <ThemedText style={styles.separator}> | </ThemedText>
-        <ThemedText type="default" bold>{selectedLanguage}</ThemedText>
+        <ThemedText type="default" bold>
+          {selectedLanguage}
+        </ThemedText>
         <Ionicons
           name={isOpen ? "chevron-down" : "chevron-forward-outline"}
           size={18}

@@ -2,7 +2,6 @@ import { Stack } from "expo-router";
 import { ColorProvider } from "@/components/style/ColorContext";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 export default function RootLayout() {
-  console.log("root layout rendered");
   return (
     <SafeAreaProvider>
       <SafeAreaView

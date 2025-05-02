@@ -26,7 +26,6 @@ const resources = {
 const RTL_LANGUAGES = ["ar", "ar-SA"];
 
 const initI18n = async () => {
-  console.log("i18n initialized");
   try {
     // Try to get saved language preference
     const savedLanguage = await getSetting("locale");

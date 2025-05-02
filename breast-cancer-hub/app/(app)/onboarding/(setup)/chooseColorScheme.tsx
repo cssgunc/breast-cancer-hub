@@ -10,32 +10,30 @@ export default function ChooseColorScheme() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title">Choose Your</ThemedText>
-        <ThemedText
-          type="title"
-          colored
-          style={onboardingStyles.highlightedTitleText}
-        >
+        <ThemedText type="title" colored>
           Color Theme
         </ThemedText>
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
-      <View style={globalStyles.settingsButton}>
-        <ThemedText type="default" bold colored>
-          Pink
-        </ThemedText>
-        <Switch
-          trackColor={{ false: "#767577", true: colors.lightHighlight }}
-          thumbColor={darkMode ? colors.white : "#f4f3f4"}
-          ios_backgroundColor={colors.darkGray}
-          onValueChange={(value) => {
-            setDarkMode(value);
-          }}
-          value={darkMode}
-        />
-        <ThemedText type="default" bold colored>
-          Indigo
-        </ThemedText>
-      </View>
+      <ThemedView style={onboardingStyles.bodyContainer}>
+        <ThemedView style={globalStyles.settingsButton}>
+          <ThemedText type="default" bold colored>
+            Pink
+          </ThemedText>
+          <Switch
+            trackColor={{ false: "#767577", true: colors.lightHighlight }}
+            thumbColor={darkMode ? colors.white : "#f4f3f4"}
+            ios_backgroundColor={colors.darkGray}
+            onValueChange={(value) => {
+              setDarkMode(value);
+            }}
+            value={darkMode}
+          />
+          <ThemedText type="default" bold colored>
+            Indigo
+          </ThemedText>
+        </ThemedView>
+      </ThemedView>
     </>
   );
 }

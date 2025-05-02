@@ -14,9 +14,7 @@ export default function ConsentToTelemetry() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title">Telemetry & Data</ThemedText>
-        <ThemedText style={onboardingStyles.highlightedTitleText}>
-          Collection
-        </ThemedText>
+        <ThemedText>Collection</ThemedText>
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
       <ThemedText>

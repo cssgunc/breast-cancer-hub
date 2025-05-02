@@ -3,7 +3,7 @@ import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";

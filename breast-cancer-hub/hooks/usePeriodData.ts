@@ -76,13 +76,11 @@ export function usePeriodData() {
   }, []);
 
   const addPeriod = (date: Date) => {
-    console.log(date);
     const newTimestamp: PeriodTimestamp = {
       date: date.getDate(),
       month: date.getMonth() + 1,
       year: date.getFullYear(),
     };
-    console.log(newTimestamp);
     setTimestamps((ts) => {
       const exists = ts.some(
         (p) =>
@@ -126,7 +124,6 @@ export function usePeriodData() {
 }
 
 export async function savePeriods(periods: PeriodTimestamp[]) {
-  console.log(getCycles());
   GLOBAL_PERIOD_DATA = periods;
 
   let userId = await getSetting("userId");

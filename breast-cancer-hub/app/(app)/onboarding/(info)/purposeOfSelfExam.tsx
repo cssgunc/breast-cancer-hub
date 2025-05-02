@@ -3,6 +3,7 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { StyleSheet } from "react-native";
 import { onboardingStyles } from "..";
+import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function PurposeOfSelfExam() {
   const { colors, globalStyles } = useColors();
@@ -19,11 +20,7 @@ export default function PurposeOfSelfExam() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title">The Purpose of</ThemedText>
-        <ThemedText
-          type="title"
-          colored
-          style={onboardingStyles.highlightedTitleText}
-        >
+        <ThemedText type="title" colored>
           A Self-Exam
         </ThemedText>
       </ThemedView>
@@ -99,6 +96,7 @@ export default function PurposeOfSelfExam() {
             Clinical Breast Exams.
           </ThemedText>
         </ThemedView>
+        <LearnMoreTextContainer />
       </ThemedView>
     </>
   );

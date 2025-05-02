@@ -9,14 +9,15 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
   const baseStyles = {
     // Buttons
     baseButton: {
-      paddingVertical: 15,
-      paddingHorizontal: 20,
+      minWidth: 128,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
       borderRadius: 50,
       borderWidth: 2,
       alignItems: "center" as const,
     },
     baseButtonText: {
-      fontSize: 18,
+      fontSize: 16,
       textAlign: "center" as const,
       fontWeight: "bold" as const,
     },
@@ -27,8 +28,8 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
     header: {
       flexDirection: "row",
       justifyContent: "space-between",
-      paddingHorizontal: 20,
-      paddingVertical: 10,
+      paddingHorizontal: 16,
+      paddingVertical: 16,
       backgroundColor: colors.darkHighlight,
     },
 
@@ -52,6 +53,7 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       flexGrow: 1,
       paddingTop: 10,
     },
+
     whiteOverlay: {
       flex: 1,
       backgroundColor: colors.white,
@@ -139,8 +141,6 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       borderColor: colors.lighterGray,
       flexDirection: "row",
       justifyContent: "space-between",
-      height: 48,
-      paddingHorizontal: 18,
       marginTop: 30,
       marginBottom: 30,
     },

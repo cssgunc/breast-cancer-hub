@@ -10,16 +10,14 @@ export default function ChooseLanguage() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title">Change Your</ThemedText>
-        <ThemedText
-          type="title"
-          colored
-          style={onboardingStyles.highlightedTitleText}
-        >
+        <ThemedText type="title" colored>
           Self-Examination Language
         </ThemedText>
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
-      <SelectLanguage></SelectLanguage>
+      <ThemedView style={onboardingStyles.bodyContainer}>
+        <SelectLanguage />
+      </ThemedView>
     </>
   );
 }

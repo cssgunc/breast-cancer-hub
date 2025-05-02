@@ -5,7 +5,6 @@ import { View } from "react-native";
 import LoadingScreen from "@/components/Loading";
 
 export default function Protection() {
-  console.log("layout of protected routes initialized");
   const [session, setSession] = useState("");
   const [userId, setUserId] = useState("");
   const [isLoading, setIsLoading] = useState(true);

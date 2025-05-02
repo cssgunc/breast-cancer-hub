@@ -2,6 +2,7 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { onboardingStyles } from "..";
 import { useColors } from "@/components/style/ColorContext";
+import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function ScreeningAndTechniques() {
   const { colors, globalStyles } = useColors();
@@ -9,12 +10,7 @@ export default function ScreeningAndTechniques() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title">Breast Cancer</ThemedText>
-        <ThemedText
-          type="title"
-          colored
-          bold
-          style={onboardingStyles.highlightedTitleText}
-        >
+        <ThemedText type="title" colored bold>
           Screening
         </ThemedText>
       </ThemedView>
@@ -67,6 +63,7 @@ export default function ScreeningAndTechniques() {
           consider initiating screening earlier and undergoing more frequent
           evaluations.
         </ThemedText>
+        <LearnMoreTextContainer />
       </ThemedView>
     </>
   );

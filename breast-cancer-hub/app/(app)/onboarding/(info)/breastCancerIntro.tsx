@@ -3,6 +3,7 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { StyleSheet } from "react-native";
 import { onboardingStyles } from "..";
+import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function BreastCancerIntro() {
   const { colors, globalStyles } = useColors();
@@ -26,11 +27,7 @@ export default function BreastCancerIntro() {
   return (
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
-        <ThemedText
-          type="title"
-          colored
-          style={onboardingStyles.highlightedTitleText}
-        >
+        <ThemedText type="title" colored>
           Breast Cancer
         </ThemedText>
       </ThemedView>
@@ -83,6 +80,7 @@ export default function BreastCancerIntro() {
           </ThemedText>{" "}
           people.
         </ThemedText>
+        <LearnMoreTextContainer />
       </ThemedView>
     </>
   );

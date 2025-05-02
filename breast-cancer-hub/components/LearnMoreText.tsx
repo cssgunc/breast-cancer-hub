@@ -4,22 +4,25 @@ import { ThemedView } from "./style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
 
 export function LearnMoreTextContainer() {
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
   const styles = StyleSheet.create({
     infoSourceText: {
       color: colors.lightGray,
-      marginTop: 20,
+      textAlign: "center",
+      lineHeight: 12,
     },
     learnMoreText: {
       fontSize: 12,
+      lineHeight: 12,
       color: colors.blue,
       fontWeight: "bold",
     },
     learnMoreTextContainer: {
       alignItems: "center",
+      justifyContent: "center",
     },
-  });  
+  });
 
   return (
     <ThemedView style={styles.learnMoreTextContainer}>

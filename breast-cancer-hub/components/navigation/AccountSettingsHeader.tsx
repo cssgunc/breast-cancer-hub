@@ -1,9 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { StyleSheet, TouchableOpacity } from "react-native";
-import { ThemedView } from "../../../../components/style/ThemedView";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { ThemedView } from "../style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
-
+import { Image } from "react-native";
 export default function AccountSettingsHeaderComponent() {
   const { colors, globalStyles } = useColors();
 
@@ -14,17 +14,28 @@ export default function AccountSettingsHeaderComponent() {
       padding: 8,
       alignItems: "center",
       justifyContent: "center",
-      marginTop: 40,
     },
   });
 
   return (
     <ThemedView style={globalStyles.header}>
-      <TouchableOpacity style={styles.iconWrapper}>
+      {/* <TouchableOpacity style={styles.iconWrapper}>
         <MaterialIcons name="person" size={28} color={colors.darkHighlight} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <View>
+        <Image
+          source={require("@/assets/images/BCH-Logo-Stacked-CMYK.png")}
+          resizeMode="contain"
+          style={{
+            marginRight: "auto",
+            height: 44,
+            width: 128,
+          }}
+        />
+      </View>
+
       <TouchableOpacity
-        style={styles.iconWrapper}
+        style={[styles.iconWrapper, { marginLeft: "auto" }]}
         onPress={() => router.push("/settings")}
       >
         <MaterialIcons name="settings" size={28} color={colors.darkHighlight} />

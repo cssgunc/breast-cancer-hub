@@ -1,7 +1,7 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Slot, useSegments } from "expo-router";
 import NavigationFooter from "./(components)/NavigationFooter";
-import AccountSettingsHeaderComponent from "../settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "../../../components/navigation/AccountSettingsHeader";
 import { ONBOARDING_STEPS, onboardingStyles } from ".";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
@@ -24,11 +24,7 @@ export default function OnboardingLayout() {
         ref={scrollViewRef}
         contentContainerStyle={onboardingStyles.scrollContent}
       >
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedView style={onboardingStyles.background}>
-            <Slot />
-          </ThemedView>
-        </ThemedView>
+        <Slot />
       </ScrollView>
 
       <NavigationFooter

@@ -1,9 +1,8 @@
-import { useSegments, useRouter, RelativePathString } from "expo-router";
+import { useRouter, RelativePathString } from "expo-router";
 import { StyleSheet, TouchableOpacity } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useColors } from "@/components/style/ColorContext";
-import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import StepIndicators from "@/components/StepIndicators";
 import { usePathname } from "expo-router";
 
@@ -28,9 +27,6 @@ export default function NavigationFooter({
   const isLast = idx === fullSteps.length - 1;
 
   const goForward = () => {
-    console.log("current index is" + idx);
-    console.log(fullSteps);
-    console.log(pathname);
     const next = isLast ? finishRoute : fullSteps[current + 1];
     router.push(next as RelativePathString);
   };
@@ -38,14 +34,10 @@ export default function NavigationFooter({
     if (!isFirst) router.push(fullSteps[current - 1] as RelativePathString);
   };
 
-  const containerStyle = isFirst
-    ? styles.buttonStepZeroContainer
-    : globalStyles.buttonBackNextContainer;
-
   return (
     <ThemedView style={styles.containerStyle}>
       <StepIndicators currentStep={idx} totalSteps={stepRoutes.length} />
-      <ThemedView style={containerStyle}>
+      <ThemedView style={globalStyles.buttonBackNextContainer}>
         {!isFirst && (
           <TouchableOpacity
             style={globalStyles.buttonSecondary}
@@ -56,9 +48,8 @@ export default function NavigationFooter({
             </ThemedText>
           </TouchableOpacity>
         )}
-
         <TouchableOpacity
-          style={globalStyles.buttonPrimary}
+          style={[globalStyles.buttonPrimary, { marginLeft: "auto" }]}
           onPress={() => goForward()}
         >
           <ThemedText style={globalStyles.buttonTextPrimary}>
@@ -66,7 +57,6 @@ export default function NavigationFooter({
           </ThemedText>
         </TouchableOpacity>
       </ThemedView>
-      <LearnMoreTextContainer />
     </ThemedView>
   );
 }
@@ -75,13 +65,13 @@ const styles = StyleSheet.create({
   containerStyle: {
     width: "100%",
     flexDirection: "column",
-    paddingHorizontal: 10,
-  },
-  buttonStepZeroContainer: {
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    width: "100%",
-    paddingHorizontal: 10,
-    marginRight: 30,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 4,
   },
 });

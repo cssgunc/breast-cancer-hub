@@ -23,24 +23,21 @@ export const onboardingStyles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingTop: 10,
-    paddingHorizontal: 10,
-    paddingBottom: 20,
+    padding: 16,
     backgroundColor: "white",
     borderTopLeftRadius: 17,
     borderTopRightRadius: 17,
-    marginTop: 10,
+    borderBottomLeftRadius: 17,
+    borderBottomRightRadius: 17,
+    marginVertical: 16,
   },
   background: {
     flex: 1,
     padding: 10,
   },
   titleContainer: {
+    marginTop: 20,
     flexDirection: "column",
-    alignItems: "flex-start",
-  },
-  highlightedTitleText: {
-    marginBottom: 15,
-    paddingTop: 10,
+    alignSelf: "flex-start",
   },
 });

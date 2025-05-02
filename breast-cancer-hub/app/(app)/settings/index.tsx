@@ -78,7 +78,7 @@ export default function SettingsScreen() {
       paddingBottom: 50,
     },
     mainContainer: {
-      marginTop: 10,
+      marginTop: 5,
       width: "90%",
       backgroundColor: colors.white,
       borderRadius: 20,

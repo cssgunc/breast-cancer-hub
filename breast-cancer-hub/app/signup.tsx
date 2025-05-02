@@ -83,7 +83,6 @@ export default function SignupPage() {
         }
       })
       .then((responseData) => {
-        console.log(responseData.message);
         saveSetting("email", email);
         saveSetting("token", responseData.sessionToken);
         saveSetting("name", name);

@@ -10,7 +10,7 @@ import {
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import AccountSettingsHeaderComponent from "@/app/(app)/settings/(components)/AccountSettingsHeader";
+import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import StepIndicators from "@/components/StepIndicators";

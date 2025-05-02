@@ -24,11 +24,7 @@ export default function ChooseAvatar() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title">Choose Your</ThemedText>
-        <ThemedText
-          type="title"
-          colored
-          style={onboardingStyles.highlightedTitleText}
-        >
+        <ThemedText type="title" colored>
           Self Examination Avatar
         </ThemedText>
       </ThemedView>
@@ -37,18 +33,18 @@ export default function ChooseAvatar() {
         <ThemedView style={styles.avatar}>
           <TouchableOpacity
             onPress={() => avatarPress(false)}
-            style={[
-              { flex: 1 },
-              selected === false && {
-                borderColor: colors.darkHighlight,
-                borderWidth: 3,
-              },
-            ]}
+            style={{ flex: 1 }}
             activeOpacity={0.8}
           >
             <Image
               source={require("@/assets/images/FEMALE ART 1.jpg")}
-              style={styles.image}
+              style={[
+                styles.image,
+                selected === false && {
+                  borderColor: colors.darkHighlight,
+                  borderWidth: 3,
+                },
+              ]}
               resizeMode="contain"
             />
             {selected === false && (
@@ -66,19 +62,19 @@ export default function ChooseAvatar() {
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => avatarPress(true)}
-            style={[
-              { flex: 1 },
-              selected === true && {
-                borderColor: colors.darkHighlight,
-                borderWidth: 3,
-              },
-            ]}
+            style={{ flex: 1 }}
             activeOpacity={0.8}
           >
             <Image
               resizeMode="contain"
               source={require("@/assets/images/MALE ART 1.jpg")}
-              style={styles.image}
+              style={[
+                styles.image,
+                selected === true && {
+                  borderColor: colors.darkHighlight,
+                  borderWidth: 3,
+                },
+              ]}
             />
             {selected === true && (
               <ThemedView style={styles.checkmark}>
@@ -109,7 +105,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   image: {
-    height: "100%",
+    height: "50%",
     width: "100%",
   },
   checkmark: {
