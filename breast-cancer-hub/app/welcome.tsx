@@ -19,8 +19,8 @@ export default function WelcomePage() {
   const { colors, globalStyles } = useColors();
 
   const handleSubmit = async () => {
-    saveSetting("name", name);
     saveSetting("userId", "local");
+    saveSetting("name", name);
 
     try {
       const onboarding = await getSetting("onboarding");

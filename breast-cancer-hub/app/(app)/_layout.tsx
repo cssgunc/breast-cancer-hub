@@ -3,6 +3,8 @@ import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import { View } from "react-native";
 import LoadingScreen from "@/components/Loading";
+import { CheckupProvider } from "@/hooks/CheckupContext";
+import { PeriodProvider } from "@/hooks/PeriodContext";
 
 export default function Protection() {
   const [session, setSession] = useState("");
@@ -32,7 +34,11 @@ export default function Protection() {
   // If we have a session token, render the protected content
   return (
     <View style={{ flex: 1 }}>
-      <Slot />
+      <CheckupProvider>
+        <PeriodProvider>
+          <Slot />
+        </PeriodProvider>
+      </CheckupProvider>
     </View>
   );
 }

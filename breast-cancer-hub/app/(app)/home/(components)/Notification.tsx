@@ -2,21 +2,20 @@ import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
-import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useColors } from "@/components/style/ColorContext";
 
 interface NotificationComponentProps {
-  variant?: "default" | "overdue";
+  variant?: "upcoming" | "completed" | "due" | "overdue";
   date: Date;
-  onDismiss: () => void;
+  //onDismiss: () => void;
 }
 
 export default function NotificationComponent({
-  variant = "default",
+  variant = "upcoming",
   date,
-  onDismiss,
-}: NotificationComponentProps) {
+}: //onDismiss,
+NotificationComponentProps) {
   const { colors, globalStyles } = useColors();
 
   const [isVisible, setIsVisible] = useState(true);
@@ -25,8 +24,32 @@ export default function NotificationComponent({
   if (!isVisible) return null; // Do not render if the notification is dismissed
 
   // Determine header text and colors based on the variant
-  const headerText =
-    variant === "overdue" ? "! Overdue Examination !" : "Examination Reminder";
+  const headerText = (() => {
+    switch (variant) {
+      case "overdue":
+        return "! Overdue Examination !";
+      case "upcoming":
+        return "Upcoming Examination";
+      case "due":
+        return "Examination Reminder";
+      default:
+        return "Examination Completed!";
+    }
+  })();
+
+  const bodyText = (() => {
+    switch (variant) {
+      case "overdue":
+        return "You are overdue for a breast self examination! Complete it by tapping on this banner.";
+      case "upcoming":
+        return "You have a breast self examination coming up! Please come back when it is time to perform your exam.";
+      case "due":
+        return "Your breast self examination is due today! Complete it by tapping on this banner.";
+      default:
+        return "You have completed your monthly breast self examination! Please continue to do so every month.";
+    }
+  })();
+
   const headerTextColor =
     variant === "overdue" ? colors.darkHighlight : colors.black;
   const dateCircleBackgroundColor =
@@ -48,7 +71,7 @@ export default function NotificationComponent({
     "Nov.",
     "Dec.",
   ];
-  const month = monthNames[date.getMonth() - 1];
+  const month = monthNames[date.getMonth()];
   const day = date.getDate();
 
   const styles = StyleSheet.create({
@@ -108,7 +131,11 @@ export default function NotificationComponent({
       {/* Right Side with Header and Body */}
       <TouchableOpacity
         style={styles.textContainer}
-        onPress={() => router.push("/selfExam/intro")}
+        onPress={() => {
+          if (variant == "overdue" || variant == "due") {
+            router.push("/selfExam/intro");
+          }
+        }}
       >
         <ThemedText
           bold
@@ -116,12 +143,12 @@ export default function NotificationComponent({
         >
           {headerText}
         </ThemedText>
-        <ThemedText>Complete your self-examination.</ThemedText>
+        <ThemedText>{bodyText}</ThemedText>
       </TouchableOpacity>
       {/* Trash Icon */}
-      <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>
+      {/* <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>
         <Ionicons name="trash-outline" size={24} color={colors.darkHighlight} />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </ThemedView>
   );
 }

@@ -50,6 +50,9 @@ export default function NotificationsScreen() {
     return locale === "temp" ? "en-us" : locale;
   };
 
+  useEffect(() => {
+    saveNotificationSettings();
+  }, [pushNotifications, inAppNotifications, timeEntries]);
   async function saveSettingsToBackend() {
     console.log(
       (timeEntries as { id: number; time: string; enabled: boolean }[]).map(
@@ -112,21 +115,21 @@ export default function NotificationsScreen() {
     });
   }, [person.token]);
 
-  // Save notification preferences to local storage
-  // const saveNotificationSettings = async () => {
-  //   if (!pushNotifications && !inAppNotifications) {
-  //     alert("At least one notification type must be selected.");
-  //     return;
-  //   }
+  //Save notification preferences to local storage
+  const saveNotificationSettings = async () => {
+    // if (!pushNotifications && !inAppNotifications) {
+    //   alert("At least one notification type must be selected.");
+    //   return;
+    // }
 
-  //   await saveSetting("usePushNotifications", pushNotifications);
-  //   await saveSetting("useInAppNotifications", inAppNotifications);
-  //   await saveSetting("notificationTimes", timeEntries);
+    await saveSetting("usePushNotifications", pushNotifications);
+    await saveSetting("useInAppNotifications", inAppNotifications);
+    await saveSetting("notificationTimes", timeEntries);
 
-  //   await saveSettingsToBackend();
+    //await saveSettingsToBackend();
 
-  //   alert("Settings saved successfully.");
-  // };
+    //alert("Settings saved successfully.");
+  };
 
   // Function to add a new time entry
   const addTimeEntry = (newDate: Date) => {
@@ -361,7 +364,9 @@ export default function NotificationsScreen() {
           {/* In-App Notifications Option */}
           <TouchableOpacity
             style={styles.optionBox}
-            onPress={() => setInAppNotifications(!inAppNotifications)}
+            onPress={async () => {
+              await setInAppNotifications(!inAppNotifications);
+            }}
             disabled
           >
             <View style={styles.optionHeader}>
@@ -393,7 +398,9 @@ export default function NotificationsScreen() {
 
           <TouchableOpacity
             style={styles.optionBox}
-            onPress={() => setPushNotifications(!pushNotifications)}
+            onPress={async () => {
+              await setPushNotifications(!pushNotifications);
+            }}
           >
             <View style={styles.optionHeader}>
               <View style={styles.checkboxContainer}>
@@ -476,6 +483,18 @@ export default function NotificationsScreen() {
               color={colors.darkHighlight}
             />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
+          </TouchableOpacity>
+          {/* Add Time Button */}
+          <TouchableOpacity
+            style={styles.addTimeButton}
+            onPress={() => addTimeEntry(new Date())}
+          >
+            <Ionicons
+              name="add-circle"
+              size={24}
+              color={colors.darkHighlight}
+            />
+            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
           </TouchableOpacity>
 
           {/* Save Settings Button */}

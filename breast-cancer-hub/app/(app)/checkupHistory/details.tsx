@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { useCheckupData } from "@/hooks/useCheckupData";
+import { useCheckupData } from "@/hooks/CheckupContext";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
 

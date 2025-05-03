@@ -28,7 +28,7 @@ export default function SelfExamInfo() {
   const info_m = [
     { id: 0, key: "SYMPTOMS_LUMP_THICKENING_M" },
     { id: 1, key: "SYMPTOMS_SKIN_CHANGES_M" },
-    { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
+    { id: 2, key: "SYMPTOMS_NIPPLE_CHANGES_M" },
     { id: 3, key: "SYMPTOMS_DISCHARGE_M" },
     { id: 4, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
   ];

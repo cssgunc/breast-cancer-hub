@@ -4,15 +4,14 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import {
-  initPeriods,
   usePeriodData,
-  isCheckupDay,
-  isPeriodDay,
   OrderedMonthNames,
   OrderedWeekdayNames,
-} from "@/hooks/usePeriodData";
+  PeriodTimestamp,
+} from "@/hooks/PeriodContext";
 import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import { useCheckupData } from "@/hooks/CheckupContext";
 
 type CalendarItem = {
   date: Date;
@@ -25,55 +24,33 @@ type CalendarItem = {
 
 interface CalendarComponentProps {
   isMenstruating: boolean;
-  updateCheckupDay: () => void;
+  onDayChanged: (timestamps: PeriodTimestamp[]) => Promise<void>;
 }
 
 export default function CalendarComponent({
   isMenstruating,
-  updateCheckupDay,
+  onDayChanged,
 }: CalendarComponentProps) {
   const { colors } = useColors();
 
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
-  const [periodDay, setPeriodDay] = useState<number>(28);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const { timestamps, cycles, addPeriod, removePeriod } = usePeriodData();
+  const { timestamps, addPeriod, removePeriod } = usePeriodData();
+  const { nextCheckup, scheduleNextCheckup } = useCheckupData();
 
-  // Full refresh function
-  const refreshCalendar = () => {
-    setCurrentDate(new Date());
-    setIsEditing(false);
-    setPeriodDay(28);
-    initPeriods().then((original) => {
-      if (original) {
-        updateCheckupDay();
-      }
-    });
-  };
-
-  // If not menstruating, display checkup date
-  useEffect(() => {
-    const init = async () => {
-      const type = await getSetting("schedulingType");
-      if (type !== "period" && type != null) {
-        setPeriodDay((type as { day: number }).day);
-      }
-    };
-    init();
-  }, []);
-
-  // Handle menstruation status changes
   useEffect(() => {
     if (isMenstruating) {
-      refreshCalendar();
+      if (timestamps.length) {
+        scheduleNextCheckup(timestamps);
+      }
     } else {
       setIsEditing(false);
     }
-  }, [isMenstruating]);
+  }, [isMenstruating, timestamps]);
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
@@ -100,6 +77,27 @@ export default function CalendarComponent({
   const getMonthName = (monthIndex: number) => {
     return OrderedMonthNames[monthIndex];
   };
+
+  function isPeriodDay(value: Date) {
+    const isDay = timestamps.some(
+      (p) =>
+        p.date == value.getUTCDate() &&
+        p.month == value.getUTCMonth() + 1 &&
+        p.year == value.getUTCFullYear()
+    );
+    return isDay;
+  }
+
+  function isCheckupDay(value: Date) {
+    if (nextCheckup) {
+      return (
+        value.getFullYear() == nextCheckup.getFullYear() &&
+        value.getMonth() == nextCheckup.getMonth() &&
+        value.getDate() == nextCheckup.getDate()
+      );
+    }
+    return false;
+  }
 
   // Generate calendar days
   const generateCalendar = (): CalendarItem[] => {
@@ -148,15 +146,12 @@ export default function CalendarComponent({
         day: daysInPrevMonth - i,
         inCurrentMonth: false,
         isPeriodDay: isMenstruating && isPeriodDay(p),
-        isCheckupDay: isMenstruating
-          ? isCheckupDay(p)
-          : daysInPrevMonth - i === periodDay,
+        isCheckupDay: isCheckupDay(p),
         isFuture: p > today,
       });
     }
 
     // Get period days for the current month
-
     // Days in current month
     for (let i = 1; i <= daysInMonth; i++) {
       const p = new Date(currMonth.getTime());
@@ -166,7 +161,7 @@ export default function CalendarComponent({
         day: i,
         inCurrentMonth: true,
         isPeriodDay: isMenstruating && isPeriodDay(p),
-        isCheckupDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
+        isCheckupDay: isCheckupDay(p),
         isFuture: p > today,
       });
     }
@@ -183,7 +178,7 @@ export default function CalendarComponent({
         day: i,
         inCurrentMonth: false,
         isPeriodDay: isMenstruating && isPeriodDay(p),
-        isCheckupDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
+        isCheckupDay: isCheckupDay(p),
         isFuture: p > today,
       });
     }
@@ -193,15 +188,16 @@ export default function CalendarComponent({
 
   const calendarDays = generateCalendar();
 
-  const handleDayPress = (day: CalendarItem) => {
+  const handleDayPress = async (day: CalendarItem) => {
     if (!isEditing) return;
-    console.log(day);
+    let newTimestamps;
     if (day.isPeriodDay) {
-      removePeriod(day.date);
+      newTimestamps = await removePeriod(day.date);
     } else {
-      addPeriod(day.date);
+      newTimestamps = await addPeriod(day.date);
     }
-    updateCheckupDay();
+    await onDayChanged(newTimestamps);
+    scheduleNextCheckup(newTimestamps);
   };
 
   const styles = StyleSheet.create({
@@ -410,10 +406,7 @@ export default function CalendarComponent({
                 <View
                   style={[
                     styles.dayWrapper,
-                    isEditing &&
-                      day.inCurrentMonth &&
-                      !day.isFuture &&
-                      styles.editModeDayWrapper,
+                    isEditing && !day.isFuture && styles.editModeDayWrapper,
                   ]}
                 >
                   <ThemedText

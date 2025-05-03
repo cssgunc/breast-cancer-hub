@@ -14,9 +14,9 @@ import { useRouter } from "expo-router";
 import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import CalendarComponent from "@/app/(app)/home/(components)/Calendar";
-
-import { getCheckupDay } from "@/hooks/usePeriodData";
 import ThemedButton from "@/components/ThemedButton";
+import { useCheckupData } from "@/hooks/CheckupContext";
+import { PeriodTimestamp } from "@/hooks/PeriodContext";
 
 type Noti = {
   id: number;
@@ -38,9 +38,8 @@ export default function CalendarOnboardingScreen(
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
     undefined
   );
-  const [examDay, setExamDay] = useState<number>(1);
-  const [notifications, setNotifications] = useState<Noti[]>([]);
 
+  const { scheduleNextCheckup } = useCheckupData();
   //load the schedulingType
   useEffect(() => {
     if (props.isMenstruating === undefined) {
@@ -52,11 +51,7 @@ export default function CalendarOnboardingScreen(
 
   //save the examDay under its own key
   const handleSaveChanges = () => {
-    saveSetting("examDay" as keyof SettingsMap, {
-      day: examDay,
-    }).then(() => {
-      router.push("/");
-    });
+    router.push("/");
   };
 
   return (
@@ -97,22 +92,8 @@ export default function CalendarOnboardingScreen(
               {isMenstruating != null && (
                 <CalendarComponent
                   isMenstruating={isMenstruating}
-                  updateCheckupDay={() => {
-                    const ts = getCheckupDay();
-                    if (ts) {
-                      const date = new Date(ts.year, ts.month, ts.date + 7);
-
-                      setNotifications([
-                        {
-                          id: 1,
-                          variant:
-                            new Date().getTime() < date.getTime()
-                              ? "default"
-                              : "overdue",
-                          date,
-                        },
-                      ]);
-                    }
+                  onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
+                    await scheduleNextCheckup(newTimestamps);
                   }}
                 />
               )}

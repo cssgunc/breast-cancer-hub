@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { useCheckupData } from "@/hooks/useCheckupData";
+import { useCheckupData } from "@/hooks/CheckupContext";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import ThemedButton from "@/components/ThemedButton";
@@ -29,7 +29,7 @@ export default function Checklist() {
     { id: 6, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
   ];
   const info_m = [
-    { id: 0, key: "LUMP_THICKENING_M" },
+    { id: 0, key: "SYMPTOMS_LUMP_THICKENING_M" },
     { id: 1, key: "SYMPTOMS_SKIN_CHANGES_M" },
     { id: 2, key: "SYMPTOMS_NIPPLE_CHANGES_M" },
     { id: 3, key: "SYMPTOMS_DISCHARGE_M" },
