@@ -35,15 +35,6 @@ export default function WelcomePage() {
     }
   };
 
-  const styles = StyleSheet.create({
-    scrollView: {
-      backgroundColor: colors.white,
-    },
-    scrollViewContainer: {
-      flexGrow: 1,
-    },
-  });
-
   return (
     <ThemedView style={globalStyles.loginBodyContainer}>
       <ThemedView style={globalStyles.loginPopText}>

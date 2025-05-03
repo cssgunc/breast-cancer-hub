@@ -36,15 +36,8 @@ export default function NextStepsScreen() {
     noticeContainer: {
       flexDirection: "row",
       justifyContent: "flex-start",
-      marginBottom: 16,
+      marginVertical: 16,
     },
-    whiteOverlay: {
-      backgroundColor: colors.white,
-      borderTopLeftRadius: 17,
-      borderTopRightRadius: 17,
-      padding: 20,
-    },
-    // Here, the main title is highlighted pink, while the subtitle is black.
     subtitleText: {
       fontSize: 24,
       fontWeight: "bold",
@@ -61,6 +54,7 @@ export default function NextStepsScreen() {
       justifyContent: "center",
       marginTop: "auto",
       gap: 16,
+      padding: 16,
     },
   });
 
@@ -73,74 +67,74 @@ export default function NextStepsScreen() {
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
-      <ThemedView style={[styles.whiteOverlay, { paddingBottom: 0 }]}>
-        <ThemedText type="title" colored style={selfExamStyles.titleText}>
+      <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
+        <ThemedText colored type="title" style={selfExamStyles.titleText}>
           Based On Your Symptoms
         </ThemedText>
-        <ThemedText style={styles.subtitleText}>Recommended actions</ThemedText>
+        <ThemedText type="heading">Recommended Actions</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
 
         <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
-          <ThemedView style={[styles.whiteOverlay, { paddingTop: 0 }]}>
-            {/* Info Section */}
-            {getHasSymptoms(symptoms as string) ? (
-              <>
-                <ThemedView style={styles.noticeContainer}>
-                  <MaterialIcons
-                    name="error"
-                    size={28}
-                    color={colors.darkHighlight}
-                  />
-                  <ThemedText type="heading">Notice!</ThemedText>
-                </ThemedView>
-                <ThemedView
-                  style={[
-                    globalStyles.elevatedCard,
-                    { flexDirection: "column", gap: 16 },
-                  ]}
-                >
-                  <ThemedText colored type="heading">
-                    A visit to your doctor is recommended based on your
-                    assessment.
-                  </ThemedText>
-                  <ThemedText>
-                    But please do not stress. Most of the time, Breast lumps or
-                    Breast changes are not Cancer. However, reporting any
-                    abnormalities or changes to your healthcare provider is
-                    essential.
-                  </ThemedText>
-                  <ThemedText bold italic>
-                    Early detection improves treatment outcomes and saves lives.
-                  </ThemedText>
-                </ThemedView>
-
-                <LearnMoreTextContainer />
-              </>
-            ) : (
-              <ThemedView style={[styles.whiteOverlay, { paddingVertical: 0 }]}>
-                <ThemedView style={styles.noticeContainer}>
-                  <MaterialIcons
-                    name="check-circle"
-                    size={28}
-                    color={colors.green}
-                  />
-                  <ThemedText type="heading" bold>
-                    You're all good!
-                  </ThemedText>
-                </ThemedView>
-
-                <ThemedView style={globalStyles.elevatedCard}>
-                  <ThemedText type="heading" bold>
-                    Please continue to perform your Breast Self-Examination
-                    every month.
-                  </ThemedText>
-                </ThemedView>
-
-                <LearnMoreTextContainer />
+          {/* Info Section */}
+          {getHasSymptoms(symptoms as string) ? (
+            <>
+              <ThemedView style={styles.noticeContainer}>
+                <MaterialIcons
+                  name="error"
+                  size={28}
+                  color={colors.darkHighlight}
+                />
+                <ThemedText type="heading">Notice!</ThemedText>
               </ThemedView>
-            )}
-          </ThemedView>
+              <ThemedView
+                style={[
+                  globalStyles.elevatedCard,
+                  { flexDirection: "column", gap: 16 },
+                ]}
+              >
+                <ThemedText colored type="heading">
+                  A visit to your doctor is recommended based on your
+                  assessment.
+                </ThemedText>
+                <ThemedText>
+                  But please do not stress. Most of the time, Breast lumps or
+                  Breast changes are not Cancer. However, reporting any
+                  abnormalities or changes to your healthcare provider is
+                  essential.
+                </ThemedText>
+                <ThemedText bold italic>
+                  Early detection improves treatment outcomes and saves lives.
+                </ThemedText>
+              </ThemedView>
+
+              <LearnMoreTextContainer />
+            </>
+          ) : (
+            <ThemedView
+              style={[globalStyles.whiteOverlay, { paddingVertical: 0 }]}
+            >
+              <ThemedView style={styles.noticeContainer}>
+                <MaterialIcons
+                  name="check-circle"
+                  size={28}
+                  color={colors.green}
+                />
+                <ThemedText type="heading" bold>
+                  You're all good!
+                </ThemedText>
+              </ThemedView>
+
+              <ThemedView style={globalStyles.elevatedCard}>
+                <ThemedText type="heading" bold>
+                  Please continue to perform your Breast Self-Examination every
+                  month.
+                </ThemedText>
+              </ThemedView>
+
+              <LearnMoreTextContainer />
+            </ThemedView>
+          )}
         </ThemedView>
 
         {/* Navigation Buttons */}
