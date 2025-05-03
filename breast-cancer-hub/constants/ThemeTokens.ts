@@ -4,6 +4,36 @@
  * Spacing and typography (font size) constants are shared across both modes.
  **/
 
+export interface ColorTheme {
+  white: string;
+  black: string;
+
+  darkestHighlight: string;
+  darkHighlight: string;
+  mediumHighlight: string;
+  lightHighlight: string;
+
+  darkGray: string;
+  mediumGray: string;
+  lightGray: string;
+  lighterGray: string;
+  lightestGray: string;
+
+  backgroundGray: string;
+  backgroundLightGray: string;
+
+  blue: string;
+  green: string;
+  red: string;
+
+  text: string;
+  background: string;
+  tint: string;
+  icon: string;
+  tabIconDefault: string;
+  tabIconSelected: string;
+}
+
 export const sharedColors = {
   white: "#FFFFFF",
   black: "#000000",
@@ -18,6 +48,7 @@ export const sharedColors = {
 
   blue: "#68C4FF", // Used for links
   green: "#339F00", // Used for green check mark after self exam
+  red: "#FF4D4D",
 
   text: "#67696d",
   background: "#ffffff",

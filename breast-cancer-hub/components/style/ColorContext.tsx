@@ -3,37 +3,13 @@
  */
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { makeGlobalStyles } from "./StyleSheet";
-import { sharedColors, darkColors, lightColors } from "@/constants/ThemeTokens";
+import {
+  sharedColors,
+  darkColors,
+  lightColors,
+  ColorTheme,
+} from "@/constants/ThemeTokens";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
-
-export interface ColorTheme {
-  white: string;
-  black: string;
-
-  darkestHighlight: string;
-  darkHighlight: string;
-  mediumHighlight: string;
-  lightHighlight: string;
-
-  darkGray: string;
-  mediumGray: string;
-  lightGray: string;
-  lighterGray: string;
-  lightestGray: string;
-
-  backgroundGray: string;
-  backgroundLightGray: string;
-
-  blue: string;
-  green: string;
-
-  text: string;
-  background: string;
-  tint: string;
-  icon: string;
-  tabIconDefault: string;
-  tabIconSelected: string;
-}
 
 const ColorContext = createContext<{
   colors: ColorTheme;

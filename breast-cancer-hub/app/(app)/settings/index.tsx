@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import ResetDataButton from "./(components)/ResetDataButton";
 
 export default function SettingsScreen() {
   const router = useRouter();

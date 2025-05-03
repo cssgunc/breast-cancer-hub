@@ -28,9 +28,9 @@ export type SettingsMap = {
 
 export type SettingKeys = keyof SettingsMap;
 
-const GLOBAL_KEYS: SettingKeys[] = ["name", "email", "token", "userId"];
+export const GLOBAL_KEYS: SettingKeys[] = ["name", "email", "token", "userId"];
 
-const USER_SCOPED_KEYS: SettingKeys[] = [
+export const USER_SCOPED_KEYS: SettingKeys[] = [
   "schedulingType",
   "notificationTimes",
   "locale",
