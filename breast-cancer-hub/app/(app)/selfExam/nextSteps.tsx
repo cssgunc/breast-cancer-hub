@@ -13,6 +13,7 @@ import AccountSettingsHeaderComponent from "@/components/navigation/AccountSetti
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
+import { selfExamStyles } from ".";
 
 export default function NextStepsScreen() {
   const router = useRouter();
@@ -33,10 +34,8 @@ export default function NextStepsScreen() {
 
   const styles = StyleSheet.create({
     noticeContainer: {
-      paddingVertical: 30,
       flexDirection: "row",
       justifyContent: "flex-start",
-      columnGap: 10,
     },
     whiteOverlay: {
       backgroundColor: colors.white,
@@ -98,30 +97,27 @@ export default function NextStepsScreen() {
           <ThemedView style={[styles.whiteOverlay, { paddingVertical: 0 }]}>
             {/* Info Section */}
             {getHasSymptoms(symptoms as string) ? (
-              <ThemedView style={styles.whiteOverlay}>
+              <ThemedView style={globalStyles.whiteOverlay}>
                 <ThemedView style={styles.noticeContainer}>
                   <MaterialIcons
                     name="error"
                     size={28}
                     color={colors.darkHighlight}
                   />
-                  <ThemedText bold style={styles.instructionTextBold}>
-                    Notice!
-                  </ThemedText>
+                  <ThemedText type="heading">Notice!</ThemedText>
                 </ThemedView>
-
                 <ThemedView style={globalStyles.elevatedCard}>
-                  <ThemedText colored style={styles.instructionTextBold}>
+                  <ThemedText colored type="heading">
                     A visit to your doctor is recommended based on your
                     assessment.
                   </ThemedText>
-                  <ThemedText bold style={styles.instructionTextBold}>
+                  <ThemedText bold type="heading">
                     But please do not stress. Most of the time, Breast lumps or
                     Breast changes are not Cancer. However, reporting any
                     abnormalities or changes to your healthcare provider is
                     essential.
                   </ThemedText>
-                  <ThemedText bold style={styles.instructionTextBold} italic>
+                  <ThemedText bold type="heading" italic>
                     Early detection improves treatment outcomes and saves lives.
                   </ThemedText>
                 </ThemedView>

@@ -51,6 +51,7 @@ export default function SelfExamInfo() {
       }));
 
       setInfo(translatedInfo);
+      await new Promise((r) => setTimeout(r, 300));
       setIsLoading(false);
     };
 

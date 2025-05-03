@@ -43,6 +43,7 @@ export default function HomePage(props: HomePageProps) {
     undefined
   );
 
+  const [isLoading, setIsLoading] = useState(true);
   // State for modal visibility
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -65,11 +66,15 @@ export default function HomePage(props: HomePageProps) {
         const value = await getSetting("name");
         setName(value);
       }
+
+      await new Promise((r) => setTimeout(r, 300));
+      setIsLoading(false);
     };
 
     init();
   }, []);
-  if (name === undefined || isMenstruating === undefined) {
+
+  if (isLoading || name === undefined || isMenstruating === undefined) {
     return <LoadingScreen />;
   }
 
