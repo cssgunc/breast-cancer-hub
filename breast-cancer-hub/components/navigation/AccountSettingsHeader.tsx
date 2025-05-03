@@ -24,7 +24,7 @@ export default function AccountSettingsHeaderComponent() {
       </TouchableOpacity> */}
       <View>
         <Image
-          source={require("@/assets/images/BCH-Logo-Stacked-CMYK.png")}
+          source={require("@/assets/images/BCH-Logo-Stacked-WHITE.png")}
           resizeMode="contain"
           style={{
             marginRight: "auto",
