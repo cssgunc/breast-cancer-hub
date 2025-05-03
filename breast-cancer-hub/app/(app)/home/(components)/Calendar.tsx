@@ -20,6 +20,7 @@ type CalendarItem = {
   inCurrentMonth: boolean;
   isPeriodDay: boolean;
   isCheckupDay: boolean;
+  isFuture: boolean;
 };
 
 interface CalendarComponentProps {
@@ -36,6 +37,9 @@ export default function CalendarComponent({
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isEditing, setIsEditing] = useState(false);
   const [periodDay, setPeriodDay] = useState<number>(28);
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
   const { timestamps, cycles, addPeriod, removePeriod } = usePeriodData();
 
@@ -147,6 +151,7 @@ export default function CalendarComponent({
         isCheckupDay: isMenstruating
           ? isCheckupDay(p)
           : daysInPrevMonth - i === periodDay,
+        isFuture: p > today,
       });
     }
 
@@ -162,6 +167,7 @@ export default function CalendarComponent({
         inCurrentMonth: true,
         isPeriodDay: isMenstruating && isPeriodDay(p),
         isCheckupDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
+        isFuture: p > today,
       });
     }
 
@@ -178,6 +184,7 @@ export default function CalendarComponent({
         inCurrentMonth: false,
         isPeriodDay: isMenstruating && isPeriodDay(p),
         isCheckupDay: isMenstruating ? isCheckupDay(p) : i === periodDay,
+        isFuture: p > today,
       });
     }
 
@@ -380,8 +387,12 @@ export default function CalendarComponent({
             <TouchableOpacity
               key={index}
               style={styles.dayContainer}
-              onPress={() => handleDayPress(day)}
-              activeOpacity={isEditing ? 0.5 : 1}
+              onPress={() => {
+                if (isEditing && !day.isFuture) {
+                  handleDayPress(day);
+                }
+              }}
+              activeOpacity={day.isFuture || !isEditing ? 1 : 0.5}
             >
               {day.isPeriodDay ? (
                 <View style={styles.periodDayCircle}>
@@ -401,6 +412,7 @@ export default function CalendarComponent({
                     styles.dayWrapper,
                     isEditing &&
                       day.inCurrentMonth &&
+                      !day.isFuture &&
                       styles.editModeDayWrapper,
                   ]}
                 >
