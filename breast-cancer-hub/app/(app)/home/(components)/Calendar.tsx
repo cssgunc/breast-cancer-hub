@@ -251,7 +251,6 @@ export default function CalendarComponent({
     daysContainer: {
       flexDirection: "row",
       flexWrap: "wrap",
-      paddingBottom: 20,
     },
     dayContainer: {
       width: "14.28%",
@@ -325,6 +324,13 @@ export default function CalendarComponent({
       fontSize: 12,
       color: "grey",
       textAlign: "center",
+    },
+
+    editToggleButton: {
+      display: "flex",
+      flexDirection: "row",
+      gap: 8,
+      alignItems: "center",
     },
   });
 
@@ -418,15 +424,15 @@ export default function CalendarComponent({
             {isEditing ? (
               <TouchableOpacity
                 onPress={() => setIsEditing(false)}
-                style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                style={styles.editToggleButton}
               >
-                <ThemedText>Confirm Changes</ThemedText>
+                <ThemedText type="caption">Confirm Changes</ThemedText>
                 <Ionicons name="checkmark" size={24} color={colors.black} />
               </TouchableOpacity>
             ) : (
               <TouchableOpacity
                 onPress={() => setIsEditing(true)}
-                style={{ display: "flex", flexDirection: "row", gap: 10 }}
+                style={styles.editToggleButton}
               >
                 <ThemedText type="caption">Edit Periods</ThemedText>
                 <Ionicons

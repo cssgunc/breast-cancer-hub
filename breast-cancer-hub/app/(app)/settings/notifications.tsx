@@ -15,22 +15,25 @@ import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { saveSetting } from "@/hooks/useSettings";
 
-import RNDateTimePicker from '@react-native-community/datetimepicker';
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useColors } from "@/components/style/ColorContext";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function NotificationsScreen() {
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
-  
+  const { colors, globalStyles } = useColors();
+
   const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
-  const TIME_FORMAT_OPTIONS : {hour: "2-digit" | "numeric" | undefined, minute: "2-digit" | "numeric" | undefined}
-   = {hour: "2-digit", minute: "2-digit"};
+  const TIME_FORMAT_OPTIONS: {
+    hour: "2-digit" | "numeric" | undefined;
+    minute: "2-digit" | "numeric" | undefined;
+  } = { hour: "2-digit", minute: "2-digit" };
 
   // State for checkboxes
   const [pushNotifications, setPushNotifications] = useState(true);
   const [inAppNotifications, setInAppNotifications] = useState(false);
-  
-  const [locale, setLocale] = useState('en-US');
+
+  const [locale, setLocale] = useState("en-US");
 
   const [date, setDate] = useState(new Date());
   const [timePickerVisible, setTimePickerVisible] = useState(false);
@@ -44,69 +47,86 @@ export default function NotificationsScreen() {
   >([]);
 
   const fixTempLocaleToUS = (locale: string) => {
-    return (locale === "temp") ? 'en-us' : locale;
-  }
+    return locale === "temp" ? "en-us" : locale;
+  };
 
   async function saveSettingsToBackend() {
-    console.log((timeEntries as { id: number, time: string, enabled: boolean }[])
-    .map((val) => {return [person.userId, val.time, val.enabled];}))
+    console.log(
+      (timeEntries as { id: number; time: string; enabled: boolean }[]).map(
+        (val) => {
+          return [person.userId, val.time, val.enabled];
+        }
+      )
+    );
     fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-      method: "PUT", 
+      method: "PUT",
       headers: {
-        "Content-Type" : "application/json",
+        "Content-Type": "application/json",
         "x-session-token": person.token,
-        'x-user-email' : person.email,
-        },
-        body: JSON.stringify({user_id: person.userId, use_in_app_notifications: inAppNotifications, use_push_notifications: pushNotifications, notification_times: timeEntries})
-      }).then((res) => {console.log(res.status);});
+        "x-user-email": person.email,
+      },
+      body: JSON.stringify({
+        user_id: person.userId,
+        use_in_app_notifications: inAppNotifications,
+        use_push_notifications: pushNotifications,
+        notification_times: timeEntries,
+      }),
+    }).then((res) => {
+      console.log(res.status);
+    });
   }
 
   // Fetching information from local storage for API call
-    useEffect(() => {
-      getSetting("name").then((name) =>
-        getSetting("email").then((email) => 
-          getSetting("token").then((token) => 
-            getSetting("userId").then((userId) => {
-              setPerson({ name,email,token, userId});
-            })
-          )
+  useEffect(() => {
+    getSetting("name").then((name) =>
+      getSetting("email").then((email) =>
+        getSetting("token").then((token) =>
+          getSetting("userId").then((userId) => {
+            setPerson({ name, email, token, userId });
+          })
         )
-      );
-    }, []);
-  
-  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
-  
+      )
+    );
+  }, []);
+
+  const [person, setPerson] = useState({
+    name: "",
+    email: "",
+    token: "",
+    userId: "",
+  });
+
   // Making an API call to read user settings.
   useEffect(() => {
-    getSetting("useInAppNotifications").then( (inapp) => {
-      getSetting("usePushNotifications").then( (push) => {
-        getSetting("notificationTimes").then( (times) => {
-          getSetting("locale").then( (loc) => {
+    getSetting("useInAppNotifications").then((inapp) => {
+      getSetting("usePushNotifications").then((push) => {
+        getSetting("notificationTimes").then((times) => {
+          getSetting("locale").then((loc) => {
             setInAppNotifications(inapp);
             setPushNotifications(push);
             setLocale(fixTempLocaleToUS(locale));
             setTimeEntries(times);
-          })
-        })
-      })
-    })
-    }, [person.token]);
-    
-  // Save notification preferences to local storage
-  const saveNotificationSettings = async () => {
-    if (!pushNotifications && !inAppNotifications) {
-      alert("At least one notification type must be selected.");
-      return;
-    }
+          });
+        });
+      });
+    });
+  }, [person.token]);
 
-    await saveSetting("usePushNotifications", pushNotifications);
-    await saveSetting("useInAppNotifications", inAppNotifications);
-    await saveSetting("notificationTimes", timeEntries);
-    
-    await saveSettingsToBackend();
-    
-    alert("Settings saved successfully.");
-  };
+  // Save notification preferences to local storage
+  // const saveNotificationSettings = async () => {
+  //   if (!pushNotifications && !inAppNotifications) {
+  //     alert("At least one notification type must be selected.");
+  //     return;
+  //   }
+
+  //   await saveSetting("usePushNotifications", pushNotifications);
+  //   await saveSetting("useInAppNotifications", inAppNotifications);
+  //   await saveSetting("notificationTimes", timeEntries);
+
+  //   await saveSettingsToBackend();
+
+  //   alert("Settings saved successfully.");
+  // };
 
   // Function to add a new time entry
   const addTimeEntry = (newDate: Date) => {
@@ -119,7 +139,7 @@ export default function NotificationsScreen() {
     };
 
     // If an entry already exists with the same hour/minute, don't allow creating the duplicate
-    let overlap : boolean = false;
+    let overlap: boolean = false;
     for (let i = 0; i < timeEntries.length; i++) {
       if (newEntry.time == timeEntries[i].time) {
         overlap = true;
@@ -128,11 +148,10 @@ export default function NotificationsScreen() {
     }
 
     if (overlap) {
-      alert("Time already exists!")
+      alert("Time already exists!");
     } else {
       setTimeEntries([newEntry, ...timeEntries]);
     }
-    
   };
 
   // Function to remove a time entry
@@ -305,17 +324,10 @@ export default function NotificationsScreen() {
       marginBottom: 20,
     },
     modalButton: {
-      ...globalStyles.buttonPrimary,
       paddingHorizontal: 20,
       marginBottom: 10,
       marginHorizontal: 10,
-      width: 'auto',
-    },
-    modalButtonText: {
-      color: colors.white,
-      fontSize: 16,
-      fontWeight: "bold",
-      textAlign: "center",
+      width: "auto",
     },
   });
 
@@ -331,7 +343,9 @@ export default function NotificationsScreen() {
           <Ionicons name="chevron-back" size={24} color={colors.white} />
         </TouchableOpacity>
         {/* Notifications Text */}
-        <ThemedText type="title" colored style={styles.headerTitle}>Notifications</ThemedText>
+        <ThemedText type="title" colored style={styles.headerTitle}>
+          Notifications
+        </ThemedText>
       </View>
 
       {/* Content */}
@@ -344,16 +358,57 @@ export default function NotificationsScreen() {
             How would you like to be notified when a self-examination is due?
           </ThemedText>
 
-          {/* Push Notifications Option */}
-          <TouchableOpacity style={styles.optionBox} onPress={() => setPushNotifications(!pushNotifications)}>
+          {/* In-App Notifications Option */}
+          <TouchableOpacity
+            style={styles.optionBox}
+            onPress={() => setInAppNotifications(!inAppNotifications)}
+            disabled
+          >
             <View style={styles.optionHeader}>
-              <View
-                style={styles.checkboxContainer}
-              >
-                {pushNotifications ? (
-                  <Ionicons name="checkbox" size={24} color={colors.darkHighlight} />
+              <View style={styles.checkboxContainer}>
+                {inAppNotifications ? (
+                  <Ionicons
+                    name="checkbox"
+                    size={24}
+                    color={colors.lightHighlight}
+                  />
                 ) : (
-                  <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
+                  <Ionicons
+                    name="square-outline"
+                    size={24}
+                    color={colors.darkHighlight}
+                  />
+                )}
+              </View>
+              <ThemedText colored bold>
+                Notification While in App
+              </ThemedText>
+            </View>
+            <ThemedText type="caption" style={styles.optionDescription}>
+              The app will display a notification when you open it.
+            </ThemedText>
+          </TouchableOpacity>
+
+          {/* Push Notifications Option */}
+
+          <TouchableOpacity
+            style={styles.optionBox}
+            onPress={() => setPushNotifications(!pushNotifications)}
+          >
+            <View style={styles.optionHeader}>
+              <View style={styles.checkboxContainer}>
+                {pushNotifications ? (
+                  <Ionicons
+                    name="checkbox"
+                    size={24}
+                    color={colors.darkHighlight}
+                  />
+                ) : (
+                  <Ionicons
+                    name="square-outline"
+                    size={24}
+                    color={colors.darkHighlight}
+                  />
                 )}
               </View>
               <ThemedText colored bold>
@@ -367,27 +422,6 @@ export default function NotificationsScreen() {
             </ThemedText>
           </TouchableOpacity>
 
-          {/* In-App Notifications Option */}
-          <TouchableOpacity style={styles.optionBox} onPress={() => setInAppNotifications(!inAppNotifications)}>
-            <View style={styles.optionHeader}>
-              <View
-                style={styles.checkboxContainer}
-              >
-                {inAppNotifications ? (
-                  <Ionicons name="checkbox" size={24} color={colors.darkHighlight} />
-                ) : (
-                  <Ionicons name="square-outline" size={24} color={colors.darkHighlight} />
-                )}
-              </View>
-              <ThemedText colored bold>
-                Notification While in App
-              </ThemedText>
-            </View>
-            <ThemedText type="caption" style={styles.optionDescription}>
-              The app will display a notification when you open it.
-            </ThemedText>
-          </TouchableOpacity>
-
           {/* Divider */}
           <View style={styles.divider} />
 
@@ -396,7 +430,9 @@ export default function NotificationsScreen() {
           <ThemedText style={styles.sectionSubText2}>
             When would you like to be notified?
           </ThemedText>
-          <ThemedText type="caption" italic style={styles.selectTimesText}>Select times</ThemedText>
+          <ThemedText type="caption" italic style={styles.selectTimesText}>
+            Select times
+          </ThemedText>
 
           {/* Time Entries */}
           {timeEntries.map((entry) => (
@@ -411,13 +447,18 @@ export default function NotificationsScreen() {
                 <Switch
                   value={entry.enabled}
                   onValueChange={() => toggleTimeEntry(entry.id)}
-                  trackColor={{ false: colors.backgroundGray, true: colors.darkHighlight }}
+                  trackColor={{
+                    false: colors.backgroundGray,
+                    true: colors.darkHighlight,
+                  }}
                   thumbColor={colors.white}
                 />
-                <TouchableOpacity onPress={() => {
-                  setAlarmToDelete(entry.id);
-                  setDeleteModalVisible(true);
-                }}>
+                <TouchableOpacity
+                  onPress={() => {
+                    setAlarmToDelete(entry.id);
+                    setDeleteModalVisible(true);
+                  }}
+                >
                   <MaterialIcons name="delete" size={24} color={colors.black} />
                 </TouchableOpacity>
               </View>
@@ -425,15 +466,22 @@ export default function NotificationsScreen() {
           ))}
 
           {/* Add Time Button */}
-          <TouchableOpacity style={styles.addTimeButton} onPress={() => setTimePickerVisible(true)}>
-            <Ionicons name="add-circle" size={24} color={colors.darkHighlight} />
+          <TouchableOpacity
+            style={styles.addTimeButton}
+            onPress={() => setTimePickerVisible(true)}
+          >
+            <Ionicons
+              name="add-circle"
+              size={24}
+              color={colors.darkHighlight}
+            />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
 
           {/* Save Settings Button */}
-          <TouchableOpacity style={globalStyles.buttonPrimary} onPress={saveNotificationSettings}>
-            <ThemedText style={globalStyles.buttonTextPrimary}>Save Settings</ThemedText>
-          </TouchableOpacity>
+          {/* <ThemedButton onPress={saveNotificationSettings}>
+            Save Settings
+          </ThemedButton> */}
         </View>
       </ScrollView>
       {timePickerVisible && (
@@ -441,14 +489,13 @@ export default function NotificationsScreen() {
           testID="dateTimePicker"
           value={date}
           mode="time"
-          positiveButton={{label: 'Add', textColor: colors.darkHighlight}}
-          negativeButton={{label: 'Cancel', textColor: colors.darkHighlight}}
+          positiveButton={{ label: "Add", textColor: colors.darkHighlight }}
+          negativeButton={{ label: "Cancel", textColor: colors.darkHighlight }}
           onChange={(event, selectedDate) => {
-            if (event.type == 'set' && selectedDate) {
+            if (event.type == "set" && selectedDate) {
               setDate(selectedDate);
               addTimeEntry(selectedDate);
-            }
-            else setDate(new Date());
+            } else setDate(new Date());
             setTimePickerVisible(false);
           }}
         />
@@ -458,30 +505,39 @@ export default function NotificationsScreen() {
         visible={deleteModalVisible}
         style={styles.modalOverlay}
         transparent
-        animationType='slide'
+        animationType="slide"
         onRequestClose={() => setDeleteModalVisible(false)}
       >
         <TouchableWithoutFeedback onPress={() => setDeleteModalVisible(false)}>
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
-
               <View style={styles.modalContainer}>
-                <ThemedText type="heading" colored style={styles.modalTitle}>Delete Alarm?</ThemedText>
-                <View style={{flexDirection: 'row', width: 'auto'}}>
-                  <TouchableOpacity style={styles.modalButton} onPress={() => setDeleteModalVisible(false)}>
-                    <ThemedText style={styles.modalButtonText}>Cancel</ThemedText>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.modalButton} onPress={() => {setDeleteModalVisible(false); removeTimeEntry(alarmToDelete);}}>
-                    <ThemedText style={styles.modalButtonText}>Delete</ThemedText>
-                  </TouchableOpacity>
+                <ThemedText type="heading" colored style={styles.modalTitle}>
+                  Delete Alarm?
+                </ThemedText>
+                <View style={{ flexDirection: "row", width: "auto" }}>
+                  <ThemedButton
+                    variant="secondary"
+                    style={styles.modalButton}
+                    onPress={() => setDeleteModalVisible(false)}
+                  >
+                    Cancel
+                  </ThemedButton>
+                  <ThemedButton
+                    style={styles.modalButton}
+                    onPress={() => {
+                      setDeleteModalVisible(false);
+                      removeTimeEntry(alarmToDelete);
+                    }}
+                  >
+                    Delete
+                  </ThemedButton>
                 </View>
               </View>
-              
             </TouchableWithoutFeedback>
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-          
     </ThemedView>
   );
 }

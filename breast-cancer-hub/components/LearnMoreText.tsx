@@ -8,15 +8,15 @@ export function LearnMoreTextContainer() {
 
   const styles = StyleSheet.create({
     infoSourceText: {
+      fontSize: 12,
+      lineHeight: 12,
       color: colors.lightGray,
       textAlign: "center",
-      lineHeight: 12,
     },
     learnMoreText: {
       fontSize: 12,
       lineHeight: 12,
       color: colors.blue,
-      fontWeight: "bold",
     },
     learnMoreTextContainer: {
       alignItems: "center",
@@ -26,7 +26,7 @@ export function LearnMoreTextContainer() {
 
   return (
     <ThemedView style={styles.learnMoreTextContainer}>
-      <ThemedText style={[globalStyles.smallItalicText, styles.infoSourceText]}>
+      <ThemedText style={styles.infoSourceText}>
         Information is sourced from Breast Cancer Hub
       </ThemedText>
       <TouchableOpacity>

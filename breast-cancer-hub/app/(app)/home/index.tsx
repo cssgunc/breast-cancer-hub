@@ -21,6 +21,7 @@ import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/navigation/ExternalLink";
 import CycleLog from "./(components)/CycleLogWidget";
 import { useColors } from "@/components/style/ColorContext";
+import ThemedButton from "@/components/ThemedButton";
 
 type Noti = {
   id: number;
@@ -42,6 +43,7 @@ export default function HomePage(props: HomePageProps) {
     undefined
   );
 
+  const [isLoading, setIsLoading] = useState(true);
   // State for modal visibility
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -64,11 +66,15 @@ export default function HomePage(props: HomePageProps) {
         const value = await getSetting("name");
         setName(value);
       }
+
+      await new Promise((r) => setTimeout(r, 300));
+      setIsLoading(false);
     };
 
     init();
   }, []);
-  if (name === undefined || isMenstruating === undefined) {
+
+  if (isLoading || name === undefined || isMenstruating === undefined) {
     return <LoadingScreen />;
   }
 
@@ -144,6 +150,7 @@ export default function HomePage(props: HomePageProps) {
       marginBottom: 40,
     },
     contactButtons: {
+      marginTop: 16,
       width: "100%",
       flexDirection: "column",
       gap: 10,
@@ -208,7 +215,6 @@ export default function HomePage(props: HomePageProps) {
       marginBottom: 20,
     },
     modalButton: {
-      ...globalStyles.buttonSecondary,
       paddingHorizontal: 20,
       marginBottom: 10,
       width: "100%",
@@ -216,7 +222,7 @@ export default function HomePage(props: HomePageProps) {
   });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerWhite}>
+    <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
       {/* Header */}
       <View style={styles.headerContainer}>
         {/* Top Row: Logo and Profile Icon */}
@@ -256,7 +262,7 @@ export default function HomePage(props: HomePageProps) {
         nestedScrollEnabled={true}
       >
         {/* Main Content with padding */}
-        <View style={{ paddingVertical: 10, paddingHorizontal: 15 }}>
+        <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="notifications-outline" style={styles.icon} />
@@ -329,25 +335,20 @@ export default function HomePage(props: HomePageProps) {
 
           {/* Contact Buttons */}
           <View style={styles.contactButtons}>
-            <TouchableOpacity
-              style={globalStyles.buttonPrimary}
+            <ThemedButton
               onPress={() =>
                 openLink("https://www.breastcancerhub.org/new-page-3")
               }
             >
-              <ThemedText style={globalStyles.buttonTextPrimary}>
-                Contact Dr. Lopa
-              </ThemedText>
-            </TouchableOpacity>
+              Contact BCH
+            </ThemedButton>
 
-            <TouchableOpacity
-              style={globalStyles.buttonSecondary}
+            <ThemedButton
+              variant="secondary"
               onPress={() => setModalVisible(true)}
             >
-              <ThemedText style={globalStyles.buttonTextSecondary}>
-                Learn More about Breast Cancer
-              </ThemedText>
-            </TouchableOpacity>
+              Learn More about Breast Cancer
+            </ThemedButton>
           </View>
         </View>
 
@@ -434,7 +435,8 @@ export default function HomePage(props: HomePageProps) {
                   BCH Wings-Cancer Hubs
                 </ThemedText>
                 {/* Buttons */}
-                <TouchableOpacity
+                <ThemedButton
+                  variant="secondary"
                   style={styles.modalButton}
                   onPress={() =>
                     openLink(
@@ -445,18 +447,20 @@ export default function HomePage(props: HomePageProps) {
                   <ThemedText type="link">
                     Learn More about Breast Cancer
                   </ThemedText>
-                </TouchableOpacity>
+                </ThemedButton>
 
-                <TouchableOpacity
+                <ThemedButton
+                  variant="secondary"
                   style={styles.modalButton}
                   onPress={() => openLink("https://www.breastcancerhub.org/")}
                 >
                   <ThemedText type="link">
                     Learn More About Breast Cancer Hub
                   </ThemedText>
-                </TouchableOpacity>
+                </ThemedButton>
 
-                <TouchableOpacity
+                <ThemedButton
+                  variant="secondary"
                   style={styles.modalButton}
                   onPress={() =>
                     openLink(
@@ -467,7 +471,7 @@ export default function HomePage(props: HomePageProps) {
                   <ThemedText type="link">
                     Learn More About Other Cancers and its Symptoms
                   </ThemedText>
-                </TouchableOpacity>
+                </ThemedButton>
               </View>
             </TouchableWithoutFeedback>
           </View>

@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  TouchableOpacity,
   Image,
   ScrollView,
   useWindowDimensions,
@@ -16,6 +15,8 @@ import { useState, useEffect } from "react";
 import StepIndicators from "@/components/StepIndicators";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
+import ThemedButton from "@/components/ThemedButton";
+import LoadingScreen from "@/components/Loading";
 
 const instructions_f = [
   {
@@ -73,7 +74,7 @@ const instructions_m = [
   },
 ];
 
-export default function HomeScreen() {
+export default function SelfExam() {
   const router = useRouter();
 
   const { colors, globalStyles } = useColors();
@@ -102,6 +103,7 @@ export default function HomeScreen() {
       );
       console.log(instructions);
       console.log(instructions[0].image);
+      await new Promise((r) => setTimeout(r, 300));
       setIsLoading(false);
     };
 
@@ -134,108 +136,23 @@ export default function HomeScreen() {
     Math.round((Math.min(windowWidth, windowHeight) * 1) / 3)
   );
 
-  const styles = StyleSheet.create({
-    titleContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginTop: "auto",
-      padding: 10,
-      gap: 8,
-    },
-    bodyContainer: {
-      flexDirection: "column",
-      height: "100%",
-      margin: 10,
-    },
-    whiteOverlay: {
-      flexDirection: "column",
-      alignItems: "center",
-      flex: 1,
-    },
-    instructionText: {
-      paddingTop: 10,
-      textAlign: "center",
-    },
-    imageContainer: {
-      padding: 10,
-      borderWidth: 3,
-      borderColor: colors.black,
-      width: "60%",
-      paddingHorizontal: "5%",
-      paddingVertical: "2%",
-      alignItems: "center",
-      flexDirection: "column",
-    },
-    textContainer: {
-      padding: 10,
-      borderWidth: 0,
-      width: "60%",
-      alignItems: "center",
-    },
-
-    buttonContainer: {
-      marginTop: "auto",
-    },
-    buttonBack: {
-      margin: 20,
-    },
-    buttonNext: {
-      margin: 20,
-    },
-  });
-
   if (isLoading) {
-    console.log(instructions[0].image);
-    return (
-      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
-        <AccountSettingsHeaderComponent />
-
-        <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
-          <ThemedView style={styles.imageContainer}>
-            <Image
-              source={instructions[0].image}
-              style={{ height: imageSize, width: imageSize, borderWidth: 0 }}
-            ></Image>
-          </ThemedView>
-
-          <ThemedText bold style={styles.instructionText}>
-            {t(instructions[0].key)}
-          </ThemedText>
-
-          <ThemedView
-            style={[
-              globalStyles.buttonBackNextContainer,
-              styles.buttonContainer,
-            ]}
-          >
-            <TouchableOpacity
-              style={[globalStyles.buttonSecondary, styles.buttonBack]}
-              onPress={back}
-            >
-              <ThemedText style={globalStyles.buttonTextSecondary}>
-                Back
-              </ThemedText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[globalStyles.buttonPrimary, styles.buttonNext]}
-              onPress={next}
-            >
-              <ThemedText>Next</ThemedText>
-            </TouchableOpacity>
-          </ThemedView>
-        </ThemedView>
-      </ThemedView>
-    );
+    return <LoadingScreen />;
   }
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
       <AccountSettingsHeaderComponent />
 
       <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-        <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>
+        <ThemedView
+          style={[globalStyles.whiteOverlay, selfExamStyles.whiteOverlay]}
+        >
           {/* Image container */}
-          <ThemedView style={styles.imageContainer}>
+          <ThemedView style={selfExamStyles.imageContainer}>
             <ThemedText></ThemedText>
             <Image
               source={instructions[mapStepToIndex(currentStep)].image}
@@ -243,8 +160,8 @@ export default function HomeScreen() {
             ></Image>
           </ThemedView>
           {/* Text container */}
-          <ThemedView style={styles.textContainer}>
-            <ThemedText bold style={styles.instructionText}>
+          <ThemedView style={selfExamStyles.textContainer}>
+            <ThemedText bold style={selfExamStyles.instructionText}>
               {t(instructions[mapStepToIndex(currentStep)].key)}
             </ThemedText>
           </ThemedView>
@@ -261,25 +178,13 @@ export default function HomeScreen() {
             <ThemedView
               style={[
                 globalStyles.buttonBackNextContainer,
-                styles.buttonContainer,
+                selfExamStyles.buttonContainer,
               ]}
             >
-              <TouchableOpacity
-                style={[globalStyles.buttonSecondary, styles.buttonBack]}
-                onPress={back}
-              >
-                <ThemedText style={globalStyles.buttonTextSecondary}>
-                  Back
-                </ThemedText>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[globalStyles.buttonPrimary, styles.buttonNext]}
-                onPress={next}
-              >
-                <ThemedText style={globalStyles.buttonTextPrimary}>
-                  Next
-                </ThemedText>
-              </TouchableOpacity>
+              <ThemedButton variant="secondary" onPress={back}>
+                Back
+              </ThemedButton>
+              <ThemedButton onPress={next}>Next</ThemedButton>
             </ThemedView>
           </ThemedView>
         </ThemedView>
@@ -287,3 +192,46 @@ export default function HomeScreen() {
     </ThemedView>
   );
 }
+
+export const selfExamStyles = StyleSheet.create({
+  titleText: {
+    marginBottom: 15,
+    paddingTop: 10,
+  },
+  bodyContainer: {
+    flexDirection: "column",
+    height: "100%",
+    margin: 10,
+  },
+  whiteOverlay: {
+    flexDirection: "column",
+    alignItems: "center",
+    flex: 1,
+  },
+  instructionText: {
+    paddingTop: 10,
+    textAlign: "center",
+  },
+  imageContainer: {
+    padding: 10,
+    borderWidth: 3,
+    borderColor: "black",
+    width: "60%",
+    paddingHorizontal: "5%",
+    paddingVertical: "2%",
+    alignItems: "center",
+    flexDirection: "column",
+  },
+  textContainer: {
+    padding: 10,
+    borderWidth: 0,
+    width: "60%",
+    alignItems: "center",
+  },
+
+  buttonContainer: {
+    marginTop: "auto",
+    gap: 16,
+    padding: 16,
+  },
+});

@@ -9,19 +9,24 @@ import { useColors } from "@/components/style/ColorContext";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
-  const {colors, globalStyles} = useColors();
+  const { colors, globalStyles } = useColors();
 
-  const [person, setPerson] = useState({ name: "", email: "", token: "", userId: ""});
+  const [person, setPerson] = useState({
+    name: "",
+    email: "",
+    token: "",
+    userId: "",
+  });
 
   useEffect(() => {
     getSetting("name").then((name) =>
-      getSetting("email").then((email) => 
-        getSetting("token").then((token) => 
+      getSetting("email").then((email) =>
+        getSetting("token").then((token) =>
           getSetting("userId").then((userId) => {
-        setPerson({ name,email,token, userId});
-      })
-    )
-    )
+            setPerson({ name, email, token, userId });
+          })
+        )
+      )
     );
   }, []);
 
@@ -48,13 +53,12 @@ export default function ProfileSettingsScreen() {
       marginBottom: "5%",
     },
     backButton: {
-      ...globalStyles.buttonPrimary,
       width: 40,
       height: 40,
       justifyContent: "center",
     },
     headerTitle: {
-      margin:  15,
+      margin: 15,
     },
     mainContainer: {
       flex: 1, // Extend to the bottom
@@ -94,11 +98,10 @@ export default function ProfileSettingsScreen() {
       marginBottom: 10,
     },
     signOutButton: {
-      ...globalStyles.buttonPrimary,
       marginTop: "auto", // Push the button to the bottom
       width: "100%",
-    }
-  });  
+    },
+  });
 
   return (
     <ThemedView style={styles.container}>
@@ -112,7 +115,9 @@ export default function ProfileSettingsScreen() {
           <Ionicons name="chevron-back" size={24} color="white" />
         </TouchableOpacity>
         {/* Edit Profile Text */}
-        <ThemedText type="title" style={styles.headerTitle}>Edit Profile</ThemedText>
+        <ThemedText type="title" style={styles.headerTitle}>
+          Edit Profile
+        </ThemedText>
       </View>
 
       {/* Main White Rounded Rectangle */}
@@ -126,7 +131,9 @@ export default function ProfileSettingsScreen() {
 
           {/* User Info */}
           <View style={styles.userInfoContainer}>
-            <ThemedText type="heading" colored>{person.name}</ThemedText>
+            <ThemedText type="heading" colored>
+              {person.name}
+            </ThemedText>
           </View>
 
           {/* Divider */}
@@ -155,7 +162,9 @@ export default function ProfileSettingsScreen() {
 
         {/* Sign Out Button */}
         <TouchableOpacity style={styles.signOutButton} onPress={() => logout()}>
-          <ThemedText style={globalStyles.buttonTextPrimary}>Sign Out</ThemedText>
+          <ThemedText style={globalStyles.buttonTextPrimary}>
+            Sign Out
+          </ThemedText>
         </TouchableOpacity>
       </View>
     </ThemedView>

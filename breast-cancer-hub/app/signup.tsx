@@ -13,6 +13,7 @@ import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import { ThemedText } from "@/components/style/ThemedText";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function SignupPage() {
   const { colors, globalStyles } = useColors();
@@ -153,7 +154,7 @@ export default function SignupPage() {
           </View>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={globalStyles.loginPasswordInput}
+              style={globalStyles.loginInput}
               placeholder="Password"
               placeholderTextColor="gray"
               value={password}
@@ -170,7 +171,7 @@ export default function SignupPage() {
           </View>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={globalStyles.loginPasswordInput}
+              style={globalStyles.loginInput}
               placeholder="Confirm password"
               placeholderTextColor="gray"
               onChangeText={setConfirmPassword}
@@ -191,7 +192,7 @@ export default function SignupPage() {
           <ThemedText type="heading">User Information</ThemedText>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={globalStyles.loginPasswordInput}
+              style={globalStyles.loginInput}
               placeholder="Name"
               placeholderTextColor="gray"
               value={name}
@@ -205,13 +206,13 @@ export default function SignupPage() {
               style={globalStyles.loginIcon}
             />
           </View>
-          <TouchableOpacity
+          <ThemedButton
             style={globalStyles.loginButton}
             onPress={handleSubmit}
             disabled={pending}
           >
-            <Text style={globalStyles.loginButtonText}>Sign Up</Text>
-          </TouchableOpacity>
+            Sign Up
+          </ThemedButton>
           <View style={styles.hasAccount}>
             <ThemedText type="caption">Already have an account? </ThemedText>
             <TouchableOpacity onPress={() => router.push("/login")}>

@@ -52,16 +52,24 @@ export default function CheckupHistoryPage() {
   });
 
   if (loading) {
-    return <View style={[globalStyles.bodyContainerDarkHighlight]} />;
+    return (
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      />
+    );
   } else {
     return (
-      <View style={[globalStyles.bodyContainerDarkHighlight]}>
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      >
         <ThemedView style={[styles.logContainer]}>
           <View style={{ height: 30 }} />
           <ThemedText style={styles.titleText}>Cycle History</ThemedText>
           <CycleLog isMenstruating={isMenstruating}></CycleLog>
         </ThemedView>
-      </View>
+      </ThemedView>
     );
   }
 }

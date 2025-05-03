@@ -5,6 +5,7 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { useColors } from "@/components/style/ColorContext";
 import StepIndicators from "@/components/StepIndicators";
 import { usePathname } from "expo-router";
+import ThemedButton from "@/components/ThemedButton";
 
 interface NavigationFooterProps {
   stepRoutes: string[];
@@ -39,23 +40,16 @@ export default function NavigationFooter({
       <StepIndicators currentStep={idx} totalSteps={stepRoutes.length} />
       <ThemedView style={globalStyles.buttonBackNextContainer}>
         {!isFirst && (
-          <TouchableOpacity
-            style={globalStyles.buttonSecondary}
-            onPress={() => goBack()}
-          >
-            <ThemedText style={globalStyles.buttonTextSecondary}>
-              Back
-            </ThemedText>
-          </TouchableOpacity>
+          <ThemedButton variant="secondary" onPress={() => goBack()}>
+            Back
+          </ThemedButton>
         )}
-        <TouchableOpacity
-          style={[globalStyles.buttonPrimary, { marginLeft: "auto" }]}
+        <ThemedButton
+          style={{ marginLeft: "auto" }}
           onPress={() => goForward()}
         >
-          <ThemedText style={globalStyles.buttonTextPrimary}>
-            {isLast ? "Finish" : "Next"}
-          </ThemedText>
-        </TouchableOpacity>
+          {isLast ? "Finish" : "Next"}
+        </ThemedButton>
       </ThemedView>
     </ThemedView>
   );

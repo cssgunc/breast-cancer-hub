@@ -73,7 +73,10 @@ export default function HomeScreen() {
   });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
       <AccountSettingsHeaderComponent />
 
       <ThemedView style={[globalStyles.whiteOverlay, styles.whiteOverlay]}>

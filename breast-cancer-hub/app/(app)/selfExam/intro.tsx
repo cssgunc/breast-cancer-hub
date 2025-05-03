@@ -9,6 +9,7 @@ import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "@/components/Loading";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function SelfExamInfo() {
   const router = useRouter();
@@ -50,6 +51,7 @@ export default function SelfExamInfo() {
       }));
 
       setInfo(translatedInfo);
+      await new Promise((r) => setTimeout(r, 300));
       setIsLoading(false);
     };
 
@@ -66,31 +68,25 @@ export default function SelfExamInfo() {
     return <LoadingScreen />;
   } else {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      >
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
         {/* Page Title */}
-
-        <ThemedView style={globalStyles.bodyContainerWhite}>
-          <ScrollView
-            style={{ flex: 1, height: "100%" }}
-            contentContainerStyle={globalStyles.scrollContent}
+        <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
+          <ThemedText
+            type="title"
+            colored
+            style={styles.titleTextDarkHighlight}
           >
-            <ThemedView
-              style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}
-            >
-              <ThemedText
-                type="title"
-                colored
-                style={styles.titleTextDarkHighlight}
-              >
-                Before You Begin
-              </ThemedText>
-              <ThemedText type="heading">Things to Look For</ThemedText>
-
-              <ThemedView style={globalStyles.grayLine} />
-            </ThemedView>
+            Before You Begin
+          </ThemedText>
+          <ThemedText type="heading">Things to Look For</ThemedText>
+          <ThemedView style={globalStyles.grayLine} />
+          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
             <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
               {/* Info Section */}
               <ThemedText type="heading">Signs and Symptoms</ThemedText>
@@ -118,31 +114,28 @@ export default function SelfExamInfo() {
                 by your healthcare provider.
               </ThemedText>
               <LearnMoreTextContainer />
-
-              {/* Navigation Buttons */}
-              <ThemedView style={globalStyles.buttonBackNextContainer}>
-                <TouchableOpacity
-                  style={globalStyles.buttonSecondary}
-                  onPress={() => {
-                    router.dismissAll();
-                    router.replace("/");
-                  }}
-                >
-                  <ThemedText style={globalStyles.buttonTextSecondary}>
-                    Back
-                  </ThemedText>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={globalStyles.buttonPrimary}
-                  onPress={() => router.push("/selfExam")}
-                >
-                  <ThemedText style={globalStyles.buttonTextPrimary}>
-                    Next
-                  </ThemedText>
-                </TouchableOpacity>
-              </ThemedView>
             </ThemedView>
           </ScrollView>
+          {/* Navigation Buttons */}
+          <ThemedView
+            style={[
+              globalStyles.buttonBackNextContainer,
+              { paddingVertical: 16 },
+            ]}
+          >
+            <ThemedButton
+              variant="secondary"
+              onPress={() => {
+                router.dismissAll();
+                router.replace("/");
+              }}
+            >
+              Back
+            </ThemedButton>
+            <ThemedButton onPress={() => router.push("/selfExam")}>
+              Next
+            </ThemedButton>
+          </ThemedView>
         </ThemedView>
       </ThemedView>
     );

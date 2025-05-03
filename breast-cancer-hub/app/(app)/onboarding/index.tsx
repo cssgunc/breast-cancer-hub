@@ -18,22 +18,12 @@ export default function OnboardingScreen() {
 
 export const onboardingStyles = StyleSheet.create({
   bodyContainer: { flexDirection: "column", gap: 24, flex: 1 },
-  stepOneNextContainer: {
-    justifyContent: "flex-end",
-  },
   scrollContent: {
     flexGrow: 1,
     padding: 16,
     backgroundColor: "white",
-    borderTopLeftRadius: 17,
-    borderTopRightRadius: 17,
-    borderBottomLeftRadius: 17,
-    borderBottomRightRadius: 17,
+    borderRadius: 16,
     marginVertical: 16,
-  },
-  background: {
-    flex: 1,
-    padding: 10,
   },
   titleContainer: {
     marginTop: 20,
