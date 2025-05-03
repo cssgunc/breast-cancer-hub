@@ -22,6 +22,7 @@ import { ExternalLink } from "@/components/navigation/ExternalLink";
 import CycleLog from "./(components)/CycleLogWidget";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
+import { ScheduleExam } from "@/notifications/notifications";
 
 type Noti = {
   id: number;
@@ -263,6 +264,13 @@ export default function HomePage(props: HomePageProps) {
       >
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
+          <ThemedButton
+            onPress={() => {
+              ScheduleExam(new Date(Date.now() + 1000));
+            }}
+          >
+            Schedule Notification in 1000ms
+          </ThemedButton>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="notifications-outline" style={styles.icon} />
