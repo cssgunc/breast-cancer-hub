@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
-  Platform,
   TextInput,
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
@@ -14,10 +13,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import { customizeStyles } from "./customizeCalendar";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
-  const { colors } = useColors();
+  const { colors, globalStyles } = useColors();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
 
   const handleSaveChanges = () => {
@@ -39,125 +40,6 @@ export default function CustomizeExamDateScreen() {
   };
 
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.backgroundLightGray, // Main body background color
-    },
-    headerContainer: {
-      backgroundColor: colors.white,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      paddingTop: Platform.OS === "ios" ? 60 : 40,
-      paddingBottom: 20,
-      paddingHorizontal: 20,
-      // Shadow
-      shadowColor: colors.black,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 5,
-    },
-    headerContent: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    backButton: {
-      backgroundColor: colors.darkHighlight,
-      width: 40,
-      height: 40,
-      borderRadius: 20, // Circular button
-      alignItems: "center",
-      justifyContent: "center",
-      marginRight: 10,
-    },
-    titleContainer: {
-      flexDirection: "column",
-      marginLeft: 20,
-    },
-    customizeYourText: {
-      paddingTop: 20,
-      fontSize: 29,
-      color: colors.darkHighlight,
-      fontWeight: "bold",
-      paddingBottom: 10,
-      lineHeight: 35,
-    },
-    yourText: {
-      fontSize: 29,
-      color: colors.black,
-      fontWeight: "bold",
-    },
-    examinationText: {
-      fontSize: 29,
-      color: colors.black,
-      fontWeight: "bold",
-      paddingBottom: 10,
-      lineHeight: 35,
-    },
-    bodyContainer: {
-      flex: 1,
-      alignItems: "center",
-      paddingHorizontal: 20,
-      paddingTop: 30,
-    },
-    whiteBox: {
-      backgroundColor: colors.white,
-      borderRadius: 20,
-      padding: 20,
-      width: "90%",
-      alignItems: "center",
-      // Shadow
-      shadowColor: colors.black,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 5,
-    },
-    instructionText: {
-      paddingVertical: 25,
-      fontSize: 20,
-      color: colors.darkGray, //used to be #4B4B4B, unique color - only slightly off from darkGray
-      fontWeight: "bold",
-      textAlign: "center",
-    },
-    chooseDayText: {
-      fontSize: 15,
-      color: "black",
-      textAlign: "center",
-    },
-    pinkRectangle: {
-      flexDirection: "row",
-      alignItems: "center",
-      backgroundColor: colors.darkHighlight,
-      borderRadius: 20,
-      paddingHorizontal: 10,
-      marginBottom: 40,
-      width: "60%",
-    },
-    dayDisplay: {
-      flex: 1,
-      fontSize: 40,
-      color: colors.white,
-      fontWeight: "bold",
-      textAlign: "center",
-      lineHeight: 50,
-    },
-    chevronContainer: {
-      flexDirection: "column",
-      justifyContent: "center",
-      marginLeft: 10,
-    },
-    chevronButton: {
-      marginVertical: 5,
-    },
-    chevronCircle: {
-      backgroundColor: colors.mediumHighlight,
-      width: 30,
-      height: 30,
-      borderRadius: 15, // Circular
-      alignItems: "center",
-      justifyContent: "center",
-    },
     changeAnytimeText: {
       fontSize: 15,
       color: colors.darkHighlight,
@@ -180,46 +62,83 @@ export default function CustomizeExamDateScreen() {
       color: colors.white,
       fontWeight: "bold",
     },
+    chevronContainer: {
+      flexDirection: "column",
+      justifyContent: "center",
+      marginLeft: 10,
+    },
+    chevronButton: {
+      marginVertical: 5,
+    },
+    chevronCircle: {
+      backgroundColor: colors.mediumHighlight,
+      width: 30,
+      height: 30,
+      borderRadius: 15,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    dayDisplay: {
+      flex: 1,
+      fontSize: 40,
+      color: "white",
+      fontWeight: "bold",
+      textAlign: "center",
+      lineHeight: 50,
+    },
+    pinkRectangle: {
+      backgroundColor: colors.darkHighlight,
+      flexDirection: "row",
+      alignItems: "center",
+      borderRadius: 20,
+      paddingHorizontal: 10,
+      marginBottom: 40,
+      width: "60%",
+    },
   });
 
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView
+      bgColor={colors.backgroundLightGray}
+      style={globalStyles.bodyContainer}
+    >
       {/* Header */}
-      <View style={styles.headerContainer}>
+      <View style={customizeStyles.headerContainer}>
         {/* Header Content */}
-        <View style={styles.headerContent}>
+        <View style={customizeStyles.headerContent}>
           {/* Back Button */}
           <TouchableOpacity
-            style={styles.backButton}
+            style={[
+              customizeStyles.backButton,
+              { backgroundColor: colors.darkHighlight },
+            ]}
             onPress={() => router.back()}
           >
             <Ionicons name="chevron-back" size={24} color={colors.white} />
           </TouchableOpacity>
           {/* Title */}
-          <View style={styles.titleContainer}>
-            <ThemedText style={styles.customizeYourText}>
-              Customize <ThemedText style={styles.yourText}>Your</ThemedText>
+          <View style={customizeStyles.titleContainer}>
+            <ThemedText type="title">Customize Your</ThemedText>
+            <ThemedText type="title" colored>
+              Examination Date
             </ThemedText>
-            <ThemedText style={styles.examinationText}>Examination</ThemedText>
           </View>
         </View>
       </View>
 
       {/* Main Body */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.bodyContainer}>
+        <View style={customizeStyles.bodyContainer}>
           {/* White Rectangle */}
-          <View style={styles.whiteBox}>
-            <ThemedText style={styles.instructionText}>
+          <View style={customizeStyles.whiteBox}>
+            <ThemedText type="heading">
               Choose the day that you would like to perform a monthly self
               examination
             </ThemedText>
 
             <View style={{ height: 20 }} />
 
-            <ThemedText style={styles.chooseDayText}>
-              Choose a day from 1-28
-            </ThemedText>
+            <ThemedText>Choose a day from 1-28</ThemedText>
 
             <View style={{ height: 20 }} />
 
@@ -280,15 +199,11 @@ export default function CustomizeExamDateScreen() {
             <ThemedText style={styles.changeAnytimeText}>
               This can be changed at any time
             </ThemedText>
-          </View>
 
-          {/* Save Changes Button */}
-          <TouchableOpacity
-            style={styles.saveButton}
-            onPress={handleSaveChanges}
-          >
-            <ThemedText style={styles.saveButtonText}>Save Changes</ThemedText>
-          </TouchableOpacity>
+            <ThemedButton onPress={handleSaveChanges}>
+              Save Changes
+            </ThemedButton>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </ThemedView>

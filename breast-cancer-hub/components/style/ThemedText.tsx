@@ -6,9 +6,9 @@ import { useColors } from "./ColorContext";
 
 export type ThemedTextProps = TextProps & {
   type?: "default" | "title" | "heading" | "caption" | "link";
-  colored?: boolean
-  bold?: boolean
-  italic?: boolean
+  colored?: boolean;
+  bold?: boolean;
+  italic?: boolean;
 };
 
 export function ThemedText({
@@ -19,33 +19,33 @@ export function ThemedText({
   type = "default",
   ...rest
 }: ThemedTextProps) {
-  const {colors} = useColors();
-  const color = colored ? colors.darkHighlight : colors.black;
+  const { colors } = useColors();
+  const color = colored ? colors.darkHighlight : colors.darkGray;
   const styles = StyleSheet.create({
-  default: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  title: {
-    fontSize: 32,
-    lineHeight: 32,
-    fontWeight: "bold",
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  caption: {
-    fontSize: 16,
-    color: colors.text,
-  },
-  link: {
-    fontSize: 16,
-    lineHeight: 30,
-    fontWeight: "bold",
-    color: colors.blue,
-  },
-});
+    default: {
+      fontSize: 16,
+      lineHeight: 24,
+    },
+    title: {
+      fontSize: 32,
+      lineHeight: 32,
+      fontWeight: "bold",
+    },
+    heading: {
+      fontSize: 20,
+      fontWeight: "bold",
+    },
+    caption: {
+      fontSize: 16,
+      color: colors.text,
+    },
+    link: {
+      fontSize: 16,
+      lineHeight: 30,
+      fontWeight: "bold",
+      color: colors.blue,
+    },
+  });
 
   return (
     <Text
@@ -57,8 +57,8 @@ export function ThemedText({
         type === "caption" ? styles.caption : undefined,
         type === "link" ? styles.link : undefined,
         style,
-        bold && { fontWeight: "bold"},
-        italic && { fontStyle: "italic"},
+        bold && { fontWeight: "bold" },
+        italic && { fontStyle: "italic" },
       ]}
       {...rest}
     />

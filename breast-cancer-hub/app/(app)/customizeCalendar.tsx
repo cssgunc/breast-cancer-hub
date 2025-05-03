@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Keyboard,
   TouchableWithoutFeedback,
-  Platform,
   ScrollView,
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
@@ -60,141 +59,30 @@ export default function CalendarOnboardingScreen(
     });
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: colors.backgroundLightGray,
-    },
-    headerContainer: {
-      backgroundColor: colors.white,
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      paddingTop: 20,
-      paddingBottom: 20,
-      paddingHorizontal: 20,
-      // Shadow
-      shadowColor: colors.black,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 6,
-    },
-    headerContent: {
-      flexDirection: "row",
-      alignItems: "center",
-    },
-    backButton: {
-      backgroundColor: colors.darkHighlight,
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      alignItems: "center",
-      justifyContent: "center",
-      marginRight: 10,
-    },
-    titleContainer: {
-      flexDirection: "column",
-      marginLeft: 20,
-    },
-    examinationText: {
-      fontSize: 29,
-      color: colors.black,
-      fontWeight: "bold",
-      paddingBottom: 10,
-      lineHeight: 35,
-    },
-    bodyContainer: {
-      flex: 1,
-      alignItems: "center",
-      paddingVertical: 24,
-    },
-    whiteBox: {
-      backgroundColor: colors.white,
-      borderRadius: 20,
-      padding: 16,
-      width: "90%",
-      alignItems: "center",
-      // Shadow
-      shadowColor: colors.black,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 5,
-      gap: 16,
-    },
-    instructionText: {
-      paddingVertical: 25,
-      fontSize: 20,
-      color: colors.darkGray,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
-    chooseDayText: {
-      fontSize: 15,
-      color: "black",
-      textAlign: "center",
-    },
-    pinkRectangle: {
-      flexDirection: "row",
-      alignItems: "center",
-      backgroundColor: colors.darkHighlight,
-      borderRadius: 20,
-      paddingHorizontal: 10,
-      marginBottom: 40,
-      width: "60%",
-    },
-    dayDisplay: {
-      flex: 1,
-      fontSize: 40,
-      color: colors.white,
-      fontWeight: "bold",
-      textAlign: "center",
-      lineHeight: 50,
-    },
-    chevronContainer: {
-      flexDirection: "column",
-      justifyContent: "center",
-      marginLeft: 10,
-    },
-    chevronButton: {
-      marginVertical: 5,
-    },
-    chevronCircle: {
-      backgroundColor: colors.mediumHighlight,
-      width: 30,
-      height: 30,
-      borderRadius: 15,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    changeAnytimeText: {
-      fontSize: 15,
-      color: colors.darkHighlight,
-      fontStyle: "italic",
-      marginTop: 10,
-      marginBottom: 20,
-      textAlign: "center",
-    },
-  });
-
   return (
-    <ThemedView style={styles.container}>
+    <ThemedView
+      bgColor={colors.backgroundLightGray}
+      style={globalStyles.bodyContainer}
+    >
       {/* Header */}
-      <View style={styles.headerContainer}>
+      <View style={customizeStyles.headerContainer}>
         {/* Header Content */}
-        <View style={styles.headerContent}>
+        <View style={customizeStyles.headerContent}>
           {/* Back Button */}
           <TouchableOpacity
-            style={styles.backButton}
+            style={[
+              customizeStyles.backButton,
+              { backgroundColor: colors.darkHighlight },
+            ]}
             onPress={() => router.back()}
           >
             <Ionicons name="chevron-back" size={24} color={colors.white} />
           </TouchableOpacity>
           {/* Title */}
-          <View style={styles.titleContainer}>
-            <ThemedText type="title">Set up </ThemedText>
+          <View style={customizeStyles.titleContainer}>
+            <ThemedText type="title">Set Up </ThemedText>
             <ThemedText type="title" colored>
-              your cycle
+              Your Cycle
             </ThemedText>
           </View>
         </View>
@@ -203,9 +91,9 @@ export default function CalendarOnboardingScreen(
       <ScrollView>
         {/* Main Body */}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.bodyContainer}>
+          <View style={customizeStyles.bodyContainer}>
             {/* White Rectangle */}
-            <View style={styles.whiteBox}>
+            <View style={customizeStyles.whiteBox}>
               {isMenstruating != null && (
                 <CalendarComponent
                   isMenstruating={isMenstruating}
@@ -247,3 +135,56 @@ export default function CalendarOnboardingScreen(
     </ThemedView>
   );
 }
+
+export const customizeStyles = StyleSheet.create({
+  headerContainer: {
+    backgroundColor: "white",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    // Shadow
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 6,
+  },
+  headerContent: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  backButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  titleContainer: {
+    flexDirection: "column",
+    marginLeft: 20,
+  },
+
+  bodyContainer: {
+    flex: 1,
+    alignItems: "center",
+    paddingVertical: 24,
+  },
+  whiteBox: {
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 16,
+    width: "90%",
+    alignItems: "center",
+    // Shadow
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5,
+    gap: 16,
+  },
+});

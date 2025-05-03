@@ -36,6 +36,7 @@ export default function NextStepsScreen() {
     noticeContainer: {
       flexDirection: "row",
       justifyContent: "flex-start",
+      marginBottom: 16,
     },
     whiteOverlay: {
       backgroundColor: colors.white,
@@ -49,55 +50,42 @@ export default function NextStepsScreen() {
       fontWeight: "bold",
       color: colors.black,
     },
-    titleText: {
-      marginBottom: 15,
-      paddingTop: 10,
-    },
-
     checkBoxContainer: {
       flexDirection: "column",
       marginBottom: 20,
       alignContent: "center",
       marginTop: 5,
     },
-    instructionTextBold: {
-      fontSize: 20,
-      fontWeight: "bold",
-      textAlign: "center",
-    },
-    instructionText: {
-      fontSize: 16,
-      fontWeight: "bold",
-      color: colors.black,
-    },
-    singleButtonContainer: {
+    buttonContainer: {
       flexDirection: "row",
       justifyContent: "center",
-      marginTop: 20,
+      marginTop: "auto",
+      gap: 16,
     },
   });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
-      <ThemedView style={styles.whiteOverlay}>
-        <ThemedText type="title" colored style={styles.titleText}>
+      <ThemedView style={[styles.whiteOverlay, { paddingBottom: 0 }]}>
+        <ThemedText type="title" colored style={selfExamStyles.titleText}>
           Based On Your Symptoms
         </ThemedText>
         <ThemedText style={styles.subtitleText}>Recommended actions</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
-      </ThemedView>
 
-      <ThemedView style={globalStyles.bodyContainerWhite}>
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={[styles.whiteOverlay, { paddingVertical: 0 }]}>
+        <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
+          <ThemedView style={[styles.whiteOverlay, { paddingTop: 0 }]}>
             {/* Info Section */}
             {getHasSymptoms(symptoms as string) ? (
-              <ThemedView style={globalStyles.whiteOverlay}>
+              <>
                 <ThemedView style={styles.noticeContainer}>
                   <MaterialIcons
                     name="error"
@@ -106,48 +94,29 @@ export default function NextStepsScreen() {
                   />
                   <ThemedText type="heading">Notice!</ThemedText>
                 </ThemedView>
-                <ThemedView style={globalStyles.elevatedCard}>
+                <ThemedView
+                  style={[
+                    globalStyles.elevatedCard,
+                    { flexDirection: "column", gap: 16 },
+                  ]}
+                >
                   <ThemedText colored type="heading">
                     A visit to your doctor is recommended based on your
                     assessment.
                   </ThemedText>
-                  <ThemedText bold type="heading">
+                  <ThemedText>
                     But please do not stress. Most of the time, Breast lumps or
                     Breast changes are not Cancer. However, reporting any
                     abnormalities or changes to your healthcare provider is
                     essential.
                   </ThemedText>
-                  <ThemedText bold type="heading" italic>
+                  <ThemedText bold italic>
                     Early detection improves treatment outcomes and saves lives.
                   </ThemedText>
                 </ThemedView>
 
                 <LearnMoreTextContainer />
-
-                {/* Navigation Buttons */}
-                <ThemedView style={styles.singleButtonContainer}>
-                  {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
-                  <ThemedButton
-                    onPress={() =>
-                      Linking.openURL(
-                        "https://www.breastcancerhub.org/new-page-3"
-                      )
-                    }
-                  >
-                    Contact BCH
-                  </ThemedButton>
-                </ThemedView>
-                <ThemedView style={styles.singleButtonContainer}>
-                  <ThemedButton
-                    onPress={() => {
-                      router.dismissAll();
-                      router.replace("/");
-                    }}
-                  >
-                    Return Home
-                  </ThemedButton>
-                </ThemedView>
-              </ThemedView>
+              </>
             ) : (
               <ThemedView style={[styles.whiteOverlay, { paddingVertical: 0 }]}>
                 <ThemedView style={styles.noticeContainer}>
@@ -156,34 +125,43 @@ export default function NextStepsScreen() {
                     size={28}
                     color={colors.green}
                   />
-                  <ThemedText style={styles.instructionTextBold}>
+                  <ThemedText type="heading" bold>
                     You're all good!
                   </ThemedText>
                 </ThemedView>
 
                 <ThemedView style={globalStyles.elevatedCard}>
-                  <ThemedText style={styles.instructionTextBold}>
+                  <ThemedText type="heading" bold>
                     Please continue to perform your Breast Self-Examination
                     every month.
                   </ThemedText>
                 </ThemedView>
 
                 <LearnMoreTextContainer />
-
-                <ThemedView style={styles.singleButtonContainer}>
-                  <ThemedButton
-                    onPress={() => {
-                      router.dismissAll();
-                      router.replace("/");
-                    }}
-                  >
-                    Return Home
-                  </ThemedButton>
-                </ThemedView>
               </ThemedView>
             )}
           </ThemedView>
-        </ScrollView>
+        </ThemedView>
+
+        {/* Navigation Buttons */}
+        <ThemedView style={styles.buttonContainer}>
+          {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
+          <ThemedButton
+            onPress={() =>
+              Linking.openURL("https://www.breastcancerhub.org/new-page-3")
+            }
+          >
+            Contact BCH
+          </ThemedButton>
+          <ThemedButton
+            onPress={() => {
+              router.dismissAll();
+              router.replace("/");
+            }}
+          >
+            Return Home
+          </ThemedButton>
+        </ThemedView>
       </ThemedView>
     </ThemedView>
   );

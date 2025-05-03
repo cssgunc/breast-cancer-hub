@@ -222,7 +222,7 @@ export default function HomePage(props: HomePageProps) {
   });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerWhite}>
+    <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
       {/* Header */}
       <View style={styles.headerContainer}>
         {/* Top Row: Logo and Profile Icon */}

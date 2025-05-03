@@ -63,7 +63,7 @@ export default function WelcomePage() {
         </ThemedText>
         <View style={globalStyles.loginInputContainer}>
           <TextInput
-            style={globalStyles.loginPasswordInput}
+            style={globalStyles.loginInput}
             placeholder="Name"
             placeholderTextColor="gray"
             value={name}

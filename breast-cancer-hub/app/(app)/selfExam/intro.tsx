@@ -68,7 +68,10 @@ export default function SelfExamInfo() {
     return <LoadingScreen />;
   } else {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      >
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 

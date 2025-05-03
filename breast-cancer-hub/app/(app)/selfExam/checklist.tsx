@@ -11,6 +11,7 @@ import { useCheckupStorage } from "@/hooks/useCheckupStorage";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import ThemedButton from "@/components/ThemedButton";
+import { selfExamStyles } from ".";
 
 export default function Checklist() {
   const router = useRouter();
@@ -70,10 +71,6 @@ export default function Checklist() {
   }, []);
 
   const styles = StyleSheet.create({
-    titleTextDarkHighlight: {
-      marginBottom: 15,
-      paddingTop: 10,
-    },
     checkBoxContainer: {
       flexDirection: "column",
       justifyContent: "center",
@@ -103,20 +100,23 @@ export default function Checklist() {
   };
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
       {/* Header Container */}
       <AccountSettingsHeaderComponent />
 
       {/* Page Title */}
       <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
-        <ThemedText type="title" colored style={styles.titleTextDarkHighlight}>
+        <ThemedText type="title" colored style={selfExamStyles.titleText}>
           Log Your Symptoms
         </ThemedText>
         <ThemedText type="heading">Check All That Apply</ThemedText>
 
         <ThemedView style={globalStyles.grayLine} />
 
-        <ThemedView style={[globalStyles.bodyContainerWhite]}>
+        <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
           <ScrollView contentContainerStyle={[globalStyles.scrollContent]}>
             <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
               {/* Info Section */}

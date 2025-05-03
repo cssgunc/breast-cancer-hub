@@ -118,7 +118,7 @@ export default function LoginPage() {
             </ThemedView>
             <ThemedView style={globalStyles.loginInputContainer}>
               <TextInput
-                style={globalStyles.loginPasswordInput}
+                style={globalStyles.loginInput}
                 placeholder="Password"
                 placeholderTextColor="gray"
                 value={password}
@@ -145,7 +145,7 @@ export default function LoginPage() {
                 Don't have an account?{" "}
               </ThemedText>
               <TouchableOpacity onPress={() => router.push("/signup")}>
-                <ThemedText style={globalStyles.loginLink}>
+                <ThemedText type="link" bold>
                   Create one here
                 </ThemedText>
               </TouchableOpacity>

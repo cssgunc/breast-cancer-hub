@@ -16,20 +16,9 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       backgroundColor: colors.darkHighlight,
     },
 
-    bodyContainerWhite: {
+    // Resizes to fill its container
+    bodyContainer: {
       flex: 1,
-      backgroundColor: colors.white,
-    },
-    bodyContainerDarkHighlight: {
-      flex: 1,
-      backgroundColor: colors.darkHighlight,
-    },
-
-    titleContainer: {
-      flexDirection: "row",
-      alignItems: "center",
-      padding: 10,
-      gap: 8,
     },
 
     // Content within a scrollable list or card
@@ -57,6 +46,7 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       justifyContent: "flex-start",
       alignContent: "flex-start",
     },
+
     listItemContainer: {
       flexDirection: "row",
       columnGap: 20,
@@ -77,15 +67,6 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       shadowOpacity: 0.25,
       shadowRadius: 3.84,
       elevation: 5,
-    },
-
-    // Text
-    // Font size 16 is common for body text, but most pages have many variations on margins, styles, color, etc.
-    // Similar to text used in the Learn More container.
-    smallItalicText: {
-      fontSize: 12,
-      fontStyle: "italic",
-      color: colors.lightGray,
     },
 
     buttonBackNextContainer: {
@@ -160,46 +141,16 @@ export const makeGlobalStyles = (colors: ColorTheme) => {
       height: 60,
     },
     loginInput: {
-      //COMMON with emailInput
-      flex: 1,
-      fontSize: 15,
-      height: 60,
-      //borderColor: colors.darkHighlight,
-    },
-    loginPasswordInput: {
-      //COMMON
       flex: 1,
       fontSize: 15,
       height: 60,
     },
     loginIcon: {
-      //COMMON
       marginHorizontal: 10,
     },
     loginButton: {
-      //COMMON
       width: "80%",
       marginTop: 20,
-    },
-    loginLink: {
-      //COMMON
-      color: colors.blue,
-      fontSize: 15,
-    },
-
-    // Account & Settings Icon Button
-    HeaderIconButton: {
-      width: 50,
-      height: 50,
-      borderRadius: 25,
-      backgroundColor: colors.lightHighlight,
-      alignItems: "center",
-      justifyContent: "center",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.3,
-      shadowRadius: 3,
-      elevation: 5,
     },
   });
 };

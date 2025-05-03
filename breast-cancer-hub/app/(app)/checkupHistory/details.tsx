@@ -88,7 +88,10 @@ export default function HomeScreen({ date }: { date: string }) {
 
   if (isLoading == true) {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      >
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
@@ -137,7 +140,10 @@ export default function HomeScreen({ date }: { date: string }) {
     );
   } else {
     return (
-      <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      >
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 

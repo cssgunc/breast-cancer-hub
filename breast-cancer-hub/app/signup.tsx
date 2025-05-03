@@ -154,7 +154,7 @@ export default function SignupPage() {
           </View>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={globalStyles.loginPasswordInput}
+              style={globalStyles.loginInput}
               placeholder="Password"
               placeholderTextColor="gray"
               value={password}
@@ -171,7 +171,7 @@ export default function SignupPage() {
           </View>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={globalStyles.loginPasswordInput}
+              style={globalStyles.loginInput}
               placeholder="Confirm password"
               placeholderTextColor="gray"
               onChangeText={setConfirmPassword}
@@ -192,7 +192,7 @@ export default function SignupPage() {
           <ThemedText type="heading">User Information</ThemedText>
           <View style={globalStyles.loginInputContainer}>
             <TextInput
-              style={globalStyles.loginPasswordInput}
+              style={globalStyles.loginInput}
               placeholder="Name"
               placeholderTextColor="gray"
               value={name}

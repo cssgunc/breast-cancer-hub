@@ -141,7 +141,10 @@ export default function SelfExam() {
   }
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
       <AccountSettingsHeaderComponent />
 
       <ScrollView contentContainerStyle={globalStyles.scrollContent}>
@@ -191,12 +194,9 @@ export default function SelfExam() {
 }
 
 export const selfExamStyles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginTop: "auto",
-    padding: 10,
-    gap: 8,
+  titleText: {
+    marginBottom: 15,
+    paddingTop: 10,
   },
   bodyContainer: {
     flexDirection: "column",

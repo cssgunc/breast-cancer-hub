@@ -5,6 +5,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
@@ -60,32 +61,21 @@ export default function MenstruationSelectionScreen() {
       paddingHorizontal: 20,
       paddingTop: 100, // Provides space for the overlapping circle and content
     },
-    titleText: {
-      fontSize: 20,
-      color: colors.darkGray,
-      fontWeight: "bold",
-      textAlign: "center",
-      marginTop: 10, // Slight space under the circle
-    },
     subtitleText: {
-      fontSize: 15,
-      color: colors.darkGray,
-      textAlign: "center",
       marginTop: 10,
       marginBottom: 20,
     },
     optionButton: {
-      //width: "60%", // Made the button smaller
+      width: "80%", // Made the button smaller
       alignSelf: "center",
-      paddingLeft: 15,
-      paddingRight: 15,
+      paddingHorizontal: 16,
       backgroundColor: colors.backgroundLightGray,
       borderColor: colors.darkHighlight,
       borderWidth: 3,
       borderRadius: 50,
-      paddingVertical: 5, // Adjusted padding for smaller button
+      paddingVertical: 8, // Adjusted padding for smaller button
       alignItems: "center",
-      marginTop: 15, // Slightly reduced to compact buttons
+      marginTop: 16, // Slightly reduced to compact buttons
     },
     optionButtonSelected: {
       backgroundColor: colors.darkHighlight,
@@ -97,7 +87,7 @@ export default function MenstruationSelectionScreen() {
       fontWeight: "bold",
     },
     optionButtonSubText: {
-      fontSize: 14,
+      fontSize: 16,
       color: colors.darkHighlight,
     },
     optionButtonTextSelected: {
@@ -111,21 +101,16 @@ export default function MenstruationSelectionScreen() {
       textAlign: "center",
     },
     saveButton: {
-      backgroundColor: colors.darkHighlight,
-      borderRadius: 30,
-      paddingVertical: 15,
-      alignItems: "center",
       width: "50%",
       marginTop: 20,
-    },
-    saveButtonText: {
-      color: colors.white,
-      fontWeight: "bold",
     },
   });
 
   return (
-    <ThemedView style={globalStyles.bodyContainerDarkHighlight}>
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
       {/* Logo Container */}
       <View style={styles.logoContainer}>
         <View style={styles.logoCircle}>
@@ -139,7 +124,7 @@ export default function MenstruationSelectionScreen() {
       {/* White rectangle */}
       <View style={styles.whiteContainer}>
         {/* Texts */}
-        <ThemedText style={styles.titleText}>
+        <ThemedText type="heading">
           Access Your Self Examination{"\n"}Schedule From Your Calendar
         </ThemedText>
         <ThemedText style={styles.subtitleText}>
@@ -221,9 +206,9 @@ export default function MenstruationSelectionScreen() {
         <View style={{ height: 40 }} />
 
         {/* Save Changes Button */}
-        <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
-          <ThemedText style={styles.saveButtonText}>Save Changes</ThemedText>
-        </TouchableOpacity>
+        <ThemedButton style={styles.saveButton} onPress={handleSaveChanges}>
+          Save Changes
+        </ThemedButton>
       </View>
     </ThemedView>
   );
