@@ -164,7 +164,7 @@ export default function SettingsScreen() {
               <ThemedText type="title" colored>
                 {person.name}
               </ThemedText>
-              <ThemedText>{person.email}</ThemedText>
+              {/*<ThemedText>{person.email}</ThemedText>*/}
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
