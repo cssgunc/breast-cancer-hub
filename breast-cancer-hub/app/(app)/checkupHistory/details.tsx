@@ -5,54 +5,47 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { useCheckupStorage } from "@/hooks/useCheckupStorage";
+import { useCheckupData } from "@/hooks/useCheckupData";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
 
-export default function HomeScreen({ date }: { date: string }) {
+export default function CheckupDetails({ date }: { date: string }) {
   const router = useRouter();
   const { colors, globalStyles } = useColors();
   const [examDate, setExamDate] = useState(date);
-  const { symptoms, fetchSymptoms } = useCheckupStorage();
+  const { getCheckup } = useCheckupData();
 
   const info_f = [
-    { id: 0, text: "Swelling of part or all of a breast." },
+    { id: 0, key: "Swelling of part or all of a breast." },
     {
       id: 1,
-      text: "Skin irritation or dimpling (sometimes looking like an orange peel)",
+      key: "Skin irritation or dimpling (sometimes looking like an orange peel)",
     },
-    { id: 2, text: "Breast or nipple pain." },
-    { id: 3, text: "Nipple retraction (turning inward)" },
+    { id: 2, key: "Breast or nipple pain." },
+    { id: 3, key: "Nipple retraction (turning inward)" },
     {
       id: 4,
-      text: "Redness, scaliness, or thickening of the nipples or breast skin",
+      key: "Redness, scaliness, or thickening of the nipples or breast skin",
     },
-    { id: 5, text: "Nipple discharge (other than breast milk)" },
+    { id: 5, key: "Nipple discharge (other than breast milk)" },
   ];
 
   const info_m = [
-    { id: 0, text: "A painless lump or thickening in your breast tissue." },
+    { id: 0, key: "A painless lump or thickening in your breast tissue." },
     {
       id: 1,
-      text: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
+      key: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
     },
     {
       id: 2,
-      text: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
+      key: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
     },
-    { id: 3, text: "Discharge from your nipple." },
+    { id: 3, key: "Discharge from your nipple." },
   ];
 
-  const [isSelected, setSelection] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
+  const [isSelected, setSelection] = useState<string[]>([]);
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -68,9 +61,11 @@ export default function HomeScreen({ date }: { date: string }) {
 
     const fetchHistory = async () => {
       if (examDate) {
-        fetchSymptoms(date);
+        const checkup = await getCheckup(date);
+        if (checkup) {
+          setSelection(checkup.symptomsChecked);
+        }
       }
-      setSelection(symptoms);
     };
 
     getType();
@@ -168,25 +163,27 @@ export default function HomeScreen({ date }: { date: string }) {
                   {info_f.map((item) => (
                     <ThemedView key={item.id} style={styles.listItemContainer}>
                       <ThemedText style={styles.instructionText}>
-                        {item.text}
+                        {item.key}
                       </ThemedText>
                       <View style={styles.checkBoxContainer}>
-                        <CheckBox value={isSelected[item.id]} disabled />
+                        <CheckBox
+                          value={isSelected.includes(item.key)}
+                          disabled
+                        />
                       </View>
                     </ThemedView>
                   ))}
                 </ThemedView>
               ) : (
                 <ThemedView style={styles.listContainer}>
-                  {info_m.map((item: { id: number; text: string }) => (
+                  {info_m.map((item: { id: number; key: string }) => (
                     <ThemedView key={item.id} style={styles.listItemContainer}>
                       <ThemedText style={styles.instructionText}>
-                        {item.text}
+                        {item.key}
                       </ThemedText>
                       <View style={styles.checkBoxContainer}>
                         <CheckBox
-                          key={item.id}
-                          value={isSelected[item.id]}
+                          value={isSelected.includes(item.key)}
                           disabled
                         />
                       </View>

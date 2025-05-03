@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
+import { Checkup } from "./useCheckupData";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
 
@@ -24,6 +25,8 @@ export type SettingsMap = {
   avatar: boolean;
 
   onboarding: boolean;
+
+  checkups: Checkup[];
 };
 
 export type SettingKeys = keyof SettingsMap;
@@ -41,6 +44,7 @@ export const USER_SCOPED_KEYS: SettingKeys[] = [
   "useDarkTheme",
   "avatar",
   "onboarding",
+  "checkups",
 ];
 
 async function _rawGet(key: string): Promise<string | null> {
@@ -158,6 +162,7 @@ export function generateDefaultSettings() {
     useInAppNotifications: true,
     onboarding: false,
     avatar: false,
+    checkups: [],
   };
   return def;
 }

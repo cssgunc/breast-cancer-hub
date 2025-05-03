@@ -17,20 +17,20 @@ export default function SelfExamInfo() {
   const { colors, globalStyles } = useColors();
 
   const info_f = [
-    { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
-    { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
-    { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
-    { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
-    { id: 4, key: "SIGNS_SYMPTOMS_5_F" },
-    { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
-    { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
+    { id: 0, key: "SYMPTOMS_SWELLING_F" },
+    { id: 1, key: "SYMPTOMS_IRRITATION_DIMPLING_F" },
+    { id: 2, key: "SYMPTOMS_PAIN_F" },
+    { id: 3, key: "SYMPTOMS_RETRACTION_F" },
+    { id: 4, key: "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F" },
+    { id: 5, key: "SYMPTOMS_DISCHARGE_F" },
+    { id: 6, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
   ];
   const info_m = [
-    { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
-    { id: 1, key: "SIGNS_SYMPTOMS_2_M" },
+    { id: 0, key: "SYMPTOMS_LUMP_THICKENING_M" },
+    { id: 1, key: "SYMPTOMS_SKIN_CHANGES_M" },
     { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
-    { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
-    { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
+    { id: 3, key: "SYMPTOMS_DISCHARGE_M" },
+    { id: 4, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
   ];
 
   const [info, setInfo] = useState([

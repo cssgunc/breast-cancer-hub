@@ -1,10 +1,5 @@
 import { useEffect } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  TouchableOpacity,
-  Linking,
-} from "react-native";
+import { StyleSheet, Linking } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter, useLocalSearchParams } from "expo-router";
@@ -24,12 +19,11 @@ export default function NextStepsScreen() {
 
   const getHasSymptoms = (s: string) => {
     const symptomsArray = s.split(",");
-    return symptomsArray.some((symptom) => symptom === "1");
+    return symptomsArray.length > 0;
   };
 
   useEffect(() => {
     console.log(symptoms);
-    console.log(symptoms as string);
   }, []);
 
   const styles = StyleSheet.create({
