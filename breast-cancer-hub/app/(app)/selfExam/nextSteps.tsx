@@ -17,14 +17,13 @@ export default function NextStepsScreen() {
   // NOT TYPE SAFE
   const { symptoms } = useLocalSearchParams();
 
-  const getHasSymptoms = (s: string) => {
-    const symptomsArray = s.split(",");
-    return symptomsArray.length > 0;
+  const getHasSymptoms = (raw: string) => {
+    if (!raw) return [];
+    const arr = JSON.parse(raw);
+    if (Array.isArray(arr)) {
+      return arr.length > 0;
+    }
   };
-
-  useEffect(() => {
-    console.log(symptoms);
-  }, []);
 
   const styles = StyleSheet.create({
     noticeContainer: {

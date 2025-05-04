@@ -28,24 +28,26 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function getNotificationTimes(scheduledExam: Date) {
     const notificationTimes = await getSetting("notificationTimes");
-    const enabledTimes = notificationTimes.filter((notification) => {
-      notification.enabled;
+    console.log(notificationTimes);
+    const enabledTimes = notificationTimes.filter((n) => {
+      return n.enabled;
     });
-    const dates: Date[] = [];
-    for (const time of enabledTimes) {
-      const { hours, minutes } = parseHHMMString(time.time);
-      const newDate = new Date(
+    console.log(enabledTimes);
+    const dates: Date[] = enabledTimes.map((t) => {
+      const timeVal = typeof t.time === "string" ? new Date(t.time) : t.time; // if it’s already a Date, leave it
+
+      return new Date(
         scheduledExam.getFullYear(),
         scheduledExam.getMonth(),
         scheduledExam.getDate(),
-        hours,
-        minutes
+        timeVal.getHours(),
+        timeVal.getMinutes()
       );
-      dates.push(newDate);
-    }
+    });
     console.log(dates);
     return dates;
   }
+
   useEffect(() => {
     (async () => {
       const storedCheckup = await getSetting("nextExamDate");
@@ -76,7 +78,8 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
       storedCheckups.push(completedCheckup);
     }
 
-    saveSetting("checkups", storedCheckups);
+    await saveSetting("checkups", storedCheckups);
+    setAllCheckups(storedCheckups);
   };
 
   // Fetch symptoms for a specific checkup date

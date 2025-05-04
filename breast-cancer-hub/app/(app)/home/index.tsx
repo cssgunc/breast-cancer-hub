@@ -24,6 +24,7 @@ import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
 import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
+import { ScheduleExam } from "@/notifications/notifications";
 
 type Notif = {
   variant: "upcoming" | "overdue" | "completed";
@@ -284,6 +285,13 @@ export default function HomePage(props: HomePageProps) {
       >
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
+          <TouchableOpacity
+            onPress={() => {
+              ScheduleExam([new Date(Date.now() + 1000)]);
+            }}
+          >
+            <ThemedText>asdfasdf</ThemedText>
+          </TouchableOpacity>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="notifications-outline" style={styles.icon} />

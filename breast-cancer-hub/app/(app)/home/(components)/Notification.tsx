@@ -77,12 +77,17 @@ NotificationComponentProps) {
   const styles = StyleSheet.create({
     container: {
       flexDirection: "row",
-      borderRadius: 50, // Circular sides
+      borderRadius: 16, // Circular sides
       borderColor: "#B3B3B3",
-      borderWidth: 1,
+      //borderWidth: 1,
       padding: 15,
       alignItems: "center",
       position: "relative",
+      elevation: 4,
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.2,
+      shadowRadius: 5,
     },
     dateCircle: {
       width: 60,

@@ -12,6 +12,7 @@ import LoadingScreen from "@/components/Loading";
 import ThemedButton from "@/components/ThemedButton";
 
 export default function SelfExamInfo() {
+  console.log("reached intro");
   const router = useRouter();
   const { t, i18n } = useTranslation();
   const { colors, globalStyles } = useColors();

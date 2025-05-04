@@ -17,7 +17,12 @@ export type SettingsMap = {
   email: string;
   schedulingType: { day: number } | "period";
 
-  notificationTimes: { id: number; time: string; enabled: boolean }[]; //using expo-notifications trigger format
+  notificationTimes: {
+    id: number;
+    time: Date;
+    displayTime: string;
+    enabled: boolean;
+  }[]; //using expo-notifications trigger format
 
   locale: string; //using expo-localization
 
