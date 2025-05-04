@@ -85,12 +85,12 @@ export default function HomePage(props: HomePageProps) {
   };
 
   function calculateNotificationVariant() {
-    console.log(allCheckups);
+    // console.log(allCheckups);
     let lastCheckup = allCheckups.at(-1);
     let lastCheckupDate;
     if (lastCheckup) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
-      console.log(lastCheckupDate);
+      // console.log(lastCheckupDate);
     } else {
       const today = new Date(0); // Case of no checkups - is the same as having done one in the far past
       today.setHours(0, 0, 0, 0);

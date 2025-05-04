@@ -97,7 +97,7 @@ async function ScheduleNotificationOnDate(
     return;
   }
 
-  console.log(`scheduling ${date}`);
+  // console.log(`scheduling ${date}`);
   return await Notifications.scheduleNotificationAsync({
     identifier: identifier,
     content: {
@@ -117,7 +117,7 @@ async function ScheduleNotificationOnDate(
  */
 export async function ScheduleExam(dates: Date[]) {
   CancelNotifications(ALERT_IDENTIFIER).then(() => {
-    console.log(dates);
+    // console.log(dates);
     for (let date of dates) {
       ScheduleNotificationOnDate(
         EXAM_TITLE,
@@ -143,10 +143,10 @@ async function CancelNotifications(identifier: string) {
     return;
   }
   const existing = await Notifications.getAllScheduledNotificationsAsync();
-  console.log(existing);
+  // console.log(existing);
   for (const { identifier } of existing) {
     if (identifier?.startsWith(ALERT_IDENTIFIER)) {
-      console.log(`cancelling ${identifier}`);
+      // console.log(`cancelling ${identifier}`);
       await Notifications.cancelScheduledNotificationAsync(identifier);
     }
   }

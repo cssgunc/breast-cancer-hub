@@ -56,7 +56,7 @@ export default function Checklist() {
       const schedulingType = await getSetting("schedulingType");
       setExamTypeF(schedulingType === "period");
       const storedLanguageCode = await getSetting("locale");
-      console.log(storedLanguageCode);
+      // console.log(storedLanguageCode);
       if (storedLanguageCode && i18n.language !== storedLanguageCode) {
         await i18n.changeLanguage(storedLanguageCode);
       }

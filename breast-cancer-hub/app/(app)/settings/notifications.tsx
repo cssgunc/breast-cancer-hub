@@ -143,7 +143,7 @@ export default function NotificationsScreen() {
 
   // Function to add a new time entry
   const addTimeEntry = (newDate: Date) => {
-    console.log(newDate);
+    // console.log(newDate);
     const newEntry = {
       id: Date.now(),
       time: newDate,
@@ -496,18 +496,6 @@ export default function NotificationsScreen() {
             />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
-          {/* Add Time Button */}
-          <TouchableOpacity
-            style={styles.addTimeButton}
-            onPress={() => addTimeEntry(new Date())}
-          >
-            <Ionicons
-              name="add-circle"
-              size={24}
-              color={colors.darkHighlight}
-            />
-            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
-          </TouchableOpacity>
 
           {/* Save Settings Button */}
           {/* <ThemedButton onPress={saveNotificationSettings}>
@@ -525,7 +513,7 @@ export default function NotificationsScreen() {
           onChange={(event, selectedDate) => {
             if (event.type == "set" && selectedDate) {
               setDate(selectedDate);
-              console.log(selectedDate);
+              // console.log(selectedDate);
               addTimeEntry(selectedDate);
             } else setDate(new Date());
             setTimePickerVisible(false);

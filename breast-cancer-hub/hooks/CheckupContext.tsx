@@ -28,11 +28,11 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
 
   async function getNotificationTimes(scheduledExam: Date) {
     const notificationTimes = await getSetting("notificationTimes");
-    console.log(notificationTimes);
+    // console.log(notificationTimes);
     const enabledTimes = notificationTimes.filter((n) => {
       return n.enabled;
     });
-    console.log(enabledTimes);
+    // console.log(enabledTimes);
     const dates: Date[] = enabledTimes.map((t) => {
       const timeVal = typeof t.time === "string" ? new Date(t.time) : t.time; // if it’s already a Date, leave it
 
@@ -44,7 +44,7 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
         timeVal.getMinutes()
       );
     });
-    console.log(dates);
+    // console.log(dates);
     return dates;
   }
 
