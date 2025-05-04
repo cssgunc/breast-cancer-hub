@@ -1,4 +1,4 @@
-import { TextInput, View } from "react-native";
+import { KeyboardAvoidingView, Platform, TextInput, View } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
@@ -34,44 +34,52 @@ export default function WelcomePage() {
   };
 
   return (
-    <ThemedView style={globalStyles.loginBodyContainer}>
-      <ThemedView style={globalStyles.loginPopText}>
-        <ThemedView style={globalStyles.loginTopText}>
-          <ThemedText type="heading" colored>
-            WELCOME
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <ThemedView style={globalStyles.loginBodyContainer}>
+        <ThemedView style={globalStyles.loginPopText}>
+          <ThemedView style={globalStyles.loginTopText}>
+            <ThemedText type="heading" colored>
+              WELCOME
+            </ThemedText>
+            <ThemedText type="title">to the</ThemedText>
+            <ThemedText type="title" colored>
+              Breast Cancer Hub
+            </ThemedText>
+            <ThemedText type="title">Self-Exam App!</ThemedText>
+          </ThemedView>
+          <ThemedText>
+            Early detection saves lives. Please enter your name for the app to
+            refer to you by.
           </ThemedText>
-          <ThemedText type="title">to the</ThemedText>
-          <ThemedText type="title" colored>
-            Breast Cancer Hub
-          </ThemedText>
-          <ThemedText type="title">Self-Exam App!</ThemedText>
-        </ThemedView>
-        <ThemedText>
-          Early detection saves lives. Please enter your name for the app to
-          refer to you by.
-        </ThemedText>
-        <View style={globalStyles.loginInputContainer}>
-          <TextInput
-            style={globalStyles.loginInput}
-            placeholder="Name"
-            placeholderTextColor="gray"
-            value={name}
-            onChangeText={setName}
-            autoCapitalize="none"
-          />
-          <MaterialIcons
-            name="person"
-            size={24}
-            color="gray"
-            style={globalStyles.loginIcon}
-          />
-        </View>
-        <ThemedView style={globalStyles.loginInputsContainer}>
-          <ThemedButton onPress={handleSubmit} style={globalStyles.loginButton}>
-            Begin
-          </ThemedButton>
+          <View style={globalStyles.loginInputContainer}>
+            <TextInput
+              style={globalStyles.loginInput}
+              placeholder="Name"
+              placeholderTextColor="gray"
+              value={name}
+              onChangeText={setName}
+              autoCapitalize="none"
+            />
+            <MaterialIcons
+              name="person"
+              size={24}
+              color="gray"
+              style={globalStyles.loginIcon}
+            />
+          </View>
+          <ThemedView style={globalStyles.loginInputsContainer}>
+            <ThemedButton
+              onPress={handleSubmit}
+              style={globalStyles.loginButton}
+            >
+              Begin
+            </ThemedButton>
+          </ThemedView>
         </ThemedView>
       </ThemedView>
-    </ThemedView>
+    </KeyboardAvoidingView>
   );
 }
