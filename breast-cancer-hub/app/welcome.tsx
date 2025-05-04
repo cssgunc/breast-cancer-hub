@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  TextInput,
-  View,
-} from "react-native";
+import { TextInput, View } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
@@ -22,6 +16,10 @@ export default function WelcomePage() {
     saveSetting("userId", "local");
     saveSetting("name", name);
 
+    if (!name.trim()) {
+      alert("Please enter your name before continuing.");
+      return;
+    }
     try {
       const onboarding = await getSetting("onboarding");
       if (onboarding === false) {

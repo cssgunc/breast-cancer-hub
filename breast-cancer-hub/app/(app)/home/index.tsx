@@ -92,9 +92,8 @@ export default function HomePage(props: HomePageProps) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
       console.log(lastCheckupDate);
     } else {
-      const today = new Date();
+      const today = new Date(0); // Case of no checkups - is the same as having done one in the far past
       today.setHours(0, 0, 0, 0);
-      today.setDate(today.getDate() - 1);
       lastCheckupDate = today;
     }
     // Already completed
@@ -285,13 +284,6 @@ export default function HomePage(props: HomePageProps) {
       >
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
-          <TouchableOpacity
-            onPress={() => {
-              ScheduleExam([new Date(Date.now() + 1000)]);
-            }}
-          >
-            <ThemedText>asdfasdf</ThemedText>
-          </TouchableOpacity>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="notifications-outline" style={styles.icon} />
