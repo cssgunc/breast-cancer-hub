@@ -288,31 +288,6 @@ export default function HomePage(props: HomePageProps) {
         showsVerticalScrollIndicator={false}
         nestedScrollEnabled={true}
       >
-        <TouchableOpacity
-        onPress={ async () => {
-          await getSetting("notificationTimes").then(async (val) => {
-            console.log("nt:");
-            console.log(val);
-            console.log("nextCheckup:")
-            console.log(nextCheckup);
-            // await scheduleNextCheckup().then(async (val) => {
-            //   console.log("nc:")
-            //   console.log(val);
-            //   console.log("nextCheckup:")
-            //   console.log(nextCheckup);
-            //   await Notifications.getAllScheduledNotificationsAsync().then((val) => {
-            //     console.log("getAll:");
-            //     console.log(val);
-            //   })
-            //   }
-            // )
-            }
-          )
-          }}>
-          <ThemedText>
-            a
-          </ThemedText>
-        </TouchableOpacity>
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
           {/* Alerts Section */}
