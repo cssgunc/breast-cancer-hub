@@ -7,7 +7,7 @@ import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting, SettingsMap } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { useCheckupStorage } from "@/hooks/useCheckupStorage";
+import { useCheckupData } from "@/hooks/CheckupContext";
 import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import ThemedButton from "@/components/ThemedButton";
@@ -20,35 +20,31 @@ export default function Checklist() {
   const { colors, globalStyles } = useColors();
 
   const info_f = [
-    { id: 0, key: "SIGNS_SYMPTOMS_1_F" },
-    { id: 1, key: "SIGNS_SYMPTOMS_2_F" },
-    { id: 2, key: "SIGNS_SYMPTOMS_3_F" },
-    { id: 3, key: "SIGNS_SYMPTOMS_4_F" },
-    { id: 4, key: "SIGNS_SYMPTOMS_5_F" },
-    { id: 5, key: "SIGNS_SYMPTOMS_6_F" },
-    { id: 6, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
+    { id: 0, key: "SYMPTOMS_SWELLING_F" },
+    { id: 1, key: "SYMPTOMS_IRRITATION_DIMPLING_F" },
+    { id: 2, key: "SYMPTOMS_PAIN_F" },
+    { id: 3, key: "SYMPTOMS_RETRACTION_F" },
+    { id: 4, key: "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F" },
+    { id: 5, key: "SYMPTOMS_DISCHARGE_F" },
+    { id: 6, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
   ];
   const info_m = [
-    { id: 0, key: "SIGNS_SYMPTOMS_1_M" },
-    { id: 1, key: "SIGNS_SYMPTOMS_2_M" },
-    { id: 2, key: "SIGNS_SYMPTOMS_3_M" },
-    { id: 3, key: "SIGNS_SYMPTOMS_4_M" },
-    { id: 4, key: "PAINFUL_PAINLESS_SYMPTOMS_F_M" },
+    { id: 0, key: "SYMPTOMS_LUMP_THICKENING_M" },
+    { id: 1, key: "SYMPTOMS_SKIN_CHANGES_M" },
+    { id: 2, key: "SYMPTOMS_NIPPLE_CHANGES_M" },
+    { id: 3, key: "SYMPTOMS_DISCHARGE_M" },
+    { id: 4, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
   ];
 
-  const [isSelected, setSelection] = useState([
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ]);
-  const toggleCheckbox = (index: number, value: boolean) => {
-    const newSelection = [...isSelected];
-    newSelection[index] = value;
-    setSelection(newSelection);
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const toggleCheckbox = (key: string, checked: boolean) => {
+    setSelectedSymptoms((prev) => {
+      if (checked) {
+        return prev.includes(key) ? prev : [...prev, key];
+      } else {
+        return prev.filter((k) => k !== key);
+      }
+    });
   };
 
   const [isLoading, setIsLoading] = useState(true);
@@ -93,10 +89,10 @@ export default function Checklist() {
     },
   });
 
-  const { saveCheckup } = useCheckupStorage();
+  const { saveCompletedCheckup } = useCheckupData();
   const saveSymptoms = async () => {
     // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
-    await saveCheckup(isSelected);
+    await saveCompletedCheckup(selectedSymptoms);
   };
 
   return (
@@ -146,9 +142,10 @@ export default function Checklist() {
                           </ThemedText>
                           <View style={styles.checkBoxContainer}>
                             <CheckBox
-                              value={isSelected[item.id]}
+                              key={item.id}
+                              value={selectedSymptoms.includes(item.key)}
                               onValueChange={(value) => {
-                                toggleCheckbox(item.id, value);
+                                toggleCheckbox(item.key, value);
                               }}
                             />
                           </View>
@@ -173,9 +170,9 @@ export default function Checklist() {
                           <View style={styles.checkBoxContainer}>
                             <CheckBox
                               key={item.id}
-                              value={isSelected[item.id]}
+                              value={selectedSymptoms.includes(item.key)}
                               onValueChange={(value) => {
-                                toggleCheckbox(item.id, value);
+                                toggleCheckbox(item.key, value);
                               }}
                             />
                           </View>
@@ -185,7 +182,6 @@ export default function Checklist() {
                   )}
                 </ThemedView>
               )}
-
               <LearnMoreTextContainer />
             </ThemedView>
           </ScrollView>
@@ -209,9 +205,7 @@ export default function Checklist() {
               router.push({
                 pathname: "/selfExam/nextSteps",
                 params: {
-                  symptoms: isSelected
-                    .map((value) => (value ? 1 : 0))
-                    .toString(),
+                  symptoms: JSON.stringify(selectedSymptoms),
                 },
               });
             }}

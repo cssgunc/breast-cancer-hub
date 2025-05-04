@@ -5,7 +5,6 @@ import LoadingScreen from "@/components/Loading";
 
 export default function Index() {
   const router = useRouter();
-
   useEffect(() => {
     (async () => {
       const userId = await getSetting("userId");

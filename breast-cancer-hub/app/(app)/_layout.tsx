@@ -1,8 +1,10 @@
-import { Slot, Redirect, Stack } from "expo-router";
+import { Slot, Redirect } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { useState, useEffect } from "react";
 import { View } from "react-native";
 import LoadingScreen from "@/components/Loading";
+import { CheckupProvider } from "@/hooks/CheckupContext";
+import { PeriodProvider } from "@/hooks/PeriodContext";
 
 export default function Protection() {
   const [session, setSession] = useState("");
@@ -24,7 +26,9 @@ export default function Protection() {
     return <LoadingScreen />;
   }
 
-  // After loading, if no session token, redirect to login
+  console.log("Protection:", { session, userId });
+
+  //After loading, if no session token, redirect to login
   if (session === "" && userId != "local") {
     return <Redirect href="/welcome" />;
   }
@@ -32,7 +36,11 @@ export default function Protection() {
   // If we have a session token, render the protected content
   return (
     <View style={{ flex: 1 }}>
-      <Slot />
+      <CheckupProvider>
+        <PeriodProvider>
+          <Slot />
+        </PeriodProvider>
+      </CheckupProvider>
     </View>
   );
 }

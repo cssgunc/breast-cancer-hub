@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -15,18 +15,19 @@ import NotificationComponent from "@/app/(app)/home/(components)/Notification"; 
 import CalendarComponent from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getCheckupDay } from "@/hooks/usePeriodData";
 import { getSetting } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/navigation/ExternalLink";
 import CycleLog from "./(components)/CycleLogWidget";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
+import { useCheckupData } from "@/hooks/CheckupContext";
+import { PeriodTimestamp } from "@/hooks/PeriodContext";
+import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
 import { ScheduleExam } from "@/notifications/notifications";
 
-type Noti = {
-  id: number;
-  variant: "default" | "overdue" | undefined;
+type Notif = {
+  variant: "upcoming" | "overdue" | "completed";
   date: Date;
 };
 
@@ -51,8 +52,7 @@ export default function HomePage(props: HomePageProps) {
   // State for checkup history feature flag
   const [checkupHistoryEnabled, setCheckupHistoryEnabled] = useState(false);
 
-  // State for notifications
-  const [notifications, setNotifications] = useState<Noti[]>([]);
+  const { nextCheckup, scheduleNextCheckup, allCheckups } = useCheckupData();
 
   const [name, setName] = useState<string | undefined>("");
 
@@ -84,12 +84,33 @@ export default function HomePage(props: HomePageProps) {
     Linking.openURL(url);
   };
 
-  // Function to remove a notification by id
-  const removeNotification = (id: number) => {
-    setNotifications(
-      notifications.filter((notification) => notification.id !== id)
-    );
-  };
+  function calculateNotificationVariant() {
+    console.log(allCheckups);
+    let lastCheckup = allCheckups.at(-1);
+    let lastCheckupDate;
+    if (lastCheckup) {
+      lastCheckupDate = parseISODate(lastCheckup.completedOn);
+      console.log(lastCheckupDate);
+    } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      today.setDate(today.getDate() - 1);
+      lastCheckupDate = today;
+    }
+    // Already completed
+    if (lastCheckupDate >= nextCheckup) {
+      return "completed";
+    }
+    if (isSameDate(nextCheckup, new Date())) {
+      return "due";
+    }
+    // Not time to do it yet
+    if (new Date() < nextCheckup) {
+      return "upcoming";
+    }
+    return "overdue";
+  }
+
   const styles = StyleSheet.create({
     headerContainer: {
       backgroundColor: "white",
@@ -264,57 +285,43 @@ export default function HomePage(props: HomePageProps) {
       >
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
-          <ThemedButton
+          <TouchableOpacity
             onPress={() => {
-              ScheduleExam(new Date(Date.now() + 1000));
+              ScheduleExam([new Date(Date.now() + 1000)]);
             }}
           >
-            Schedule Notification in 1000ms
-          </ThemedButton>
+            <ThemedText>asdfasdf</ThemedText>
+          </TouchableOpacity>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="notifications-outline" style={styles.icon} />
-            <ThemedText type="heading">Alerts</ThemedText>
+            <ThemedText type="heading">Upcoming Exams</ThemedText>
           </View>
           {/* Notifications or No Alerts Message */}
-          {notifications.length === 0 ? (
+          {/* {notifications.length === 0 ? (
             <ThemedText type="caption">There are no new alerts</ThemedText>
           ) : (
-            notifications.map((notification) => (
-              <React.Fragment key={notification.id}>
-                <NotificationComponent
-                  variant={notification.variant}
-                  date={notification.date}
-                  onDismiss={() => removeNotification(notification.id)}
-                />
-              </React.Fragment>
-            ))
-          )}
+            notifications.map((notification) => ( 
+          <React.Fragment key={notification.id}> */}
+          <NotificationComponent
+            variant={calculateNotificationVariant()}
+            date={nextCheckup}
+            //onDismiss={() => removeNotification(notification.id)}
+          />
+          {/* </React.Fragment>
+           ))
+          )} */}
           {/* Calendar Section */}
           <View style={styles.sectionTitle}>
             <Ionicons name="calendar-outline" style={styles.icon} />
-            <ThemedText type="heading">View your calendar</ThemedText>
+            <ThemedText type="heading">Your Calendar</ThemedText>
           </View>
 
           {/* Calendar Component */}
           <CalendarComponent
             isMenstruating={isMenstruating}
-            updateCheckupDay={() => {
-              const ts = getCheckupDay();
-              if (ts) {
-                const date = new Date(ts.year, ts.month, ts.date + 7);
-
-                setNotifications([
-                  {
-                    id: 1,
-                    variant:
-                      new Date().getTime() < date.getTime()
-                        ? "default"
-                        : "overdue",
-                    date,
-                  },
-                ]);
-              }
+            onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
+              await scheduleNextCheckup(newTimestamps);
             }}
           />
 

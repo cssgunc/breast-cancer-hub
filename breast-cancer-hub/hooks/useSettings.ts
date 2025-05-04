@@ -1,18 +1,28 @@
 import * as SecureStore from "expo-secure-store";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Platform } from "react-native";
+import { Checkup } from "./CheckupContext";
+import { PeriodTimestamp } from "./PeriodContext";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
+const CURRENT_SCHEMA = 1;
 
 export type SettingsMap = {
+  userId: string;
+  token: string;
+
+  schemaVersion: number; // Stores schema for migration purposes
+
   name: string;
   email: string;
-  token: string;
-  userId: string;
-
   schedulingType: { day: number } | "period";
 
-  notificationTimes: { id: number; time: string; enabled: boolean }[]; //using expo-notifications trigger format
+  notificationTimes: {
+    id: number;
+    time: Date;
+    displayTime: string;
+    enabled: boolean;
+  }[]; //using expo-notifications trigger format
 
   locale: string; //using expo-localization
 
@@ -24,13 +34,21 @@ export type SettingsMap = {
   avatar: boolean;
 
   onboarding: boolean;
+
+  checkups: Checkup[];
+  periodTimestamps: PeriodTimestamp[];
+  nextExamDate: string;
 };
 
 export type SettingKeys = keyof SettingsMap;
 
-export const GLOBAL_KEYS: SettingKeys[] = ["name", "email", "token", "userId"];
+export const GLOBAL_KEYS: SettingKeys[] = ["token", "userId"];
 
 export const USER_SCOPED_KEYS: SettingKeys[] = [
+  "schemaVersion",
+
+  "name",
+  "email",
   "schedulingType",
   "notificationTimes",
   "locale",
@@ -41,6 +59,9 @@ export const USER_SCOPED_KEYS: SettingKeys[] = [
   "useDarkTheme",
   "avatar",
   "onboarding",
+  "checkups",
+  "periodTimestamps",
+  "nextExamDate",
 ];
 
 async function _rawGet(key: string): Promise<string | null> {
@@ -62,12 +83,10 @@ async function _rawSet(key: string, value: string) {
 export async function getSetting<T extends SettingKeys>(
   key: T
 ): Promise<SettingsMap[T]> {
-  // pick your storage key
   let storageKey: string;
   if (GLOBAL_KEYS.includes(key)) {
     storageKey = key;
   } else {
-    // user-scoped → prefix with current userId
     const rawUserId = await _rawGet("userId");
     const userId = rawUserId ? JSON.parse(rawUserId) : "";
     storageKey = `user_${userId}_${key}`;
@@ -146,6 +165,7 @@ export function generateDefaultSettings() {
     email: "",
     token: "",
     userId: "",
+    schemaVersion: CURRENT_SCHEMA,
     schedulingType: {
       day: 0,
     },
@@ -158,6 +178,16 @@ export function generateDefaultSettings() {
     useInAppNotifications: true,
     onboarding: false,
     avatar: false,
+    checkups: [],
+    periodTimestamps: [],
+    nextExamDate: "",
   };
   return def;
+}
+
+export async function runMigrations() {
+  const userSchema = await getSetting("schemaVersion");
+  if (userSchema < CURRENT_SCHEMA) {
+    console.log("unimplemented migrations");
+  }
 }

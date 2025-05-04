@@ -29,8 +29,10 @@ export default function NotificationsScreen() {
     minute: "2-digit" | "numeric" | undefined;
   } = { hour: "2-digit", minute: "2-digit" };
 
+  const [loaded, setLoaded] = useState(false);
+
   // State for checkboxes
-  const [pushNotifications, setPushNotifications] = useState(true);
+  const [pushNotifications, setPushNotifications] = useState(false);
   const [inAppNotifications, setInAppNotifications] = useState(false);
 
   const [locale, setLocale] = useState("en-US");
@@ -43,105 +45,116 @@ export default function NotificationsScreen() {
 
   // State for time entries
   const [timeEntries, setTimeEntries] = useState<
-    { id: number; time: string; enabled: boolean }[]
+    { id: number; time: Date; displayTime: string; enabled: boolean }[]
   >([]);
 
   const fixTempLocaleToUS = (locale: string) => {
     return locale === "temp" ? "en-us" : locale;
   };
 
-  async function saveSettingsToBackend() {
-    console.log(
-      (timeEntries as { id: number; time: string; enabled: boolean }[]).map(
-        (val) => {
-          return [person.userId, val.time, val.enabled];
-        }
-      )
-    );
-    fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "x-session-token": person.token,
-        "x-user-email": person.email,
-      },
-      body: JSON.stringify({
-        user_id: person.userId,
-        use_in_app_notifications: inAppNotifications,
-        use_push_notifications: pushNotifications,
-        notification_times: timeEntries,
-      }),
-    }).then((res) => {
-      console.log(res.status);
-    });
-  }
+  // async function saveSettingsToBackend() {
+  //   console.log(
+  //     (
+  //       timeEntries as {
+  //         id: number;
+  //         time: Date;
+  //         displayTime: string;
+  //         enabled: boolean;
+  //       }[]
+  //     ).map((val) => {
+  //       return [person.userId, val.displayTime, val.enabled];
+  //     })
+  //   );
+  //   fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
+  //     method: "PUT",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       "x-session-token": person.token,
+  //       "x-user-email": person.email,
+  //     },
+  //     body: JSON.stringify({
+  //       user_id: person.userId,
+  //       use_in_app_notifications: inAppNotifications,
+  //       use_push_notifications: pushNotifications,
+  //       notification_times: timeEntries,
+  //     }),
+  //   }).then((res) => {
+  //     console.log(res.status);
+  //   });
+  // }
 
-  // Fetching information from local storage for API call
-  useEffect(() => {
-    getSetting("name").then((name) =>
-      getSetting("email").then((email) =>
-        getSetting("token").then((token) =>
-          getSetting("userId").then((userId) => {
-            setPerson({ name, email, token, userId });
-          })
-        )
-      )
-    );
-  }, []);
+  // // Fetching information from local storage for API call
+  // useEffect(() => {
+  //   getSetting("name").then((name) =>
+  //     getSetting("email").then((email) =>
+  //       getSetting("token").then((token) =>
+  //         getSetting("userId").then((userId) => {
+  //           setPerson({ name, email, token, userId });
+  //         })
+  //       )
+  //     )
+  //   );
+  // }, []);
 
-  const [person, setPerson] = useState({
-    name: "",
-    email: "",
-    token: "",
-    userId: "",
-  });
+  // const [person, setPerson] = useState({
+  //   name: "",
+  //   email: "",
+  //   token: "",
+  //   userId: "",
+  // });
 
   // Making an API call to read user settings.
   useEffect(() => {
     getSetting("useInAppNotifications").then((inapp) => {
       getSetting("usePushNotifications").then((push) => {
         getSetting("notificationTimes").then((times) => {
-          getSetting("locale").then((loc) => {
+          getSetting("locale").then((locale) => {
             setInAppNotifications(inapp);
             setPushNotifications(push);
             setLocale(fixTempLocaleToUS(locale));
             setTimeEntries(times);
+            setLoaded(true);
           });
         });
       });
     });
-  }, [person.token]);
+  }, []);
 
-  // Save notification preferences to local storage
-  // const saveNotificationSettings = async () => {
-  //   if (!pushNotifications && !inAppNotifications) {
-  //     alert("At least one notification type must be selected.");
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!loaded) return;
+    saveNotificationSettings();
+  }, [loaded, pushNotifications, inAppNotifications, timeEntries]);
 
-  //   await saveSetting("usePushNotifications", pushNotifications);
-  //   await saveSetting("useInAppNotifications", inAppNotifications);
-  //   await saveSetting("notificationTimes", timeEntries);
+  //Save notification preferences to local storage
+  const saveNotificationSettings = async () => {
+    // if (!pushNotifications && !inAppNotifications) {
+    //   alert("At least one notification type must be selected.");
+    //   return;
+    // }
 
-  //   await saveSettingsToBackend();
+    await saveSetting("usePushNotifications", pushNotifications);
+    await saveSetting("useInAppNotifications", inAppNotifications);
+    await saveSetting("notificationTimes", timeEntries);
 
-  //   alert("Settings saved successfully.");
-  // };
+    //await saveSettingsToBackend();
+
+    //alert("Settings saved successfully.");
+  };
 
   // Function to add a new time entry
   const addTimeEntry = (newDate: Date) => {
     console.log(newDate);
-    console.log(locale);
     const newEntry = {
       id: Date.now(),
-      time: newDate.toLocaleTimeString(locale, TIME_FORMAT_OPTIONS),
+      time: newDate,
+      displayTime: newDate.toLocaleTimeString(locale, TIME_FORMAT_OPTIONS),
       enabled: true,
     };
 
     // If an entry already exists with the same hour/minute, don't allow creating the duplicate
     let overlap: boolean = false;
     for (let i = 0; i < timeEntries.length; i++) {
-      if (newEntry.time == timeEntries[i].time) {
+      if (newEntry.displayTime == timeEntries[i].displayTime) {
         overlap = true;
         break;
       }
@@ -361,7 +374,9 @@ export default function NotificationsScreen() {
           {/* In-App Notifications Option */}
           <TouchableOpacity
             style={styles.optionBox}
-            onPress={() => setInAppNotifications(!inAppNotifications)}
+            onPress={async () => {
+              await setInAppNotifications(!inAppNotifications);
+            }}
             disabled
           >
             <View style={styles.optionHeader}>
@@ -393,7 +408,9 @@ export default function NotificationsScreen() {
 
           <TouchableOpacity
             style={styles.optionBox}
-            onPress={() => setPushNotifications(!pushNotifications)}
+            onPress={async () => {
+              await setPushNotifications(!pushNotifications);
+            }}
           >
             <View style={styles.optionHeader}>
               <View style={styles.checkboxContainer}>
@@ -439,7 +456,9 @@ export default function NotificationsScreen() {
             <View key={entry.id} style={styles.timeEntryBox}>
               <View style={styles.timeEntryLeft}>
                 <View style={styles.timeRow}>
-                  <ThemedText style={styles.timeText}>{entry.time}</ThemedText>
+                  <ThemedText style={styles.timeText}>
+                    {entry.displayTime}
+                  </ThemedText>
                 </View>
                 <ThemedText style={styles.alarmText}>Alarm</ThemedText>
               </View>
@@ -477,6 +496,18 @@ export default function NotificationsScreen() {
             />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
+          {/* Add Time Button */}
+          <TouchableOpacity
+            style={styles.addTimeButton}
+            onPress={() => addTimeEntry(new Date())}
+          >
+            <Ionicons
+              name="add-circle"
+              size={24}
+              color={colors.darkHighlight}
+            />
+            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
+          </TouchableOpacity>
 
           {/* Save Settings Button */}
           {/* <ThemedButton onPress={saveNotificationSettings}>
@@ -494,6 +525,7 @@ export default function NotificationsScreen() {
           onChange={(event, selectedDate) => {
             if (event.type == "set" && selectedDate) {
               setDate(selectedDate);
+              console.log(selectedDate);
               addTimeEntry(selectedDate);
             } else setDate(new Date());
             setTimePickerVisible(false);

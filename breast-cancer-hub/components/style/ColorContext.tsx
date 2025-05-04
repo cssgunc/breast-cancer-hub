@@ -54,3 +54,4 @@ export function useColors() {
   if (!ctx) throw new Error("useColors must be used within a ColorProvider");
   return ctx;
 }
+export { ColorTheme };
