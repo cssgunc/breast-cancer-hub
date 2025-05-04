@@ -87,26 +87,29 @@ export default function HomePage(props: HomePageProps) {
     console.log(allCheckups);
     let lastCheckup = allCheckups.at(-1);
     let lastCheckupDate : Date;
+    let today : Date = new Date();
+    
     if (lastCheckup) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
       console.log("Last checkup date:")
       console.log(lastCheckupDate);
+      const today = new Date();
     } else {
-      const today = new Date(0); // Case of no checkups - is the same as having done one in the far past
-      today.setHours(0, 0, 0, 0);
-      lastCheckupDate = today;
+      const zero = new Date(0); // Case of no checkups - is the same as having done one in the far past
+      zero.setHours(0, 0, 0, 0);
+      lastCheckupDate = zero;
     }
     // Already completed today
     let notification_props : {variant: "completed" | "due" | "upcoming" | "overdue", date: Date};
-    if (isSameDate(lastCheckupDate, new Date())) {
+    if (isSameDate(lastCheckupDate, today)) {
       notification_props = {variant: "completed", date: lastCheckupDate};
     }
     // Due today
-    else if (isSameDate(nextCheckup, new Date())) {
+    else if (isSameDate(nextCheckup, today)) {
       notification_props = {variant: "due", date: nextCheckup};
     }
     // Not time to do it yet
-    else if (new Date() < nextCheckup) {
+    else if (today < nextCheckup) {
       notification_props = {variant: "upcoming", date: nextCheckup};
     }
     else { notification_props = {variant: "overdue", date: nextCheckup}; }
