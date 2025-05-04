@@ -28,13 +28,10 @@ export default function BreastCancerIntro() {
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
         <ThemedText type="title" colored>
-          Breast Cancer
+          What is Breast Cancer?
         </ThemedText>
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
-      <ThemedText type="heading" style={styles.paragraphTextTitle}>
-        What is Breast Cancer?
-      </ThemedText>
       <ThemedView style={onboardingStyles.bodyContainer}>
         <ThemedText bold>
           Breast cancer begins as a growth of abnormal cells in the breast
@@ -50,35 +47,21 @@ export default function BreastCancerIntro() {
             <ThemedText bold colored>
               BREAST CANCER
             </ThemedText>{" "}
-            in their lifetime, and the incidence is alarmingly increasing
+            in their lifetime, and the incidence is increasing
             worldwide.
           </ThemedText>
         </ThemedView>
         <ThemedText>
-          Unfortunately, the death rate is significantly higher in developing
-          countries due to taboo & lack of awareness, leading to late detection,
-          irrespective of education & socio-economic condition.
-        </ThemedText>
-        <ThemedText>
           <ThemedText bold colored>
             MEN
           </ThemedText>{" "}
-          have Breasts too, but due to ignorance,{" "}
-          <ThemedText bold colored>
-            MEN
-          </ThemedText>{" "}
+          have Breasts too, but due to lack of awareness,{" "}
+          men
           tend to present at advanced stages.
         </ThemedText>
         <ThemedText>
-          Breast Cancer Screening is essential for all genders, including men,{" "}
-          <ThemedText bold colored>
-            LGBTQ+
-          </ThemedText>{" "}
-          individuals, and{" "}
-          <ThemedText bold colored>
-            TRANSGENDER
-          </ThemedText>{" "}
-          people.
+          Unfortunately, the breast cancer death rate is significantly higher in developing
+          countries due to taboo and lack of awareness, which leads to late detection.
         </ThemedText>
         <LearnMoreTextContainer />
       </ThemedView>

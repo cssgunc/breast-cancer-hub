@@ -51,26 +51,25 @@ export default function PurposeOfSelfExam() {
           <ThemedText colored bold>
             55 and older
           </ThemedText>{" "}
-          should switch to mammograms every 2 years or can continue yearly
+          should switch to mammograms every 2 years or continue yearly
           screening.
         </ThemedText>
         <ThemedText>
-          But Mammograms may miss half of the Cancers in women with Dense
+          But Mammograms may miss half of the Cancers in women with dense
           breasts. Therefore, 3D mammography, also called digital breast
-          tomosynthesis, is recommended for everyone, potentially finding more
-          cancers, reducing false positives, and allowing better detection in
-          Dense breasts.
+          tomosynthesis, is recommended for everyone. 3D mammography can find more
+          cancers, reduce false positives, and allow better detection in
+          dense breasts.
         </ThemedText>
         <ThemedText bold>
-          Diverse ethnic groups, all Genders, and the Young population are also
+          Diverse ethnic groups, all genders, and even young people are all
           affected by Breast Cancer. Therefore, it is critical to be familiar
           with how our breasts typically look and feel.
         </ThemedText>
         <ThemedText>
           Please start examining your Breast once a month, from the age of 17-18
-          years (Check yourself a week after your period begins; For others -
-          check yourself on the same date every month) - any abnormalities,
-          changes, discharges, painless or painful lump, that don’t go away,
+          years. If you have your period, we reccomend you check yourself a week after your period begins. For others, check yourself on the same date every month.
+          If you have any abnormalities, changes, discharges, painless or painful lump that don’t go away,
           please immediately seek medical advice.
         </ThemedText>
         <ThemedView style={globalStyles.grayLine} />
