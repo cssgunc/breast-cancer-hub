@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 import { useColors } from "../../../../components/style/ColorContext";
-
+import { resources } from "@/i18n";
 export const languageMap: Record<string, string> = {
   English: "en-US",
   Assamese: "as-IN",
@@ -36,6 +36,9 @@ export const languageMap: Record<string, string> = {
 };
 
 const languages = Object.keys(languageMap);
+const availableLanguages = Object.entries(languageMap)
+  .filter(([label, code]) => code in resources)
+  .map(([label]) => label);
 
 export default function SelectLanguage() {
   const { t, i18n } = useTranslation();
@@ -134,7 +137,7 @@ export default function SelectLanguage() {
       {/* Dropdown content */}
       {isOpen && (
         <ThemedView style={styles.dropdown}>
-          {languages.map((language) => (
+          {availableLanguages.map((language) => (
             <TouchableOpacity
               key={language}
               style={styles.languageOption}

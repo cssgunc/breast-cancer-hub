@@ -9,7 +9,7 @@ import translationAr from "./locales/ar-SA/translations.json";
 import translationId from "./locales/id-ID/translations.json";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 
-const resources = {
+export const resources = {
   "en-US": { translation: translationEn },
   en: { translation: translationEn },
   "es-ES": { translation: translationEs },

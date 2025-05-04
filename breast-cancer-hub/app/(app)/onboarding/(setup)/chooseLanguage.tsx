@@ -16,6 +16,10 @@ export default function ChooseLanguage() {
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
       <ThemedView style={onboardingStyles.bodyContainer}>
+        <ThemedText type="caption" italic>
+          Your language choice affects only the instructions and symptoms text
+          during your breast self exam.
+        </ThemedText>
         <SelectLanguage />
       </ThemedView>
     </>

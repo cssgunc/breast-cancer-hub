@@ -30,6 +30,11 @@ export default function ChooseAvatar() {
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
       <ThemedView style={onboardingStyles.bodyContainer}>
+        <ThemedText type="caption" italic>
+          Your avatar choice will affect the list of symptoms shown to you
+          during a self exam. Symptoms are based on the amount of breast tissue.
+          This can be changed at any time.
+        </ThemedText>
         <ThemedView style={styles.avatar}>
           <TouchableOpacity
             onPress={() => avatarPress(false)}
@@ -57,7 +62,7 @@ export default function ChooseAvatar() {
               </ThemedView>
             )}
             <ThemedText type="heading" colored style={{ textAlign: "center" }}>
-              Feminine
+              A
             </ThemedText>
           </TouchableOpacity>
           <TouchableOpacity
@@ -86,7 +91,7 @@ export default function ChooseAvatar() {
               </ThemedView>
             )}
             <ThemedText type="heading" colored style={{ textAlign: "center" }}>
-              Masculine
+              B
             </ThemedText>
           </TouchableOpacity>
         </ThemedView>

@@ -16,6 +16,9 @@ export default function ChooseColorScheme() {
       </ThemedView>
       <ThemedView style={globalStyles.grayLine} />
       <ThemedView style={onboardingStyles.bodyContainer}>
+        <ThemedText type="caption" italic>
+          This is purely for appearance and can be changed.
+        </ThemedText>
         <ThemedView style={globalStyles.settingsButton}>
           <ThemedText type="default" bold colored>
             Pink
