@@ -17,6 +17,8 @@ export default function Checklist() {
   const router = useRouter();
   const { t, i18n } = useTranslation();
 
+  const { scheduleNextCheckup } = useCheckupData();
+
   const { colors, globalStyles } = useColors();
 
   const info_f = [
@@ -94,6 +96,17 @@ export default function Checklist() {
     // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
     await saveCompletedCheckup(selectedSymptoms);
   };
+
+  const next = async () => {
+    saveSymptoms();
+    console.log(await scheduleNextCheckup());
+    router.push({
+      pathname: "/selfExam/nextSteps",
+      params: {
+        symptoms: JSON.stringify(selectedSymptoms),
+      },
+    });
+  }
 
   return (
     <ThemedView
@@ -200,13 +213,18 @@ export default function Checklist() {
             Back to Exam
           </ThemedButton>
           <ThemedButton
-            onPress={() => {
-              saveSymptoms();
-              router.push({
-                pathname: "/selfExam/nextSteps",
-                params: {
-                  symptoms: JSON.stringify(selectedSymptoms),
-                },
+            onPress={async () => {
+              saveSymptoms().then(() => {
+                scheduleNextCheckup().then((date) => {
+                  console.log("scheduleNextCheckup():")
+                  console.log(date);
+                  router.push({
+                    pathname: "/selfExam/nextSteps",
+                    params: {
+                      symptoms: JSON.stringify(selectedSymptoms),
+                    },
+                  });
+                })
               });
             }}
           >

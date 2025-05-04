@@ -15,11 +15,22 @@ export function parseHHMMString(time: string): {
   return { hours, minutes };
 }
 
+/**
+ * 
+ * @param s String in ISO format (YYYY-MM-DDTHH:MM:SS.MMMZ)
+ * @returns Date with year, month, and day, with h/m/s truncated.
+ */
 export function parseISODate(s: string): Date {
   const [year, month, day] = s.split("-").map(Number);
   return new Date(year, month - 1, day);
 }
 
+/**
+ * 
+ * @param a Date to compare
+ * @param b Date to compare
+ * @returns True iff year, month, and day are equal
+ */
 export function isSameDate(a: Date, b: Date) {
   return (
     a.getFullYear() === b.getFullYear() &&

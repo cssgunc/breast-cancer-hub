@@ -24,7 +24,8 @@ import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
 import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
-import { ScheduleExam } from "@/notifications/notifications";
+
+import * as Notifications from "expo-notifications";
 
 type Notif = {
   variant: "upcoming" | "overdue" | "completed";
@@ -87,27 +88,32 @@ export default function HomePage(props: HomePageProps) {
   function calculateNotificationVariant() {
     console.log(allCheckups);
     let lastCheckup = allCheckups.at(-1);
-    let lastCheckupDate;
+    let lastCheckupDate : Date;
     if (lastCheckup) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
+      console.log("Last checkup date:")
       console.log(lastCheckupDate);
     } else {
       const today = new Date(0); // Case of no checkups - is the same as having done one in the far past
       today.setHours(0, 0, 0, 0);
       lastCheckupDate = today;
     }
-    // Already completed
-    if (lastCheckupDate >= nextCheckup) {
-      return "completed";
+    // Already completed today
+    let notification_props : {variant: "completed" | "due" | "upcoming" | "overdue", date: Date};
+    if (isSameDate(lastCheckupDate, new Date())) {
+      notification_props = {variant: "completed", date: lastCheckupDate};
     }
-    if (isSameDate(nextCheckup, new Date())) {
-      return "due";
+    // Due today
+    else if (isSameDate(nextCheckup, new Date())) {
+      notification_props = {variant: "due", date: nextCheckup};
     }
     // Not time to do it yet
-    if (new Date() < nextCheckup) {
-      return "upcoming";
+    else if (new Date() < nextCheckup) {
+      notification_props = {variant: "upcoming", date: nextCheckup};
     }
-    return "overdue";
+    else { notification_props = {variant: "overdue", date: nextCheckup}; }
+    console.log(notification_props);
+    return notification_props;
   }
 
   const styles = StyleSheet.create({
@@ -282,6 +288,31 @@ export default function HomePage(props: HomePageProps) {
         showsVerticalScrollIndicator={false}
         nestedScrollEnabled={true}
       >
+        <TouchableOpacity
+        onPress={ async () => {
+          await getSetting("notificationTimes").then(async (val) => {
+            console.log("nt:");
+            console.log(val);
+            console.log("nextCheckup:")
+            console.log(nextCheckup);
+            // await scheduleNextCheckup().then(async (val) => {
+            //   console.log("nc:")
+            //   console.log(val);
+            //   console.log("nextCheckup:")
+            //   console.log(nextCheckup);
+            //   await Notifications.getAllScheduledNotificationsAsync().then((val) => {
+            //     console.log("getAll:");
+            //     console.log(val);
+            //   })
+            //   }
+            // )
+            }
+          )
+          }}>
+          <ThemedText>
+            a
+          </ThemedText>
+        </TouchableOpacity>
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
           {/* Alerts Section */}
@@ -296,8 +327,8 @@ export default function HomePage(props: HomePageProps) {
             notifications.map((notification) => ( 
           <React.Fragment key={notification.id}> */}
           <NotificationComponent
-            variant={calculateNotificationVariant()}
-            date={nextCheckup}
+            variant = {calculateNotificationVariant().variant}
+            date = {calculateNotificationVariant().date}
             //onDismiss={() => removeNotification(notification.id)}
           />
           {/* </React.Fragment>

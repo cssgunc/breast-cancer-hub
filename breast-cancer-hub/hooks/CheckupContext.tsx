@@ -51,6 +51,8 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     (async () => {
       const storedCheckup = await getSetting("nextExamDate");
+      console.log("nextExamDate:");
+      console.log(storedCheckup);
       const storedDate = parseISODate(storedCheckup);
       setNextCheckup(storedDate);
       const storedCheckupHistory = await getSetting("checkups");
@@ -112,7 +114,9 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } else {
       const examDay = userMenstruationType.day;
-      scheduledExam = getNextMonthlyDate(examDay);
+      console.log("examDay:");
+      console.log(examDay);
+      scheduledExam = await getNextMonthlyDate(examDay);
     }
     saveSetting("nextExamDate", scheduledExam.toISOString().split("T")[0]);
     setNextCheckup(scheduledExam);
@@ -142,13 +146,41 @@ const addDaysToTimestamp = (ts: PeriodTimestamp, days: number) => {
   return timestampDate;
 };
 
-const getNextMonthlyDate = (targetDay: number, from = new Date()): Date => {
+const getNextMonthlyDate = async (targetDay: number, from = new Date()): Promise<Date> => {
   const year = from.getFullYear();
   const month = from.getMonth();
   const today = from.getDate();
 
+  const storedCheckups = await getSetting("checkups");
+  const checkupDates = storedCheckups.map((checkup) => {
+    return parseISODate(checkup.completedOn);
+  });
+  console.log("checkupDates:")
+  console.log(checkupDates);
+
+  // get last checkup date
+  let lastCheckupDate = new Date(0);
+  for (let i = 0; i < checkupDates.length; i++) {
+    if (checkupDates[i].getTime() > lastCheckupDate.getTime()) {
+      lastCheckupDate = checkupDates[i];
+    }
+  }
+
+  console.log("latest checkup:");
+  console.log(lastCheckupDate.toISOString());
+  const lastCheckupYear = lastCheckupDate.getFullYear();
+  const lastCheckupMonth = lastCheckupDate.getMonth();
+  const lastCheckupDay = lastCheckupDate.getDate();
+
   // Have we passed this date this month already?
-  const offset = today <= targetDay ? 0 : 1;
+  const offset = (
+    // If last checkup was not the current month, not done this month.
+    !(lastCheckupYear == year && lastCheckupMonth == month)
+      ||
+    // If last checkup was not on or after the exam day, not done this month. 
+    (lastCheckupDay < targetDay)
+  ) ? 0 : 1;
+
   const targetMonth = month + offset;
 
   // Get last day of month
