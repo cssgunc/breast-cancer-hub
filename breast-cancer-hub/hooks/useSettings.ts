@@ -109,6 +109,16 @@ export async function saveSetting<T extends SettingKeys>(
     storageKey = key;
   } else {
     const userId = JSON.parse((await _rawGet("userId")) || "");
+
+    if (userId && key !== "schemaVersion") {
+      const schemaKey = `user_${userId}_schemaVersion`;
+      const existingSchema = await _rawGet(schemaKey);
+      if (existingSchema == null) {
+        // nothing persisted yet, so initialize it
+        await _rawSet(schemaKey, JSON.stringify(CURRENT_SCHEMA));
+      }
+    }
+
     storageKey = `user_${userId}_${key}`;
     // if (await getSetting("useBackupData")) {
     //   backupSettings(userId, key, value);
