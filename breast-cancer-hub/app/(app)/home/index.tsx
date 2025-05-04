@@ -25,8 +25,6 @@ import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
 import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
 
-import * as Notifications from "expo-notifications";
-
 type Notif = {
   variant: "upcoming" | "overdue" | "completed";
   date: Date;
