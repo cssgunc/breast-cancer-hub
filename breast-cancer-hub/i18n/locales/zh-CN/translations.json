@@ -1,0 +1,23 @@
+{
+  "CHECK_IN_MIRROR_F": "请在镜子前检查你的乳房是否有任何症状或异常。",
+  "CHECK_NIPPLES_F": "请仔细检查乳头。肿块可能会隐藏在乳头后面。",
+  "SITTING_STANDING_F": "检查时可以使用坐或站立的姿势。检查时使用中间三个手指的指腹用轻、中、和重的力道压力检查。(请参照步骤4检查制定的区域)",
+  "COLLARBONE_F": "检查从锁骨位置开始,按照从上到下,由内侧向外侧的顺序检查整个乳房。",
+  "IN_BED_F": "请平躺在床上重复步骤3和4。平躺可以让乳房组织更均匀地散开。",
+  "CHECK_IN_MIRROR_M": "请在镜子前检查你的胸部是否有任何症状或异常。",
+  "CHECK_NIPPLES_M": "请检查乳头。大多数男性病患会在乳头下发现肿块。",
+  "SITTING_STANDING_M": "请先以坐姿或站姿检查。检查时,用食指、中指和无名指的指腹,按轻、中、 三重力道的顺序检查。(检查区域见步骤4)",
+  "COLLARBONE_M": "检查从锁骨位置开始,按照从上到下,由内侧向外侧的顺序检查整个胸部。",
+  "IN_BED_M": "请平躺在床上重复步骤3和4。平躺可以让胸部组织更均匀地散开。",
+  "SYMPTOMS_SWELLING_F": "乳房全部或(即使没有明显肿块)。",
+  "SYMPTOMS_IRRITATION_DIMPLING_F": "皮肤瘙痒/刺痛或褶皱(有时看起来像橘皮)。",
+  "SYMPTOMS_PAIN_F": "乳房或乳头疼痛。",
+  "SYMPTOMS_RETRACTION_F": "乳头向内凹陷。",
+  "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F": "乳头或乳房皮肤发红,鳞屑或增厚。",
+  "SYMPTOMS_DISCHARGE_F": "乳头溢液(母乳除外)。",
+  "SYMPTOMS_LUMP_THICKENING_M": "无痛的肿块或胸部组织增厚。",
+  "SYMPTOMS_SKIN_CHANGES_M": "胸部皮肤的变化,例如凹陷,起皱,发红,或出现鳞屑。",
+  "SYMPTOMS_NIPPLE_CHANGES_M": "乳头的变化,例如发红或出现鳞屑,又或乳头开始向内凹陷",
+  "SYMPTOMS_DISCHARGE_M": "乳头溢液",
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "疼痛或无痛的肿块"
+}

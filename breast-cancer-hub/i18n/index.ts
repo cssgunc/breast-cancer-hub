@@ -4,9 +4,28 @@ import * as Localization from "expo-localization";
 import { I18nManager } from "react-native";
 import translationEn from "./locales/en-US/translations.json";
 import translationEs from "./locales/es-ES/translations.json";
-import translationAs from "./locales/as-IN/translations.json";
 import translationAr from "./locales/ar-SA/translations.json";
+import translationAs from "./locales/as-IN/translations.json";
+import translationBn from "./locales/bn-BD/translations.json";
+import translationFa from "./locales/fa-IR/translations.json";
+import translationGu from "./locales/gu-IN/translations.json";
+import translationHi from "./locales/hi-IN/translations.json";
 import translationId from "./locales/id-ID/translations.json";
+import translationJa from "./locales/ja-JP/translations.json";
+import translationKn from "./locales/kn-IN/translations.json";
+import translationMl from "./locales/ml-IN/translations.json";
+import translationMr from "./locales/mr-IN/translations.json";
+import translationOr from "./locales/or-IN/translations.json";
+import translationPa from "./locales/pa-IN/translations.json";
+import translationPt from "./locales/pt-PT/translations.json";
+import translationRu from "./locales/ru-RU/translations.json";
+import translationSw from "./locales/sw-KE/translations.json";
+import translationTa from "./locales/ta-IN/translations.json";
+import translationTe from "./locales/te-IN/translations.json";
+import translationUr from "./locales/ur-PK/translations.json";
+import translationUz from "./locales/uz-UZ/translations.json";
+import translationZh from "./locales/zh-CN/translations.json";
+
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export const resources = {
@@ -14,15 +33,51 @@ export const resources = {
   en: { translation: translationEn },
   "es-ES": { translation: translationEs },
   es: { translation: translationEs },
-  "as-IN": { translation: translationAs },
-  as: { translation: translationAs },
   "ar-SA": { translation: translationAr },
   ar: { translation: translationAr },
+  "as-IN": { translation: translationAs },
+  as: { translation: translationAs },
+  "bn-BD": { translation: translationBn },
+  bn: { translation: translationBn },
+  "fa-IR": { translation: translationFa },
+  fa: { translation: translationFa },
+  "gu-IN": { translation: translationGu },
+  gu: { translation: translationGu },
+  "hi-IN": { translation: translationHi },
+  hi: { translation: translationHi },
   "id-ID": { translation: translationId },
   id: { translation: translationId },
+  "ja-JP": { translation: translationJa },
+  ja: { translation: translationJa },
+  "kn-IN": { translation: translationKn },
+  kn: { translation: translationKn },
+  "ml-IN": { translation: translationMl },
+  ml: { translation: translationMl },
+  "mr-IN": { translation: translationMr },
+  mr: { translation: translationMr },
+  "or-IN": { translation: translationOr },
+  or: { translation: translationOr },
+  "pa-IN": { translation: translationPa },
+  pa: { translation: translationPa },
+  "pt-PT": { translation: translationPt },
+  pt: { translation: translationPt },
+  "ru-RU": { translation: translationRu },
+  ru: { translation: translationRu },
+  "sw-KE": { translation: translationSw },
+  sw: { translation: translationSw },
+  "ta-IN": { translation: translationTa },
+  ta: { translation: translationTa },
+  "te-IN": { translation: translationTe },
+  te: { translation: translationTe },
+  "ur-PK": { translation: translationUr },
+  ur: { translation: translationUr },
+  "uz-UZ": { translation: translationUz },
+  uz: { translation: translationUz },
+  "zh-CN": { translation: translationZh },
+  zh: { translation: translationZh },
 };
 
-const RTL_LANGUAGES = ["ar", "ar-SA"];
+const RTL_LANGUAGES = ["ar", "ar-SA", "fa", "fa-IR", "ur", "ur-PK"];
 
 const initI18n = async () => {
   try {
