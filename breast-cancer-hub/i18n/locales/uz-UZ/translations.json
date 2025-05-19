@@ -1,0 +1,23 @@
+{
+  "CHECK_IN_MIRROR_F": "Oynani oldida ko'kraklaringizni alomatlar va usimtalar uchun tekshiring.",
+  "CHECK_NIPPLES_F": "Ko'krak uchi atrofini tekshiring. Ko'pincha ko'krak uchini ostida bezlarni topish mumkin.",
+  "SITTING_STANDING_F": "O'tirgan yoki turgan holatda tekshirish lozim. Uch hil tekshirish usuli bor: engil, o'rta, va kuchli paypaslash. Buning uchun uchta o'rta barmoqlar yordamida, engil, o'rta, va kuchli usullari bilan paypaslap ko'ring. (To'rtinchi rasimda tekshiriladigan qismi qo'rsatilgan)",
+  "COLLARBONE_F": "Tekshiruv umrov suyagidan boshlash lozim. Vertikal holatda ko'krakni boshidan ohirigacha tekshirish lozim.",
+  "IN_BED_F": "Yotgan holatda ya'ni ko'krak to'qimasi tekis holatida ham tekshirish lozim.",
+  "CHECK_IN_MIRROR_M": "Oynani oldida ko'kraklaringizni alomatlar va usimtalar uchun tekshiring.",
+  "CHECK_NIPPLES_M": "Ko'krak uchi atrofini tekshiring. Ko'pincha ko'krak uchini ostida bezlarni topish mumkin.",
+  "SITTING_STANDING_M": "O'tirgan yoki turgan holatda tekshirish lozim. Uch hil tekshirish usuli bor: engil, o'rta, va kuchli paypaslash. Buning uchun uchta o'rta barmoqlar yordamida, engil, o'rta, va kuchli usullari bilan paypaslap ko'ring. (To'rtinchi rasimda tekshiriladigan qismi qo'rsatilgan)",
+  "COLLARBONE_M": "Tekshiruv umrov suyagidan boshlash lozim. Vertikal holatda ko'krakni boshidan ohirigacha tekshirish lozim.",
+  "IN_BED_M": "Yotgan holatda ya'ni ko'krak to'qimasi tekis holatida ham tekshirish lozim.",
+  "SYMPTOMS_SWELLING_F": "Og'riqsiz bezlar yoki qalinlashgan ko'krak to'qimasi",
+  "SYMPTOMS_IRRITATION_DIMPLING_F": "Ko'krak terisini o'zgarishlari (masalan: agjinlar paydo bolishi, terini qizarish, yoki qo'chip qichishish)",
+  "SYMPTOMS_PAIN_F": "Ko'krakni og'riqi yoki ko'krak uchini og'riqi",
+  "SYMPTOMS_RETRACTION_F": "Ko'krak uchi ichkariga burilishi mumkin",
+  "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F": "Ko'krak uchi atrofini o'zgarishlari (masalan: terini qizarish yoki qo'chip qichishish",
+  "SYMPTOMS_DISCHARGE_F": "Ko'krakdan suyuqlik kelishi mumkin (ona sutidan tashqari)",
+  "SYMPTOMS_LUMP_THICKENING_M": "Og'riqsiz bezlar yoki qalinlashgan ko'krak to'qimasi.",
+  "SYMPTOMS_SKIN_CHANGES_M": "Ko'krak terisini o'zgarishlari (masalan: agjinlar paydo bolishi, terini qizarish, yoki qo'chip qichishish)",
+  "SYMPTOMS_NIPPLE_CHANGES_M": "Ko'krak uchi atrofini o'zgarishlari (masalan: qizarish, qo'chip qichishish, yoki ko'krak uchi ichkariga burilishi mumkin)",
+  "SYMPTOMS_DISCHARGE_M": "Ko'krakdan suyuqlik kelishi mumkin.",
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "Og'riqli yoki og'riqsiz shish."
+}

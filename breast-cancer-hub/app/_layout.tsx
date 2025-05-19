@@ -1,37 +1,51 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { ColorProvider, useColors } from "@/components/style/ColorContext";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Stack, useRouter } from "expo-router";
+import {
+  initializeNotificationHandler,
+  registerNotifications,
+} from "../notifications/notifications";
+import { useEffect } from "react";
+import * as Notifications from "expo-notifications";
+import "@/i18n";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
+  initializeNotificationHandler();
+  registerNotifications();
+
+  const router = useRouter();
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        const url = response.notification.request.content.data.url;
+        if (url) {
+          router.push(url);
+        }
+      }
+    );
+    return () => subscription.remove();
+  }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <SafeAreaProvider>
+      <ColorProvider>
+        <ThemedSafeArea>
+          <Stack screenOptions={{ headerShown: false }}></Stack>
+        </ThemedSafeArea>
+      </ColorProvider>
+    </SafeAreaProvider>
+  );
+}
+
+function ThemedSafeArea({ children }: { children: React.ReactNode }) {
+  const { colors } = useColors();
+  return (
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: colors.darkHighlight }}
+      edges={["top", "left", "right", "bottom"]}
+    >
+      {children}
+    </SafeAreaView>
   );
 }

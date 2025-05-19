@@ -1,0 +1,23 @@
+{
+  "CHECK_IN_MIRROR_F": "Examine sus senos en frente al espejo buscando síntomas o anormalidades.",
+  "CHECK_NIPPLES_F": "Examine sus pezones cuidadosamente, bultos pueden encontrase debajo del pezón.",
+  "SITTING_STANDING_F": "Examine sus senos con los pulpejos de los tres dedos centrales, aplique mediana a profunda presión y utilice luz para el examen. Realice este examen en posición sentada y parada. (Vea paso 4, para el área a ser examinada)",
+  "COLLARBONE_F": "El examen debe iniciarse desde la clavicula y en forma descendente y luego ascendiendo hasta cubrir totalmente el área de la mama/seno.",
+  "IN_BED_F": "Acuéstese boca arriba, en esta posición su tejido mamario estará dispuesto en una forma más homogénea. Repita paso 3 y 4 en esta posición.",
+  "CHECK_IN_MIRROR_M": "Examine sus senos en frente al espejo por cualquier sintoma o anormalidad.",
+  "CHECK_NIPPLES_M": "Examine el pezón, la mayoría de los bultos en hombres se localizan debajo del pezón.",
+  "SITTING_STANDING_M": "Examine sus senos con los pulpejos de los tres dedos centrales, aplique mediana a profunda presión y utilice luz para el examen. Realice este examen sentado y parado. (Vea paso 4, para el área a ser examinada)",
+  "COLLARBONE_M": "El examen debe iniciarse desde la clavicula y en forma descendente y luego ascendiendo hasta cubrir totalmente el área de la mama/seno.",
+  "IN_BED_M": "Acuéstese boca arriba, en esta posición su tejido mamario estará dispuesto en una forma más homogénea. Repita paso 3 y 4 en esta posición.",
+  "SYMPTOMS_SWELLING_F": "Inflamación de la mama/ seno parcial o total (a pesar de que no se palpe ningún bulto)",
+  "SYMPTOMS_IRRITATION_DIMPLING_F": "Irritación arrugamiento de la piel de la mama/ seno (a veces luce como piel de naranja)",
+  "SYMPTOMS_PAIN_F": "Dolor en la mama/ seno o en el pezón",
+  "SYMPTOMS_RETRACTION_F": "Retracción del pezón (pezón umbilicado)",
+  "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F": "Enrojecimiento, descamación o engrosamiento de la piel de la mama/ seno o del pezón",
+  "SYMPTOMS_DISCHARGE_F": "Descarga de liquido por el pezón (diferente de la leche materna)",
+  "SYMPTOMS_LUMP_THICKENING_M": "Un bulto indoloro o engrosamiento del tejido mamario",
+  "SYMPTOMS_SKIN_CHANGES_M": "Cambios en la piel que cubre el seno, como ser arrugamiento, enrojecimiento y piel de naranja",
+  "SYMPTOMS_NIPPLE_CHANGES_M": "Cambios en el pezón, como ser enrojecimiento, descamación o un pezón que comienza a meterse hacia adentro (pezón umbilicado)",
+  "SYMPTOMS_DISCHARGE_M": "Descarga de liquido por el pezón",
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "Tumores indoloros o dolorosos"
+}
