@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "breast-cancer-hub",
+    "name": "BCH Self Exam - Know Your Breasts",
     "slug": "breast-cancer-hub",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/app_logo.png",
     "scheme": "myapp",
