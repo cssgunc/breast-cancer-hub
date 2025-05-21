@@ -19,5 +19,6 @@
   "SYMPTOMS_SKIN_CHANGES_M": "Ko'krak terisini o'zgarishlari (masalan: agjinlar paydo bolishi, terini qizarish, yoki qo'chip qichishish)",
   "SYMPTOMS_NIPPLE_CHANGES_M": "Ko'krak uchi atrofini o'zgarishlari (masalan: qizarish, qo'chip qichishish, yoki ko'krak uchi ichkariga burilishi mumkin)",
   "SYMPTOMS_DISCHARGE_M": "Ko'krakdan suyuqlik kelishi mumkin.",
-  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "Og'riqli yoki og'riqsiz shish."
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "Og'riqli yoki og'riqsiz shish.",
+  "SYMPTOMS_NONE": "Yuqoridagi belgilarning hech biri."
 }

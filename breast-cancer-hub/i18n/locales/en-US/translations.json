@@ -16,8 +16,9 @@
   "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F": "Redness, scaliness, or thickening of the nipple or breast skin.",
   "SYMPTOMS_DISCHARGE_F": "Nipple discharge (other than breast milk).",
   "SYMPTOMS_LUMP_THICKENING_M": "A painless lump or thickening in your breast tissue.",
-  "SYMPTOMS_SKIN_CHANGES_M": "Changes to the skin covering your breast, such as dimpling, wrinkling. redness, or scaling",
+  "SYMPTOMS_SKIN_CHANGES_M": "Changes to the skin covering your breast, such as dimpling, wrinkling. redness, or scaling.",
   "SYMPTOMS_NIPPLE_CHANGES_M": "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-  "SYMPTOMS_DISCHARGE_M": "Discharge from your nipple",
-  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "Painless or painful tumor"
+  "SYMPTOMS_DISCHARGE_M": "Discharge from your nipple.",
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "Painless or painful tumor.",
+  "SYMPTOMS_NONE": "None of the above."
 }
