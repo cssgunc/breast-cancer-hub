@@ -89,6 +89,12 @@ export default function CalendarOnboardingScreen(
           <View style={customizeStyles.bodyContainer}>
             {/* White Rectangle */}
             <View style={customizeStyles.whiteBox}>
+              <ThemedText type="caption" italic style={{ textAlign: "center" }}>
+                Breast self-exams are due{" "}
+                <ThemedText colored bold>
+                  7 days after the start of each period.{" "}
+                </ThemedText>
+              </ThemedText>
               {isMenstruating != null && (
                 <CalendarComponent
                   isMenstruating={isMenstruating}
@@ -98,9 +104,9 @@ export default function CalendarOnboardingScreen(
                 />
               )}
               <ThemedText type="caption" italic style={{ textAlign: "center" }}>
-                Press "Edit Periods" and select the days of your most recent
-                period. The blue circle automatically marks your next breast
-                self-exam date.
+                Press "Edit Periods" and select the start date of your most
+                recent period. The blue circle automatically marks your next
+                breast self-exam date.
               </ThemedText>
               <ThemedText italic colored style={{ textAlign: "center" }}>
                 Your periods and menstruation status can be changed at any time.

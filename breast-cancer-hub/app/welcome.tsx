@@ -16,10 +16,6 @@ export default function WelcomePage() {
     saveSetting("userId", "local");
     saveSetting("name", name);
 
-    if (!name.trim()) {
-      alert("Please enter your name before continuing.");
-      return;
-    }
     try {
       const onboarding = await getSetting("onboarding");
       if (onboarding === false) {
@@ -50,14 +46,18 @@ export default function WelcomePage() {
             </ThemedText>
             <ThemedText type="title">Self-Exam App!</ThemedText>
           </ThemedView>
-          <ThemedText>
-            Early detection saves lives. Please enter your name for the app to
-            refer to you by.
-          </ThemedText>
+          <ThemedView style={{ gap: 20, padding: 20 }}>
+            <ThemedText>
+              Breast Cancer Hub (BCH)'s "Know Your Breasts" App serves as a
+              vital monthly reminder for individuals of All Genders to perform
+              Breast Self-Exams (BSE). Early detection saves lives!
+            </ThemedText>
+          </ThemedView>
+
           <View style={globalStyles.loginInputContainer}>
             <TextInput
               style={globalStyles.loginInput}
-              placeholder="Name"
+              placeholder="Name (optional, can be changed at any time)"
               placeholderTextColor="gray"
               value={name}
               onChangeText={setName}

@@ -83,15 +83,21 @@ export default function HomePage(props: HomePageProps) {
     Linking.openURL(url);
   };
 
+  function getGreeting() {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  }
   function calculateNotificationVariant() {
     console.log(allCheckups);
     let lastCheckup = allCheckups.at(-1);
-    let lastCheckupDate : Date;
-    let today : Date = new Date();
-    
+    let lastCheckupDate: Date;
+    let today: Date = new Date();
+
     if (lastCheckup) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
-      console.log("Last checkup date:")
+      console.log("Last checkup date:");
       console.log(lastCheckupDate);
       const today = new Date();
     } else {
@@ -100,19 +106,23 @@ export default function HomePage(props: HomePageProps) {
       lastCheckupDate = zero;
     }
     // Already completed today
-    let notification_props : {variant: "completed" | "due" | "upcoming" | "overdue", date: Date};
+    let notification_props: {
+      variant: "completed" | "due" | "upcoming" | "overdue";
+      date: Date;
+    };
     if (isSameDate(lastCheckupDate, today)) {
-      notification_props = {variant: "completed", date: lastCheckupDate};
+      notification_props = { variant: "completed", date: lastCheckupDate };
     }
     // Due today
     else if (isSameDate(nextCheckup, today)) {
-      notification_props = {variant: "due", date: nextCheckup};
+      notification_props = { variant: "due", date: nextCheckup };
     }
     // Not time to do it yet
     else if (today < nextCheckup) {
-      notification_props = {variant: "upcoming", date: nextCheckup};
+      notification_props = { variant: "upcoming", date: nextCheckup };
+    } else {
+      notification_props = { variant: "overdue", date: nextCheckup };
     }
-    else { notification_props = {variant: "overdue", date: nextCheckup}; }
     console.log(notification_props);
     return notification_props;
   }
@@ -275,7 +285,8 @@ export default function HomePage(props: HomePageProps) {
         {/* Greeting */}
         <View style={styles.greetingContainer}>
           <ThemedText type="title" style={{ fontSize: 26 }}>
-            Good Morning,{" "}
+            {getGreeting()}
+            {name ? ", " : ""}
           </ThemedText>
           <ThemedText type="title" style={{ fontSize: 26 }} colored>
             {name}!
@@ -303,8 +314,8 @@ export default function HomePage(props: HomePageProps) {
             notifications.map((notification) => ( 
           <React.Fragment key={notification.id}> */}
           <NotificationComponent
-            variant = {calculateNotificationVariant().variant}
-            date = {calculateNotificationVariant().date}
+            variant={calculateNotificationVariant().variant}
+            date={calculateNotificationVariant().date}
             //onDismiss={() => removeNotification(notification.id)}
           />
           {/* </React.Fragment>
@@ -351,7 +362,7 @@ export default function HomePage(props: HomePageProps) {
           <View style={styles.contactButtons}>
             <ThemedButton
               onPress={() =>
-                openLink("https://www.breastcancerhub.org/new-page-3")
+                openLink("https://www.breastcancerhub.org/contact-us")
               }
             >
               Contact BCH
@@ -478,7 +489,7 @@ export default function HomePage(props: HomePageProps) {
                   style={styles.modalButton}
                   onPress={() =>
                     openLink(
-                      "https://www.breastcancerhub.org/bchwing-childhood-cancer-hub"
+                      "https://www.breastcancerhub.org/educational-cards"
                     )
                   }
                 >

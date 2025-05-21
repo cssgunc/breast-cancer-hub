@@ -135,7 +135,7 @@ export default function NextStepsScreen() {
           {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
           <ThemedButton
             onPress={() =>
-              Linking.openURL("https://www.breastcancerhub.org/new-page-3")
+              Linking.openURL("https://www.breastcancerhub.org/contact-us")
             }
           >
             Contact BCH
