@@ -81,7 +81,7 @@ export default function CheckupDetails({ date }: { date: string }) {
     });
   };
 
-  if (isLoading == true) {
+  if (isLoading === true) {
     return (
       <ThemedView
         bgColor={colors.darkHighlight}

@@ -17,7 +17,7 @@ export default function MenstruationSelectionScreen() {
 
   const handleSaveChanges = () => {
     if (selectedOption) {
-      if (selectedOption == "menstruate") {
+      if (selectedOption === "menstruate") {
         saveSetting("schedulingType", "period").then(() => {
           router.push("/customizeCalendar");
         });

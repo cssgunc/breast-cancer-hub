@@ -5,7 +5,7 @@ import { onboardingStyles } from "..";
 import { useColors } from "@/components/style/ColorContext";
 
 export default function ChooseLanguage() {
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
   return (
     <>
       <ThemedView style={onboardingStyles.titleContainer}>

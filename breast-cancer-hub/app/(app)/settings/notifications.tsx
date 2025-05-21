@@ -21,9 +21,8 @@ import ThemedButton from "@/components/ThemedButton";
 
 export default function NotificationsScreen() {
   const router = useRouter();
-  const { colors, globalStyles } = useColors();
+  const { colors } = useColors();
 
-  const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
   const TIME_FORMAT_OPTIONS: {
     hour: "2-digit" | "numeric" | undefined;
     minute: "2-digit" | "numeric" | undefined;
@@ -154,7 +153,7 @@ export default function NotificationsScreen() {
     // If an entry already exists with the same hour/minute, don't allow creating the duplicate
     let overlap: boolean = false;
     for (let i = 0; i < timeEntries.length; i++) {
-      if (newEntry.displayTime == timeEntries[i].displayTime) {
+      if (newEntry.displayTime === timeEntries[i].displayTime) {
         overlap = true;
         break;
       }
@@ -523,7 +522,7 @@ export default function NotificationsScreen() {
           positiveButton={{ label: "Add", textColor: colors.darkHighlight }}
           negativeButton={{ label: "Cancel", textColor: colors.darkHighlight }}
           onChange={(event, selectedDate) => {
-            if (event.type == "set" && selectedDate) {
+            if (event.type === "set" && selectedDate) {
               setDate(selectedDate);
               console.log(selectedDate);
               addTimeEntry(selectedDate);

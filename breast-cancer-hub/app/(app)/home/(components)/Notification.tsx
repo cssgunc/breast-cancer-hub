@@ -16,7 +16,7 @@ export default function NotificationComponent({
   date,
 }: //onDismiss,
 NotificationComponentProps) {
-  const { colors, globalStyles } = useColors();
+  const { colors } = useColors();
 
   const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
@@ -137,7 +137,7 @@ NotificationComponentProps) {
       <TouchableOpacity
         style={styles.textContainer}
         onPress={() => {
-          if (variant == "overdue" || variant == "due") {
+          if (variant === "overdue" || variant === "due") {
             router.push("/selfExam/intro");
           }
         }}

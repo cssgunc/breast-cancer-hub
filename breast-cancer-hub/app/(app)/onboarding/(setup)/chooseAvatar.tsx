@@ -1,12 +1,12 @@
 import { useColors } from "@/components/style/ColorContext";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
-import { getSetting, saveSetting } from "@/hooks/useSettings";
+import { saveSetting } from "@/hooks/useSettings";
 import { TouchableOpacity } from "react-native";
 import { Image, StyleSheet } from "react-native";
 import { onboardingStyles } from "..";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 export default function ChooseAvatar() {
   const { colors, globalStyles } = useColors();
   const [selected, setSelected] = useState<boolean | null>(null);

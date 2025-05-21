@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { getSetting, saveSetting } from "./useSettings";
 import { PeriodTimestamp } from "./PeriodContext";
 import { ScheduleExam } from "@/notifications/notifications";
-import { parseHHMMString, parseISODate } from "@/constants/dateTimeUtils";
+import { parseISODate } from "@/constants/dateTimeUtils";
 export type Checkup = {
   completedOn: string;
   symptomsChecked: string[];
@@ -146,16 +146,18 @@ const addDaysToTimestamp = (ts: PeriodTimestamp, days: number) => {
   return timestampDate;
 };
 
-const getNextMonthlyDate = async (targetDay: number, from = new Date()): Promise<Date> => {
+const getNextMonthlyDate = async (
+  targetDay: number,
+  from = new Date()
+): Promise<Date> => {
   const year = from.getFullYear();
   const month = from.getMonth();
-  const today = from.getDate();
 
   const storedCheckups = await getSetting("checkups");
   const checkupDates = storedCheckups.map((checkup) => {
     return parseISODate(checkup.completedOn);
   });
-  console.log("checkupDates:")
+  console.log("checkupDates:");
   console.log(checkupDates);
 
   // get last checkup date
@@ -173,13 +175,13 @@ const getNextMonthlyDate = async (targetDay: number, from = new Date()): Promise
   const lastCheckupDay = lastCheckupDate.getDate();
 
   // Have we passed this date this month already?
-  const offset = (
+  const offset =
     // If last checkup was not the current month, not done this month.
-    !(lastCheckupYear == year && lastCheckupMonth == month)
-      ||
-    // If last checkup was not on or after the exam day, not done this month. 
-    (lastCheckupDay < targetDay)
-  ) ? 0 : 1;
+    !(lastCheckupYear === year && lastCheckupMonth === month) ||
+    // If last checkup was not on or after the exam day, not done this month.
+    lastCheckupDay < targetDay
+      ? 0
+      : 1;
 
   const targetMonth = month + offset;
 

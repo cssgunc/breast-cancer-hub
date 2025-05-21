@@ -27,7 +27,7 @@ const StepIndicators: React.FC<StepIndicatorsProps> = ({
     <View style={styles.indicatorContainer}>
       {Array.from({ length: totalSteps }).map((_, index) => {
         //adjusts the comparison so the first step is considered at index 0
-        const iconName = index == currentStep ? "circle" : "circle-o";
+        const iconName = index === currentStep ? "circle" : "circle-o";
         return (
           <FontAwesome
             key={index}

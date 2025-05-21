@@ -3,11 +3,8 @@ import { Slot, useSegments } from "expo-router";
 import NavigationFooter from "./(components)/NavigationFooter";
 import AccountSettingsHeaderComponent from "../../../components/navigation/AccountSettingsHeader";
 import { ONBOARDING_STEPS, onboardingStyles } from ".";
-import { ThemedView } from "@/components/style/ThemedView";
-import { useColors } from "@/components/style/ColorContext";
 import { useEffect, useRef } from "react";
 export default function OnboardingLayout() {
-  const { colors, globalStyles } = useColors();
   const scrollViewRef = useRef<ScrollView>(null);
   const segments = useSegments();
 

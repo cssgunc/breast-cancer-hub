@@ -1,7 +1,6 @@
 import { useRouter, RelativePathString } from "expo-router";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
-import { ThemedText } from "@/components/style/ThemedText";
 import { useColors } from "@/components/style/ColorContext";
 import StepIndicators from "@/components/StepIndicators";
 import { usePathname } from "expo-router";
@@ -18,7 +17,7 @@ export default function NavigationFooter({
 }: NavigationFooterProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
 
   const fullSteps = stepRoutes; //.map((r) => (r.startsWith("/") ? r : `/${r}`));
 

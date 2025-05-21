@@ -11,18 +11,12 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import CalendarComponent from "@/app/(app)/home/(components)/Calendar";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
-
-type Noti = {
-  id: number;
-  variant: "default" | "overdue" | undefined;
-  date: Date;
-};
 
 export type CalendarOnboardingProps = Partial<{
   name: string;

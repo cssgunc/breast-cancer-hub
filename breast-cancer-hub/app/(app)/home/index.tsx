@@ -25,11 +25,6 @@ import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
 import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
 
-type Notif = {
-  variant: "upcoming" | "overdue" | "completed";
-  date: Date;
-};
-
 export type HomePageProps = Partial<{
   name: string;
   isMenstruating: boolean;
@@ -99,7 +94,6 @@ export default function HomePage(props: HomePageProps) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
       console.log("Last checkup date:");
       console.log(lastCheckupDate);
-      const today = new Date();
     } else {
       const zero = new Date(0); // Case of no checkups - is the same as having done one in the far past
       zero.setHours(0, 0, 0, 0);

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { useColors } from "@/components/style/ColorContext";

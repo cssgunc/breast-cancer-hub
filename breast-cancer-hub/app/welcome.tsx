@@ -10,7 +10,7 @@ import ThemedButton from "@/components/ThemedButton";
 export default function WelcomePage() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
 
   const handleSubmit = async () => {
     saveSetting("userId", "local");

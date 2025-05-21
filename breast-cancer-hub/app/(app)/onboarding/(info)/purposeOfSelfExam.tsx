@@ -6,7 +6,7 @@ import { onboardingStyles } from "..";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function PurposeOfSelfExam() {
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
 
   const styles = StyleSheet.create({
     quotesContainer: {

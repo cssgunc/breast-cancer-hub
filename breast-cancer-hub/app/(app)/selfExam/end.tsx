@@ -13,7 +13,7 @@ import AccountSettingsHeaderComponent from "@/components/navigation/AccountSetti
 import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 
-export default function HomeScreen() {
+export default function SelfExamEndScreen() {
   const router = useRouter();
   const { colors, globalStyles } = useColors();
 
@@ -23,7 +23,7 @@ export default function HomeScreen() {
   useEffect(() => {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
-      if (schedulingType == "period") {
+      if (schedulingType === "period") {
         setCheckText("Check yourself a week after your period starts.");
       } else {
         setCheckText("Check yourself the same day every month.");

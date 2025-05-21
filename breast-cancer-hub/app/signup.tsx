@@ -48,7 +48,7 @@ export default function SignupPage() {
       return;
     }
 
-    if (confirmPassword != password) {
+    if (confirmPassword !== password) {
       setErrorMessage("Passwords do not match.");
       return;
     }

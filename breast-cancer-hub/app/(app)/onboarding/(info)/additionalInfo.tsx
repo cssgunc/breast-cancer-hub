@@ -7,14 +7,14 @@ import { useColors } from "@/components/style/ColorContext";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function AdditionalInfo() {
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
   const styles = StyleSheet.create({
     link: {
       marginTop: -24,
       marginBottom: -36,
       lineHeight: 24,
-    }
-  })
+    },
+  });
   return (
     <>
       <ThemedView style={onboardingStyles.titleContainer}>
@@ -46,10 +46,7 @@ export default function AdditionalInfo() {
           {"\n"}To learn more about our grassroots, sustainable solutions that
           are saving lives globally, please visit:
         </ThemedText>
-        <ExternalLink
-          href="https://www.breastcancerhub.org"
-          asChild
-        >
+        <ExternalLink href="https://www.breastcancerhub.org" asChild>
           <TouchableOpacity>
             <ThemedText type="link" style={styles.link}>
               https://www.breastcancerhub.org
@@ -57,9 +54,8 @@ export default function AdditionalInfo() {
           </TouchableOpacity>
         </ExternalLink>
         <ThemedText>
-          If you have any questions, please contact Dr. Lopamudra Das
-          Roy, Founder-President of Breast Cancer Hub, at
-          lopa@breastcancerhub.org.
+          If you have any questions, please contact Dr. Lopamudra Das Roy,
+          Founder-President of Breast Cancer Hub, at lopa@breastcancerhub.org.
         </ThemedText>
         <LearnMoreTextContainer />
       </ThemedView>

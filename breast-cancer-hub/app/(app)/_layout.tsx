@@ -29,7 +29,7 @@ export default function Protection() {
   console.log("Protection:", { session, userId });
 
   //After loading, if no session token, redirect to login
-  if (session === "" && userId != "local") {
+  if (session === "" && userId !== "local") {
     return <Redirect href="/welcome" />;
   }
 

@@ -4,7 +4,7 @@ import { ThemedView } from "./style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
 
 export function LearnMoreTextContainer() {
-  const { colors, globalStyles } = useColors();
+  const { colors } = useColors();
 
   const styles = StyleSheet.create({
     infoSourceText: {

@@ -9,7 +9,6 @@ import {
   OrderedWeekdayNames,
   PeriodTimestamp,
 } from "@/hooks/PeriodContext";
-import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import { useCheckupData } from "@/hooks/CheckupContext";
 
@@ -81,9 +80,9 @@ export default function CalendarComponent({
   function isPeriodDay(value: Date) {
     const isDay = timestamps.some(
       (p) =>
-        p.date == value.getUTCDate() &&
-        p.month == value.getUTCMonth() + 1 &&
-        p.year == value.getUTCFullYear()
+        p.date === value.getUTCDate() &&
+        p.month === value.getUTCMonth() + 1 &&
+        p.year === value.getUTCFullYear()
     );
     return isDay;
   }
@@ -91,9 +90,9 @@ export default function CalendarComponent({
   function isCheckupDay(value: Date) {
     if (nextCheckup) {
       return (
-        value.getFullYear() == nextCheckup.getFullYear() &&
-        value.getMonth() == nextCheckup.getMonth() &&
-        value.getDate() == nextCheckup.getDate()
+        value.getFullYear() === nextCheckup.getFullYear() &&
+        value.getMonth() === nextCheckup.getMonth() &&
+        value.getDate() === nextCheckup.getDate()
       );
     }
     return false;

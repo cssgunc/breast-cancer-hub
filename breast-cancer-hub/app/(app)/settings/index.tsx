@@ -11,14 +11,14 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 
 import { useRouter } from "expo-router";
-import { getSetting, saveSetting } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import ResetDataButton from "./(components)/ResetDataButton";
 
 export default function SettingsScreen() {
   const router = useRouter();
 
-  const { colors, globalStyles, setDarkMode } = useColors();
+  const { colors, setDarkMode } = useColors();
 
   const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
   const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { StyleSheet, Linking } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";

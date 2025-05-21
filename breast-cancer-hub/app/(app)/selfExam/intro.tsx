@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
@@ -14,7 +14,7 @@ import ThemedButton from "@/components/ThemedButton";
 export default function SelfExamInfo() {
   console.log("reached intro");
   const router = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { colors, globalStyles } = useColors();
 
   const info_f = [
@@ -65,7 +65,7 @@ export default function SelfExamInfo() {
     },
   });
 
-  if (isLoading == true) {
+  if (isLoading === true) {
     return <LoadingScreen />;
   } else {
     return (
