@@ -115,7 +115,7 @@ async function ScheduleNotificationOnDate(
 /**
  * Schedule a notification for self exam on given date. Replaces previous notification.
  */
-export async function ScheduleExam(dates: Date[]) {
+export async function ScheduleExamNotifications(dates: Date[]) {
   CancelNotifications(ALERT_IDENTIFIER).then(() => {
     console.log(dates);
     for (let date of dates) {

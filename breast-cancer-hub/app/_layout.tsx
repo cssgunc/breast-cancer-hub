@@ -8,6 +8,7 @@ import {
 import { useEffect } from "react";
 import * as Notifications from "expo-notifications";
 import "@/i18n";
+import { runMigrations } from "@/hooks/useSettings";
 
 export default function RootLayout() {
   initializeNotificationHandler();
@@ -16,6 +17,7 @@ export default function RootLayout() {
   const router = useRouter();
 
   useEffect(() => {
+    runMigrations();
     const subscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
         const url = response.notification.request.content.data.url;

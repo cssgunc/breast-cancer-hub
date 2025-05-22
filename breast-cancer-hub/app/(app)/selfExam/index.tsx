@@ -173,7 +173,11 @@ export default function SelfExam() {
               marginTop: "auto",
             }}
           >
-            <StepIndicators totalSteps={6} currentStep={currentStep} />
+            <StepIndicators
+              totalSteps={6}
+              currentStep={currentStep}
+              onStepPressed={() => {}}
+            />
 
             <ThemedView
               style={[

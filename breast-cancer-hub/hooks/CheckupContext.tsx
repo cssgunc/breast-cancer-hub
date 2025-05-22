@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getSetting, saveSetting } from "./useSettings";
 import { PeriodTimestamp } from "./PeriodContext";
-import { ScheduleExam } from "@/notifications/notifications";
+import { ScheduleExamNotifications } from "@/notifications/notifications";
 import { parseISODate } from "@/constants/dateTimeUtils";
 export type Checkup = {
   completedOn: string;
@@ -34,14 +34,12 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
     });
     console.log(enabledTimes);
     const dates: Date[] = enabledTimes.map((t) => {
-      const timeVal = typeof t.time === "string" ? new Date(t.time) : t.time; // if it’s already a Date, leave it
-
       return new Date(
         scheduledExam.getFullYear(),
         scheduledExam.getMonth(),
         scheduledExam.getDate(),
-        timeVal.getHours(),
-        timeVal.getMinutes()
+        t.hour,
+        t.minute
       );
     });
     console.log(dates);
@@ -120,7 +118,7 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
     }
     saveSetting("nextExamDate", scheduledExam.toISOString().split("T")[0]);
     setNextCheckup(scheduledExam);
-    ScheduleExam(await getNotificationTimes(scheduledExam));
+    ScheduleExamNotifications(await getNotificationTimes(scheduledExam));
     return scheduledExam;
   };
 

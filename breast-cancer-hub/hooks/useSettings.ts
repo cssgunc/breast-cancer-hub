@@ -5,7 +5,14 @@ import { Checkup } from "./CheckupContext";
 import { PeriodTimestamp } from "./PeriodContext";
 
 const BASE_URL = process.env.EXPO_PUBLIC_BASE_URL;
-const CURRENT_SCHEMA = 1;
+const CURRENT_SCHEMA = 2;
+
+export type NotificationTime = {
+  id: number;
+  hour: number; //0-23
+  minute: number; //0-59
+  enabled: boolean; //Whether the user wants this time to be active
+};
 
 export type SettingsMap = {
   userId: string;
@@ -17,12 +24,7 @@ export type SettingsMap = {
   email: string;
   schedulingType: { day: number } | "period";
 
-  notificationTimes: {
-    id: number;
-    time: Date;
-    displayTime: string;
-    enabled: boolean;
-  }[]; //using expo-notifications trigger format
+  notificationTimes: NotificationTime[]; //using expo-notifications trigger format
 
   locale: string; //using expo-localization
 
@@ -179,12 +181,20 @@ export function generateDefaultSettings() {
     schedulingType: {
       day: 0,
     },
-    notificationTimes: [],
+    notificationTimes: [
+      // Default alarm of 12:00PM
+      {
+        id: 0,
+        hour: 12,
+        minute: 0,
+        enabled: true,
+      },
+    ],
     locale: "en-US",
     useBackupData: false,
     useTelemetry: false,
     useDarkTheme: true,
-    usePushNotifications: false,
+    usePushNotifications: true,
     useInAppNotifications: true,
     onboarding: false,
     avatar: false,
@@ -197,7 +207,45 @@ export function generateDefaultSettings() {
 
 export async function runMigrations() {
   const userSchema = await getSetting("schemaVersion");
-  if (userSchema < CURRENT_SCHEMA) {
-    console.log("unimplemented migrations");
+  for (let schema = userSchema + 1; schema <= CURRENT_SCHEMA; schema++) {
+    const migrate = migrations[schema];
+    if (migrate) {
+      console.log(`Running migration to schema version ${schema}`);
+      await migrate();
+      await saveSetting("schemaVersion", schema);
+    }
   }
 }
+
+// Key = target schema to migrate to
+const migrations: Record<number, () => Promise<void>> = {
+  2: async () => {
+    // Migrate notificationTimes from time/displayTime to hour/minute
+    const old: any[] = await getSetting("notificationTimes");
+    const migrated = old.map((d) => {
+      if (d.time) {
+        const t = new Date(d.time);
+        return {
+          id: d.id,
+          hour: t.getHours(),
+          minute: t.getMinutes(),
+          enabled: d.enabled,
+        };
+      } else {
+        return d;
+      }
+    });
+    await saveSetting("notificationTimes", migrated);
+    // Add default notification time if array is empty
+    if (migrated.length === 0) {
+      await saveSetting("notificationTimes", [
+        {
+          id: 0,
+          hour: 12,
+          minute: 0,
+          enabled: true,
+        },
+      ]);
+    }
+  },
+};

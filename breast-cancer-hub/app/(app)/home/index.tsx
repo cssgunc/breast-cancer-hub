@@ -117,7 +117,7 @@ export default function HomePage(props: HomePageProps) {
     } else {
       notification_props = { variant: "overdue", date: nextCheckup };
     }
-    console.log(notification_props);
+    //console.log(notification_props);
     return notification_props;
   }
 
