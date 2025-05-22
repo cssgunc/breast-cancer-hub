@@ -34,9 +34,17 @@ export default function NavigationFooter({
     if (!isFirst) router.push(fullSteps[current - 1] as RelativePathString);
   };
 
+  const goTo = (step: number) => {
+    router.push(fullSteps[step] as RelativePathString);
+  };
+
   return (
     <ThemedView style={styles.containerStyle}>
-      <StepIndicators currentStep={idx} totalSteps={stepRoutes.length} />
+      <StepIndicators
+        currentStep={idx}
+        totalSteps={stepRoutes.length}
+        onStepPressed={goTo}
+      />
       <ThemedView style={globalStyles.buttonBackNextContainer}>
         {!isFirst && (
           <ThemedButton variant="secondary" onPress={() => goBack()}>
