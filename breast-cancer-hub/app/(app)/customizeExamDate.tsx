@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -32,16 +32,30 @@ export default function CustomizeExamDateScreen() {
     });
   };
 
+  const HOLD_DELAY = 500;
+  const REPEAT_INTERVAL = 100;
+
+  const holdTimeout = useRef<NodeJS.Timeout>();
+  const holdInterval = useRef<NodeJS.Timeout>();
+
+  const handleHoldStart = (action: () => void) => {
+    action();
+    holdTimeout.current = setTimeout(() => {
+      holdInterval.current = setInterval(action, REPEAT_INTERVAL);
+    }, HOLD_DELAY);
+  };
+
+  const handleHoldEnd = () => {
+    clearTimeout(holdTimeout.current);
+    clearInterval(holdInterval.current);
+  };
+
   const incrementDay = () => {
-    if (examDay < 28) {
-      setExamDay(examDay + 1);
-    }
+    setExamDay((prev) => (prev === 31 ? 1 : prev + 1));
   };
 
   const decrementDay = () => {
-    if (examDay > 1) {
-      setExamDay(examDay - 1);
-    }
+    setExamDay((prev) => (prev === 1 ? 31 : prev - 1));
   };
 
   const styles = StyleSheet.create({
@@ -49,8 +63,6 @@ export default function CustomizeExamDateScreen() {
       fontSize: 15,
       color: colors.darkHighlight,
       fontStyle: "italic",
-      marginTop: 10,
-      marginBottom: 20,
       textAlign: "center",
     },
     saveButton: {
@@ -59,7 +71,6 @@ export default function CustomizeExamDateScreen() {
       paddingVertical: 15,
       paddingHorizontal: 30,
       alignItems: "center",
-      marginTop: 70,
       width: "50%",
     },
     saveButtonText: {
@@ -84,7 +95,7 @@ export default function CustomizeExamDateScreen() {
       justifyContent: "center",
     },
     dayDisplay: {
-      flex: 1,
+      width: 128,
       fontSize: 40,
       color: "white",
       fontWeight: "bold",
@@ -97,8 +108,12 @@ export default function CustomizeExamDateScreen() {
       alignItems: "center",
       borderRadius: 20,
       paddingHorizontal: 10,
-      marginBottom: 40,
-      width: "60%",
+      alignSelf: "center",
+    },
+    content: {
+      width: "100%",
+      alignItems: "center",
+      gap: 32,
     },
   });
 
@@ -136,78 +151,77 @@ export default function CustomizeExamDateScreen() {
         <View style={customizeStyles.bodyContainer}>
           {/* White Rectangle */}
           <View style={customizeStyles.whiteBox}>
-            <ThemedText type="heading">
-              Choose the day that you would like to perform a monthly self
-              examination
-            </ThemedText>
-
-            <View style={{ height: 20 }} />
-
-            <ThemedText>Choose a day from 1-28</ThemedText>
-
-            <View style={{ height: 20 }} />
-
-            {/* Highlight Rectangle */}
-            <View style={styles.pinkRectangle}>
-              {/* Display Exam Day */}
-              <TextInput
-                value={examDay.toString()}
-                style={styles.dayDisplay}
-                onChangeText={(text) => {
-                  const num = parseInt(text, 10);
-                  if (!isNaN(num)) {
-                    if (num >= 1 && num <= 28) {
-                      setExamDay(num);
-                    } else if (num > 28) {
-                      setExamDay(28);
-                    } else if (num < 1) {
-                      setExamDay(1);
+            <ThemedView style={styles.content}>
+              <ThemedText type="heading">
+                Choose a day for your monthly self examination.
+              </ThemedText>
+              <ThemedText>
+                Please perform a self exam on the same date each month.
+              </ThemedText>
+              <ThemedText>
+                Pick or enter a date between 1 and 31. (Months with less days
+                will default to the last day)
+              </ThemedText>
+              {/* Highlight Rectangle */}
+              <View style={styles.pinkRectangle}>
+                {/* Display Exam Day */}
+                <TextInput
+                  value={examDay.toString()}
+                  style={styles.dayDisplay}
+                  onChangeText={(text) => {
+                    const num = parseInt(text, 10);
+                    if (!isNaN(num)) {
+                      if (num >= 1 && num <= 28) {
+                        setExamDay(num);
+                      } else if (num > 28) {
+                        setExamDay(28);
+                      } else if (num < 1) {
+                        setExamDay(1);
+                      }
                     }
-                  }
-                }}
-                maxLength={2}
-                textAlign="center"
-                selectTextOnFocus
-              />
-
-              {/* Up and Down Buttons */}
-              <View style={styles.chevronContainer}>
-                <TouchableOpacity
-                  onPress={incrementDay}
-                  style={styles.chevronButton}
-                >
-                  <View style={styles.chevronCircle}>
-                    <Ionicons
-                      name="chevron-up"
-                      size={20}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={decrementDay}
-                  style={styles.chevronButton}
-                >
-                  <View style={styles.chevronCircle}>
-                    <Ionicons
-                      name="chevron-down"
-                      size={20}
-                      color={colors.white}
-                    />
-                  </View>
-                </TouchableOpacity>
+                  }}
+                  maxLength={2}
+                  textAlign="center"
+                  selectTextOnFocus
+                />
+                {/* Up and Down Buttons */}
+                <View style={styles.chevronContainer}>
+                  <TouchableOpacity
+                    onPressIn={() => handleHoldStart(incrementDay)}
+                    onPressOut={handleHoldEnd}
+                    style={styles.chevronButton}
+                  >
+                    <View style={styles.chevronCircle}>
+                      <Ionicons
+                        name="chevron-up"
+                        size={20}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPressIn={() => handleHoldStart(decrementDay)}
+                    onPressOut={handleHoldEnd}
+                    style={styles.chevronButton}
+                  >
+                    <View style={styles.chevronCircle}>
+                      <Ionicons
+                        name="chevron-down"
+                        size={20}
+                        color={colors.white}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
+              <ThemedText style={styles.changeAnytimeText}>
+                This can be changed at any time.
+              </ThemedText>
 
-            <View style={{ height: 10 }} />
-
-            <ThemedText style={styles.changeAnytimeText}>
-              This can be changed at any time
-            </ThemedText>
-
-            <ThemedButton onPress={handleSaveChanges}>
-              Save Changes
-            </ThemedButton>
+              <ThemedButton onPress={handleSaveChanges}>
+                Save Changes
+              </ThemedButton>
+            </ThemedView>
           </View>
         </View>
       </TouchableWithoutFeedback>
