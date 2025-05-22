@@ -3,7 +3,7 @@ import { isDevice } from "expo-device";
 
 import * as Notifications from "expo-notifications";
 
-const ALERT_IDENTIFIER: string = "alert-identifier-DO-NOT-REUSE-ELSEWHERE";
+const ALERT_IDENTIFIER: string = "bch-self-exam-notification-identifier"; // Do not reuse elsewhere
 const EXAM_TITLE: string = "Breast Cancer Self-Exam";
 const EXAM_BODY: string =
   "You are due for a breast self-exam! Tap here to perform your examination.";
@@ -11,7 +11,6 @@ const EXAM_URL_DATA: Record<string, any> = { url: "/selfExam/intro" };
 
 function _error(msg: string) {
   console.log(msg);
-  //alert(msg);
 }
 
 export function initializeNotificationHandler() {
@@ -97,7 +96,7 @@ async function ScheduleNotificationOnDate(
     return;
   }
 
-  console.log(`scheduling ${date}`);
+  console.log(`scheduling notification: ${date}`);
   return await Notifications.scheduleNotificationAsync({
     identifier: identifier,
     content: {
@@ -116,29 +115,21 @@ async function ScheduleNotificationOnDate(
  * Schedule a notification for self exam on given date. Replaces previous notification.
  */
 export async function ScheduleExamNotifications(dates: Date[]) {
-  CancelNotifications(ALERT_IDENTIFIER).then(() => {
-    console.log(dates);
-    for (let date of dates) {
+  await CancelNotifications();
+  await Promise.all(
+    dates.map((date) =>
       ScheduleNotificationOnDate(
         EXAM_TITLE,
         EXAM_BODY,
         date,
         EXAM_URL_DATA,
-        ALERT_IDENTIFIER
-      );
-    }
-  });
+        `${ALERT_IDENTIFIER}-${date.getTime()}`
+      )
+    )
+  );
 }
 
-// async function CancelAllNotifications() {
-//   await Notifications.cancelAllScheduledNotificationsAsync();
-// }
-
-/**
- *
- * @param identifier Identifier returned by scheduleNotificationAsync, used to cancel.
- */
-async function CancelNotifications(identifier: string) {
+async function CancelNotifications() {
   if (Platform.OS === "web") {
     return;
   }

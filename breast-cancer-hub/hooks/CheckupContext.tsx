@@ -17,6 +17,7 @@ interface CheckupContextValue {
   getCheckup: (d: string) => Promise<Checkup | undefined>;
   getAllCheckups: (d: Date) => Promise<CompletedCheckups>;
   scheduleNextCheckup: (newTs?: PeriodTimestamp[]) => Promise<Date>;
+  rescheduleNotifications: () => Promise<void>;
 }
 const CheckupContext = createContext<CheckupContextValue | null>(null);
 
@@ -27,6 +28,9 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
   const [nextCheckup, setNextCheckup] = useState<Date>(new Date());
 
   async function getNotificationTimes(scheduledExam: Date) {
+    if ((await getSetting("usePushNotifications")) === false) {
+      return [];
+    }
     const notificationTimes = await getSetting("notificationTimes");
     console.log(notificationTimes);
     const enabledTimes = notificationTimes.filter((n) => {
@@ -122,6 +126,10 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
     return scheduledExam;
   };
 
+  // Use when the date itself hasn't changed but notification settings have changed
+  const rescheduleNotifications = async () => {
+    ScheduleExamNotifications(await getNotificationTimes(nextCheckup));
+  };
   return (
     <CheckupContext.Provider
       value={{
@@ -131,6 +139,7 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
         getCheckup,
         getAllCheckups,
         scheduleNextCheckup,
+        rescheduleNotifications,
       }}
     >
       {children}

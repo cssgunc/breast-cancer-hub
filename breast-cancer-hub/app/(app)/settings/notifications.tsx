@@ -18,6 +18,7 @@ import { saveSetting } from "@/hooks/useSettings";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
+import { useCheckupData } from "@/hooks/CheckupContext";
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -33,10 +34,11 @@ export default function NotificationsScreen() {
 
   const [loaded, setLoaded] = useState(false);
 
+  const { rescheduleNotifications } = useCheckupData();
   // State for checkboxes
   const [pushNotificationsEnabled, setPushNotificationsEnabled] =
-    useState(false);
-  const [inAppNotifications, setInAppNotifications] = useState(false);
+    useState(true);
+  const [inAppNotifications, setInAppNotifications] = useState(true);
 
   const [locale, setLocale] = useState("en-US");
 
@@ -119,22 +121,14 @@ export default function NotificationsScreen() {
   useEffect(() => {
     if (!loaded) return;
     saveNotificationSettings();
-  }, [loaded, setPushNotificationsEnabled, inAppNotifications, timeEntries]);
+  }, [loaded, pushNotificationsEnabled, inAppNotifications, timeEntries]);
 
-  //Save notification preferences to local storage
   const saveNotificationSettings = async () => {
-    // if (!pushNotifications && !inAppNotifications) {
-    //   alert("At least one notification type must be selected.");
-    //   return;
-    // }
-
     await saveSetting("usePushNotifications", pushNotificationsEnabled);
     await saveSetting("useInAppNotifications", inAppNotifications);
     await saveSetting("notificationTimes", timeEntries);
 
-    //await saveSettingsToBackend();
-
-    //alert("Settings saved successfully.");
+    rescheduleNotifications();
   };
 
   // Function to add a new time entry
@@ -399,7 +393,7 @@ export default function NotificationsScreen() {
               </ThemedText>
             </View>
             <ThemedText type="caption" style={styles.optionDescription}>
-              The app will display a notification when you open it.
+              The app will display a reminder when you open it.
             </ThemedText>
           </TouchableOpacity>
 
@@ -432,9 +426,10 @@ export default function NotificationsScreen() {
               </ThemedText>
             </View>
             <ThemedText type="caption" style={styles.optionDescription}>
-              This device will receive notifications that will be from any
-              screen.{"\n"}
-              It will be visible to anyone.
+              This device will receive a scheduled push notification, even
+              outside the app.
+              {"\n"}
+              It will be visible to anyone viewing the screen.
             </ThemedText>
           </TouchableOpacity>
 
