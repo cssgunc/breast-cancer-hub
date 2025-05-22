@@ -121,138 +121,6 @@ export default function HomePage(props: HomePageProps) {
     return notification_props;
   }
 
-  const styles = StyleSheet.create({
-    headerContainer: {
-      backgroundColor: "white",
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      paddingTop: 20,
-      paddingBottom: 20,
-      paddingHorizontal: 20,
-      flexDirection: "column",
-      alignItems: "flex-start",
-      zIndex: 1, // Ensure header stays above other content
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 5,
-      height: "20%",
-    },
-    logoProfileContainer: {
-      flex: 1,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      width: "100%",
-      height: "100%",
-    },
-    logo: {
-      height: "100%",
-      width: 150,
-      flexShrink: 1,
-    },
-    profileIconContainer: {
-      backgroundColor: colors.white,
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    greetingContainer: {
-      flex: 0,
-      flexWrap: "wrap",
-      flexDirection: "row",
-      width: "100%",
-      paddingTop: 10,
-    },
-    sectionTitle: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginVertical: 20,
-    },
-    icon: {
-      fontSize: 20,
-      color: colors.darkHighlight,
-      marginRight: 10,
-    },
-    pastExamsText: {
-      marginTop: 20,
-      marginBottom: 40,
-    },
-    contactButtons: {
-      marginTop: 16,
-      width: "100%",
-      flexDirection: "column",
-      gap: 10,
-    },
-    // Footer with logos
-    footerContainer: {
-      backgroundColor: colors.darkHighlight,
-      width: "100%",
-      paddingVertical: 10,
-      minHeight: "100%",
-      marginBottom: -1000,
-      paddingBottom: 1000,
-    },
-    logosRow: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      paddingHorizontal: 20,
-    },
-    footerLogoContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    kurlbaumContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-      height: 50,
-    },
-    footerLogo: {
-      width: 100,
-      height: 50,
-      resizeMode: "contain",
-    },
-    sarahCannonLogo: {
-      width: 160,
-      height: 100,
-      resizeMode: "contain",
-    },
-    footerLogoText: {
-      fontSize: 10,
-      lineHeight: 10,
-      color: colors.black,
-      marginTop: 2,
-      textAlign: "center",
-    },
-
-    // Modal styles
-    modalOverlay: {
-      flex: 1,
-      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    modalContainer: {
-      backgroundColor: colors.white,
-      width: "80%",
-      borderRadius: 20,
-      padding: 20,
-      alignItems: "center",
-    },
-    modalTitle: {
-      marginBottom: 20,
-    },
-    modalButton: {
-      paddingHorizontal: 20,
-      marginBottom: 10,
-      width: "100%",
-    },
-  });
-
   return (
     <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
       {/* Header */}
@@ -298,7 +166,10 @@ export default function HomePage(props: HomePageProps) {
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
           {/* Alerts Section */}
           <View style={styles.sectionTitle}>
-            <Ionicons name="notifications-outline" style={styles.icon} />
+            <Ionicons
+              name="notifications-outline"
+              style={[styles.icon, { color: colors.darkHighlight }]}
+            />
             <ThemedText type="heading">Upcoming Exams</ThemedText>
           </View>
           {/* Notifications or No Alerts Message */}
@@ -370,7 +241,6 @@ export default function HomePage(props: HomePageProps) {
             </ThemedButton>
           </View>
         </View>
-
         {/* footer with logos */}
         <View style={styles.footerContainer}>
           <View style={styles.logosRow}>
@@ -499,3 +369,134 @@ export default function HomePage(props: HomePageProps) {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    backgroundColor: "white",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    zIndex: 1, // Ensure header stays above other content
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5,
+    height: "20%",
+  },
+  logoProfileContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "100%",
+  },
+  logo: {
+    height: "100%",
+    width: 150,
+    flexShrink: 1,
+  },
+  profileIconContainer: {
+    backgroundColor: "white",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  greetingContainer: {
+    flex: 0,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    width: "100%",
+    paddingTop: 10,
+  },
+  sectionTitle: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  icon: {
+    fontSize: 20,
+    marginRight: 10,
+  },
+  pastExamsText: {
+    marginTop: 20,
+    marginBottom: 40,
+  },
+  contactButtons: {
+    marginTop: 16,
+    width: "100%",
+    flexDirection: "column",
+    gap: 10,
+  },
+  // Footer with logos
+  footerContainer: {
+    //backgroundColor: colors.darkHighlight,
+    width: "100%",
+    paddingVertical: 10,
+    minHeight: "100%",
+    marginBottom: -1000,
+    paddingBottom: 1000,
+  },
+  logosRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  footerLogoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  kurlbaumContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+  },
+  footerLogo: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+  },
+  sarahCannonLogo: {
+    width: 160,
+    height: 100,
+    resizeMode: "contain",
+  },
+  footerLogoText: {
+    fontSize: 10,
+    lineHeight: 10,
+    color: "black",
+    marginTop: 2,
+    textAlign: "center",
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    width: "80%",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    marginBottom: 20,
+  },
+  modalButton: {
+    paddingHorizontal: 20,
+    marginBottom: 10,
+    width: "100%",
+  },
+});
