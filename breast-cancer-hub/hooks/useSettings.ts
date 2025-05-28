@@ -129,6 +129,32 @@ export async function saveSetting<T extends SettingKeys>(
   await _rawSet(storageKey, JSON.stringify(value));
 }
 
+export async function resetAppData(): Promise<void> {
+  try {
+    if (Platform.OS === "web") {
+      await AsyncStorage.clear();
+    } else {
+      for (const key of GLOBAL_KEYS) {
+        await SecureStore.deleteItemAsync(key);
+      }
+
+      const rawUserId = await SecureStore.getItemAsync("userId");
+      if (rawUserId) {
+        const userId = JSON.parse(rawUserId);
+        const defaultSettings = generateDefaultSettings();
+
+        for (const key of USER_SCOPED_KEYS) {
+          const scopedKey = `user_${userId}_${key}`;
+          await SecureStore.deleteItemAsync(scopedKey);
+        }
+      }
+    }
+  } catch (err) {
+    console.error("Failed to reset app data", err);
+    throw new Error("Unable to reset data. Please try again.");
+  }
+}
+
 async function backupSettings(userId: string, key: string, value: any) {
   fetch(`${BASE_URL}/settings` + "?user_id=" + userId, {
     method: "PUT",

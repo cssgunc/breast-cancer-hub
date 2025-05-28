@@ -275,12 +275,12 @@ export default function SettingsScreen() {
             </ThemedText>
 
             {/* Edit Profile */}
-            {/* <TouchableOpacity
+            <TouchableOpacity
               style={styles.optionContainer}
               onPress={() => router.push("/settings/profile")}
             >
               <ThemedText style={styles.optionText}>
-                View Profile/Log Out
+                Edit/Delete Profile
               </ThemedText>
               <Ionicons
                 style={styles.optionPressable}
@@ -288,7 +288,7 @@ export default function SettingsScreen() {
                 size={20}
                 color={colors.black}
               />
-            </TouchableOpacity> */}
+            </TouchableOpacity>
 
             {/* Change Date or Scheduling Type */}
             <TouchableOpacity

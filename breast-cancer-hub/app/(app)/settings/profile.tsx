@@ -1,34 +1,38 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View, TouchableOpacity, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+  KeyboardAvoidingView,
+} from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { saveSetting, getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
+import ResetDataButton from "./(components)/ResetDataButton";
+import ThemedButton from "@/components/ThemedButton";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
   const { colors, globalStyles } = useColors();
 
-  const [person, setPerson] = useState({
-    name: "",
-    email: "",
-    token: "",
-    userId: "",
-  });
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState("");
 
   useEffect(() => {
-    getSetting("name").then((name) =>
-      getSetting("email").then((email) =>
-        getSetting("token").then((token) =>
-          getSetting("userId").then((userId) => {
-            setPerson({ name, email, token, userId });
-          })
-        )
-      )
-    );
+    getSetting("name").then((name) => {
+      setName(name);
+    });
   }, []);
+
+  const handleSave = () => {
+    setIsEditing(false);
+    saveSetting("name", name);
+  };
 
   function logout() {
     saveSetting("name", "");
@@ -53,9 +57,13 @@ export default function ProfileSettingsScreen() {
       marginBottom: "5%",
     },
     backButton: {
+      backgroundColor: colors.darkHighlight,
       width: 40,
       height: 40,
+      borderRadius: 20, // Makes it circular
+      alignItems: "center",
       justifyContent: "center",
+      marginRight: 10,
     },
     headerTitle: {
       margin: 15,
@@ -77,13 +85,11 @@ export default function ProfileSettingsScreen() {
     contentContainer: {
       paddingBottom: 20,
     },
-    profileIconContainer: {
+    profileHeaderContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
       alignItems: "center",
       marginBottom: 20,
-    },
-    userInfoContainer: {
-      alignItems: "flex-start",
-      width: "100%",
     },
     divider: {
       height: 4,
@@ -97,9 +103,20 @@ export default function ProfileSettingsScreen() {
       width: "100%",
       marginBottom: 10,
     },
-    signOutButton: {
+    changeNameButton: {
       marginTop: "auto", // Push the button to the bottom
       width: "100%",
+    },
+    input: {
+      flex: 1,
+      paddingVertical: 4,
+      paddingHorizontal: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.darkHighlight,
+      marginRight: 8,
+    },
+    button: {
+      padding: 8,
     },
   });
 
@@ -115,7 +132,7 @@ export default function ProfileSettingsScreen() {
           <Ionicons name="chevron-back" size={24} color="white" />
         </TouchableOpacity>
         {/* Edit Profile Text */}
-        <ThemedText type="title" style={styles.headerTitle}>
+        <ThemedText type="title" style={styles.headerTitle} colored>
           Edit Profile
         </ThemedText>
       </View>
@@ -125,47 +142,39 @@ export default function ProfileSettingsScreen() {
         {/* Content */}
         <ScrollView contentContainerStyle={styles.contentContainer}>
           {/* Profile Icon */}
-          <View style={styles.profileIconContainer}>
-            <Ionicons name="person" size={96} color={colors.darkHighlight} />
-          </View>
-
-          {/* User Info */}
-          <View style={styles.userInfoContainer}>
-            <ThemedText type="heading" colored>
-              {person.name}
-            </ThemedText>
+          <View style={styles.profileHeaderContainer}>
+            <Ionicons name="person" size={48} color={colors.darkHighlight} />
+            {isEditing ? (
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={setName}
+                autoFocus
+              />
+            ) : (
+              <ThemedText type="heading" colored>
+                {name}
+              </ThemedText>
+            )}
           </View>
 
           {/* Divider */}
           <View style={styles.divider} />
-
-          {/* Username Section */}
-          <View style={styles.infoRow}>
-            <ThemedText bold>Username</ThemedText>
-            <ThemedText>{person.name}</ThemedText>
-          </View>
-          <View style={styles.divider} />
-
-          {/* Password Section */}
-          <View style={styles.infoRow}>
-            <ThemedText bold>Password</ThemedText>
-            <ThemedText>•••••••</ThemedText>
-          </View>
-          <View style={styles.divider} />
-
-          {/* Email Section */}
-          <View style={styles.infoRow}>
-            <ThemedText bold>Email</ThemedText>
-            <ThemedText>{person.email}</ThemedText>
-          </View>
         </ScrollView>
 
-        {/* Sign Out Button */}
-        <TouchableOpacity style={styles.signOutButton} onPress={() => logout()}>
-          <ThemedText style={globalStyles.buttonTextPrimary}>
-            Sign Out
-          </ThemedText>
-        </TouchableOpacity>
+        <ThemedView style={{ gap: 16 }}>
+          {isEditing ? (
+            <ThemedButton onPress={handleSave}>
+              <ThemedText style={{ color: "white" }}>Save</ThemedText>
+            </ThemedButton>
+          ) : (
+            <ThemedButton onPress={() => setIsEditing(true)}>
+              <ThemedText style={{ color: "white" }}>Edit Name</ThemedText>
+            </ThemedButton>
+          )}
+          {/* Reset Data Button */}
+          <ResetDataButton />
+        </ThemedView>
       </View>
     </ThemedView>
   );
