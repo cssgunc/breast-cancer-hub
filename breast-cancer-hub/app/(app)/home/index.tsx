@@ -172,33 +172,34 @@ export default function HomePage(props: HomePageProps) {
             />
             <ThemedText type="heading">Upcoming Exams</ThemedText>
           </View>
-          {/* Notifications or No Alerts Message */}
-          {/* {notifications.length === 0 ? (
-            <ThemedText type="caption">There are no new alerts</ThemedText>
-          ) : (
-            notifications.map((notification) => ( 
-          <React.Fragment key={notification.id}> */}
-          <NotificationComponent
-            variant={calculateNotificationVariant().variant}
-            date={calculateNotificationVariant().date}
-            //onDismiss={() => removeNotification(notification.id)}
-          />
-          {/* </React.Fragment>
-           ))
-          )} */}
-          {/* Calendar Section */}
-          <View style={styles.sectionTitle}>
-            <Ionicons name="calendar-outline" style={styles.icon} />
-            <ThemedText type="heading">Your Calendar</ThemedText>
-          </View>
 
-          {/* Calendar Component */}
-          <CalendarComponent
-            isMenstruating={isMenstruating}
-            onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
-              await scheduleNextCheckup(newTimestamps);
-            }}
-          />
+          <ThemedView style={{ gap: 16 }}>
+            <NotificationComponent
+              variant={calculateNotificationVariant().variant}
+              date={calculateNotificationVariant().date}
+            />
+            <ThemedButton
+              variant="primary"
+              onPress={() => {
+                router.push("/selfExam/intro");
+              }}
+            >
+              Perform Self Exam Now
+            </ThemedButton>
+            {/* Calendar Section */}
+            <View style={styles.sectionTitle}>
+              <Ionicons name="calendar-outline" style={styles.icon} />
+              <ThemedText type="heading">Your Calendar</ThemedText>
+            </View>
+
+            {/* Calendar Component */}
+            <CalendarComponent
+              isMenstruating={isMenstruating}
+              onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
+                await scheduleNextCheckup(newTimestamps);
+              }}
+            />
+          </ThemedView>
 
           {/* Checkup History Homepage Widget, dates must be ISO format */}
           {checkupHistoryEnabled && (
