@@ -13,6 +13,7 @@ import { useColors } from "@/components/style/ColorContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import ThemedButton from "@/components/ThemedButton";
+
 export default function WelcomePage() {
   const router = useRouter();
   const [name, setName] = useState<string>("");
@@ -85,7 +86,7 @@ export default function WelcomePage() {
             <View style={globalStyles.loginInputContainer}>
               <TextInput
                 style={globalStyles.loginInput}
-                placeholder="Name (optional, can be changed at any time)"
+                placeholder="Name (Optional and can be changed at any time)"
                 placeholderTextColor="gray"
                 value={name}
                 onChangeText={setName}

@@ -18,16 +18,16 @@ export default function Protection() {
   const showFooter = tabs.includes(leaf);
 
   useEffect(() => {
-    getSetting("token").then((token) => {
+    const fetchSessionData = async () => {
+      const token = await getSetting("token");
+      const userId = await getSetting("userId");
       setSession(token || "");
-      getSetting("userId").then((userId) => {
-        setUserId(userId || "");
-        setIsLoading(false);
-      });
-    });
+      setUserId(userId || "");
+      setIsLoading(false);
+    };
+    fetchSessionData();
   }, []);
 
-  // Don't render anything while still loading
   if (isLoading) {
     return <LoadingScreen />;
   }

@@ -28,7 +28,7 @@ export default function NotificationsScreen() {
   const [loaded, setLoaded] = useState(false);
 
   const { rescheduleNotifications } = useCheckupData();
-  // State for checkboxes
+
   const [pushNotificationsEnabled, setPushNotificationsEnabled] =
     useState(true);
   const [inAppNotifications, setInAppNotifications] = useState(true);
@@ -43,72 +43,21 @@ export default function NotificationsScreen() {
 
   const [timeEntries, setTimeEntries] = useState<NotificationTime[]>([]);
 
-  // async function saveSettingsToBackend() {
-  //   console.log(
-  //     (
-  //       timeEntries as {
-  //         id: number;
-  //         time: Date;
-  //         displayTime: string;
-  //         enabled: boolean;
-  //       }[]
-  //     ).map((val) => {
-  //       return [person.userId, val.displayTime, val.enabled];
-  //     })
-  //   );
-  //   fetch(`${BASE_URL}/settings` + "?user_id=" + person.userId, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       "x-session-token": person.token,
-  //       "x-user-email": person.email,
-  //     },
-  //     body: JSON.stringify({
-  //       user_id: person.userId,
-  //       use_in_app_notifications: inAppNotifications,
-  //       use_push_notifications: pushNotifications,
-  //       notification_times: timeEntries,
-  //     }),
-  //   }).then((res) => {
-  //     console.log(res.status);
-  //   });
-  // }
-
-  // // Fetching information from local storage for API call
-  // useEffect(() => {
-  //   getSetting("name").then((name) =>
-  //     getSetting("email").then((email) =>
-  //       getSetting("token").then((token) =>
-  //         getSetting("userId").then((userId) => {
-  //           setPerson({ name, email, token, userId });
-  //         })
-  //       )
-  //     )
-  //   );
-  // }, []);
-
-  // const [person, setPerson] = useState({
-  //   name: "",
-  //   email: "",
-  //   token: "",
-  //   userId: "",
-  // });
-
-  // Making an API call to read user settings.
   useEffect(() => {
-    getSetting("useInAppNotifications").then((inapp) => {
-      getSetting("usePushNotifications").then((push) => {
-        getSetting("notificationTimes").then((times) => {
-          getSetting("locale").then((locale) => {
-            setInAppNotifications(inapp);
-            setPushNotificationsEnabled(push);
-            setLocale(locale);
-            setTimeEntries(times);
-            setLoaded(true);
-          });
-        });
-      });
-    });
+    const loadSettings = async () => {
+      const [inapp, push, times, locale] = await Promise.all([
+        getSetting("useInAppNotifications"),
+        getSetting("usePushNotifications"),
+        getSetting("notificationTimes"),
+        getSetting("locale"),
+      ]);
+      setInAppNotifications(inapp);
+      setPushNotificationsEnabled(push);
+      setLocale(locale);
+      setTimeEntries(times);
+      setLoaded(true);
+    };
+    loadSettings();
   }, []);
 
   useEffect(() => {
@@ -117,10 +66,11 @@ export default function NotificationsScreen() {
   }, [loaded, pushNotificationsEnabled, inAppNotifications, timeEntries]);
 
   const saveNotificationSettings = async () => {
-    await saveSetting("usePushNotifications", pushNotificationsEnabled);
-    await saveSetting("useInAppNotifications", inAppNotifications);
-    await saveSetting("notificationTimes", timeEntries);
-
+    await Promise.all([
+      saveSetting("usePushNotifications", pushNotificationsEnabled),
+      saveSetting("useInAppNotifications", inAppNotifications),
+      saveSetting("notificationTimes", timeEntries),
+    ]);
     rescheduleNotifications();
   };
 

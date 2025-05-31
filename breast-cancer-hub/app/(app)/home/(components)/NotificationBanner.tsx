@@ -17,11 +17,7 @@ export default function NotificationComponent({
 }: //onDismiss,
 NotificationComponentProps) {
   const { colors } = useColors();
-
-  const [isVisible, setIsVisible] = useState(true);
   const router = useRouter();
-
-  if (!isVisible) return null; // Do not render if the notification is dismissed
 
   // Determine header text and colors based on the variant
   const headerText = (() => {
@@ -150,10 +146,6 @@ NotificationComponentProps) {
         </ThemedText>
         <ThemedText>{bodyText}</ThemedText>
       </TouchableOpacity>
-      {/* Trash Icon */}
-      {/* <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>
-        <Ionicons name="trash-outline" size={24} color={colors.darkHighlight} />
-      </TouchableOpacity> */}
     </ThemedView>
   );
 }

@@ -25,6 +25,15 @@ export function parseISODate(s: string): Date {
   return new Date(year, month - 1, day);
 }
 
+export const parseISODateToLocaleString = (iso: string, locale: string) => {
+  const date = parseISODate(iso);
+  return date.toLocaleDateString(locale, {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+};
+
 /**
  *
  * @param a Date to compare

@@ -96,8 +96,8 @@ export default function SelfExam() {
 
   useEffect(() => {
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
-      setExamTypeF(schedulingType === "period");
+      const examTypeM = await getSetting("avatar");
+      setExamTypeF(!examTypeM);
       setInstructions(
         (await getSetting("avatar")) ? instructions_m : instructions_f
       );

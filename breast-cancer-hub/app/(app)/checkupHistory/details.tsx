@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
@@ -9,6 +9,8 @@ import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
 import { useTranslation } from "react-i18next";
+import { parseISODateToLocaleString } from "@/constants/dateTimeUtils";
+import LoadingScreen from "@/components/Loading";
 
 export default function CheckupDetails() {
   const router = useRouter();
@@ -42,7 +44,6 @@ export default function CheckupDetails() {
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
   const [locale, setLocale] = useState("en-US");
   const [isLoading, setIsLoading] = useState(true);
-
   const [examTypeF, setExamTypeF] = useState(true);
 
   useEffect(() => {
@@ -62,107 +63,105 @@ export default function CheckupDetails() {
     getType();
   }, []);
 
-  const formatDate = (iso: string) => {
-    const [y, m, d] = iso.split("-").map(Number);
-    const dt = new Date(y, m - 1, d);
-    return dt.toLocaleDateString(locale, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
+  if (isLoading) {
+    return <LoadingScreen />;
+  } else {
+    return (
+      <ThemedView
+        bgColor={colors.darkHighlight}
+        style={globalStyles.bodyContainer}
+      >
+        {/* Header Container */}
+        <AccountSettingsHeaderComponent />
 
-  return (
-    <ThemedView
-      bgColor={colors.darkHighlight}
-      style={globalStyles.bodyContainer}
-    >
-      {/* Header Container */}
-      <AccountSettingsHeaderComponent />
+        {/* Page Title */}
+        <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
+          <ThemedText type="title" colored style={styles.titleText}>
+            Checkup History
+          </ThemedText>
+          <ThemedText type="heading">
+            {parseISODateToLocaleString(date, locale)}
+          </ThemedText>
 
-      {/* Page Title */}
-      <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
-        <ThemedText type="title" colored style={styles.titleText}>
-          Checkup History
-        </ThemedText>
-        <ThemedText type="heading">{formatDate(date)}</ThemedText>
+          <ThemedView style={globalStyles.grayLine} />
 
-        <ThemedView style={globalStyles.grayLine} />
-
-        <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
-          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-            <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
-              {/* Info Section */}
-              <ThemedText type="heading">Symptoms Logged</ThemedText>
+          <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
+            <ScrollView contentContainerStyle={globalStyles.scrollContent}>
               <ThemedView
-                style={[
-                  globalStyles.elevatedCard,
-                  { paddingVertical: 0, marginVertical: 10 },
-                ]}
+                style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}
               >
-                {examTypeF ? (
-                  <ThemedView
-                    style={[globalStyles.listContainer, styles.listContainer]}
-                  >
-                    {info_f.map((item) => (
-                      <ThemedView
-                        key={item.id}
-                        style={[
-                          globalStyles.listItemContainer,
-                          styles.listItemContainer,
-                        ]}
-                      >
-                        <ThemedText style={styles.instructionText}>
-                          {t(item.key)}
-                        </ThemedText>
-                        <View style={styles.checkBoxContainer}>
-                          <CheckBox
-                            value={selectedSymptoms.includes(item.key)}
-                            disabled
-                          />
-                        </View>
-                      </ThemedView>
-                    ))}
-                  </ThemedView>
-                ) : (
-                  <ThemedView
-                    style={[globalStyles.listContainer, styles.listContainer]}
-                  >
-                    {info_m.map((item: { id: number; key: string }) => (
-                      <ThemedView
-                        key={item.id}
-                        style={[
-                          globalStyles.listItemContainer,
-                          styles.listItemContainer,
-                        ]}
-                      >
-                        <ThemedText style={styles.instructionText}>
-                          {item.key}
-                        </ThemedText>
-                        <View style={styles.checkBoxContainer}>
-                          <CheckBox
-                            value={selectedSymptoms.includes(item.key)}
-                            disabled
-                          />
-                        </View>
-                      </ThemedView>
-                    ))}
-                  </ThemedView>
-                )}
-              </ThemedView>
+                {/* Info Section */}
+                <ThemedText type="heading">Symptoms Logged</ThemedText>
+                <ThemedView
+                  style={[
+                    globalStyles.elevatedCard,
+                    { paddingVertical: 0, marginVertical: 10 },
+                  ]}
+                >
+                  {examTypeF ? (
+                    <ThemedView
+                      style={[globalStyles.listContainer, styles.listContainer]}
+                    >
+                      {info_f.map((item) => (
+                        <ThemedView
+                          key={item.id}
+                          style={[
+                            globalStyles.listItemContainer,
+                            styles.listItemContainer,
+                          ]}
+                        >
+                          <ThemedText style={styles.instructionText}>
+                            {t(item.key)}
+                          </ThemedText>
+                          <View style={styles.checkBoxContainer}>
+                            <CheckBox
+                              value={selectedSymptoms.includes(item.key)}
+                              disabled
+                            />
+                          </View>
+                        </ThemedView>
+                      ))}
+                    </ThemedView>
+                  ) : (
+                    <ThemedView
+                      style={[globalStyles.listContainer, styles.listContainer]}
+                    >
+                      {info_m.map((item: { id: number; key: string }) => (
+                        <ThemedView
+                          key={item.id}
+                          style={[
+                            globalStyles.listItemContainer,
+                            styles.listItemContainer,
+                          ]}
+                        >
+                          <ThemedText style={styles.instructionText}>
+                            {t(item.key)}
+                          </ThemedText>
+                          <View style={styles.checkBoxContainer}>
+                            <CheckBox
+                              value={selectedSymptoms.includes(item.key)}
+                              disabled
+                            />
+                          </View>
+                        </ThemedView>
+                      ))}
+                    </ThemedView>
+                  )}
+                </ThemedView>
 
-              {/* Navigation Buttons */}
-              <ThemedView style={globalStyles.buttonBackNextContainer}>
-                <ThemedButton onPress={() => router.push("./")}>
-                  Back
-                </ThemedButton>
+                {/* Navigation Buttons */}
+                <ThemedView style={globalStyles.buttonBackNextContainer}>
+                  <ThemedButton onPress={() => router.push("./")}>
+                    Back
+                  </ThemedButton>
+                </ThemedView>
               </ThemedView>
-            </ThemedView>
-          </ScrollView>
+            </ScrollView>
+          </ThemedView>
         </ThemedView>
       </ThemedView>
-    </ThemedView>
-  );
+    );
+  }
 }
 
 const styles = StyleSheet.create({

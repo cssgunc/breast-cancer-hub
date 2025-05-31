@@ -2,13 +2,9 @@ import { View, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
-import { useEffect, useState } from "react";
-import { getSetting } from "@/hooks/useSettings";
 import CheckupLog from "./(components)/CycleLogWidget";
 
 export default function CheckupHistoryPage() {
-  const [loading, setLoading] = useState(true);
-  const [isMenstruating, setIsMenstruating] = useState<boolean>(true);
   const { colors, globalStyles } = useColors();
 
   const styles = StyleSheet.create({
@@ -44,32 +40,16 @@ export default function CheckupHistoryPage() {
     },
   });
 
-  useEffect(() => {
-    getSetting("schedulingType").then((s) => {
-      setIsMenstruating(s === "period"); // assumes isMenstruating exists
-    });
-    setLoading(false);
-  });
-
-  if (loading) {
-    return (
-      <ThemedView
-        bgColor={colors.darkHighlight}
-        style={globalStyles.bodyContainer}
-      />
-    );
-  } else {
-    return (
-      <ThemedView
-        bgColor={colors.darkHighlight}
-        style={globalStyles.bodyContainer}
-      >
-        <ThemedView style={[styles.logContainer]}>
-          <View style={{ height: 30 }} />
-          <ThemedText style={styles.titleText}>Checkup History</ThemedText>
-          <CheckupLog />
-        </ThemedView>
+  return (
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
+      <ThemedView style={[styles.logContainer]}>
+        <View style={{ height: 30 }} />
+        <ThemedText style={styles.titleText}>Checkup History</ThemedText>
+        <CheckupLog />
       </ThemedView>
-    );
-  }
+    </ThemedView>
+  );
 }

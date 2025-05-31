@@ -13,51 +13,27 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
-import ResetDataButton from "./(components)/ResetDataButton";
 
 export default function SettingsScreen() {
   const router = useRouter();
 
   const { colors, setDarkMode } = useColors();
-
-  const [isTelemetryEnabled, setIsTelemetryEnabled] = React.useState(false);
-  const [isBackupEnabled, setIsBackupEnabled] = React.useState(false);
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
-
-  // Pulling information from local storage
+  const [name, setName] = useState("");
   useEffect(() => {
-    getSetting("name").then((name) =>
-      getSetting("email").then((email) =>
-        getSetting("token").then((token) =>
-          getSetting("userId").then((userId) => {
-            setPerson({ name, email, token, userId });
-          })
-        )
-      )
-    );
+    getSetting("name").then((name) => {
+      setName(name);
+    });
 
-    getSetting("useDarkTheme").then((dark) =>
-      getSetting("useTelemetry").then((telemetry) =>
-        getSetting("useBackupData").then((backup) => {
-          setIsTelemetryEnabled(telemetry);
-          setIsDarkThemeEnabled(dark);
-          setIsBackupEnabled(backup);
-        })
-      )
-    );
+    getSetting("useDarkTheme").then((dark) => {
+      setIsDarkThemeEnabled(dark);
+    });
   }, []);
-
-  const [person, setPerson] = useState({
-    name: "",
-    email: "",
-    token: "",
-    userId: "",
-  });
 
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: colors.backgroundLightGray, // Background color of the page
+      backgroundColor: colors.backgroundLightGray,
     },
     headerContainer: {
       height: "10%",
@@ -162,9 +138,8 @@ export default function SettingsScreen() {
           <View style={styles.userInfoContainer}>
             <View style={styles.userTextContainer}>
               <ThemedText type="title" colored>
-                {person.name}
+                {name}
               </ThemedText>
-              {/*<ThemedText>{person.email}</ThemedText>*/}
             </View>
             {/* Profile Icon */}
             <View style={styles.profileIconContainer}>
@@ -229,40 +204,6 @@ export default function SettingsScreen() {
                 value={IsDarkThemeEnabled}
               />
             </View>
-
-            {/* Telemetry */}
-            {/* <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>
-                Enable Telemetry
-              </ThemedText>
-              <Switch
-                trackColor={{ false: "#767577", true: colors.lightHighlight }}
-                thumbColor={isTelemetryEnabled ? colors.white : "#f4f3f4"}
-                ios_backgroundColor={colors.darkGray}
-                onValueChange={(value) => {
-                  setIsTelemetryEnabled(value);
-                  saveSetting("useTelemetry", value);
-                }}
-                value={isTelemetryEnabled}
-              />
-            </View> */}
-
-            {/* Backup */}
-            {/* <View style={styles.optionContainer}>
-              <ThemedText style={styles.optionText}>
-                Backup Settings To Cloud
-              </ThemedText>
-              <Switch
-                trackColor={{ false: "#767577", true: colors.lightHighlight }}
-                thumbColor={isBackupEnabled ? colors.white : "#f4f3f4"}
-                ios_backgroundColor={colors.darkGray}
-                onValueChange={(value) => {
-                  setIsBackupEnabled(value);
-                  saveSetting("useBackupData", value);
-                }}
-                value={isBackupEnabled}
-              />
-            </View>*/}
           </View>
 
           {/* Divider */}

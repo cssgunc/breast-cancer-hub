@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-  KeyboardAvoidingView,
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
@@ -18,7 +17,7 @@ import ThemedButton from "@/components/ThemedButton";
 
 export default function ProfileSettingsScreen() {
   const router = useRouter();
-  const { colors, globalStyles } = useColors();
+  const { colors } = useColors();
 
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState("");
@@ -33,15 +32,6 @@ export default function ProfileSettingsScreen() {
     setIsEditing(false);
     saveSetting("name", name);
   };
-
-  function logout() {
-    saveSetting("name", "");
-    saveSetting("token", "");
-    saveSetting("email", "");
-    saveSetting("userId", "");
-    router.dismissAll();
-    router.replace("/login");
-  }
 
   const styles = StyleSheet.create({
     container: {
@@ -158,7 +148,6 @@ export default function ProfileSettingsScreen() {
             )}
           </View>
 
-          {/* Divider */}
           <View style={styles.divider} />
         </ScrollView>
 
@@ -172,7 +161,6 @@ export default function ProfileSettingsScreen() {
               <ThemedText style={{ color: "white" }}>Edit Name</ThemedText>
             </ThemedButton>
           )}
-          {/* Reset Data Button */}
           <ResetDataButton />
         </ThemedView>
       </View>

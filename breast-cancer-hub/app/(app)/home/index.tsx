@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
-import NotificationComponent from "@/app/(app)/home/(components)/Notification"; // Ensure this path is correct
+import NotificationComponent from "@/app/(app)/home/(components)/NotificationBanner"; // Ensure this path is correct
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting, NotificationTime } from "@/hooks/useSettings";
@@ -45,7 +45,7 @@ export default function HomePage(props: HomePageProps) {
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const { nextCheckup, scheduleNextCheckup, allCheckups } = useCheckupData();
+  const { nextCheckup, allCheckups } = useCheckupData();
 
   const [name, setName] = useState<string | undefined>("");
 
@@ -58,16 +58,6 @@ export default function HomePage(props: HomePageProps) {
   startOfToday.setHours(0, 0, 0, 0);
 
   const isStale = nextCheckup < startOfToday;
-
-  const formatDate = (iso: string) => {
-    const [y, m, d] = iso.split("-").map(Number);
-    const dt = new Date(y, m - 1, d);
-    return dt.toLocaleDateString(locale, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
   useEffect(() => {
     const init = async () => {

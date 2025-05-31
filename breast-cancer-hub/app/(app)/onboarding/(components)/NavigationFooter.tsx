@@ -19,7 +19,7 @@ export default function NavigationFooter({
   const pathname = usePathname();
   const { globalStyles } = useColors();
 
-  const fullSteps = stepRoutes; //.map((r) => (r.startsWith("/") ? r : `/${r}`));
+  const fullSteps = stepRoutes;
 
   const idx = fullSteps.indexOf(pathname);
   const current = idx >= 0 ? idx : 0;
