@@ -47,8 +47,8 @@ export default function CheckupDetails() {
 
   useEffect(() => {
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
-      setExamTypeF(schedulingType === "period");
+      const examTypeM = await getSetting("avatar");
+      setExamTypeF(!examTypeM);
       const storedLanguageCode = await getSetting("locale");
       await setLocale(storedLanguageCode);
       if (storedLanguageCode && i18n.language !== storedLanguageCode) {
