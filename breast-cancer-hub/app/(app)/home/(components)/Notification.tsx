@@ -42,7 +42,7 @@ NotificationComponentProps) {
       case "overdue":
         return "You are overdue for a breast self examination! Complete it by tapping on this banner.";
       case "upcoming":
-        return "You have a breast self examination coming up! Please come back when it is time to perform your exam.";
+        return "You have a breast self examination coming up soon! Please come back when it is time to perform your exam.";
       case "due":
         return "Your breast self examination is due today! Complete it by tapping on this banner.";
       default:
