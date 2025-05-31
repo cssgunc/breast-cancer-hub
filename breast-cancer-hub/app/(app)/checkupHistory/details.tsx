@@ -3,50 +3,44 @@ import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
-import { LearnMoreTextContainer } from "@/components/LearnMoreText";
-import { useCheckupData } from "@/hooks/CheckupContext";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
+import { useTranslation } from "react-i18next";
 
-export default function CheckupDetails({ date }: { date: string }) {
+export default function CheckupDetails() {
   const router = useRouter();
   const { colors, globalStyles } = useColors();
-  const [examDate, setExamDate] = useState(date);
-  const { getCheckup } = useCheckupData();
+  const { t, i18n } = useTranslation();
+
+  const { date, symptoms } = useLocalSearchParams<{
+    date: string;
+    symptoms: string[];
+  }>();
 
   const info_f = [
-    { id: 0, key: "Swelling of part or all of a breast." },
-    {
-      id: 1,
-      key: "Skin irritation or dimpling (sometimes looking like an orange peel)",
-    },
-    { id: 2, key: "Breast or nipple pain." },
-    { id: 3, key: "Nipple retraction (turning inward)" },
-    {
-      id: 4,
-      key: "Redness, scaliness, or thickening of the nipples or breast skin",
-    },
-    { id: 5, key: "Nipple discharge (other than breast milk)" },
+    { id: 0, key: "SYMPTOMS_SWELLING_F" },
+    { id: 1, key: "SYMPTOMS_IRRITATION_DIMPLING_F" },
+    { id: 2, key: "SYMPTOMS_PAIN_F" },
+    { id: 3, key: "SYMPTOMS_RETRACTION_F" },
+    { id: 4, key: "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F" },
+    { id: 5, key: "SYMPTOMS_DISCHARGE_F" },
+    { id: 6, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
+    { id: 7, key: "SYMPTOMS_NONE" },
   ];
-
   const info_m = [
-    { id: 0, key: "A painless lump or thickening in your breast tissue." },
-    {
-      id: 1,
-      key: "Changes to the skin covering your breast, such as dimpling, wrinkling, redness, or scaling.",
-    },
-    {
-      id: 2,
-      key: "Changes to your nipple, such as redness or scaling, or a nipple that begins to turn inward.",
-    },
-    { id: 3, key: "Discharge from your nipple." },
+    { id: 0, key: "SYMPTOMS_LUMP_THICKENING_M" },
+    { id: 1, key: "SYMPTOMS_SKIN_CHANGES_M" },
+    { id: 2, key: "SYMPTOMS_NIPPLE_CHANGES_M" },
+    { id: 3, key: "SYMPTOMS_DISCHARGE_M" },
+    { id: 4, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
+    { id: 5, key: "SYMPTOMS_NONE" },
   ];
 
-  const [isSelected, setSelection] = useState<string[]>([]);
-
+  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+  const [locale, setLocale] = useState("en-US");
   const [isLoading, setIsLoading] = useState(true);
 
   const [examTypeF, setExamTypeF] = useState(true);
@@ -54,233 +48,146 @@ export default function CheckupDetails({ date }: { date: string }) {
   useEffect(() => {
     const getType = async () => {
       const schedulingType = await getSetting("schedulingType");
-      // const schedulingType = "period";
       setExamTypeF(schedulingType === "period");
+      const storedLanguageCode = await getSetting("locale");
+      await setLocale(storedLanguageCode);
+      if (storedLanguageCode && i18n.language !== storedLanguageCode) {
+        await i18n.changeLanguage(storedLanguageCode);
+      }
+      await setSelectedSymptoms(
+        symptoms.length === 0 ? ["SYMPTOMS_NONE"] : symptoms
+      );
       setIsLoading(false);
     };
-
-    const fetchHistory = async () => {
-      if (examDate) {
-        const checkup = await getCheckup(date);
-        if (checkup) {
-          setSelection(checkup.symptomsChecked);
-        }
-      }
-    };
-
     getType();
-    fetchHistory();
   }, []);
 
-  const formatDate = (isoString: string) => {
-    const date = new Date(isoString);
-    return date.toLocaleDateString("en-US", {
+  const formatDate = (iso: string) => {
+    const [y, m, d] = iso.split("-").map(Number);
+    const dt = new Date(y, m - 1, d);
+    return dt.toLocaleDateString(locale, {
       year: "numeric",
       month: "long",
       day: "numeric",
     });
   };
 
-  if (isLoading === true) {
-    return (
-      <ThemedView
-        bgColor={colors.darkHighlight}
-        style={globalStyles.bodyContainer}
-      >
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
+  return (
+    <ThemedView
+      bgColor={colors.darkHighlight}
+      style={globalStyles.bodyContainer}
+    >
+      {/* Header Container */}
+      <AccountSettingsHeaderComponent />
 
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText type="title" colored>
-            Checkup History
-          </ThemedText>
+      {/* Page Title */}
+      <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
+        <ThemedText type="title" colored style={styles.titleText}>
+          Checkup History
+        </ThemedText>
+        <ThemedText type="heading">{formatDate(date)}</ThemedText>
 
-          <ThemedText type="heading">{formatDate(examDate)}</ThemedText>
+        <ThemedView style={globalStyles.grayLine} />
 
-          <ThemedView style={globalStyles.grayLine} />
+        <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
+          <ScrollView contentContainerStyle={globalStyles.scrollContent}>
+            <ThemedView style={[globalStyles.whiteOverlay, { paddingTop: 0 }]}>
+              {/* Info Section */}
+              <ThemedText type="heading">Symptoms Logged</ThemedText>
+              <ThemedView
+                style={[
+                  globalStyles.elevatedCard,
+                  { paddingVertical: 0, marginVertical: 10 },
+                ]}
+              >
+                {examTypeF ? (
+                  <ThemedView
+                    style={[globalStyles.listContainer, styles.listContainer]}
+                  >
+                    {info_f.map((item) => (
+                      <ThemedView
+                        key={item.id}
+                        style={[
+                          globalStyles.listItemContainer,
+                          styles.listItemContainer,
+                        ]}
+                      >
+                        <ThemedText style={styles.instructionText}>
+                          {t(item.key)}
+                        </ThemedText>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            value={selectedSymptoms.includes(item.key)}
+                            disabled
+                          />
+                        </View>
+                      </ThemedView>
+                    ))}
+                  </ThemedView>
+                ) : (
+                  <ThemedView
+                    style={[globalStyles.listContainer, styles.listContainer]}
+                  >
+                    {info_m.map((item: { id: number; key: string }) => (
+                      <ThemedView
+                        key={item.id}
+                        style={[
+                          globalStyles.listItemContainer,
+                          styles.listItemContainer,
+                        ]}
+                      >
+                        <ThemedText style={styles.instructionText}>
+                          {item.key}
+                        </ThemedText>
+                        <View style={styles.checkBoxContainer}>
+                          <CheckBox
+                            value={selectedSymptoms.includes(item.key)}
+                            disabled
+                          />
+                        </View>
+                      </ThemedView>
+                    ))}
+                  </ThemedView>
+                )}
+              </ThemedView>
+
+              {/* Navigation Buttons */}
+              <ThemedView style={globalStyles.buttonBackNextContainer}>
+                <ThemedButton onPress={() => router.push("./")}>
+                  Back
+                </ThemedButton>
+              </ThemedView>
+            </ThemedView>
+          </ScrollView>
         </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={styles.subtitleText}>Symptoms Logged</ThemedText>
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <ThemedButton
-                variant="secondary"
-                onPress={() => router.push("/")}
-              >
-                Back to Home{" "}
-              </ThemedButton>
-              <ThemedButton
-                onPress={() =>
-                  router.push({
-                    pathname: "/selfExam/nextSteps",
-                    params: {
-                      symptoms: isSelected.map((value) => (value ? 1 : 0)),
-                    },
-                  })
-                }
-              >
-                Next
-              </ThemedButton>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
       </ThemedView>
-    );
-  } else {
-    return (
-      <ThemedView
-        bgColor={colors.darkHighlight}
-        style={globalStyles.bodyContainer}
-      >
-        {/* Header Container */}
-        <AccountSettingsHeaderComponent />
-
-        {/* Page Title */}
-        <ThemedView style={globalStyles.whiteOverlay}>
-          <ThemedText type="title" colored>
-            Checkup History
-          </ThemedText>
-          <ThemedText type="heading">{formatDate(examDate)}</ThemedText>
-
-          <ThemedView style={globalStyles.grayLine} />
-        </ThemedView>
-
-        <ScrollView contentContainerStyle={globalStyles.scrollContent}>
-          <ThemedView style={globalStyles.whiteOverlay}>
-            {/* Info Section */}
-            <ThemedText style={styles.subtitleText}>Symptoms Logged</ThemedText>
-
-            <ThemedView style={globalStyles.elevatedCard}>
-              {examTypeF ? (
-                <ThemedView style={styles.listContainer}>
-                  {info_f.map((item) => (
-                    <ThemedView key={item.id} style={styles.listItemContainer}>
-                      <ThemedText style={styles.instructionText}>
-                        {item.key}
-                      </ThemedText>
-                      <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          value={isSelected.includes(item.key)}
-                          disabled
-                        />
-                      </View>
-                    </ThemedView>
-                  ))}
-                </ThemedView>
-              ) : (
-                <ThemedView style={styles.listContainer}>
-                  {info_m.map((item: { id: number; key: string }) => (
-                    <ThemedView key={item.id} style={styles.listItemContainer}>
-                      <ThemedText style={styles.instructionText}>
-                        {item.key}
-                      </ThemedText>
-                      <View style={styles.checkBoxContainer}>
-                        <CheckBox
-                          value={isSelected.includes(item.key)}
-                          disabled
-                        />
-                      </View>
-                    </ThemedView>
-                  ))}
-                </ThemedView>
-              )}
-            </ThemedView>
-
-            <LearnMoreTextContainer />
-
-            {/* Navigation Buttons */}
-            <ThemedView style={globalStyles.buttonBackNextContainer}>
-              <TouchableOpacity
-                style={globalStyles.buttonBack}
-                onPress={() => router.push("./")}
-              >
-                <ThemedText style={globalStyles.buttonTextBack}>
-                  Back to Home
-                </ThemedText>
-              </TouchableOpacity>
-              <ThemedButton
-                onPress={() =>
-                  router.push({
-                    pathname: "/selfExam/nextSteps",
-                    params: {
-                      symptoms: isSelected
-                        .map((value) => (value ? 1 : 0))
-                        .toString(),
-                    },
-                  })
-                }
-              >
-                Next
-              </ThemedButton>
-            </ThemedView>
-          </ThemedView>
-        </ScrollView>
-      </ThemedView>
-    );
-  }
+    </ThemedView>
+  );
 }
 
 const styles = StyleSheet.create({
-  iconWrapper: {
-    backgroundColor: "#EFCEE6",
-    borderRadius: 30,
-    padding: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  subtitleText: {
-    fontSize: 24,
-    fontWeight: "bold",
-    color: "#000000",
-    marginTop: 20,
-    marginBottom: 10,
+  titleText: {
+    marginBottom: 15,
+    paddingTop: 10,
   },
   checkBoxContainer: {
     flexDirection: "column",
-    marginBottom: 20,
-    alignContent: "center",
-    alignItems: "flex-end",
-    marginTop: 5,
+    justifyContent: "center",
+  },
+
+  listTitleTextExam: {
+    marginBottom: 10,
   },
   listContainer: {
     backgroundColor: "transparent",
-    width: 315,
+    marginHorizontal: 0,
   },
   listItemContainer: {
-    flexDirection: "row",
-    columnGap: 20,
-    textAlign: "left",
     justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
     backgroundColor: "transparent",
   },
+
   instructionText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#000",
     maxWidth: "80%",
-  },
-  infoSourceText: {
-    fontSize: 12,
-    color: "#999999",
-    marginTop: 20,
-    fontStyle: "italic",
-  },
-  learnMoreText: {
-    fontSize: 12,
-    color: "#68C4FF",
-    fontWeight: "bold",
-  },
-  learnMoreTextContainer: {
-    alignItems: "center",
   },
 });

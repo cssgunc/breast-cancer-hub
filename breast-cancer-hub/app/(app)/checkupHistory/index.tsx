@@ -4,7 +4,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
 import { useEffect, useState } from "react";
 import { getSetting } from "@/hooks/useSettings";
-import CycleLog from "../home/(components)/CycleLogWidget";
+import CheckupLog from "./(components)/CycleLogWidget";
 
 export default function CheckupHistoryPage() {
   const [loading, setLoading] = useState(true);
@@ -66,8 +66,8 @@ export default function CheckupHistoryPage() {
       >
         <ThemedView style={[styles.logContainer]}>
           <View style={{ height: 30 }} />
-          <ThemedText style={styles.titleText}>Cycle History</ThemedText>
-          <CycleLog isMenstruating={isMenstruating}></CycleLog>
+          <ThemedText style={styles.titleText}>Checkup History</ThemedText>
+          <CheckupLog />
         </ThemedView>
       </ThemedView>
     );
