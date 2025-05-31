@@ -20,7 +20,11 @@ import { ExternalLink } from "@/components/navigation/ExternalLink";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
-import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
+import {
+  formatHMTime,
+  isSameDate,
+  parseISODate,
+} from "@/constants/dateTimeUtils";
 import i18n from "@/i18n";
 
 export type HomePageProps = Partial<{
@@ -125,14 +129,6 @@ export default function HomePage(props: HomePageProps) {
   }
 
   const enabledTimes = notifTimes.filter((t) => t.enabled);
-
-  function formatTime(hour: number, minute: number, locale = "en-US") {
-    const d = new Date(1970, 0, 1, hour, minute);
-    return d.toLocaleTimeString(locale, {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
 
   function calculateNotificationVariant() {
     console.log(allCheckups);
@@ -266,7 +262,7 @@ export default function HomePage(props: HomePageProps) {
 
                   {enabledTimes.map((t) => (
                     <ThemedText key={t.id} style={{ marginLeft: 10 }}>
-                      • {formatTime(t.hour, t.minute)}
+                      • {formatHMTime(t.hour, t.minute)}
                     </ThemedText>
                   ))}
                 </View>

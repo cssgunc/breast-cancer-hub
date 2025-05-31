@@ -19,18 +19,11 @@ import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
+import { formatHMTime } from "@/constants/dateTimeUtils";
 
 export default function NotificationsScreen() {
   const router = useRouter();
   const { colors } = useColors();
-
-  function formatTime(hour: number, minute: number, locale = "en-US") {
-    const d = new Date(1970, 0, 1, hour, minute);
-    return d.toLocaleTimeString(locale, {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  }
 
   const [loaded, setLoaded] = useState(false);
 
@@ -451,7 +444,7 @@ export default function NotificationsScreen() {
               <View style={styles.timeEntryLeft}>
                 <View style={styles.timeRow}>
                   <ThemedText style={styles.timeText}>
-                    {formatTime(entry.hour, entry.minute, locale)}
+                    {formatHMTime(entry.hour, entry.minute, locale)}
                   </ThemedText>
                 </View>
                 <ThemedText style={styles.alarmText}>Alarm</ThemedText>
