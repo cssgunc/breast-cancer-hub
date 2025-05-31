@@ -98,9 +98,8 @@ export default function CalendarOnboardingScreen(
                 />
               )}
               <ThemedText type="caption" italic style={{ textAlign: "center" }}>
-                Press "Edit Periods" and select the start date of your most
-                recent period. The blue circle automatically marks your next
-                breast self-exam date.
+                Select the start date of your most recent period. The blue
+                circle automatically marks your next breast self-exam date.
               </ThemedText>
               <ThemedText italic colored style={{ textAlign: "center" }}>
                 Your periods and menstruation status can be changed at any time.

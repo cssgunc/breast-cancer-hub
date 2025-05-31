@@ -33,7 +33,7 @@ export default function CalendarComponent({
   const { colors } = useColors();
 
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -423,7 +423,7 @@ export default function CalendarComponent({
         </View>
 
         {/* Log Period Button or Message */}
-        {isMenstruating ? (
+        {/* {isMenstruating ? (
           <View style={styles.footer}>
             {isEditing ? (
               <TouchableOpacity
@@ -449,7 +449,7 @@ export default function CalendarComponent({
           </View>
         ) : (
           <View style={styles.footer}></View>
-        )}
+        )} */}
       </View>
     </ThemedView>
   );
