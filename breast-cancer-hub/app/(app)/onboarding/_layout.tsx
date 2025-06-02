@@ -32,7 +32,10 @@ export default function OnboardingLayout() {
         finishRoute={
           isInfoOnly
             ? { pathname: "/selfExam/intro", params: { fromOnboarding: "1" } }
-            : "/chooseMenstruationStatus"
+            : {
+                pathname: "/chooseMenstruationStatus",
+                params: { fromOnboarding: "1" },
+              }
         }
         stepRoutes={steps}
       />

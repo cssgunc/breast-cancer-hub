@@ -19,7 +19,10 @@ export default function MenstruationSelectionScreen() {
     if (selectedOption) {
       if (selectedOption === "menstruate") {
         saveSetting("schedulingType", "period").then(() => {
-          router.push("/customizeCalendar");
+          router.push({
+            pathname: "/customizeCalendar",
+            params: { fromOnboarding: "1" },
+          });
         });
       } else {
         router.push("/customizeExamDate");

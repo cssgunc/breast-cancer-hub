@@ -24,6 +24,8 @@ type CalendarItem = {
 interface CalendarComponentProps {
   isMenstruating: boolean;
   onDayChanged: (timestamps: PeriodTimestamp[]) => Promise<void>;
+  onMonthChanged?: (month: number, year: number) => void;
+
   initialMonth?: number;
   initialYear?: number;
 }
@@ -31,6 +33,7 @@ interface CalendarComponentProps {
 export default function CalendarComponent({
   isMenstruating,
   onDayChanged,
+  onMonthChanged,
   initialMonth,
   initialYear,
 }: CalendarComponentProps) {
@@ -49,6 +52,12 @@ export default function CalendarComponent({
 
   const { timestamps, addPeriod, removePeriod } = usePeriodData();
   const { nextCheckup, scheduleNextCheckup } = useCheckupData();
+
+  useEffect(() => {
+    if (onMonthChanged) {
+      onMonthChanged(currentDate.getMonth(), currentDate.getFullYear());
+    }
+  }, [currentDate, onMonthChanged]);
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {

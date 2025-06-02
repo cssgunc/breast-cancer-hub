@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -17,6 +17,7 @@ import CalendarComponent from "@/app/(app)/Calendar";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
+import { useLocalSearchParams } from "expo-router";
 
 export type CalendarOnboardingProps = Partial<{
   name: string;
@@ -29,6 +30,9 @@ export default function CalendarOnboardingScreen(
   props: CalendarOnboardingProps
 ) {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const fromOnboarding = params.fromOnboarding === "1";
+
   const { colors, globalStyles } = useColors();
 
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
@@ -36,6 +40,14 @@ export default function CalendarOnboardingScreen(
   );
 
   const { nextCheckup, scheduleNextCheckup } = useCheckupData();
+
+  const [viewedMonth, setViewedMonth] = useState<number | undefined>(
+    props.initialMonth
+  );
+  const [viewedYear, setViewedYear] = useState<number | undefined>(
+    props.initialYear
+  );
+
   //load the schedulingType
   useEffect(() => {
     if (props.isMenstruating === undefined) {
@@ -48,15 +60,26 @@ export default function CalendarOnboardingScreen(
   //save the examDay under its own key
   const handleSaveChanges = () => {
     if (nextCheckup) {
-      router.push({
-        pathname: "/calendar",
-        params: {
-          month: (nextCheckup.getMonth() + 1).toString(), // JS months are 0-based
-          year: nextCheckup.getFullYear().toString(),
-        },
-      });
+      const nextMonth = nextCheckup.getMonth(); // JS months are 0-based
+      const nextYear = nextCheckup.getFullYear();
+
+      if (fromOnboarding) {
+        router.replace("/home");
+      } else if (viewedMonth !== nextMonth || viewedYear !== nextYear) {
+        router.push({
+          pathname: "/calendar",
+          params: {
+            month: (nextCheckup.getMonth() + 1).toString(), // JS months are 0-based
+            year: nextCheckup.getFullYear().toString(),
+          },
+        });
+      }
     } else {
-      router.push("/calendar");
+      if (fromOnboarding) {
+        router.replace("/home");
+      } else {
+        router.push("/calendar");
+      }
     }
   };
 
@@ -106,6 +129,13 @@ export default function CalendarOnboardingScreen(
                   isMenstruating={isMenstruating}
                   initialMonth={props.initialMonth}
                   initialYear={props.initialYear}
+                  onMonthChanged={(month: number, year: number) => {
+                    console.log(
+                      `Month changed to ${month} and year changed to ${year}`
+                    );
+                    setViewedMonth(month);
+                    setViewedYear(year);
+                  }}
                   onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
                     await scheduleNextCheckup(newTimestamps);
                   }}
