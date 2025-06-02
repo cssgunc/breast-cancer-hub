@@ -1,9 +1,10 @@
 import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { ThemedText } from "@/components/style/ThemedText";
-import { resetAppData } from "@/hooks/useSettings";
+import { logSecureStoreContents, resetAppData } from "@/hooks/useSettings";
 import ThemedButton from "@/components/ThemedButton";
 import { useColors } from "@/components/style/ColorContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ResetDataButton() {
   const router = useRouter();
@@ -21,6 +22,7 @@ export default function ResetDataButton() {
           onPress: async () => {
             try {
               await resetAppData();
+              console.log(await logSecureStoreContents());
               router.replace("/welcome");
             } catch {
               Alert.alert("Error", "Unable to reset data. Please try again.");

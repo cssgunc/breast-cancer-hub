@@ -16,20 +16,16 @@ export type NotificationTime = {
 
 export type SettingsMap = {
   userId: string;
-  token: string;
 
   schemaVersion: number; // Stores schema for migration purposes
 
   name: string;
-  email: string;
   schedulingType: { day: number } | "period";
 
   notificationTimes: NotificationTime[]; //using expo-notifications trigger format
 
   locale: string; //using expo-localization
 
-  useBackupData: boolean;
-  useTelemetry: boolean;
   usePushNotifications: boolean;
   useInAppNotifications: boolean;
   useDarkTheme: boolean;
@@ -44,18 +40,15 @@ export type SettingsMap = {
 
 export type SettingKeys = keyof SettingsMap;
 
-export const GLOBAL_KEYS: SettingKeys[] = ["token", "userId"];
+export const GLOBAL_KEYS: SettingKeys[] = ["userId"];
 
 export const USER_SCOPED_KEYS: SettingKeys[] = [
   "schemaVersion",
 
   "name",
-  "email",
   "schedulingType",
   "notificationTimes",
   "locale",
-  "useBackupData",
-  "useTelemetry",
   "usePushNotifications",
   "useInAppNotifications",
   "useDarkTheme",
@@ -134,19 +127,17 @@ export async function resetAppData(): Promise<void> {
     if (Platform.OS === "web") {
       await AsyncStorage.clear();
     } else {
-      for (const key of GLOBAL_KEYS) {
-        await SecureStore.deleteItemAsync(key);
-      }
-
       const rawUserId = await SecureStore.getItemAsync("userId");
       if (rawUserId) {
         const userId = JSON.parse(rawUserId);
-        const defaultSettings = generateDefaultSettings();
 
         for (const key of USER_SCOPED_KEYS) {
           const scopedKey = `user_${userId}_${key}`;
           await SecureStore.deleteItemAsync(scopedKey);
         }
+      }
+      for (const key of GLOBAL_KEYS) {
+        await SecureStore.deleteItemAsync(key);
       }
     }
   } catch (err) {
@@ -167,12 +158,6 @@ async function backupSettings(userId: string, key: string, value: any) {
       [key]: value,
     }),
   });
-}
-
-export async function loadBackupSettings() {
-  if ((await getSetting("useBackupData")) === true) {
-    //TODO: add database specific code to load a backup
-  }
 }
 
 export async function generateSettingsJson() {
@@ -200,8 +185,6 @@ export async function generateSettingsJson() {
 export function generateDefaultSettings() {
   const def: SettingsMap = {
     name: "",
-    email: "",
-    token: "",
     userId: "",
     schemaVersion: CURRENT_SCHEMA,
     schedulingType: {
@@ -217,8 +200,6 @@ export function generateDefaultSettings() {
       },
     ],
     locale: "en-US",
-    useBackupData: false,
-    useTelemetry: false,
     useDarkTheme: true,
     usePushNotifications: true,
     useInAppNotifications: true,
@@ -275,3 +256,22 @@ const migrations: Record<number, () => Promise<void>> = {
     }
   },
 };
+
+export async function logSecureStoreContents() {
+  // Log global keys
+  for (const key of GLOBAL_KEYS) {
+    const value = await SecureStore.getItemAsync(key);
+    console.log(`SecureStore: ${key} = ${value}`);
+  }
+
+  // Try to get userId to log user-scoped keys
+  const rawUserId = await SecureStore.getItemAsync("userId");
+  const userId = rawUserId ? JSON.parse(rawUserId) : "";
+  if (userId) {
+    for (const key of USER_SCOPED_KEYS) {
+      const scopedKey = `user_${userId}_${key}`;
+      const value = await SecureStore.getItemAsync(scopedKey);
+      console.log(`SecureStore: ${scopedKey} = ${value}`);
+    }
+  }
+}

@@ -138,7 +138,7 @@ export default function SettingsScreen() {
           <View style={styles.userInfoContainer}>
             <View style={styles.userTextContainer}>
               <ThemedText type="title" colored>
-                {name}
+                {name.length ? name : "User"}
               </ThemedText>
             </View>
             {/* Profile Icon */}

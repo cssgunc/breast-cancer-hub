@@ -77,7 +77,7 @@ export default function ProfileSettingsScreen() {
     },
     profileHeaderContainer: {
       flexDirection: "row",
-      justifyContent: "space-between",
+      gap: 16,
       alignItems: "center",
       marginBottom: 20,
     },
@@ -143,7 +143,7 @@ export default function ProfileSettingsScreen() {
               />
             ) : (
               <ThemedText type="heading" colored>
-                {name}
+                {name.length ? name : "User"}
               </ThemedText>
             )}
           </View>
