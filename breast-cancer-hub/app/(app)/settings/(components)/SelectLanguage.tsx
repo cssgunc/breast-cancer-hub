@@ -65,7 +65,6 @@ export default function SelectLanguage() {
           );
           if (matchedLanguage) {
             setSelectedLanguage(matchedLanguage);
-            console.log(matchedLanguage);
           }
         }
       } catch (error) {
@@ -93,7 +92,6 @@ export default function SelectLanguage() {
         //changes the language and saves the preference
         await i18n.changeLanguage(languageCode);
         await saveSetting("locale", languageCode);
-        console.log(languageCode);
       } catch (error) {
         console.error("Error changing language: ", error);
       }

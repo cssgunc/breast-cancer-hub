@@ -101,8 +101,6 @@ export default function SelfExam() {
       setInstructions(
         (await getSetting("avatar")) ? instructions_m : instructions_f
       );
-      console.log(instructions);
-      console.log(instructions[0].image);
       await new Promise((r) => setTimeout(r, 300));
       setIsLoading(false);
     };

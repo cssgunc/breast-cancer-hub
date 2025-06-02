@@ -64,7 +64,6 @@ export default function Checklist() {
       const examTypeM = await getSetting("avatar");
       setExamTypeF(!examTypeM);
       const storedLanguageCode = await getSetting("locale");
-      console.log(storedLanguageCode);
       if (storedLanguageCode && i18n.language !== storedLanguageCode) {
         await i18n.changeLanguage(storedLanguageCode);
       }
@@ -83,8 +82,8 @@ export default function Checklist() {
   };
 
   const next = async () => {
-    saveSymptoms();
-    console.log(await scheduleNextCheckup());
+    await saveSymptoms();
+    await scheduleNextCheckup();
     router.push({
       pathname: "/selfExam/nextSteps",
       params: {
@@ -197,24 +196,7 @@ export default function Checklist() {
           >
             Back to Exam
           </ThemedButton>
-          <ThemedButton
-            onPress={async () => {
-              saveSymptoms().then(() => {
-                scheduleNextCheckup().then((date) => {
-                  console.log("scheduleNextCheckup():");
-                  console.log(date);
-                  router.push({
-                    pathname: "/selfExam/nextSteps",
-                    params: {
-                      symptoms: JSON.stringify(selectedSymptoms),
-                    },
-                  });
-                });
-              });
-            }}
-          >
-            Next
-          </ThemedButton>
+          <ThemedButton onPress={next}>Next</ThemedButton>
         </ThemedView>
       </ThemedView>
     </ThemedView>

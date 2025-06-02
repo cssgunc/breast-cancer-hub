@@ -134,8 +134,7 @@ async function CancelNotifications() {
     return;
   }
   const existing = await Notifications.getAllScheduledNotificationsAsync();
-  console.log("existing notifications:");
-  console.log(existing);
+  console.log(existing.length, "existing notifications found");
   for (const { identifier } of existing) {
     if (identifier?.startsWith(ALERT_IDENTIFIER)) {
       console.log(`cancelling ${identifier}`);

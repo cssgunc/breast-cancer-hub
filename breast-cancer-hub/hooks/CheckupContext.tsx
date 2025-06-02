@@ -32,11 +32,9 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
       return [];
     }
     const notificationTimes = await getSetting("notificationTimes");
-    console.log(notificationTimes);
     const enabledTimes = notificationTimes.filter((n) => {
       return n.enabled;
     });
-    console.log(enabledTimes);
     const dates: Date[] = enabledTimes.map((t) => {
       return new Date(
         scheduledExam.getFullYear(),
@@ -46,15 +44,12 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
         t.minute
       );
     });
-    console.log(dates);
     return dates;
   }
 
   useEffect(() => {
     (async () => {
       const storedCheckup = await getSetting("nextExamDate");
-      console.log("nextExamDate:");
-      console.log(storedCheckup);
       const storedDate = parseISODate(storedCheckup);
       setNextCheckup(storedDate);
       const storedCheckupHistory = await getSetting("checkups");
@@ -116,8 +111,6 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
       }
     } else {
       const examDay = userMenstruationType.day;
-      console.log("examDay:");
-      console.log(examDay);
       scheduledExam = await getNextMonthlyDate(examDay);
     }
     saveSetting("nextExamDate", scheduledExam.toISOString().split("T")[0]);
@@ -164,8 +157,6 @@ const getNextMonthlyDate = async (
   const checkupDates = storedCheckups.map((checkup) => {
     return parseISODate(checkup.completedOn);
   });
-  console.log("checkupDates:");
-  console.log(checkupDates);
 
   // get last checkup date
   let lastCheckupDate = new Date(0);
@@ -175,8 +166,6 @@ const getNextMonthlyDate = async (
     }
   }
 
-  console.log("latest checkup:");
-  console.log(lastCheckupDate.toISOString());
   const lastCheckupYear = lastCheckupDate.getFullYear();
   const lastCheckupMonth = lastCheckupDate.getMonth();
   const lastCheckupDay = lastCheckupDate.getDate();

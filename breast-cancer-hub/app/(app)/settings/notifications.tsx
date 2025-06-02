@@ -60,23 +60,18 @@ export default function NotificationsScreen() {
     loadSettings();
   }, []);
 
-  useEffect(() => {
-    if (!loaded) return;
-    saveNotificationSettings();
-  }, [loaded, pushNotificationsEnabled, inAppNotifications, timeEntries]);
-
-  const saveNotificationSettings = async () => {
-    await Promise.all([
-      saveSetting("usePushNotifications", pushNotificationsEnabled),
-      saveSetting("useInAppNotifications", inAppNotifications),
-      saveSetting("notificationTimes", timeEntries),
-    ]);
-    rescheduleNotifications();
+  const handleTogglePushNotifications = async () => {
+    setPushNotificationsEnabled((prev) => {
+      const newValue = !prev;
+      saveSetting("usePushNotifications", newValue).then(
+        rescheduleNotifications
+      );
+      return newValue;
+    });
   };
 
   // Function to add a new time entry
-  const addTimeEntry = (newDate: Date) => {
-    console.log(newDate);
+  const addTimeEntry = async (newDate: Date) => {
     const newEntry: NotificationTime = {
       id: Date.now(),
       hour: newDate.getHours(),
@@ -99,22 +94,28 @@ export default function NotificationsScreen() {
     if (overlap) {
       alert("Time already exists!");
     } else {
-      setTimeEntries([newEntry, ...timeEntries]);
+      const updated = [newEntry, ...timeEntries];
+      setTimeEntries(updated);
+      await saveSetting("notificationTimes", updated);
+      rescheduleNotifications();
     }
   };
 
   // Function to remove a time entry
-  const removeTimeEntry = (id: number) => {
-    setTimeEntries(timeEntries.filter((entry) => entry.id !== id));
+  const removeTimeEntry = async (id: number) => {
+    const updated = timeEntries.filter((entry) => entry.id !== id);
+    setTimeEntries(updated);
+    await saveSetting("notificationTimes", updated);
+    rescheduleNotifications();
   };
 
   // Function to toggle time entry enabled state
   const toggleTimeEntry = (id: number) => {
-    setTimeEntries(
-      timeEntries.map((entry) =>
-        entry.id === id ? { ...entry, enabled: !entry.enabled } : entry
-      )
+    const updated = timeEntries.map((entry) =>
+      entry.id === id ? { ...entry, enabled: !entry.enabled } : entry
     );
+    setTimeEntries(updated);
+    saveSetting("notificationTimes", updated).then(rescheduleNotifications);
   };
 
   const styles = StyleSheet.create({
@@ -344,9 +345,7 @@ export default function NotificationsScreen() {
 
           <TouchableOpacity
             style={styles.optionBox}
-            onPress={async () => {
-              await setPushNotificationsEnabled(!pushNotificationsEnabled);
-            }}
+            onPress={handleTogglePushNotifications}
           >
             <View style={styles.optionHeader}>
               <View style={styles.checkboxContainer}>
@@ -433,23 +432,6 @@ export default function NotificationsScreen() {
             />
             <ThemedText style={styles.addTimeText}>Add Time</ThemedText>
           </TouchableOpacity>
-          {/* Add Time Button */}
-          <TouchableOpacity
-            style={styles.addTimeButton}
-            onPress={() => addTimeEntry(new Date())}
-          >
-            <Ionicons
-              name="add-circle"
-              size={24}
-              color={colors.darkHighlight}
-            />
-            <ThemedText style={styles.addTimeText}>Add Now</ThemedText>
-          </TouchableOpacity>
-
-          {/* Save Settings Button */}
-          {/* <ThemedButton onPress={saveNotificationSettings}>
-            Save Settings
-          </ThemedButton> */}
         </View>
       </ScrollView>
       {timePickerVisible && (
@@ -462,7 +444,6 @@ export default function NotificationsScreen() {
           onChange={(event, selectedDate) => {
             if (event.type === "set" && selectedDate) {
               setDate(selectedDate);
-              console.log(selectedDate);
               addTimeEntry(selectedDate);
             } else setDate(new Date());
             setTimePickerVisible(false);

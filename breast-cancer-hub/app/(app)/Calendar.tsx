@@ -42,23 +42,13 @@ export default function CalendarComponent({
     }
     return new Date();
   });
-  const [isEditing, setIsEditing] = useState(true);
+  const [isEditing] = useState(true);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const { timestamps, addPeriod, removePeriod } = usePeriodData();
   const { nextCheckup, scheduleNextCheckup } = useCheckupData();
-
-  useEffect(() => {
-    if (isMenstruating) {
-      if (timestamps.length) {
-        scheduleNextCheckup(timestamps);
-      }
-    } else {
-      setIsEditing(false);
-    }
-  }, [isMenstruating, timestamps]);
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
@@ -205,7 +195,6 @@ export default function CalendarComponent({
       newTimestamps = await addPeriod(day.date);
     }
     await onDayChanged(newTimestamps);
-    scheduleNextCheckup(newTimestamps);
   };
 
   const styles = StyleSheet.create({

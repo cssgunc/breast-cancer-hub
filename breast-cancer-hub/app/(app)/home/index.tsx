@@ -121,15 +121,12 @@ export default function HomePage(props: HomePageProps) {
   const enabledTimes = notifTimes.filter((t) => t.enabled);
 
   function calculateNotificationVariant() {
-    console.log(allCheckups);
     let lastCheckup = allCheckups.at(-1);
     let lastCheckupDate: Date;
     let today: Date = new Date();
 
     if (lastCheckup) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
-      console.log("Last checkup date:");
-      console.log(lastCheckupDate);
     } else {
       const zero = new Date(0); // Case of no checkups - is the same as having done one in the far past
       zero.setHours(0, 0, 0, 0);
@@ -153,7 +150,6 @@ export default function HomePage(props: HomePageProps) {
     } else {
       notification_props = { variant: "overdue", date: nextCheckup };
     }
-    //console.log(notification_props);
     return notification_props;
   }
 
@@ -268,7 +264,10 @@ export default function HomePage(props: HomePageProps) {
                 </ThemedText>
               </TouchableOpacity>
             </ThemedView>
+          </ThemedView>
 
+          {/* Contact Buttons */}
+          <View style={styles.contactButtons}>
             <ThemedButton
               variant="primary"
               onPress={() => {
@@ -277,23 +276,6 @@ export default function HomePage(props: HomePageProps) {
             >
               Perform Self Exam Now
             </ThemedButton>
-            {/* Calendar Section */}
-            {/* <View style={styles.sectionTitle}>
-              <Ionicons name="calendar-outline" style={styles.icon} />
-              <ThemedText type="heading">Your Calendar</ThemedText>
-            </View> */}
-
-            {/* Calendar Component */}
-            {/* <CalendarComponent
-              isMenstruating={isMenstruating}
-              onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
-                await scheduleNextCheckup(newTimestamps);
-              }}
-            /> */}
-          </ThemedView>
-
-          {/* Contact Buttons */}
-          <View style={styles.contactButtons}>
             <ThemedButton
               variant="secondary"
               onPress={() => setModalVisible(true)}
