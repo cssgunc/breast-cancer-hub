@@ -24,15 +24,24 @@ type CalendarItem = {
 interface CalendarComponentProps {
   isMenstruating: boolean;
   onDayChanged: (timestamps: PeriodTimestamp[]) => Promise<void>;
+  initialMonth?: number;
+  initialYear?: number;
 }
 
 export default function CalendarComponent({
   isMenstruating,
   onDayChanged,
+  initialMonth,
+  initialYear,
 }: CalendarComponentProps) {
   const { colors } = useColors();
 
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDate, setCurrentDate] = useState(() => {
+    if (initialMonth && initialYear) {
+      return new Date(initialYear, initialMonth - 1, 1);
+    }
+    return new Date();
+  });
   const [isEditing, setIsEditing] = useState(true);
 
   const today = new Date();
@@ -421,35 +430,6 @@ export default function CalendarComponent({
             </TouchableOpacity>
           ))}
         </View>
-
-        {/* Log Period Button or Message */}
-        {/* {isMenstruating ? (
-          <View style={styles.footer}>
-            {isEditing ? (
-              <TouchableOpacity
-                onPress={() => setIsEditing(false)}
-                style={styles.editToggleButton}
-              >
-                <ThemedText type="caption">Confirm Changes</ThemedText>
-                <Ionicons name="checkmark" size={24} color={colors.black} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => setIsEditing(true)}
-                style={styles.editToggleButton}
-              >
-                <ThemedText type="caption">Edit Periods</ThemedText>
-                <Ionicons
-                  name="create-outline"
-                  size={24}
-                  color={colors.black}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        ) : (
-          <View style={styles.footer}></View>
-        )} */}
       </View>
     </ThemedView>
   );

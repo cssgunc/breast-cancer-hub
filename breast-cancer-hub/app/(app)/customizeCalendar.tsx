@@ -21,6 +21,8 @@ import { PeriodTimestamp } from "@/hooks/PeriodContext";
 export type CalendarOnboardingProps = Partial<{
   name: string;
   isMenstruating: boolean;
+  initialMonth: number;
+  initialYear: number;
 }>;
 
 export default function CalendarOnboardingScreen(
@@ -33,7 +35,7 @@ export default function CalendarOnboardingScreen(
     undefined
   );
 
-  const { scheduleNextCheckup } = useCheckupData();
+  const { nextCheckup, scheduleNextCheckup } = useCheckupData();
   //load the schedulingType
   useEffect(() => {
     if (props.isMenstruating === undefined) {
@@ -45,7 +47,17 @@ export default function CalendarOnboardingScreen(
 
   //save the examDay under its own key
   const handleSaveChanges = () => {
-    router.push("/");
+    if (nextCheckup) {
+      router.push({
+        pathname: "/calendar",
+        params: {
+          month: (nextCheckup.getMonth() + 1).toString(), // JS months are 0-based
+          year: nextCheckup.getFullYear().toString(),
+        },
+      });
+    } else {
+      router.push("/calendar");
+    }
   };
 
   return (
@@ -92,6 +104,8 @@ export default function CalendarOnboardingScreen(
               {isMenstruating != null && (
                 <CalendarComponent
                   isMenstruating={isMenstruating}
+                  initialMonth={props.initialMonth}
+                  initialYear={props.initialYear}
                   onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
                     await scheduleNextCheckup(newTimestamps);
                   }}
