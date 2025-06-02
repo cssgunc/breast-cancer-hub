@@ -395,7 +395,7 @@ export default function HomePage(props: HomePageProps) {
                   }
                 >
                   <ThemedText type="link">
-                    Learn More about Breast Self Exams With Videos
+                    Learn More About{"\n"}Breast Self-Exams With Videos
                   </ThemedText>
                 </ThemedButton>
                 <ThemedButton
@@ -408,7 +408,7 @@ export default function HomePage(props: HomePageProps) {
                   }
                 >
                   <ThemedText type="link">
-                    Learn More about Breast Cancer
+                    Learn More About{"\n"}Breast Cancer
                   </ThemedText>
                 </ThemedButton>
 
@@ -418,7 +418,7 @@ export default function HomePage(props: HomePageProps) {
                   onPress={() => openLink("https://www.breastcancerhub.org/")}
                 >
                   <ThemedText type="link">
-                    Learn More About Breast Cancer Hub
+                    Learn More About{"\n"}Breast Cancer Hub
                   </ThemedText>
                 </ThemedButton>
 
@@ -432,7 +432,7 @@ export default function HomePage(props: HomePageProps) {
                   }
                 >
                   <ThemedText type="link">
-                    Learn More About Other Cancers and its Symptoms
+                    Learn More About{"\n"}Other Cancers And Symptoms
                   </ThemedText>
                 </ThemedButton>
               </View>

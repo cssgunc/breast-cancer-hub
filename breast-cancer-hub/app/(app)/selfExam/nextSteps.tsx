@@ -93,7 +93,8 @@ export default function NextStepsScreen() {
                   But please do not stress. Most of the time, Breast lumps or
                   Breast changes are not Cancer. However, reporting any
                   abnormalities or changes to your healthcare provider is
-                  essential.
+                  essential. If you have questions about your exam, please
+                  contact BCH.
                 </ThemedText>
                 <ThemedText bold italic>
                   Early detection improves treatment outcomes and saves lives.
@@ -121,6 +122,9 @@ export default function NextStepsScreen() {
                 <ThemedText type="heading" bold>
                   Please continue to perform your Breast Self-Examination every
                   month.
+                </ThemedText>
+                <ThemedText>
+                  If you have questions about your exam, please contact BCH.
                 </ThemedText>
               </ThemedView>
 
