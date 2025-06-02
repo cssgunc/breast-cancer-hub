@@ -10,13 +10,12 @@ export default function CheckupHistoryPage() {
   const styles = StyleSheet.create({
     container: {
       backgroundColor: colors.backgroundGray,
+      flex: 1,
     },
     logContainer: {
       backgroundColor: colors.white,
       borderRadius: 15,
-      paddingLeft: 20,
-      paddingRight: 20,
-      paddingBottom: 20,
+      padding: 20,
       // iOS shadow properties
       shadowColor: colors.black,
       shadowOffset: { width: 0, height: 2 },
@@ -25,15 +24,13 @@ export default function CheckupHistoryPage() {
       // Android elevation
       elevation: 5,
       margin: 20,
-    },
-    titleText: {
-      fontSize: 32,
-      fontWeight: "bold",
-      color: colors.darkHighlight,
-      lineHeight: 32,
+      gap: 16,
+      flex: 1,
+      minHeight: 0,
     },
     log: {
-      paddingTop: 20,
+      flex: 1,
+      minHeight: 0,
     },
     icon: {
       marginRight: 10,
@@ -46,9 +43,17 @@ export default function CheckupHistoryPage() {
       style={globalStyles.bodyContainer}
     >
       <ThemedView style={[styles.logContainer]}>
-        <View style={{ height: 30 }} />
-        <ThemedText style={styles.titleText}>Checkup History</ThemedText>
-        <CheckupLog />
+        <ThemedText type="title" colored bold>
+          Exam History
+        </ThemedText>
+        <ThemedView style={styles.log}>
+          <CheckupLog />
+        </ThemedView>
+        <ThemedText type="caption" italic>
+          Exams cannot be edited, but you can complete a new exam before
+          midnight to replace an earlier exam that day. Only the last exam of
+          the day is saved.
+        </ThemedText>
       </ThemedView>
     </ThemedView>
   );

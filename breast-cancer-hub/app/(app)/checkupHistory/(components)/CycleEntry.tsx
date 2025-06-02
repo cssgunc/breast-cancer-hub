@@ -6,6 +6,7 @@ import { ThemedView } from "@/components/style/ThemedView";
 import { getSetting } from "@/hooks/useSettings";
 import i18n from "@/i18n";
 import { useEffect, useState } from "react";
+import { Ionicons } from "@expo/vector-icons";
 
 interface CheckupWidgetProps {
   completedOn: string;
@@ -19,27 +20,15 @@ export default function CheckupWidget({
   const { colors } = useColors();
   const styles = StyleSheet.create({
     card: {
-      backgroundColor: "white",
-      padding: 15,
-      marginBottom: 10,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
       borderRadius: 8,
       borderWidth: 2,
       borderColor: "#E0E0E0",
       boxShadow: "0.5px 0.5px 3px 0 rgb(0 0 0 / 80%)",
-    },
-    periodText: {
-      fontWeight: "bold",
-      fontSize: 16,
-      color: colors.black,
-    },
-    completedText: {
-      fontSize: 14,
-    },
-    pastExamsText: {
-      fontSize: 14,
-      color: colors.blue,
-      fontWeight: "bold",
-      fontStyle: "italic",
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
     },
   });
 
@@ -68,25 +57,29 @@ export default function CheckupWidget({
   };
 
   return (
-    <ThemedView>
+    <TouchableOpacity
+      onPress={() =>
+        router.push({
+          pathname: `/checkupHistory/details`,
+          params: { date: completedOn, symptoms: symptomsChecked },
+        })
+      }
+    >
       <ThemedView style={[styles.card]}>
-        <ThemedText style={styles.periodText}>
-          {formatDate(completedOn)} ({symptomsChecked.length} symptoms recorded)
+        <ThemedText bold>
+          <ThemedText bold colored>
+            {formatDate(completedOn)}
+          </ThemedText>{" "}
+          ({symptomsChecked.length} symptom
+          {symptomsChecked.length === 1 ? "" : "s"})
         </ThemedText>
-        <ThemedText style={styles.completedText}></ThemedText>
-        <TouchableOpacity
-          onPress={() =>
-            router.push({
-              pathname: `/checkupHistory/details`,
-              params: { date: completedOn, symptoms: symptomsChecked },
-            })
-          }
-        >
-          <ThemedText style={styles.pastExamsText}>
-            View checkup details
-          </ThemedText>
-        </TouchableOpacity>
+        <Ionicons
+          name="chevron-forward"
+          size={20}
+          color={colors.darkHighlight}
+          style={{ marginLeft: 8 }}
+        />
       </ThemedView>
-    </ThemedView>
+    </TouchableOpacity>
   );
 }

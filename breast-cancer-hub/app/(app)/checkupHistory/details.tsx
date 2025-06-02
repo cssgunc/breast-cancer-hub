@@ -77,7 +77,7 @@ export default function CheckupDetails() {
         {/* Page Title */}
         <ThemedView style={[globalStyles.whiteOverlay, { paddingBottom: 0 }]}>
           <ThemedText type="title" colored style={styles.titleText}>
-            Checkup History
+            Exam History
           </ThemedText>
           <ThemedText type="heading">
             {parseISODateToLocaleString(date, locale)}
@@ -150,7 +150,7 @@ export default function CheckupDetails() {
                 </ThemedView>
 
                 {/* Navigation Buttons */}
-                <ThemedView style={globalStyles.buttonBackNextContainer}>
+                <ThemedView style={{ width: "100%" }}>
                   <ThemedButton onPress={() => router.push("./")}>
                     Back
                   </ThemedButton>
