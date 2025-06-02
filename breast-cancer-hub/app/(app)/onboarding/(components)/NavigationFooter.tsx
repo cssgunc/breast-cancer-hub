@@ -8,7 +8,7 @@ import ThemedButton from "@/components/ThemedButton";
 
 interface NavigationFooterProps {
   stepRoutes: string[];
-  finishRoute: string;
+  finishRoute: string | { pathname: string; params?: Record<string, string> };
 }
 
 export default function NavigationFooter({
