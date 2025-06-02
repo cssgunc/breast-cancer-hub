@@ -146,7 +146,7 @@ export default function NextStepsScreen() {
           <ThemedButton
             onPress={() => {
               router.dismissAll();
-              router.replace("/");
+              router.replace("/home");
             }}
           >
             Return Home

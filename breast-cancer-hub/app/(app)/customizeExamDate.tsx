@@ -28,7 +28,7 @@ export default function CustomizeExamDateScreen() {
       day: examDay,
     }).then(() => {
       scheduleNextCheckup();
-      router.push("/");
+      router.push("/home");
     });
   };
 

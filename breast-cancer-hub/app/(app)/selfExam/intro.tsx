@@ -20,7 +20,6 @@ export const ONBOARDING_INFO_STEPS = [
 ];
 
 export default function SelfExamInfo() {
-  console.log("reached intro");
   const router = useRouter();
   const { t } = useTranslation();
   const { colors, globalStyles } = useColors();
@@ -185,7 +184,7 @@ export default function SelfExamInfo() {
               variant="secondary"
               onPress={() => {
                 router.dismissAll();
-                router.replace("/");
+                router.replace("/home");
               }}
             >
               Back
