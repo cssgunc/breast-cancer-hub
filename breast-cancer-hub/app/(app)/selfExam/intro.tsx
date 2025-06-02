@@ -10,6 +10,7 @@ import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "@/components/Loading";
 import ThemedButton from "@/components/ThemedButton";
+import SelectLanguagePicker from "../settings/(components)/SelectLanguagePicker";
 
 export default function SelfExamInfo() {
   console.log("reached intro");
@@ -106,7 +107,7 @@ export default function SelfExamInfo() {
                   </ThemedView>
                 ))}
               </ThemedView>
-
+              <SelectLanguagePicker />
               <ThemedText>
                 A Painless or Painful Breast Lump or Breast Changes Needs
                 Medical Attention. Most of the time, breast lumps are not Cancer
