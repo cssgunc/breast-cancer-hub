@@ -1,3 +1,7 @@
+import {
+  CancelPeriodReminderNotifications,
+  SchedulePeriodReminderNotifications,
+} from "@/notifications/notifications";
 import { getSetting, saveSetting } from "./useSettings";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 
@@ -17,6 +21,7 @@ interface PeriodContextValue {
   cycles: Cycle[];
   addPeriod: (d: Date) => Promise<PeriodTimestamp[]>;
   removePeriod: (d: Date) => Promise<PeriodTimestamp[]>;
+  rescheduleNotifications: () => Promise<void>;
 }
 const PeriodContext = createContext<PeriodContextValue | null>(null);
 
@@ -78,6 +83,12 @@ export const PeriodProvider: React.FC<{ children: React.ReactNode }> = ({
       newArray = next;
       return next;
     });
+
+    if (newArray.length > 0) {
+      const last = newArray[newArray.length - 1];
+      const lastDate = new Date(last.year, last.month - 1, last.date);
+      await SchedulePeriodReminderNotifications(lastDate);
+    }
     return newArray;
   };
 
@@ -101,12 +112,32 @@ export const PeriodProvider: React.FC<{ children: React.ReactNode }> = ({
       newArray = next;
       return next;
     });
+    if (newArray.length > 0) {
+      const last = newArray[newArray.length - 1];
+      const lastDate = new Date(last.year, last.month - 1, last.date);
+      await SchedulePeriodReminderNotifications(lastDate);
+    }
     return newArray;
+  };
+
+  const rescheduleNotifications = async () => {
+    const menstruates = await getSetting("schedulingType");
+    if (timestamps.length > 0 && menstruates === "period") {
+      const last = timestamps[timestamps.length - 1];
+      const lastDate = new Date(last.year, last.month - 1, last.date);
+      await SchedulePeriodReminderNotifications(lastDate);
+    } else await SchedulePeriodReminderNotifications(); // Empty arg = cancelling only with logging
   };
 
   return (
     <PeriodContext.Provider
-      value={{ timestamps, cycles, addPeriod, removePeriod }}
+      value={{
+        timestamps,
+        cycles,
+        addPeriod,
+        removePeriod,
+        rescheduleNotifications,
+      }}
     >
       {children}
     </PeriodContext.Provider>

@@ -16,18 +16,21 @@ import { useColors } from "@/components/style/ColorContext";
 import { customizeStyles } from "./customizeCalendar";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
+import { usePeriodData } from "@/hooks/PeriodContext";
 
 export default function CustomizeExamDateScreen() {
   const router = useRouter();
   const { colors, globalStyles } = useColors();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
   const { scheduleNextCheckup } = useCheckupData();
+  const { rescheduleNotifications } = usePeriodData();
 
   const handleSaveChanges = () => {
     saveSetting("schedulingType", {
       day: examDay,
-    }).then(() => {
-      scheduleNextCheckup();
+    }).then(async () => {
+      await rescheduleNotifications();
+      await scheduleNextCheckup();
       router.push("/home");
     });
   };

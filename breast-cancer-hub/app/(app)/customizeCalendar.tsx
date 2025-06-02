@@ -130,9 +130,6 @@ export default function CalendarOnboardingScreen(
                   initialMonth={props.initialMonth}
                   initialYear={props.initialYear}
                   onMonthChanged={(month: number, year: number) => {
-                    console.log(
-                      `Month changed to ${month} and year changed to ${year}`
-                    );
                     setViewedMonth(month);
                     setViewedYear(year);
                   }}

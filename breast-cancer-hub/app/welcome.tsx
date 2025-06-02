@@ -18,7 +18,6 @@ import { useColors } from "@/components/style/ColorContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import ThemedButton from "@/components/ThemedButton";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function WelcomePage() {
   const router = useRouter();
@@ -33,26 +32,19 @@ export default function WelcomePage() {
       if (storedUserId) {
         setReturningUser(true);
       }
-      console.log("start", await getSetting("onboarding"));
     };
 
     init();
   }, []);
 
   const handleSubmit = async () => {
-    console.log(await getSetting("onboarding"));
     if (!returningUser) {
       await saveSetting("userId", "local");
       await saveSetting("name", name);
       await new Promise((resolve) => setTimeout(resolve, 100));
-
-      console.log(await logSecureStoreContents());
-      console.log(await getSetting("onboarding"));
     }
-    console.log(await getSetting("onboarding"));
     try {
       const onboarding = await getSetting("onboarding");
-      console.log("Onboarding status:", onboarding);
       if (onboarding === false) {
         await saveSetting("onboarding", true);
         router.push("/onboarding");

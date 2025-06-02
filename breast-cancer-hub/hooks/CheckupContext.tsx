@@ -27,26 +27,6 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
   const [allCheckups, setAllCheckups] = useState<Checkup[]>([]); // Store all checkups (date + symptoms)
   const [nextCheckup, setNextCheckup] = useState<Date>(new Date());
 
-  async function getNotificationTimes(scheduledExam: Date) {
-    if ((await getSetting("usePushNotifications")) === false) {
-      return [];
-    }
-    const notificationTimes = await getSetting("notificationTimes");
-    const enabledTimes = notificationTimes.filter((n) => {
-      return n.enabled;
-    });
-    const dates: Date[] = enabledTimes.map((t) => {
-      return new Date(
-        scheduledExam.getFullYear(),
-        scheduledExam.getMonth(),
-        scheduledExam.getDate(),
-        t.hour,
-        t.minute
-      );
-    });
-    return dates;
-  }
-
   useEffect(() => {
     (async () => {
       const storedCheckup = await getSetting("nextExamDate");
@@ -105,23 +85,26 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
     let scheduledExam: Date = new Date();
     const userMenstruationType = await getSetting("schedulingType");
     if (userMenstruationType === "period") {
-      const lastTimestamp = timestamps?.at(-1);
-      if (lastTimestamp) {
-        scheduledExam = addDaysToTimestamp(lastTimestamp, 7);
-      }
+      let periodTimestamps = timestamps;
+      if (!periodTimestamps)
+        periodTimestamps = await getSetting("periodTimestamps");
+      if (periodTimestamps && periodTimestamps.length > 0) {
+        const lastTimestamp = periodTimestamps.at(-1);
+        if (lastTimestamp) scheduledExam = addDaysToTimestamp(lastTimestamp, 7);
+      } else scheduledExam = new Date(); // No period data, schedule for today
     } else {
       const examDay = userMenstruationType.day;
       scheduledExam = await getNextMonthlyDate(examDay);
     }
     saveSetting("nextExamDate", scheduledExam.toISOString().split("T")[0]);
     setNextCheckup(scheduledExam);
-    ScheduleExamNotifications(await getNotificationTimes(scheduledExam));
+    ScheduleExamNotifications(scheduledExam);
     return scheduledExam;
   };
 
   // Use when the date itself hasn't changed but notification settings have changed
   const rescheduleNotifications = async () => {
-    ScheduleExamNotifications(await getNotificationTimes(nextCheckup));
+    ScheduleExamNotifications(nextCheckup);
   };
   return (
     <CheckupContext.Provider
