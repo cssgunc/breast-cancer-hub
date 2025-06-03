@@ -9,11 +9,7 @@ import {
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
-import {
-  getSetting,
-  logSecureStoreContents,
-  saveSetting,
-} from "@/hooks/useSettings";
+import { getSetting, saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";

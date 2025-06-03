@@ -25,8 +25,6 @@ export default function NotificationsScreen() {
   const router = useRouter();
   const { colors } = useColors();
 
-  const [loaded, setLoaded] = useState(false);
-
   const { rescheduleNotifications } = useCheckupData();
 
   const [pushNotificationsEnabled, setPushNotificationsEnabled] =
@@ -55,7 +53,6 @@ export default function NotificationsScreen() {
       setPushNotificationsEnabled(push);
       setLocale(locale);
       setTimeEntries(times);
-      setLoaded(true);
     };
     loadSettings();
   }, []);

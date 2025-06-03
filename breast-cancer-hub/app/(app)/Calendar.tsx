@@ -51,7 +51,7 @@ export default function CalendarComponent({
   today.setHours(0, 0, 0, 0);
 
   const { timestamps, addPeriod, removePeriod } = usePeriodData();
-  const { nextCheckup, scheduleNextCheckup } = useCheckupData();
+  const { nextCheckup } = useCheckupData();
 
   useEffect(() => {
     if (onMonthChanged) {

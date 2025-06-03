@@ -4,7 +4,6 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { logSecureStoreContents, resetAppData } from "@/hooks/useSettings";
 import ThemedButton from "@/components/ThemedButton";
 import { useColors } from "@/components/style/ColorContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function ResetDataButton() {
   const router = useRouter();
