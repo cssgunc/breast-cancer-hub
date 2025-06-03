@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useRouter } from "expo-router";
 import { useColors } from "@/components/style/ColorContext";
+import { getSetting } from "@/hooks/useSettings";
+import { useEffect, useState } from "react";
 
 interface NotificationComponentProps {
   variant?: "upcoming" | "completed" | "due" | "overdue";
   date: Date;
-  //onDismiss: () => void;
 }
 
 export default function NotificationComponent({
@@ -18,6 +18,13 @@ export default function NotificationComponent({
 NotificationComponentProps) {
   const { colors } = useColors();
   const router = useRouter();
+  const [locale, setLocale] = useState("en-US");
+
+  useEffect(() => {
+    getSetting("locale").then((loc) => {
+      if (loc) setLocale(loc);
+    });
+  }, []);
 
   // Determine header text and colors based on the variant
   const headerText = (() => {
@@ -51,24 +58,6 @@ NotificationComponentProps) {
   const dateCircleBackgroundColor =
     variant === "overdue" ? "#FF4D4D" : colors.darkHighlight; // Red tint for overdue
   const containerBackgroundColor = colors.backgroundLightGray;
-
-  // Format the date
-  const monthNames = [
-    "Jan.",
-    "Feb.",
-    "Mar.",
-    "Apr.",
-    "May",
-    "Jun.",
-    "Jul.",
-    "Aug.",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dec.",
-  ];
-  const month = monthNames[date.getMonth()];
-  const day = date.getDate();
 
   const styles = StyleSheet.create({
     container: {
@@ -115,6 +104,9 @@ NotificationComponentProps) {
     },
   });
 
+  const localizedMonth = date.toLocaleString(locale, { month: "short" });
+  const localizedDay = date.toLocaleString(locale, { day: "numeric" });
+
   return (
     <ThemedView
       style={[styles.container, { backgroundColor: containerBackgroundColor }]}
@@ -126,8 +118,8 @@ NotificationComponentProps) {
           { backgroundColor: dateCircleBackgroundColor },
         ]}
       >
-        <ThemedText style={styles.monthText}>{month}</ThemedText>
-        <ThemedText style={styles.dayText}>{day}</ThemedText>
+        <ThemedText style={styles.monthText}>{localizedMonth}</ThemedText>
+        <ThemedText style={styles.dayText}>{localizedDay}</ThemedText>
       </View>
       {/* Right Side with Header and Body */}
       <TouchableOpacity

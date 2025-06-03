@@ -147,8 +147,10 @@ export default function HomePage(props: HomePageProps) {
     // Not time to do it yet
     else if (today < nextCheckup) {
       notification_props = { variant: "upcoming", date: nextCheckup };
-    } else {
+    } else if (today > nextCheckup && lastCheckupDate < nextCheckup) {
       notification_props = { variant: "overdue", date: nextCheckup };
+    } else {
+      notification_props = { variant: "upcoming", date: nextCheckup };
     }
     return notification_props;
   }
