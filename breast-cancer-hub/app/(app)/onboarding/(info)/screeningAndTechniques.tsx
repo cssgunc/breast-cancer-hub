@@ -5,7 +5,7 @@ import { useColors } from "@/components/style/ColorContext";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function ScreeningAndTechniques() {
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
   return (
     <>
       <ThemedView style={onboardingStyles.titleContainer}>

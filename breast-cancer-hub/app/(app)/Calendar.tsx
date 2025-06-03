@@ -9,7 +9,6 @@ import {
   OrderedWeekdayNames,
   PeriodTimestamp,
 } from "@/hooks/PeriodContext";
-import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import { useCheckupData } from "@/hooks/CheckupContext";
 
@@ -25,32 +24,40 @@ type CalendarItem = {
 interface CalendarComponentProps {
   isMenstruating: boolean;
   onDayChanged: (timestamps: PeriodTimestamp[]) => Promise<void>;
+  onMonthChanged?: (month: number, year: number) => void;
+
+  initialMonth?: number;
+  initialYear?: number;
 }
 
 export default function CalendarComponent({
   isMenstruating,
   onDayChanged,
+  onMonthChanged,
+  initialMonth,
+  initialYear,
 }: CalendarComponentProps) {
   const { colors } = useColors();
 
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [isEditing, setIsEditing] = useState(false);
+  const [currentDate, setCurrentDate] = useState(() => {
+    if (initialMonth && initialYear) {
+      return new Date(initialYear, initialMonth - 1, 1);
+    }
+    return new Date();
+  });
+  const [isEditing] = useState(true);
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
   const { timestamps, addPeriod, removePeriod } = usePeriodData();
-  const { nextCheckup, scheduleNextCheckup } = useCheckupData();
+  const { nextCheckup } = useCheckupData();
 
   useEffect(() => {
-    if (isMenstruating) {
-      if (timestamps.length) {
-        scheduleNextCheckup(timestamps);
-      }
-    } else {
-      setIsEditing(false);
+    if (onMonthChanged) {
+      onMonthChanged(currentDate.getMonth(), currentDate.getFullYear());
     }
-  }, [isMenstruating, timestamps]);
+  }, [currentDate, onMonthChanged]);
 
   const goToPreviousMonth = () => {
     setCurrentDate((prevDate) => {
@@ -81,9 +88,9 @@ export default function CalendarComponent({
   function isPeriodDay(value: Date) {
     const isDay = timestamps.some(
       (p) =>
-        p.date == value.getUTCDate() &&
-        p.month == value.getUTCMonth() + 1 &&
-        p.year == value.getUTCFullYear()
+        p.date === value.getUTCDate() &&
+        p.month === value.getUTCMonth() + 1 &&
+        p.year === value.getUTCFullYear()
     );
     return isDay;
   }
@@ -91,9 +98,9 @@ export default function CalendarComponent({
   function isCheckupDay(value: Date) {
     if (nextCheckup) {
       return (
-        value.getFullYear() == nextCheckup.getFullYear() &&
-        value.getMonth() == nextCheckup.getMonth() &&
-        value.getDate() == nextCheckup.getDate()
+        value.getFullYear() === nextCheckup.getFullYear() &&
+        value.getMonth() === nextCheckup.getMonth() &&
+        value.getDate() === nextCheckup.getDate()
       );
     }
     return false;
@@ -197,7 +204,6 @@ export default function CalendarComponent({
       newTimestamps = await addPeriod(day.date);
     }
     await onDayChanged(newTimestamps);
-    scheduleNextCheckup(newTimestamps);
   };
 
   const styles = StyleSheet.create({
@@ -422,35 +428,6 @@ export default function CalendarComponent({
             </TouchableOpacity>
           ))}
         </View>
-
-        {/* Log Period Button or Message */}
-        {isMenstruating ? (
-          <View style={styles.footer}>
-            {isEditing ? (
-              <TouchableOpacity
-                onPress={() => setIsEditing(false)}
-                style={styles.editToggleButton}
-              >
-                <ThemedText type="caption">Confirm Changes</ThemedText>
-                <Ionicons name="checkmark" size={24} color={colors.black} />
-              </TouchableOpacity>
-            ) : (
-              <TouchableOpacity
-                onPress={() => setIsEditing(true)}
-                style={styles.editToggleButton}
-              >
-                <ThemedText type="caption">Edit Periods</ThemedText>
-                <Ionicons
-                  name="create-outline"
-                  size={24}
-                  color={colors.black}
-                />
-              </TouchableOpacity>
-            )}
-          </View>
-        ) : (
-          <View style={styles.footer}></View>
-        )}
       </View>
     </ThemedView>
   );

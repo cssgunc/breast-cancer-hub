@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { StyleSheet, Linking } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
@@ -94,7 +93,8 @@ export default function NextStepsScreen() {
                   But please do not stress. Most of the time, Breast lumps or
                   Breast changes are not Cancer. However, reporting any
                   abnormalities or changes to your healthcare provider is
-                  essential.
+                  essential. If you have questions about your exam, please
+                  contact BCH.
                 </ThemedText>
                 <ThemedText bold italic>
                   Early detection improves treatment outcomes and saves lives.
@@ -123,6 +123,9 @@ export default function NextStepsScreen() {
                   Please continue to perform your Breast Self-Examination every
                   month.
                 </ThemedText>
+                <ThemedText>
+                  If you have questions about your exam, please contact BCH.
+                </ThemedText>
               </ThemedView>
 
               <LearnMoreTextContainer />
@@ -135,7 +138,7 @@ export default function NextStepsScreen() {
           {/* UPDATE THIS IF THE CONTACT URL CHANGES */}
           <ThemedButton
             onPress={() =>
-              Linking.openURL("https://www.breastcancerhub.org/new-page-3")
+              Linking.openURL("https://www.breastcancerhub.org/contact-us")
             }
           >
             Contact BCH
@@ -143,7 +146,7 @@ export default function NextStepsScreen() {
           <ThemedButton
             onPress={() => {
               router.dismissAll();
-              router.replace("/");
+              router.replace("/home");
             }}
           >
             Return Home

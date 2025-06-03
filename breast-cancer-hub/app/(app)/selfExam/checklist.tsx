@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, View, TouchableOpacity } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import CheckBox from "expo-checkbox";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
 import { useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
-import { getSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { useColors } from "@/components/style/ColorContext";
@@ -29,6 +29,7 @@ export default function Checklist() {
     { id: 4, key: "SYMPTOMS_REDNESS_TEXTURE_CHANGES_F" },
     { id: 5, key: "SYMPTOMS_DISCHARGE_F" },
     { id: 6, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
+    { id: 7, key: "SYMPTOMS_NONE" },
   ];
   const info_m = [
     { id: 0, key: "SYMPTOMS_LUMP_THICKENING_M" },
@@ -36,13 +37,18 @@ export default function Checklist() {
     { id: 2, key: "SYMPTOMS_NIPPLE_CHANGES_M" },
     { id: 3, key: "SYMPTOMS_DISCHARGE_M" },
     { id: 4, key: "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M" },
+    { id: 5, key: "SYMPTOMS_NONE" },
   ];
 
   const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
+
   const toggleCheckbox = (key: string, checked: boolean) => {
     setSelectedSymptoms((prev) => {
       if (checked) {
-        return prev.includes(key) ? prev : [...prev, key];
+        if (key === "SYMPTOMS_NONE") {
+          return ["SYMPTOMS_NONE"];
+        }
+        return [...prev.filter((k) => k !== "SYMPTOMS_NONE"), key];
       } else {
         return prev.filter((k) => k !== key);
       }
@@ -55,10 +61,9 @@ export default function Checklist() {
 
   useEffect(() => {
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
-      setExamTypeF(schedulingType === "period");
+      const examTypeM = await getSetting("avatar");
+      setExamTypeF(!examTypeM);
       const storedLanguageCode = await getSetting("locale");
-      console.log(storedLanguageCode);
       if (storedLanguageCode && i18n.language !== storedLanguageCode) {
         await i18n.changeLanguage(storedLanguageCode);
       }
@@ -68,45 +73,24 @@ export default function Checklist() {
     getType();
   }, []);
 
-  const styles = StyleSheet.create({
-    checkBoxContainer: {
-      flexDirection: "column",
-      justifyContent: "center",
-    },
-
-    listTitleTextExam: {
-      marginBottom: 10,
-    },
-    listContainer: {
-      backgroundColor: "transparent",
-      marginHorizontal: 0,
-    },
-    listItemContainer: {
-      justifyContent: "space-between",
-      backgroundColor: "transparent",
-    },
-
-    instructionText: {
-      maxWidth: "80%",
-    },
-  });
-
   const { saveCompletedCheckup } = useCheckupData();
   const saveSymptoms = async () => {
-    // Save the symptoms to secure storage, store date as ISO 8601 format ("yyyy-mm-dd"), functionality abstracted to hook
-    await saveCompletedCheckup(selectedSymptoms);
+    const toSave = selectedSymptoms.includes("SYMPTOMS_NONE")
+      ? []
+      : selectedSymptoms;
+    await saveCompletedCheckup(toSave);
   };
 
   const next = async () => {
-    saveSymptoms();
-    console.log(await scheduleNextCheckup());
+    await saveSymptoms();
+    await scheduleNextCheckup();
     router.push({
       pathname: "/selfExam/nextSteps",
       params: {
         symptoms: JSON.stringify(selectedSymptoms),
       },
     });
-  }
+  };
 
   return (
     <ThemedView
@@ -212,26 +196,33 @@ export default function Checklist() {
           >
             Back to Exam
           </ThemedButton>
-          <ThemedButton
-            onPress={async () => {
-              saveSymptoms().then(() => {
-                scheduleNextCheckup().then((date) => {
-                  console.log("scheduleNextCheckup():")
-                  console.log(date);
-                  router.push({
-                    pathname: "/selfExam/nextSteps",
-                    params: {
-                      symptoms: JSON.stringify(selectedSymptoms),
-                    },
-                  });
-                })
-              });
-            }}
-          >
-            Next
-          </ThemedButton>
+          <ThemedButton onPress={next}>Next</ThemedButton>
         </ThemedView>
       </ThemedView>
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  radioGroup: {},
+  checkBoxContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+
+  listTitleTextExam: {
+    marginBottom: 10,
+  },
+  listContainer: {
+    backgroundColor: "transparent",
+    marginHorizontal: 0,
+  },
+  listItemContainer: {
+    justifyContent: "space-between",
+    backgroundColor: "transparent",
+  },
+
+  instructionText: {
+    maxWidth: "80%",
+  },
+});

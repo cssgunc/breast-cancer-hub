@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { Modal, ScrollView, StyleSheet, View } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import AccountSettingsHeaderComponent from "@/components/navigation/AccountSettingsHeader";
 import { getSetting } from "@/hooks/useSettings";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
@@ -10,12 +10,32 @@ import { useColors } from "@/components/style/ColorContext";
 import { useTranslation } from "react-i18next";
 import LoadingScreen from "@/components/Loading";
 import ThemedButton from "@/components/ThemedButton";
+import SelectLanguagePicker from "../settings/(components)/SelectLanguagePicker";
+
+export const ONBOARDING_INFO_STEPS = [
+  "/onboarding/breastCancerIntro",
+  "/onboarding/purposeOfSelfExam",
+  "/onboarding/screeningAndTechniques",
+  "/onboarding/additionalInfo",
+];
 
 export default function SelfExamInfo() {
-  console.log("reached intro");
   const router = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { colors, globalStyles } = useColors();
+
+  // Show info reminder when starting a new self-exam
+  const params = useLocalSearchParams();
+  const [showModal, setShowModal] = useState(params.fromOnboarding !== "1");
+
+  const handleOnboarding = () => {
+    router.replace({
+      pathname: "/onboarding/breastCancerIntro",
+      params: { fromSelfExam: "1" },
+    });
+  };
+
+  const handleCloseModal = () => setShowModal(false);
 
   const info_f = [
     { id: 0, key: "SYMPTOMS_SWELLING_F" },
@@ -65,7 +85,7 @@ export default function SelfExamInfo() {
     },
   });
 
-  if (isLoading == true) {
+  if (isLoading === true) {
     return <LoadingScreen />;
   } else {
     return (
@@ -73,6 +93,42 @@ export default function SelfExamInfo() {
         bgColor={colors.darkHighlight}
         style={globalStyles.bodyContainer}
       >
+        {/* Modal for onboarding prompt */}
+        <Modal visible={showModal} transparent animationType="fade">
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "rgba(0,0,0,0.4)",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                backgroundColor: "white",
+                borderRadius: 16,
+                padding: 24,
+                alignItems: "center",
+                width: "80%",
+              }}
+            >
+              <ThemedText type="title" style={{ marginBottom: 12 }}>
+                Review Educational Info?
+              </ThemedText>
+              <ThemedText style={{ marginBottom: 24, textAlign: "center" }}>
+                Would you like to review educational information about breast
+                cancer before starting your self-exam?
+              </ThemedText>
+              <View style={{ flexDirection: "row", gap: 16 }}>
+                <ThemedButton onPress={handleOnboarding}>Yes</ThemedButton>
+                <ThemedButton variant="secondary" onPress={handleCloseModal}>
+                  No
+                </ThemedButton>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
         {/* Header Container */}
         <AccountSettingsHeaderComponent />
 
@@ -106,7 +162,7 @@ export default function SelfExamInfo() {
                   </ThemedView>
                 ))}
               </ThemedView>
-
+              <SelectLanguagePicker />
               <ThemedText>
                 A Painless or Painful Breast Lump or Breast Changes Needs
                 Medical Attention. Most of the time, breast lumps are not Cancer
@@ -128,7 +184,7 @@ export default function SelfExamInfo() {
               variant="secondary"
               onPress={() => {
                 router.dismissAll();
-                router.replace("/");
+                router.replace("/home");
               }}
             >
               Back

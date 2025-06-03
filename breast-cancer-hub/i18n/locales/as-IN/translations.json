@@ -19,5 +19,6 @@
   "SYMPTOMS_SKIN_CHANGES_M": "স্তনৰ ছালৰ পৰিৱৰ্তন যেনে- শুকান, ওখৰা-মখৰা, ৰঙা পৰা আৰু শোটোৰা পৰা।",
   "SYMPTOMS_NIPPLE_CHANGES_M": "স্তন বা (Nipple) ৰ আকাৰ পৰিৱৰ্তন হোৱা আৰু স্তনাগ্ৰ ভিতৰলৈ সোমাবলৈ আৰম্ভ কৰা।",
   "SYMPTOMS_DISCHARGE_M": "স্তনৰ পৰা জুলীয়া পদার্থ নির্গত হোৱা।",
-  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "বিষহীন বা বিষাক্ত টিউমাৰ"
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "বিষহীন বা বিষাক্ত টিউমাৰ",
+  "SYMPTOMS_NONE": "ওপৰৰ কোনোটোৱেই নহয়"
 }

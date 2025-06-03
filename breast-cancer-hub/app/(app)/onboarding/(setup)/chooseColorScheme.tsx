@@ -1,6 +1,6 @@
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
-import { View, Switch } from "react-native";
+import { Switch } from "react-native";
 import { onboardingStyles } from "..";
 import { useColors } from "@/components/style/ColorContext";
 export default function ChooseColorScheme() {

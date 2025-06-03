@@ -19,5 +19,6 @@
   "SYMPTOMS_SKIN_CHANGES_M": "تغييرات في جلد الثدي مثل وجود فشور أو تجاعيد أو احمرار أو تعرجات.",
   "SYMPTOMS_NIPPLE_CHANGES_M": "تغيرات في الحملة مثل احمرار أو تعرجات أو ضمور وانكماش الحلمة إلى الداخل.",
   "SYMPTOMS_DISCHARGE_M": "وجود إفرازات من الحلمة.",
-  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "الأورام غير المؤلمة أو المؤلمة"
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "الأورام غير المؤلمة أو المؤلمة",
+  "SYMPTOMS_NONE": "لا شيء مما سبق"
 }

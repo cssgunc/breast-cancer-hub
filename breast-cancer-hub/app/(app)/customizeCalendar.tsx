@@ -11,35 +11,43 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getSetting, saveSetting, SettingsMap } from "@/hooks/useSettings";
+import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
-import CalendarComponent from "@/app/(app)/home/(components)/Calendar";
+import CalendarComponent from "@/app/(app)/Calendar";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { PeriodTimestamp } from "@/hooks/PeriodContext";
-
-type Noti = {
-  id: number;
-  variant: "default" | "overdue" | undefined;
-  date: Date;
-};
+import { useLocalSearchParams } from "expo-router";
 
 export type CalendarOnboardingProps = Partial<{
   name: string;
   isMenstruating: boolean;
+  initialMonth: number;
+  initialYear: number;
 }>;
 
 export default function CalendarOnboardingScreen(
   props: CalendarOnboardingProps
 ) {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const fromOnboarding = params.fromOnboarding === "1";
+
   const { colors, globalStyles } = useColors();
 
   const [isMenstruating, setIsMenstruating] = useState<boolean | undefined>(
     undefined
   );
 
-  const { scheduleNextCheckup } = useCheckupData();
+  const { nextCheckup, scheduleNextCheckup } = useCheckupData();
+
+  const [viewedMonth, setViewedMonth] = useState<number | undefined>(
+    props.initialMonth
+  );
+  const [viewedYear, setViewedYear] = useState<number | undefined>(
+    props.initialYear
+  );
+
   //load the schedulingType
   useEffect(() => {
     if (props.isMenstruating === undefined) {
@@ -51,7 +59,28 @@ export default function CalendarOnboardingScreen(
 
   //save the examDay under its own key
   const handleSaveChanges = () => {
-    router.push("/");
+    if (nextCheckup) {
+      const nextMonth = nextCheckup.getMonth(); // JS months are 0-based
+      const nextYear = nextCheckup.getFullYear();
+
+      if (fromOnboarding) {
+        router.replace("/home");
+      } else if (viewedMonth !== nextMonth || viewedYear !== nextYear) {
+        router.push({
+          pathname: "/calendar",
+          params: {
+            month: (nextCheckup.getMonth() + 1).toString(), // JS months are 0-based
+            year: nextCheckup.getFullYear().toString(),
+          },
+        });
+      }
+    } else {
+      if (fromOnboarding) {
+        router.replace("/home");
+      } else {
+        router.push("/calendar");
+      }
+    }
   };
 
   return (
@@ -89,18 +118,29 @@ export default function CalendarOnboardingScreen(
           <View style={customizeStyles.bodyContainer}>
             {/* White Rectangle */}
             <View style={customizeStyles.whiteBox}>
+              <ThemedText type="caption" italic style={{ textAlign: "center" }}>
+                Breast self-exams are due{" "}
+                <ThemedText colored bold>
+                  7 days after the start of each period.{" "}
+                </ThemedText>
+              </ThemedText>
               {isMenstruating != null && (
                 <CalendarComponent
                   isMenstruating={isMenstruating}
+                  initialMonth={props.initialMonth}
+                  initialYear={props.initialYear}
+                  onMonthChanged={(month: number, year: number) => {
+                    setViewedMonth(month);
+                    setViewedYear(year);
+                  }}
                   onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
                     await scheduleNextCheckup(newTimestamps);
                   }}
                 />
               )}
               <ThemedText type="caption" italic style={{ textAlign: "center" }}>
-                Press "Edit Periods" and select the days of your most recent
-                period. The blue circle automatically marks your next breast
-                self-exam date.
+                Select the start date of your most recent period. The blue
+                circle automatically marks your next breast self-exam date.
               </ThemedText>
               <ThemedText italic colored style={{ textAlign: "center" }}>
                 Your periods and menstruation status can be changed at any time.

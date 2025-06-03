@@ -96,13 +96,11 @@ export default function SelfExam() {
 
   useEffect(() => {
     const getType = async () => {
-      const schedulingType = await getSetting("schedulingType");
-      setExamTypeF(schedulingType == "period");
+      const examTypeM = await getSetting("avatar");
+      setExamTypeF(!examTypeM);
       setInstructions(
         (await getSetting("avatar")) ? instructions_m : instructions_f
       );
-      console.log(instructions);
-      console.log(instructions[0].image);
       await new Promise((r) => setTimeout(r, 300));
       setIsLoading(false);
     };
@@ -111,7 +109,7 @@ export default function SelfExam() {
   }, []);
 
   const next = () => {
-    if (currentStep == 5) {
+    if (currentStep === 5) {
       router.replace("/selfExam/checklist");
     } else {
       // advance step
@@ -120,7 +118,7 @@ export default function SelfExam() {
   };
 
   const back = () => {
-    if (currentStep == 0) {
+    if (currentStep === 0) {
       router.back();
     } else {
       // advance step
@@ -173,7 +171,11 @@ export default function SelfExam() {
               marginTop: "auto",
             }}
           >
-            <StepIndicators totalSteps={6} currentStep={currentStep} />
+            <StepIndicators
+              totalSteps={6}
+              currentStep={currentStep}
+              onStepPressed={() => {}}
+            />
 
             <ThemedView
               style={[

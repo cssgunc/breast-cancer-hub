@@ -6,7 +6,7 @@ import { onboardingStyles } from "..";
 import { LearnMoreTextContainer } from "@/components/LearnMoreText";
 
 export default function PurposeOfSelfExam() {
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
 
   const styles = StyleSheet.create({
     quotesContainer: {
@@ -27,7 +27,7 @@ export default function PurposeOfSelfExam() {
       <ThemedView style={globalStyles.grayLine} />
       <ThemedView style={onboardingStyles.bodyContainer}>
         <ThemedText type="heading" colored>
-          Notice:
+          Disclaimer:
         </ThemedText>
         <ThemedText>
           A self-exam is not a substitute for annual breast cancer screenings.
@@ -57,8 +57,8 @@ export default function PurposeOfSelfExam() {
         <ThemedText>
           But Mammograms may miss half of the Cancers in women with dense
           breasts. Therefore, 3D mammography, also called digital breast
-          tomosynthesis, is recommended for everyone. 3D mammography can find more
-          cancers, reduce false positives, and allow better detection in
+          tomosynthesis, is recommended for everyone. 3D mammography can find
+          more cancers, reduce false positives, and allow better detection in
           dense breasts.
         </ThemedText>
         <ThemedText bold>
@@ -68,18 +68,16 @@ export default function PurposeOfSelfExam() {
         </ThemedText>
         <ThemedText>
           Please start examining your Breast once a month, from the age of 17-18
-          years. If you have your period, we reccomend you check yourself a week after your period begins. For others, check yourself on the same date every month.
-          If you have any abnormalities, changes, discharges, painless or painful lump that don’t go away,
-          please immediately seek medical advice.
+          years. If you have your period, we reccomend you check yourself a week
+          after your period begins. For others, check yourself on the same date
+          every month. If you have any abnormalities, changes, discharges,
+          painless or painful lump that don’t go away, please immediately seek
+          medical advice.
         </ThemedText>
         <ThemedView style={globalStyles.grayLine} />
         <ThemedView style={styles.quotesContainer}>
           <ThemedText italic colored style={{ textAlign: "center" }}>
             “The difference is, this could save your life.”
-          </ThemedText>
-          <ThemedText italic colored style={{ textAlign: "center" }}>
-            “Mammograms are important, self-exams are how you are going to find
-            cancer early and save your life.”
           </ThemedText>
           <ThemedText italic colored style={{ textAlign: "center" }}>
             “Early detection is the key.”

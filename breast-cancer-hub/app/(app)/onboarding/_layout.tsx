@@ -1,15 +1,16 @@
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Slot, useSegments } from "expo-router";
+import { Slot, useLocalSearchParams, useSegments } from "expo-router";
 import NavigationFooter from "./(components)/NavigationFooter";
 import AccountSettingsHeaderComponent from "../../../components/navigation/AccountSettingsHeader";
 import { ONBOARDING_STEPS, onboardingStyles } from ".";
-import { ThemedView } from "@/components/style/ThemedView";
-import { useColors } from "@/components/style/ColorContext";
 import { useEffect, useRef } from "react";
+import { ONBOARDING_INFO_STEPS } from "../selfExam/intro";
 export default function OnboardingLayout() {
-  const { colors, globalStyles } = useColors();
   const scrollViewRef = useRef<ScrollView>(null);
   const segments = useSegments();
+  const params = useLocalSearchParams();
+  const isInfoOnly = params.fromSelfExam === "1";
+  const steps = isInfoOnly ? ONBOARDING_INFO_STEPS : ONBOARDING_STEPS;
 
   useEffect(() => {
     if (scrollViewRef.current) {
@@ -28,8 +29,15 @@ export default function OnboardingLayout() {
       </ScrollView>
 
       <NavigationFooter
-        finishRoute="/chooseMenstruationStatus"
-        stepRoutes={ONBOARDING_STEPS}
+        finishRoute={
+          isInfoOnly
+            ? { pathname: "/selfExam/intro", params: { fromOnboarding: "1" } }
+            : {
+                pathname: "/chooseMenstruationStatus",
+                params: { fromOnboarding: "1" },
+              }
+        }
+        stepRoutes={steps}
       />
     </View>
   );

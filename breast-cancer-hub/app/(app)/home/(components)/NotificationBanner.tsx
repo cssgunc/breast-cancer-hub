@@ -1,14 +1,14 @@
-import { useState } from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useRouter } from "expo-router";
 import { useColors } from "@/components/style/ColorContext";
+import { getSetting } from "@/hooks/useSettings";
+import { useEffect, useState } from "react";
 
 interface NotificationComponentProps {
   variant?: "upcoming" | "completed" | "due" | "overdue";
   date: Date;
-  //onDismiss: () => void;
 }
 
 export default function NotificationComponent({
@@ -16,12 +16,15 @@ export default function NotificationComponent({
   date,
 }: //onDismiss,
 NotificationComponentProps) {
-  const { colors, globalStyles } = useColors();
-
-  const [isVisible, setIsVisible] = useState(true);
+  const { colors } = useColors();
   const router = useRouter();
+  const [locale, setLocale] = useState("en-US");
 
-  if (!isVisible) return null; // Do not render if the notification is dismissed
+  useEffect(() => {
+    getSetting("locale").then((loc) => {
+      if (loc) setLocale(loc);
+    });
+  }, []);
 
   // Determine header text and colors based on the variant
   const headerText = (() => {
@@ -42,7 +45,7 @@ NotificationComponentProps) {
       case "overdue":
         return "You are overdue for a breast self examination! Complete it by tapping on this banner.";
       case "upcoming":
-        return "You have a breast self examination coming up! Please come back when it is time to perform your exam.";
+        return "You have a breast self examination coming up soon! Please come back when it is time to perform your exam.";
       case "due":
         return "Your breast self examination is due today! Complete it by tapping on this banner.";
       default:
@@ -55,24 +58,6 @@ NotificationComponentProps) {
   const dateCircleBackgroundColor =
     variant === "overdue" ? "#FF4D4D" : colors.darkHighlight; // Red tint for overdue
   const containerBackgroundColor = colors.backgroundLightGray;
-
-  // Format the date
-  const monthNames = [
-    "Jan.",
-    "Feb.",
-    "Mar.",
-    "Apr.",
-    "May",
-    "Jun.",
-    "Jul.",
-    "Aug.",
-    "Sept.",
-    "Oct.",
-    "Nov.",
-    "Dec.",
-  ];
-  const month = monthNames[date.getMonth()];
-  const day = date.getDate();
 
   const styles = StyleSheet.create({
     container: {
@@ -119,6 +104,9 @@ NotificationComponentProps) {
     },
   });
 
+  const localizedMonth = date.toLocaleString(locale, { month: "short" });
+  const localizedDay = date.toLocaleString(locale, { day: "numeric" });
+
   return (
     <ThemedView
       style={[styles.container, { backgroundColor: containerBackgroundColor }]}
@@ -130,14 +118,14 @@ NotificationComponentProps) {
           { backgroundColor: dateCircleBackgroundColor },
         ]}
       >
-        <ThemedText style={styles.monthText}>{month}</ThemedText>
-        <ThemedText style={styles.dayText}>{day}</ThemedText>
+        <ThemedText style={styles.monthText}>{localizedMonth}</ThemedText>
+        <ThemedText style={styles.dayText}>{localizedDay}</ThemedText>
       </View>
       {/* Right Side with Header and Body */}
       <TouchableOpacity
         style={styles.textContainer}
         onPress={() => {
-          if (variant == "overdue" || variant == "due") {
+          if (variant === "overdue" || variant === "due") {
             router.push("/selfExam/intro");
           }
         }}
@@ -150,10 +138,6 @@ NotificationComponentProps) {
         </ThemedText>
         <ThemedText>{bodyText}</ThemedText>
       </TouchableOpacity>
-      {/* Trash Icon */}
-      {/* <TouchableOpacity style={styles.trashIconContainer} onPress={onDismiss}>
-        <Ionicons name="trash-outline" size={24} color={colors.darkHighlight} />
-      </TouchableOpacity> */}
     </ThemedView>
   );
 }

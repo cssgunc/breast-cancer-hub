@@ -11,24 +11,21 @@ import {
 } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
 import { ThemedText } from "@/components/style/ThemedText";
-import NotificationComponent from "@/app/(app)/home/(components)/Notification"; // Ensure this path is correct
-import CalendarComponent from "@/app/(app)/home/(components)/Calendar"; // Ensure this path is correct
+import NotificationComponent from "@/app/(app)/home/(components)/NotificationBanner"; // Ensure this path is correct
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { getSetting } from "@/hooks/useSettings";
+import { getSetting, NotificationTime } from "@/hooks/useSettings";
 import LoadingScreen from "@/components/Loading";
 import { ExternalLink } from "@/components/navigation/ExternalLink";
-import CycleLog from "./(components)/CycleLogWidget";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
-import { PeriodTimestamp } from "@/hooks/PeriodContext";
-import { isSameDate, parseISODate } from "@/constants/dateTimeUtils";
-
-type Notif = {
-  variant: "upcoming" | "overdue" | "completed";
-  date: Date;
-};
+import {
+  formatHMTime,
+  isSameDate,
+  parseISODate,
+} from "@/constants/dateTimeUtils";
+import i18n from "@/i18n";
 
 export type HomePageProps = Partial<{
   name: string;
@@ -45,15 +42,22 @@ export default function HomePage(props: HomePageProps) {
   );
 
   const [isLoading, setIsLoading] = useState(true);
-  // State for modal visibility
+
   const [modalVisible, setModalVisible] = useState(false);
 
-  // State for checkup history feature flag
-  const [checkupHistoryEnabled, setCheckupHistoryEnabled] = useState(false);
-
-  const { nextCheckup, scheduleNextCheckup, allCheckups } = useCheckupData();
+  const { nextCheckup, allCheckups } = useCheckupData();
 
   const [name, setName] = useState<string | undefined>("");
+
+  const [locale, setLocale] = useState("en-US");
+
+  const [notifEnabled, setNotifEnabled] = useState(true);
+  const [notifTimes, setNotifTimes] = useState<NotificationTime[]>([]);
+
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
+  const isStale = nextCheckup < startOfToday;
 
   useEffect(() => {
     const init = async () => {
@@ -74,6 +78,30 @@ export default function HomePage(props: HomePageProps) {
     init();
   }, []);
 
+  useEffect(() => {
+    const getLocale = async () => {
+      const storedLanguageCode = await getSetting("locale");
+      if (storedLanguageCode && i18n.language !== storedLanguageCode) {
+        await i18n.changeLanguage(storedLanguageCode);
+      }
+      await setLocale(storedLanguageCode);
+    };
+
+    getLocale();
+  }, []);
+
+  useEffect(() => {
+    const getNotificationPreferences = async () => {
+      const notif = await getSetting("notificationTimes");
+      setNotifTimes(notif);
+
+      const notifEnabled = await getSetting("usePushNotifications");
+      setNotifEnabled(notifEnabled);
+    };
+
+    getNotificationPreferences();
+  }, []);
+
   if (isLoading || name === undefined || isMenstruating === undefined) {
     return <LoadingScreen />;
   }
@@ -83,171 +111,55 @@ export default function HomePage(props: HomePageProps) {
     Linking.openURL(url);
   };
 
+  function getGreeting() {
+    const hour = new Date().getHours();
+    if (hour < 12) return "Good morning";
+    if (hour < 18) return "Good afternoon";
+    return "Good evening";
+  }
+
+  const enabledTimes = notifTimes.filter((t) => t.enabled);
+
   function calculateNotificationVariant() {
-    console.log(allCheckups);
     let lastCheckup = allCheckups.at(-1);
-    let lastCheckupDate : Date;
-    let today : Date = new Date();
-    
+    let lastCheckupDate: Date;
+    let today: Date = new Date();
+
     if (lastCheckup) {
       lastCheckupDate = parseISODate(lastCheckup.completedOn);
-      console.log("Last checkup date:")
-      console.log(lastCheckupDate);
-      const today = new Date();
     } else {
       const zero = new Date(0); // Case of no checkups - is the same as having done one in the far past
       zero.setHours(0, 0, 0, 0);
       lastCheckupDate = zero;
     }
     // Already completed today
-    let notification_props : {variant: "completed" | "due" | "upcoming" | "overdue", date: Date};
+    let notification_props: {
+      variant: "completed" | "due" | "upcoming" | "overdue";
+      date: Date;
+    };
     if (isSameDate(lastCheckupDate, today)) {
-      notification_props = {variant: "completed", date: lastCheckupDate};
+      notification_props = { variant: "completed", date: lastCheckupDate };
     }
     // Due today
     else if (isSameDate(nextCheckup, today)) {
-      notification_props = {variant: "due", date: nextCheckup};
+      notification_props = { variant: "due", date: nextCheckup };
     }
     // Not time to do it yet
     else if (today < nextCheckup) {
-      notification_props = {variant: "upcoming", date: nextCheckup};
+      notification_props = { variant: "upcoming", date: nextCheckup };
+    } else if (today > nextCheckup && lastCheckupDate < nextCheckup) {
+      notification_props = { variant: "overdue", date: nextCheckup };
+    } else {
+      notification_props = { variant: "upcoming", date: nextCheckup };
     }
-    else { notification_props = {variant: "overdue", date: nextCheckup}; }
-    console.log(notification_props);
     return notification_props;
   }
 
-  const styles = StyleSheet.create({
-    headerContainer: {
-      backgroundColor: "white",
-      borderBottomLeftRadius: 20,
-      borderBottomRightRadius: 20,
-      paddingTop: 20,
-      paddingBottom: 20,
-      paddingHorizontal: 20,
-      flexDirection: "column",
-      alignItems: "flex-start",
-      zIndex: 1, // Ensure header stays above other content
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.5,
-      shadowRadius: 5,
-      elevation: 5,
-      height: "20%",
-    },
-    logoProfileContainer: {
-      flex: 1,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      width: "100%",
-      height: "100%",
-    },
-    logo: {
-      height: "100%",
-      width: 150,
-      flexShrink: 1,
-    },
-    profileIconContainer: {
-      backgroundColor: colors.white,
-      width: 40,
-      height: 40,
-      borderRadius: 20,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    greetingContainer: {
-      flex: 0,
-      flexWrap: "wrap",
-      flexDirection: "row",
-      width: "100%",
-      paddingTop: 10,
-    },
-    sectionTitle: {
-      flexDirection: "row",
-      alignItems: "center",
-      marginVertical: 20,
-    },
-    icon: {
-      fontSize: 20,
-      color: colors.darkHighlight,
-      marginRight: 10,
-    },
-    pastExamsText: {
-      marginTop: 20,
-      marginBottom: 40,
-    },
-    contactButtons: {
-      marginTop: 16,
-      width: "100%",
-      flexDirection: "column",
-      gap: 10,
-    },
-    // Footer with logos
-    footerContainer: {
-      backgroundColor: colors.darkHighlight,
-      width: "100%",
-      paddingVertical: 10,
-      minHeight: "100%",
-      marginBottom: -1000,
-      paddingBottom: 1000,
-    },
-    logosRow: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
-      paddingHorizontal: 20,
-    },
-    footerLogoContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    kurlbaumContainer: {
-      alignItems: "center",
-      justifyContent: "center",
-      height: 50,
-    },
-    footerLogo: {
-      width: 100,
-      height: 50,
-      resizeMode: "contain",
-    },
-    sarahCannonLogo: {
-      width: 160,
-      height: 100,
-      resizeMode: "contain",
-    },
-    footerLogoText: {
-      fontSize: 10,
-      lineHeight: 10,
-      color: colors.black,
-      marginTop: 2,
-      textAlign: "center",
-    },
-
-    // Modal styles
-    modalOverlay: {
-      flex: 1,
-      backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    modalContainer: {
-      backgroundColor: colors.white,
-      width: "80%",
-      borderRadius: 20,
-      padding: 20,
-      alignItems: "center",
-    },
-    modalTitle: {
-      marginBottom: 20,
-    },
-    modalButton: {
-      paddingHorizontal: 20,
-      marginBottom: 10,
-      width: "100%",
-    },
-  });
+  const LOCAL_NEXT = new Date(
+    nextCheckup.getFullYear(),
+    nextCheckup.getMonth(),
+    nextCheckup.getDate()
+  );
 
   return (
     <ThemedView bgColor={colors.white} style={globalStyles.bodyContainer}>
@@ -275,7 +187,8 @@ export default function HomePage(props: HomePageProps) {
         {/* Greeting */}
         <View style={styles.greetingContainer}>
           <ThemedText type="title" style={{ fontSize: 26 }}>
-            Good Morning,{" "}
+            {getGreeting()}
+            {name ? ", " : ""}
           </ThemedText>
           <ThemedText type="title" style={{ fontSize: 26 }} colored>
             {name}!
@@ -291,72 +204,80 @@ export default function HomePage(props: HomePageProps) {
       >
         {/* Main Content with padding */}
         <View style={{ paddingVertical: 10, paddingHorizontal: 16 }}>
-          {/* Alerts Section */}
           <View style={styles.sectionTitle}>
-            <Ionicons name="notifications-outline" style={styles.icon} />
-            <ThemedText type="heading">Upcoming Exams</ThemedText>
+            <Ionicons
+              name="notifications-outline"
+              style={[styles.icon, { color: colors.darkHighlight }]}
+            />
+            <ThemedText type="heading">This Month's Exam</ThemedText>
           </View>
-          {/* Notifications or No Alerts Message */}
-          {/* {notifications.length === 0 ? (
-            <ThemedText type="caption">There are no new alerts</ThemedText>
-          ) : (
-            notifications.map((notification) => ( 
-          <React.Fragment key={notification.id}> */}
+
           <NotificationComponent
-            variant = {calculateNotificationVariant().variant}
-            date = {calculateNotificationVariant().date}
-            //onDismiss={() => removeNotification(notification.id)}
+            variant={calculateNotificationVariant().variant}
+            date={calculateNotificationVariant().date}
           />
-          {/* </React.Fragment>
-           ))
-          )} */}
-          {/* Calendar Section */}
           <View style={styles.sectionTitle}>
-            <Ionicons name="calendar-outline" style={styles.icon} />
-            <ThemedText type="heading">Your Calendar</ThemedText>
+            <Ionicons
+              name="notifications-outline"
+              style={[styles.icon, { color: colors.darkHighlight }]}
+            />
+            <ThemedText type="heading">Upcoming Exam Information</ThemedText>
           </View>
-
-          {/* Calendar Component */}
-          <CalendarComponent
-            isMenstruating={isMenstruating}
-            onDayChanged={async (newTimestamps: PeriodTimestamp[]) => {
-              await scheduleNextCheckup(newTimestamps);
-            }}
-          />
-
-          {/* Checkup History Homepage Widget, dates must be ISO format */}
-          {checkupHistoryEnabled && (
-            <>
-              <View style={styles.sectionTitle}>
-                <Ionicons name="list-outline" style={styles.icon} />
-                <ThemedText type="heading">{"Recent Checkups"}</ThemedText>
-              </View>
-              <View style={{ flex: 1 }}>
-                <CycleLog limit={4} isMenstruating={isMenstruating} />
-                <TouchableOpacity
-                  onPress={() => router.push("/checkupHistory")}
-                  style={{
-                    alignItems: "center",
-                  }}
-                >
-                  <ThemedText type="link" style={styles.pastExamsText}>
-                    View your past examinations here
+          <ThemedView style={{ gap: 16 }}>
+            <ThemedView style={styles.upcoming}>
+              {isStale && isMenstruating ? (
+                <ThemedText bold type="heading">
+                  Your next self exam has not been scheduled yet. Come back when
+                  your next period begins.
+                </ThemedText>
+              ) : (
+                <ThemedText bold type="heading">
+                  Your next self exam is scheduled for{" "}
+                  <ThemedText bold colored type="heading">
+                    {LOCAL_NEXT.toLocaleDateString(locale, {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
                   </ThemedText>
-                </TouchableOpacity>
-              </View>
-            </>
-          )}
+                </ThemedText>
+              )}
+              {enabledTimes.length > 0 && notifEnabled ? (
+                <View style={{ gap: 16 }}>
+                  <ThemedText>
+                    You have the following push notifications enabled:
+                  </ThemedText>
+
+                  {enabledTimes.map((t) => (
+                    <ThemedText key={t.id} style={{ marginLeft: 10 }}>
+                      • {formatHMTime(t.hour, t.minute)}
+                    </ThemedText>
+                  ))}
+                </View>
+              ) : (
+                <ThemedText>Push notifications are disabled. </ThemedText>
+              )}
+              <TouchableOpacity
+                onPress={() => router.push("/settings/notifications")}
+              >
+                <ThemedText type="link">
+                  {" "}
+                  Click here to change your notifications
+                </ThemedText>
+              </TouchableOpacity>
+            </ThemedView>
+          </ThemedView>
 
           {/* Contact Buttons */}
           <View style={styles.contactButtons}>
             <ThemedButton
-              onPress={() =>
-                openLink("https://www.breastcancerhub.org/new-page-3")
-              }
+              variant="primary"
+              onPress={() => {
+                router.push("/selfExam/intro");
+              }}
             >
-              Contact BCH
+              Perform Self Exam Now
             </ThemedButton>
-
             <ThemedButton
               variant="secondary"
               onPress={() => setModalVisible(true)}
@@ -365,7 +286,6 @@ export default function HomePage(props: HomePageProps) {
             </ThemedButton>
           </View>
         </View>
-
         {/* footer with logos */}
         <View style={styles.footerContainer}>
           <View style={styles.logosRow}>
@@ -454,12 +374,25 @@ export default function HomePage(props: HomePageProps) {
                   style={styles.modalButton}
                   onPress={() =>
                     openLink(
+                      "https://www.breastcancerhub.org/news-2/self-breast-exam-card"
+                    )
+                  }
+                >
+                  <ThemedText type="link">
+                    Learn More About{"\n"}Breast Self-Exams With Videos
+                  </ThemedText>
+                </ThemedButton>
+                <ThemedButton
+                  variant="secondary"
+                  style={styles.modalButton}
+                  onPress={() =>
+                    openLink(
                       "https://www.breastcancerhub.org/about-breast-cancer"
                     )
                   }
                 >
                   <ThemedText type="link">
-                    Learn More about Breast Cancer
+                    Learn More About{"\n"}Breast Cancer
                   </ThemedText>
                 </ThemedButton>
 
@@ -469,7 +402,7 @@ export default function HomePage(props: HomePageProps) {
                   onPress={() => openLink("https://www.breastcancerhub.org/")}
                 >
                   <ThemedText type="link">
-                    Learn More About Breast Cancer Hub
+                    Learn More About{"\n"}Breast Cancer Hub
                   </ThemedText>
                 </ThemedButton>
 
@@ -478,12 +411,12 @@ export default function HomePage(props: HomePageProps) {
                   style={styles.modalButton}
                   onPress={() =>
                     openLink(
-                      "https://www.breastcancerhub.org/bchwing-childhood-cancer-hub"
+                      "https://www.breastcancerhub.org/educational-cards"
                     )
                   }
                 >
                   <ThemedText type="link">
-                    Learn More About Other Cancers and its Symptoms
+                    Learn More About{"\n"}Other Cancers And Symptoms
                   </ThemedText>
                 </ThemedButton>
               </View>
@@ -494,3 +427,148 @@ export default function HomePage(props: HomePageProps) {
     </ThemedView>
   );
 }
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    backgroundColor: "white",
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingHorizontal: 20,
+    flexDirection: "column",
+    alignItems: "flex-start",
+    zIndex: 1, // Ensure header stays above other content
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 5,
+    elevation: 5,
+    height: "20%",
+  },
+  logoProfileContainer: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    height: "100%",
+  },
+  logo: {
+    height: "100%",
+    width: 150,
+    flexShrink: 1,
+  },
+  profileIconContainer: {
+    backgroundColor: "white",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  greetingContainer: {
+    flex: 0,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    width: "100%",
+    paddingTop: 10,
+  },
+  sectionTitle: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 20,
+  },
+  upcoming: {
+    borderRadius: 16, // Circular sides
+    borderColor: "#B3B3B3",
+    //borderWidth: 1,
+    padding: 15,
+    alignItems: "center",
+    position: "relative",
+    elevation: 4,
+    shadowColor: "black",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    gap: 16,
+  },
+  icon: {
+    fontSize: 20,
+    marginRight: 10,
+  },
+  pastExamsText: {
+    marginTop: 20,
+    marginBottom: 40,
+  },
+  contactButtons: {
+    marginTop: 60,
+    width: "100%",
+    flexDirection: "column",
+    gap: 10,
+  },
+  // Footer with logos
+  footerContainer: {
+    //backgroundColor: colors.darkHighlight,
+    width: "100%",
+    paddingVertical: 10,
+    minHeight: "100%",
+    marginBottom: -1000,
+    paddingBottom: 1000,
+  },
+  logosRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  footerLogoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  kurlbaumContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: 50,
+  },
+  footerLogo: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+  },
+  sarahCannonLogo: {
+    width: 160,
+    height: 100,
+    resizeMode: "contain",
+  },
+  footerLogoText: {
+    fontSize: 10,
+    lineHeight: 10,
+    color: "black",
+    marginTop: 2,
+    textAlign: "center",
+  },
+
+  // Modal styles
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dimmed background
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "white",
+    width: "80%",
+    borderRadius: 20,
+    padding: 20,
+    alignItems: "center",
+  },
+  modalTitle: {
+    marginBottom: 20,
+  },
+  modalButton: {
+    paddingHorizontal: 20,
+    marginBottom: 10,
+    width: "100%",
+  },
+});

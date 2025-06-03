@@ -19,5 +19,6 @@
   "SYMPTOMS_SKIN_CHANGES_M": "胸部皮肤的变化,例如凹陷,起皱,发红,或出现鳞屑。",
   "SYMPTOMS_NIPPLE_CHANGES_M": "乳头的变化,例如发红或出现鳞屑,又或乳头开始向内凹陷",
   "SYMPTOMS_DISCHARGE_M": "乳头溢液",
-  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "疼痛或无痛的肿块"
+  "SYMPTOMS_PAINFUL_PAINLESS_LUMP_F_M": "疼痛或无痛的肿块",
+  "SYMPTOMS_NONE": "无上述症状"
 }

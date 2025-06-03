@@ -1,8 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getSetting, saveSetting } from "./useSettings";
 import { PeriodTimestamp } from "./PeriodContext";
-import { ScheduleExam } from "@/notifications/notifications";
-import { parseHHMMString, parseISODate } from "@/constants/dateTimeUtils";
+import { ScheduleExamNotifications } from "@/notifications/notifications";
+import { parseISODate } from "@/constants/dateTimeUtils";
 export type Checkup = {
   completedOn: string;
   symptomsChecked: string[];
@@ -17,6 +17,7 @@ interface CheckupContextValue {
   getCheckup: (d: string) => Promise<Checkup | undefined>;
   getAllCheckups: (d: Date) => Promise<CompletedCheckups>;
   scheduleNextCheckup: (newTs?: PeriodTimestamp[]) => Promise<Date>;
+  rescheduleNotifications: () => Promise<void>;
 }
 const CheckupContext = createContext<CheckupContextValue | null>(null);
 
@@ -26,33 +27,9 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
   const [allCheckups, setAllCheckups] = useState<Checkup[]>([]); // Store all checkups (date + symptoms)
   const [nextCheckup, setNextCheckup] = useState<Date>(new Date());
 
-  async function getNotificationTimes(scheduledExam: Date) {
-    const notificationTimes = await getSetting("notificationTimes");
-    console.log(notificationTimes);
-    const enabledTimes = notificationTimes.filter((n) => {
-      return n.enabled;
-    });
-    console.log(enabledTimes);
-    const dates: Date[] = enabledTimes.map((t) => {
-      const timeVal = typeof t.time === "string" ? new Date(t.time) : t.time; // if it’s already a Date, leave it
-
-      return new Date(
-        scheduledExam.getFullYear(),
-        scheduledExam.getMonth(),
-        scheduledExam.getDate(),
-        timeVal.getHours(),
-        timeVal.getMinutes()
-      );
-    });
-    console.log(dates);
-    return dates;
-  }
-
   useEffect(() => {
     (async () => {
       const storedCheckup = await getSetting("nextExamDate");
-      console.log("nextExamDate:");
-      console.log(storedCheckup);
       const storedDate = parseISODate(storedCheckup);
       setNextCheckup(storedDate);
       const storedCheckupHistory = await getSetting("checkups");
@@ -108,22 +85,27 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
     let scheduledExam: Date = new Date();
     const userMenstruationType = await getSetting("schedulingType");
     if (userMenstruationType === "period") {
-      const lastTimestamp = timestamps?.at(-1);
-      if (lastTimestamp) {
-        scheduledExam = addDaysToTimestamp(lastTimestamp, 7);
-      }
+      let periodTimestamps = timestamps;
+      if (!periodTimestamps)
+        periodTimestamps = await getSetting("periodTimestamps");
+      if (periodTimestamps && periodTimestamps.length > 0) {
+        const lastTimestamp = periodTimestamps.at(-1);
+        if (lastTimestamp) scheduledExam = addDaysToTimestamp(lastTimestamp, 7);
+      } else scheduledExam = new Date(); // No period data, schedule for today
     } else {
       const examDay = userMenstruationType.day;
-      console.log("examDay:");
-      console.log(examDay);
       scheduledExam = await getNextMonthlyDate(examDay);
     }
     saveSetting("nextExamDate", scheduledExam.toISOString().split("T")[0]);
     setNextCheckup(scheduledExam);
-    ScheduleExam(await getNotificationTimes(scheduledExam));
+    ScheduleExamNotifications(scheduledExam);
     return scheduledExam;
   };
 
+  // Use when the date itself hasn't changed but notification settings have changed
+  const rescheduleNotifications = async () => {
+    ScheduleExamNotifications(nextCheckup);
+  };
   return (
     <CheckupContext.Provider
       value={{
@@ -133,6 +115,7 @@ export const CheckupProvider: React.FC<{ children: React.ReactNode }> = ({
         getCheckup,
         getAllCheckups,
         scheduleNextCheckup,
+        rescheduleNotifications,
       }}
     >
       {children}
@@ -146,17 +129,17 @@ const addDaysToTimestamp = (ts: PeriodTimestamp, days: number) => {
   return timestampDate;
 };
 
-const getNextMonthlyDate = async (targetDay: number, from = new Date()): Promise<Date> => {
+const getNextMonthlyDate = async (
+  targetDay: number,
+  from = new Date()
+): Promise<Date> => {
   const year = from.getFullYear();
   const month = from.getMonth();
-  const today = from.getDate();
 
   const storedCheckups = await getSetting("checkups");
   const checkupDates = storedCheckups.map((checkup) => {
     return parseISODate(checkup.completedOn);
   });
-  console.log("checkupDates:")
-  console.log(checkupDates);
 
   // get last checkup date
   let lastCheckupDate = new Date(0);
@@ -166,20 +149,18 @@ const getNextMonthlyDate = async (targetDay: number, from = new Date()): Promise
     }
   }
 
-  console.log("latest checkup:");
-  console.log(lastCheckupDate.toISOString());
   const lastCheckupYear = lastCheckupDate.getFullYear();
   const lastCheckupMonth = lastCheckupDate.getMonth();
   const lastCheckupDay = lastCheckupDate.getDate();
 
   // Have we passed this date this month already?
-  const offset = (
+  const offset =
     // If last checkup was not the current month, not done this month.
-    !(lastCheckupYear == year && lastCheckupMonth == month)
-      ||
-    // If last checkup was not on or after the exam day, not done this month. 
-    (lastCheckupDay < targetDay)
-  ) ? 0 : 1;
+    !(lastCheckupYear === year && lastCheckupMonth === month) ||
+    // If last checkup was not on or after the exam day, not done this month.
+    lastCheckupDay < targetDay
+      ? 0
+      : 1;
 
   const targetMonth = month + offset;
 

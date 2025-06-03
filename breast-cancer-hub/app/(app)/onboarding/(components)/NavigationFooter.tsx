@@ -1,7 +1,6 @@
 import { useRouter, RelativePathString } from "expo-router";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet } from "react-native";
 import { ThemedView } from "@/components/style/ThemedView";
-import { ThemedText } from "@/components/style/ThemedText";
 import { useColors } from "@/components/style/ColorContext";
 import StepIndicators from "@/components/StepIndicators";
 import { usePathname } from "expo-router";
@@ -9,7 +8,7 @@ import ThemedButton from "@/components/ThemedButton";
 
 interface NavigationFooterProps {
   stepRoutes: string[];
-  finishRoute: string;
+  finishRoute: string | { pathname: string; params?: Record<string, string> };
 }
 
 export default function NavigationFooter({
@@ -18,9 +17,9 @@ export default function NavigationFooter({
 }: NavigationFooterProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { colors, globalStyles } = useColors();
+  const { globalStyles } = useColors();
 
-  const fullSteps = stepRoutes; //.map((r) => (r.startsWith("/") ? r : `/${r}`));
+  const fullSteps = stepRoutes;
 
   const idx = fullSteps.indexOf(pathname);
   const current = idx >= 0 ? idx : 0;
@@ -35,9 +34,17 @@ export default function NavigationFooter({
     if (!isFirst) router.push(fullSteps[current - 1] as RelativePathString);
   };
 
+  const goTo = (step: number) => {
+    router.push(fullSteps[step] as RelativePathString);
+  };
+
   return (
     <ThemedView style={styles.containerStyle}>
-      <StepIndicators currentStep={idx} totalSteps={stepRoutes.length} />
+      <StepIndicators
+        currentStep={idx}
+        totalSteps={stepRoutes.length}
+        onStepPressed={goTo}
+      />
       <ThemedView style={globalStyles.buttonBackNextContainer}>
         {!isFirst && (
           <ThemedButton variant="secondary" onPress={() => goBack()}>

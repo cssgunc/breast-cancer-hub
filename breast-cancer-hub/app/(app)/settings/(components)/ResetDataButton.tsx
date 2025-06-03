@@ -1,9 +1,7 @@
-import { Alert, Platform } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from "expo-secure-store";
+import { Alert } from "react-native";
 import { useRouter } from "expo-router";
 import { ThemedText } from "@/components/style/ThemedText";
-import { GLOBAL_KEYS, USER_SCOPED_KEYS } from "@/hooks/useSettings";
+import { logSecureStoreContents, resetAppData } from "@/hooks/useSettings";
 import ThemedButton from "@/components/ThemedButton";
 import { useColors } from "@/components/style/ColorContext";
 
@@ -14,7 +12,7 @@ export default function ResetDataButton() {
   const handleReset = async () => {
     Alert.alert(
       "Reset All Data?",
-      "This will delete all your saved settings and cannot be undone.",
+      "This will delete all your checkup history and settings and cannot be undone.",
       [
         { text: "Cancel", style: "cancel" },
         {
@@ -22,25 +20,10 @@ export default function ResetDataButton() {
           style: "destructive",
           onPress: async () => {
             try {
-              if (Platform.OS === "web") {
-                await AsyncStorage.clear();
-              } else {
-                for (const key of GLOBAL_KEYS) {
-                  await SecureStore.deleteItemAsync(key);
-                }
-                const rawUserId = await SecureStore.getItemAsync("userId");
-                if (rawUserId) {
-                  const userId = JSON.parse(rawUserId);
-                  for (const key of USER_SCOPED_KEYS) {
-                    const storageKey = `user:${userId}:${key}`;
-                    await SecureStore.deleteItemAsync(storageKey);
-                  }
-                }
-              }
-
+              await resetAppData();
+              console.log(await logSecureStoreContents());
               router.replace("/welcome");
-            } catch (err) {
-              console.error("Failed to reset app data", err);
+            } catch {
               Alert.alert("Error", "Unable to reset data. Please try again.");
             }
           },

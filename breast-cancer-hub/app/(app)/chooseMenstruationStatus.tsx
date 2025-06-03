@@ -6,6 +6,8 @@ import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 import ThemedButton from "@/components/ThemedButton";
+import { useCheckupData } from "@/hooks/CheckupContext";
+import { usePeriodData } from "@/hooks/PeriodContext";
 
 export default function MenstruationSelectionScreen() {
   const router = useRouter();
@@ -15,11 +17,19 @@ export default function MenstruationSelectionScreen() {
   >(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSaveChanges = () => {
+  const { scheduleNextCheckup } = useCheckupData();
+  const { rescheduleNotifications } = usePeriodData();
+
+  const handleSaveChanges = async () => {
     if (selectedOption) {
-      if (selectedOption == "menstruate") {
-        saveSetting("schedulingType", "period").then(() => {
-          router.push("/customizeCalendar");
+      if (selectedOption === "menstruate") {
+        saveSetting("schedulingType", "period").then(async () => {
+          await scheduleNextCheckup();
+          await rescheduleNotifications();
+          router.push({
+            pathname: "/customizeCalendar",
+            params: { fromOnboarding: "1" },
+          });
         });
       } else {
         router.push("/customizeExamDate");
