@@ -20,7 +20,9 @@ export default function NextStepsScreen() {
     if (!raw) return [];
     const arr = JSON.parse(raw);
     if (Array.isArray(arr)) {
-      return arr.length > 0;
+      return (
+        arr.length > 0 && !(arr.length === 1 && arr[0] === "SYMPTOMS_NONE")
+      );
     }
   };
 
