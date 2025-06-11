@@ -1,8 +1,13 @@
-import React from "react";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  useWindowDimensions,
+} from "react-native";
 import { useRouter, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useColors } from "../style/ColorContext";
+import { ThemedText } from "../style/ThemedText";
 
 type Tab = {
   route: "home" | "calendar" | "checkupHistory" | "settings";
@@ -25,7 +30,7 @@ const TABS: Tab[] = [
   },
   {
     route: "checkupHistory",
-    label: "Checkup History",
+    label: "History",
     icon: "time-outline",
     activeIcon: "time",
   },
@@ -44,6 +49,8 @@ export default function BottomNavBar() {
   const currentRoute = segments[segments.length - 1] || "home";
 
   const { colors } = useColors();
+  const { width } = useWindowDimensions();
+  const showLabels = width >= 400; // Adjust threshold as needed
 
   const styles = StyleSheet.create({
     container: {
@@ -81,6 +88,7 @@ export default function BottomNavBar() {
               size={24}
               style={{ color: colors.darkHighlight }}
             />
+            {showLabels && <ThemedText colored>{tab.label}</ThemedText>}
           </TouchableOpacity>
         );
       })}
