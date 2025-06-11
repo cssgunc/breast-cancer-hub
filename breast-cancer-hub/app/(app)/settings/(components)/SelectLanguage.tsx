@@ -26,13 +26,13 @@ export const languageMap: Record<string, string> = {
   Marathi: "mr-IN",
   Odia: "or-IN",
   Persian: "fa-IR",
-  Portuguese: "pt-BR", // Assuming Brazilian Portuguese, use "pt-PT" for European Portuguese
+  Portuguese: "pt-BR",
   Punjabi: "pa-IN",
   Russian: "ru-RU",
   Spanish: "es-ES",
   Tamil: "ta-IN",
   Telugu: "te-IN",
-  Urdu: "ur-PK", // Assuming Pakistan Urdu, "ur-IN" for Indian Urdu
+  Urdu: "ur-PK",
   Uzbek: "uz-UZ",
 };
 

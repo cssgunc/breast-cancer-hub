@@ -25,7 +25,7 @@ import translationTe from "./locales/te-IN/translations.json";
 import translationUr from "./locales/ur-PK/translations.json";
 import translationUz from "./locales/uz-UZ/translations.json";
 import translationZh from "./locales/zh-CN/translations.json";
-
+import translationDe from "./locales/de-DE/translations.json";
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export const resources = {
@@ -41,6 +41,8 @@ export const resources = {
   bn: { translation: translationBn },
   "fa-IR": { translation: translationFa },
   fa: { translation: translationFa },
+  "de-DE": { translation: translationDe },
+  de: { translation: translationDe },
   "gu-IN": { translation: translationGu },
   gu: { translation: translationGu },
   "hi-IN": { translation: translationHi },
@@ -59,7 +61,7 @@ export const resources = {
   or: { translation: translationOr },
   "pa-IN": { translation: translationPa },
   pa: { translation: translationPa },
-  "pt-PT": { translation: translationPt },
+  "pt-BR": { translation: translationPt },
   pt: { translation: translationPt },
   "ru-RU": { translation: translationRu },
   ru: { translation: translationRu },
