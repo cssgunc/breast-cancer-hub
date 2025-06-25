@@ -24,7 +24,7 @@ export function initializeNotificationHandler() {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
-      shouldPlaySound: false,
+      shouldPlaySound: true,
       shouldSetBadge: false,
     }),
   });
@@ -38,7 +38,8 @@ export async function registerNotifications() {
       await Notifications.setNotificationChannelAsync("default", {
         name: "default",
         importance: Notifications.AndroidImportance.HIGH,
-        //vibrationPattern: [0, 250, 250, 250],
+        sound: "default",
+        vibrationPattern: [0, 250, 250, 250],
         //lightColor: "#FF231F7C"
       })
         .then
@@ -111,6 +112,7 @@ async function ScheduleNotificationsOnDate(
         title: title,
         body: body,
         data: data,
+        sound: true,
       },
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.DATE,
