@@ -7,6 +7,7 @@ import {
   Switch,
   TouchableWithoutFeedback,
   Modal,
+  Platform,
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
@@ -33,7 +34,7 @@ export default function NotificationsScreen() {
 
   const [locale, setLocale] = useState("en-US");
 
-  const [date, setDate] = useState(new Date());
+  const [pendingDate, setPendingDate] = useState(new Date());
   const [timePickerVisible, setTimePickerVisible] = useState(false);
 
   const [alarmToDelete, setAlarmToDelete] = useState(0);
@@ -420,7 +421,10 @@ export default function NotificationsScreen() {
           {/* Add Time Button */}
           <TouchableOpacity
             style={styles.addTimeButton}
-            onPress={() => setTimePickerVisible(true)}
+            onPress={() => {
+              setPendingDate(new Date());
+              setTimePickerVisible(true);
+            }}
           >
             <Ionicons
               name="add-circle"
@@ -431,19 +435,77 @@ export default function NotificationsScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      {timePickerVisible && (
+
+      {/* iOS: picker modal (avoids defaulting to minimized) */}
+      {Platform.OS === "ios" && (
+        <Modal
+          visible={timePickerVisible}
+          transparent
+          animationType="slide"
+          onRequestClose={() => setTimePickerVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={() => setTimePickerVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.modalContainer}>
+                  <ThemedText
+                    type="heading"
+                    colored
+                    style={{ marginBottom: 20 }}
+                  >
+                    Select Time
+                  </ThemedText>
+                  <RNDateTimePicker
+                    value={pendingDate}
+                    mode="time"
+                    display="spinner"
+                    onChange={(event, selectedDate) => {
+                      if (selectedDate) {
+                        setPendingDate(selectedDate);
+                      }
+                    }}
+                    style={{ width: 250 }}
+                  />
+                  <View style={{ flexDirection: "row", marginTop: 20 }}>
+                    <ThemedButton
+                      variant="secondary"
+                      style={{ marginRight: 10 }}
+                      onPress={() => setTimePickerVisible(false)}
+                    >
+                      Cancel
+                    </ThemedButton>
+                    <ThemedButton
+                      onPress={() => {
+                        addTimeEntry(pendingDate);
+                        setTimePickerVisible(false);
+                      }}
+                    >
+                      Add
+                    </ThemedButton>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      )}
+      {/* Android: native modal picker (always overlays app) */}
+      {Platform.OS === "android" && timePickerVisible && (
         <RNDateTimePicker
           testID="dateTimePicker"
-          value={date}
+          value={pendingDate}
           mode="time"
+          display="clock"
           positiveButton={{ label: "Add", textColor: colors.darkHighlight }}
           negativeButton={{ label: "Cancel", textColor: colors.darkHighlight }}
           onChange={(event, selectedDate) => {
             if (event.type === "set" && selectedDate) {
-              setDate(selectedDate);
+              setPendingDate(selectedDate);
               addTimeEntry(selectedDate);
-            } else setDate(new Date());
-            setTimePickerVisible(false);
+              setTimePickerVisible(false);
+            } else if (event.type === "dismissed") {
+              setTimePickerVisible(false);
+            }
           }}
         />
       )}
