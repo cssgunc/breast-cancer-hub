@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { saveSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
@@ -18,7 +18,11 @@ import ThemedButton from "@/components/ThemedButton";
 import { useCheckupData } from "@/hooks/CheckupContext";
 import { usePeriodData } from "@/hooks/PeriodContext";
 
-export default function CustomizeExamDateScreen() {
+export default function CustomizeExamDateScreen({
+  fromBottomNav,
+}: {
+  fromBottomNav?: boolean;
+}) {
   const router = useRouter();
   const { colors, globalStyles } = useColors();
   const [examDay, setExamDay] = useState<number>(1); // Default examination day as number
@@ -129,16 +133,29 @@ export default function CustomizeExamDateScreen() {
       <View style={customizeStyles.headerContainer}>
         {/* Header Content */}
         <View style={customizeStyles.headerContent}>
-          {/* Back Button */}
-          <TouchableOpacity
-            style={[
-              customizeStyles.backButton,
-              { backgroundColor: colors.darkHighlight },
-            ]}
-            onPress={() => router.back()}
-          >
-            <Ionicons name="chevron-back" size={24} color={colors.white} />
-          </TouchableOpacity>
+          {/* Conditional navigation - back button or home  */}
+          {!fromBottomNav ? (
+            <TouchableOpacity
+              style={[
+                customizeStyles.chevronButton,
+                { backgroundColor: colors.darkHighlight },
+              ]}
+              onPress={() => router.back()}
+            >
+              <Ionicons name="chevron-back" size={24} color={colors.white} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={customizeStyles.homeButton}
+              onPress={() => router.push("/home")}
+            >
+              <MaterialIcons
+                name="home"
+                size={24}
+                color={colors.darkHighlight}
+              />
+            </TouchableOpacity>
+          )}
           {/* Title */}
           <View style={customizeStyles.titleContainer}>
             <ThemedText type="title">Customize Your</ThemedText>
@@ -146,9 +163,23 @@ export default function CustomizeExamDateScreen() {
               Examination Date
             </ThemedText>
           </View>
+          {/* Settings - only from bottom nav  */}
+          {fromBottomNav ? (
+            <TouchableOpacity
+              style={customizeStyles.homeButton}
+              onPress={() => router.push("/settings")}
+            >
+              <MaterialIcons
+                name="settings"
+                size={24}
+                color={colors.darkHighlight}
+              />
+            </TouchableOpacity>
+          ) : (
+            <View style={{ flex: 1 }}></View>
+          )}
         </View>
       </View>
-
       {/* Main Body */}
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={customizeStyles.bodyContainer}>

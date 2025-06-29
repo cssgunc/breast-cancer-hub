@@ -10,12 +10,14 @@ import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { Ionicons } from "@expo/vector-icons";
 
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
 
 export default function SettingsScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const fromBottomNav = params.fromBottomNav === "1";
 
   const { colors, setDarkMode } = useColors();
   const [IsDarkThemeEnabled, setIsDarkThemeEnabled] = React.useState(false);
@@ -29,26 +31,50 @@ export default function SettingsScreen() {
       setIsDarkThemeEnabled(dark);
     });
   }, []);
-
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: colors.backgroundLightGray,
     },
     headerContainer: {
-      height: "10%",
+      backgroundColor: colors.white,
+      borderBottomLeftRadius: 20,
+      borderBottomRightRadius: 20,
+      paddingTop: 20,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      // Shadow
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
+      elevation: 6,
+    },
+    headerContent: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 20,
+      justifyContent: "space-between",
     },
     backButton: {
+      backgroundColor: "transparent",
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    chevronButton: {
       backgroundColor: colors.darkHighlight,
       width: 40,
       height: 40,
-      borderRadius: 20, // Makes it circular
+      borderRadius: 20,
       alignItems: "center",
       justifyContent: "center",
-      marginRight: 10,
+    },
+    titleContainer: {
+      alignItems: "center",
+      flex: 1,
+      marginHorizontal: 10,
     },
     contentContainer: {
       alignItems: "center",
@@ -112,22 +138,33 @@ export default function SettingsScreen() {
       marginTop: 50,
     },
   });
-
   return (
     <ThemedView style={styles.container}>
       {/* Header */}
       <View style={styles.headerContainer}>
-        {/* Back Button */}
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.back()}
-        >
-          <Ionicons name="chevron-back" size={24} color={colors.white} />
-        </TouchableOpacity>
-        {/* Settings Text */}
-        <ThemedText type="title" colored>
-          Settings
-        </ThemedText>
+        <View style={styles.headerContent}>
+          {/* Navigation Button - Show home icon when from bottom nav, back button otherwise */}
+          <TouchableOpacity
+            style={fromBottomNav ? styles.backButton : styles.chevronButton}
+            onPress={() =>
+              fromBottomNav ? router.push("/home") : router.back()
+            }
+          >
+            <Ionicons
+              name={fromBottomNav ? "home" : "chevron-back"}
+              size={24}
+              color={fromBottomNav ? colors.darkHighlight : colors.white}
+            />
+          </TouchableOpacity>
+          {/* Settings Text */}
+          <View style={styles.titleContainer}>
+            <ThemedText type="title" colored>
+              Settings
+            </ThemedText>
+          </View>
+          {/* Empty space for layout balance */}
+          <View style={{ width: 40 }} />
+        </View>
       </View>
 
       {/* Content */}
