@@ -1,29 +1,61 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
 import { useColors } from "@/components/style/ColorContext";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import CheckupLog from "./(components)/CycleLogWidget";
 
 export default function CheckupHistoryPage() {
+  const router = useRouter();
   const { colors, globalStyles } = useColors();
-
   const styles = StyleSheet.create({
-    container: {
-      backgroundColor: colors.backgroundGray,
-      flex: 1,
-    },
-    logContainer: {
+    headerContainer: {
       backgroundColor: colors.white,
-      borderRadius: 15,
-      padding: 20,
-      // iOS shadow properties
+      borderBottomLeftRadius: 20,
+      borderBottomRightRadius: 20,
+      paddingTop: 20,
+      paddingBottom: 20,
+      paddingHorizontal: 20,
+      // Shadow
       shadowColor: colors.black,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.5,
       shadowRadius: 5,
-      // Android elevation
+      elevation: 6,
+    },
+    headerContent: {
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    navigationButton: {
+      backgroundColor: "transparent",
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    titleContainer: {
+      alignItems: "center",
+    },
+    bodyContainer: {
+      flex: 1,
+      alignItems: "center",
+      paddingVertical: 24,
+    },
+    logContainer: {
+      backgroundColor: colors.white,
+      borderRadius: 20,
+      padding: 20,
+      width: "90%",
+      // Shadow
+      shadowColor: colors.black,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.5,
+      shadowRadius: 5,
       elevation: 5,
-      margin: 20,
       gap: 16,
       flex: 1,
       minHeight: 0,
@@ -39,22 +71,52 @@ export default function CheckupHistoryPage() {
 
   return (
     <ThemedView
-      bgColor={colors.darkHighlight}
+      bgColor={colors.backgroundLightGray}
       style={globalStyles.bodyContainer}
     >
-      <ThemedView style={[styles.logContainer]}>
-        <ThemedText type="title" colored bold>
-          Exam History
-        </ThemedText>
-        <ThemedView style={styles.log}>
-          <CheckupLog />
-        </ThemedView>
-        <ThemedText type="caption" italic>
-          Exams cannot be edited, but you can complete a new exam before
-          midnight to replace an earlier exam that day. Only the last exam of
-          the day is saved.
-        </ThemedText>
-      </ThemedView>
+      {/* Header */}
+      <View style={styles.headerContainer}>
+        <View style={styles.headerContent}>
+          {/* Home Button */}
+          <TouchableOpacity
+            style={styles.navigationButton}
+            onPress={() => router.push("/home")}
+          >
+            <MaterialIcons name="home" size={24} color={colors.darkHighlight} />
+          </TouchableOpacity>
+          {/* Title */}
+          <View style={styles.titleContainer}>
+            <ThemedText type="title" colored>
+              Exam History
+            </ThemedText>
+          </View>
+          {/* Settings Button */}
+          <TouchableOpacity
+            style={styles.navigationButton}
+            onPress={() => router.push("/settings")}
+          >
+            <MaterialIcons
+              name="settings"
+              size={24}
+              color={colors.darkHighlight}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Body */}
+      <View style={styles.bodyContainer}>
+        <View style={styles.logContainer}>
+          <ThemedView style={styles.log}>
+            <CheckupLog />
+          </ThemedView>
+          <ThemedText type="caption" italic>
+            Exams cannot be edited, but you can complete a new exam before
+            midnight to replace an earlier exam that day. Only the last exam of
+            the day is saved.
+          </ThemedText>
+        </View>
+      </View>
     </ThemedView>
   );
 }

@@ -18,8 +18,9 @@ export default function CalendarPage() {
     <CalendarOnboardingScreen
       initialMonth={params.month ? Number(params.month) : undefined}
       initialYear={params.year ? Number(params.year) : undefined}
+      fromBottomNav={params.fromBottomNav === "1"}
     />
   ) : (
-    <CustomizeExamDateScreen />
+    <CustomizeExamDateScreen fromBottomNav={params.fromBottomNav === "1"} />
   );
 }

@@ -72,7 +72,6 @@ export default function BottomNavBar() {
       borderColor: colors.darkHighlight,
     },
   });
-
   return (
     <View style={styles.container}>
       {TABS.map((tab) => {
@@ -81,7 +80,16 @@ export default function BottomNavBar() {
           <TouchableOpacity
             key={tab.route}
             style={[styles.tabItem, isActive && styles.activeTab]}
-            onPress={() => router.push(`/${tab.route}`)}
+            onPress={() => {
+              // Only navigate if not already on the current tab
+              if (!isActive) {
+                // Add fromBottomNav parameter to indicate navigation source
+                router.push({
+                  pathname: `/${tab.route}`,
+                  params: { fromBottomNav: "1" },
+                });
+              }
+            }}
           >
             <Ionicons
               name={isActive ? tab.activeIcon : tab.icon}

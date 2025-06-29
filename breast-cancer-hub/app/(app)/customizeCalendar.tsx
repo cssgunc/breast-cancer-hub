@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { ThemedText } from "@/components/style/ThemedText";
 import { ThemedView } from "@/components/style/ThemedView";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { getSetting } from "@/hooks/useSettings";
 import { useColors } from "@/components/style/ColorContext";
@@ -24,6 +24,7 @@ export type CalendarOnboardingProps = Partial<{
   isMenstruating: boolean;
   initialMonth: number;
   initialYear: number;
+  fromBottomNav: boolean;
 }>;
 
 export default function CalendarOnboardingScreen(
@@ -92,16 +93,29 @@ export default function CalendarOnboardingScreen(
       <View style={customizeStyles.headerContainer}>
         {/* Header Content */}
         <View style={customizeStyles.headerContent}>
-          {/* Back Button */}
-          <TouchableOpacity
-            style={[
-              customizeStyles.backButton,
-              { backgroundColor: colors.darkHighlight },
-            ]}
-            onPress={() => router.back()}
-          >
-            <Ionicons name="chevron-back" size={24} color={colors.white} />
-          </TouchableOpacity>
+          {/* Conditional navigation - back button or home */}
+          {!props.fromBottomNav ? (
+            <TouchableOpacity
+              style={[
+                customizeStyles.chevronButton,
+                { backgroundColor: colors.darkHighlight },
+              ]}
+              onPress={() => router.back()}
+            >
+              <Ionicons name="chevron-back" size={24} color={colors.white} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity
+              style={customizeStyles.homeButton}
+              onPress={() => router.push("/home")}
+            >
+              <MaterialIcons
+                name="home"
+                size={24}
+                color={colors.darkHighlight}
+              />
+            </TouchableOpacity>
+          )}
           {/* Title */}
           <View style={customizeStyles.titleContainer}>
             <ThemedText type="title">Set Up </ThemedText>
@@ -109,9 +123,23 @@ export default function CalendarOnboardingScreen(
               Your Cycle
             </ThemedText>
           </View>
+          {/* Settings - only from bottom nav */}
+          {props.fromBottomNav ? (
+            <TouchableOpacity
+              style={customizeStyles.homeButton}
+              onPress={() => router.push("/settings")}
+            >
+              <MaterialIcons
+                name="settings"
+                size={24}
+                color={colors.darkHighlight}
+              />
+            </TouchableOpacity>
+          ) : (
+            <View style={{ flex: 1 }}></View>
+          )}
         </View>
       </View>
-
       <ScrollView>
         {/* Main Body */}
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -175,8 +203,9 @@ export const customizeStyles = StyleSheet.create({
   headerContent: {
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
   },
-  backButton: {
+  chevronButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
@@ -184,11 +213,17 @@ export const customizeStyles = StyleSheet.create({
     justifyContent: "center",
     marginRight: 10,
   },
+  homeButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   titleContainer: {
     flexDirection: "column",
     marginLeft: 20,
   },
-
   bodyContainer: {
     flex: 1,
     alignItems: "center",
