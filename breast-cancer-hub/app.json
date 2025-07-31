@@ -32,10 +32,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "org.breastcancerhub.breastselfexam",
-      "compileSdkVersion": 35,
-      "targetSdkVersion": 35,
-      "minSdkVersion": 23
+      "package": "org.breastcancerhub.breastselfexam"
     },
     "web": {
       "bundler": "metro",
