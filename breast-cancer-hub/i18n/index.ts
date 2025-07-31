@@ -8,8 +8,11 @@ import translationAr from "./locales/ar-SA/translations.json";
 import translationAs from "./locales/as-IN/translations.json";
 import translationBn from "./locales/bn-BD/translations.json";
 import translationFa from "./locales/fa-IR/translations.json";
+import translationFr from "./locales/fr-FR/translations.json";
 import translationGu from "./locales/gu-IN/translations.json";
 import translationHi from "./locales/hi-IN/translations.json";
+import translationHe from "./locales/he-IL/translations.json";
+import translationIt from "./locales/it-IT/translations.json";
 import translationId from "./locales/id-ID/translations.json";
 import translationJa from "./locales/ja-JP/translations.json";
 import translationKn from "./locales/kn-IN/translations.json";
@@ -41,14 +44,20 @@ export const resources = {
   bn: { translation: translationBn },
   "fa-IR": { translation: translationFa },
   fa: { translation: translationFa },
+  "fr-FR": { translation: translationFr },
+  fr: { translation: translationFr },
   "de-DE": { translation: translationDe },
   de: { translation: translationDe },
   "gu-IN": { translation: translationGu },
   gu: { translation: translationGu },
   "hi-IN": { translation: translationHi },
   hi: { translation: translationHi },
+  "he-IL": { translation: translationHe },
+  he: { translation: translationHe },
   "id-ID": { translation: translationId },
   id: { translation: translationId },
+  "it-IT": { translation: translationIt },
+  it: { translation: translationIt },
   "ja-JP": { translation: translationJa },
   ja: { translation: translationJa },
   "kn-IN": { translation: translationKn },
