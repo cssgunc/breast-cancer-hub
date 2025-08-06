@@ -88,7 +88,16 @@ export const resources = {
   zh: { translation: translationZh },
 };
 
-const RTL_LANGUAGES = ["ar", "ar-SA", "fa", "fa-IR", "ur", "ur-PK"];
+const RTL_LANGUAGES = [
+  "ar",
+  "ar-SA",
+  "fa",
+  "fa-IR",
+  "he",
+  "he-IL",
+  "ur",
+  "ur-PK",
+];
 
 const initI18n = async () => {
   try {
