@@ -15,9 +15,12 @@ export const languageMap: Record<string, string> = {
   Bahasa: "id-ID",
   Bengali: "bn-BD",
   Chinese: "zh-CN",
+  French: "fr-FR",
   German: "de-DE",
   Gujarati: "gu-IN",
+  Hebrew: "he-IL",
   Hindi: "hi-IN",
+  Italian: "it-IT",
   Japanese: "ja-JP",
   Kannada: "kn-IN",
   Kiswahili: "sw-KE",
@@ -35,7 +38,7 @@ export const languageMap: Record<string, string> = {
   Uzbek: "uz-UZ",
 };
 
-const RTL_LANGUAGES = ["ar", "ar-SA"];
+const RTL_LANGUAGES = ["ar", "ar-SA", "he", "he-IL"];
 
 function getAvailableLanguages(resources: typeof import("@/i18n").resources) {
   return Object.entries(languageMap)
