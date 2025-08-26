@@ -17,3 +17,7 @@ Afterwards, complete the [Environment Setup](docs/environment_setup.md)\
 Once you are ready to start making changes, read the [Contributing Guidelines](docs/contributing_guidelines.md) for our conventions on branching and pull requests.\
 As you work, refer to our documentation on [Using Components](docs/using_components.md) to see what premade components are in use for our app.\
 If you need to work with the backend, read the [Backend README](backend-breast-cancer-hub/README.md) for details.
+
+## Links to the App
+[Google Play Store](https://play.google.com/store/apps/details?id=org.breastcancerhub.breastselfexam)
+[App Store](https://apps.apple.com/ca/app/bch-know-your-breasts/id6745075472?uo=2)
