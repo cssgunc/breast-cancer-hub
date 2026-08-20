@@ -29,6 +29,8 @@ import translationUr from "./locales/ur-PK/translations.json";
 import translationUz from "./locales/uz-UZ/translations.json";
 import translationZh from "./locales/zh-CN/translations.json";
 import translationDe from "./locales/de-DE/translations.json";
+import translationKm from "./locales/km-KH/translations.json";
+
 import { getSetting, saveSetting } from "@/hooks/useSettings";
 
 export const resources = {
@@ -86,6 +88,8 @@ export const resources = {
   uz: { translation: translationUz },
   "zh-CN": { translation: translationZh },
   zh: { translation: translationZh },
+  "km-KH": { translation: translationKm },
+  km: { translation: translationKm },
 };
 
 const RTL_LANGUAGES = [

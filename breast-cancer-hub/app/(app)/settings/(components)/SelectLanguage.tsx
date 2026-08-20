@@ -37,6 +37,7 @@ export const languageMap: Record<string, string> = {
   Telugu: "te-IN",
   Urdu: "ur-PK",
   Uzbek: "uz-UZ",
+  Khmer: 'km-KH',
 };
 
 const RTL_LANGUAGES = ["ar", "ar-SA", "he", "he-IL"];
